@@ -1,0 +1,22 @@
+{
+ "id": "enclose",
+ "name": "Enclose",
+ "category": "graphics",
+ "github": "chuma-beep/arch-enclose",
+ "install": {
+  "method": "aur",
+  "packages": [
+   "enclose-bin"
+  ]
+ },
+ "detect": [
+  "enclose-bin"
+ ],
+ "open": "enclose",
+ "kind": "gui",
+ "tags": [
+  "cad",
+  "3d",
+  "agents"
+ ]
+}

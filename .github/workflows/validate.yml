@@ -4,7 +4,7 @@ name: Validate registry
 # try to sneak arbitrary shell commands into an install recipe.
 on:
   pull_request:
-    paths: ["registry/**", "scripts/**", "site/**", "desktop/**"]
+    paths: ["registry/**", "scripts/**", "site/**", "desktop/**", ".github/workflows/validate.yml"]
 
 permissions:
   contents: read

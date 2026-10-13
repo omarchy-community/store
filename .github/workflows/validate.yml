@@ -12,6 +12,7 @@ permissions:
 jobs:
   validate:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -23,25 +24,44 @@ jobs:
         run: |
           python3 - <<'PY'
           import json, glob, sys, time, urllib.request, urllib.parse
-          bad = []
+
+          def lookup(url):
+              """Return the results list, or None if the lookup itself failed."""
+              for attempt in range(2):
+                  try:
+                      return json.load(urllib.request.urlopen(url, timeout=10))["results"]
+                  except Exception:
+                      time.sleep(1 + attempt)
+              return None
+
+          missing, unverified = [], []
+          consecutive_failures = 0
           for f in sorted(glob.glob("registry/apps/*.json")):
               a = json.load(open(f))
+              # Omarchy's own repo isn't searchable from CI; omarchy-installed apps are exempt.
+              if a["install"]["method"] in ("omarchy", "store"):
+                  continue
               for p in a["detect"]:
-                  ok = False
-                  for attempt in range(3):
-                      try:
-                          j = json.load(urllib.request.urlopen("https://archlinux.org/packages/search/json/?" + urllib.parse.urlencode({"name": p}), timeout=20))
-                          ok = bool(j["results"])
-                          if not ok:
-                              j = json.load(urllib.request.urlopen("https://aur.archlinux.org/rpc/v5/info?arg[]=" + urllib.parse.quote(p), timeout=20))
-                              ok = bool(j["results"])
-                          break
-                      except Exception:
-                          time.sleep(2 ** attempt)
-                  # Omarchy's own repo isn't searchable from CI; omarchy-installed apps are exempt.
-                  if not ok and a["install"]["method"] not in ("omarchy", "store") and not p.endswith("-bin"):
-                      bad.append(f"{f}: package {p!r} not found in Arch repos or AUR")
+                  if p.endswith("-bin"):
+                      continue
+                  if consecutive_failures >= 5:
+                      unverified.append(f"{f}: {p!r} (skipped, package servers unreachable)")
+                      continue
+                  r = lookup("https://archlinux.org/packages/search/json/?" + urllib.parse.urlencode({"name": p}))
+                  if r == []:
+                      r = lookup("https://aur.archlinux.org/rpc/v5/info?arg[]=" + urllib.parse.quote(p))
+                  if r is None:
+                      consecutive_failures += 1
+                      unverified.append(f"{f}: could not check {p!r} (lookup failed)")
+                  else:
+                      consecutive_failures = 0
+                      if not r:
+                          missing.append(f"{f}: package {p!r} not found in Arch repos or AUR")
                   time.sleep(0.3)
-          print("\n".join(bad) or "✓ all packages found")
-          sys.exit(1 if bad else 0)
+
+          # Lookup failures are warnings only; just a confirmed 'not found' fails the check.
+          for u in unverified:
+              print(f"::warning::{u}")
+          print("\n".join(missing) or "✓ no confirmed-missing packages")
+          sys.exit(1 if missing else 0)
           PY

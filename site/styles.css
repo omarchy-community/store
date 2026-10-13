@@ -837,31 +837,13 @@ select.sel { background: var(--pill); color: var(--text); border: 0; border-radi
 .spot-row::-webkit-scrollbar { display: none; }
 .spot-row > .spot { scroll-snap-align: start; margin-bottom: 0; min-width: 0; }
 
-@media (min-width: 1400px) {
-  .spot-row { grid-auto-columns: calc(50% - 30px); }
-  .spot-row > .spot { flex-shrink: 0; }
-}
-
-@media (min-width: 1800px) {
-  .spot-row { grid-auto-columns: calc(33.33% - 24px); }
-  .spot-row > .spot { flex-shrink: 0; }
-}
 .spot-dots { display: flex; justify-content: center; gap: 8px; margin: 6px 0 26px; }
 .spot-dots i { width: 7px; height: 7px; border-radius: 999px; background: var(--text-3); opacity: .5; transition: width .25s, opacity .25s; }
 .spot-dots i.on { width: 22px; opacity: 1; background: var(--text); }
 @media (max-width: 720px) { .spot-row { grid-auto-columns: calc(100% - 28px); gap: 12px; } }
 
-@media (min-width: 721px) { nav .d-hide { display: none !important; } .spot-row { grid-auto-columns: calc(100% - 64px); } }
+@media (min-width: 721px) { nav .d-hide { display: none !important; } }
 
-@media (min-width: 1400px) {
-  .spot-row { grid-auto-columns: calc(50% - 30px); }
-  .spot-row > .spot { flex-shrink: 0; }
-}
-
-@media (min-width: 1800px) {
-  .spot-row { grid-auto-columns: calc(33.33% - 24px); }
-  .spot-row > .spot { flex-shrink: 0; }
-}
 .spot-dots i { cursor: pointer; }
 
 /* Remove buttons + Installed list */
@@ -1215,7 +1197,11 @@ html[data-look="glass"] .brand .wordmark img { filter: drop-shadow(0 1px 2px rgb
 .row-prev { left: -14px; } .row-next { right: -14px; }
 @media (max-width: 720px) { .row-nav { display: none; } }   /* phones swipe */
 /* Very wide screens: billboards keep the artwork's proportions (2400x900), so nothing in the picture gets cropped */
-@media (min-width: 1700px) { .spot.full { aspect-ratio: 2400 / 900; min-height: 0; } .spot-row { grid-auto-columns: calc(100% - 110px); } .ignite-spot { aspect-ratio: auto; min-height: 520px; } }
+@media (min-width: 1700px) { .spot.full { aspect-ratio: 2400 / 900; min-height: 0; } }
+/* Billboards: exactly one per view at every width (no half-cards peeking in from the sides, no 2-up/3-up grids) */
+.spot-row { grid-auto-columns: 100%; gap: 18px; }
+.spot-row > .spot { scroll-snap-align: center; scroll-snap-stop: always; }
+@media (max-width: 720px) { .spot-row { grid-auto-columns: 100%; gap: 12px; } }
 
 /* ---------- Crypto wallets ---------- */
 #cq { background: var(--pill); color: var(--text); border: 0; border-radius: 10px; padding: 8px 12px; font: inherit; font-size: 14px; min-width: 220px; height: 38px; }
@@ -1290,3 +1276,8 @@ html[data-look="glass"] .brand .wordmark img { filter: drop-shadow(0 1px 2px rgb
 .report-btn-ghost:hover { background: rgba(255,69,58,.18); color: #ff6961; }
 
 @media (max-width: 720px) { .crypto-row { grid-auto-columns: 78%; } }
+
+/* Crypto wallets use the Top Charts row format: logo, name, what it is, GET */
+.wallet-lockup .icon { width: 64px; height: 64px; background: #fff; object-fit: cover; }
+.wallet-lockup .wl-on { color: var(--good); font-weight: 700; }
+.wallet-grid { margin-top: 6px; }

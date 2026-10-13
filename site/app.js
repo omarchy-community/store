@@ -669,7 +669,7 @@
   const plugImg = (x, big) => !x.img ? "" : /^https:\/\//.test(x.img) ? (big && x.img_big ? x.img_big : x.img)
     : (S.plugins.source.img_base || "https://plugins.omarchy.org/assets/img/plugins/") + x.img.replace(/\.(\w+)$/, (big ? "-detail" : "-card") + ".$1");
   const plugCmd = (x) => `omarchy plugin add ${x.r}.git --enable`;
-  const plugBadge = (x) => x.own ? `<span class="pv ok" title="Made by the Omarchy Store">${ico("verified")}Official</span>` : x.ok ? `<span class="pv ok" title="Passed the marketplace's automated security check">${ico("verified")}Verified</span>` : `<span class="pv" title="Not yet checked by the marketplace">Unverified</span>`;
+  const plugBadge = (x) => x.own ? `<span class="pv ok" title="Made by Omarchy Development Labs">${ico("verified")}Official</span>` : x.ok ? `<span class="pv ok" title="Passed the marketplace's automated security check">${ico("verified")}Verified</span>` : `<span class="pv" title="Not yet checked by the marketplace">Unverified</span>`;
   function plugTile(x) {
     if (x.icon) return `<span class="pl-ini" style="--pc:#7c3aed"><img src="${esc(x.icon)}" alt="" loading="lazy" style="object-fit:cover"></span>`;   // our own plugins: app icon
     const col = ACCENTS[x.ac] || "#7aa2f7";
@@ -767,8 +767,8 @@
           <p class="muted small">Remove it any time: <code>omarchy plugin remove ${esc(x.id)}</code></p>`
         : `<p>${esc(x.note || "This one needs manual setup.")} Follow the instructions on <a style="color:var(--accent)" href="${safeUrl(x.r || market)}" target="_blank" rel="noopener">its GitHub page</a>.</p>`}
         ${x.t?.length ? `<div class="chips" style="margin-top:12px">${x.t.map((t) => `<span>${esc(t)}</span>`).join("")}</div>` : ""}
-        <div class="trust">${ico("ok")}<div>${x.own ? "Official: made and checked by the Omarchy Store. Open source (MIT), so anyone can read the code." : x.ok ? "Verified: this plugin passed the Omarchy Plugin Marketplace's automated security check for the version listed." : "Unverified: the marketplace hasn't checked this plugin's code yet. That doesn't mean it's unsafe, but review it before adding."} Plugins run on your computer with your permissions, so only add ones you trust.
-          ${x.own ? `<div style="margin-top:6px">Made by the Omarchy Store · <a style="color:var(--accent)" href="${safeUrl(x.r)}" target="_blank" rel="noopener">source on GitHub</a>.</div>` : `<div style="margin-top:6px">Plugin by ${esc(x.a || "its creator")} · listed on the <a style="color:var(--accent)" href="${safeUrl(market)}" target="_blank" rel="noopener">${esc(src.name || "Omarchy Plugin Marketplace")}</a>. Third-party code, provided as-is: <a style="color:var(--accent)" href="/legal/">disclaimer</a>.`}</div></div></div>
+        <div class="trust">${ico("ok")}<div>${x.own ? "Official: made by Omarchy Development Labs and checked by the Omarchy Store. Open source (MIT), so anyone can read the code." : x.ok ? "Verified: this plugin passed the Omarchy Plugin Marketplace's automated security check for the version listed." : "Unverified: the marketplace hasn't checked this plugin's code yet. That doesn't mean it's unsafe, but review it before adding."} Plugins run on your computer with your permissions, so only add ones you trust.
+          ${x.own ? `<div style="margin-top:6px">Made by Omarchy Development Labs · <a style="color:var(--accent)" href="${safeUrl(x.r)}" target="_blank" rel="noopener">source on GitHub</a>.</div>` : `<div style="margin-top:6px">Plugin by ${esc(x.a || "its creator")} · listed on the <a style="color:var(--accent)" href="${safeUrl(market)}" target="_blank" rel="noopener">${esc(src.name || "Omarchy Plugin Marketplace")}</a>. Third-party code, provided as-is: <a style="color:var(--accent)" href="/legal/">disclaimer</a>.`}</div></div></div>
       </section>
       ${more.length ? `<section class="shelf"><div class="shelf-head"><h2>More like this</h2><a href="/plugins/">See All</a></div><div class="scroller plug-row">${more.map(plugCard).join("")}</div></section>` : ""}
       ${footer()}
@@ -875,8 +875,19 @@
       </div>
     </a>`;
   }
+  // Same row format as Top Charts: logo, name, what it is, GET.
   function walletLockup(w) {
-    return walletCard(w);
+    const img = asset(w.icon), isDepin = w.type === "depin";
+    const line = isDepin ? (w.category || "Earn Crypto") : (w.chains?.length ? chainLine(w) : "Browser wallet");
+    return `<a class="lockup wallet-lockup" href="/crypto/${esc(w.id)}/">
+      ${img ? `<img class="icon" src="${esc(img)}" alt="${esc(w.name)} logo" width="64" height="64" loading="lazy">` : `<span class="icon mono" style="width:64px;height:64px;background:#414868"></span>`}
+      <div class="meta">
+        <div class="name">${esc(w.name)}</div>
+        <div class="sub">${esc(w.summary)}</div>
+        <div class="stars">${esc(line)}${S.desktop && S.cryptoHave.has(w.id) ? ` · <span class="wl-on">Installed</span>` : ""}</div>
+      </div>
+      ${walletBtn(w)}
+    </a>`;
   }
   let cryptoLoaded = 0;
   async function loadCryptoInstalled(force) {
@@ -927,11 +938,11 @@
   }
   function cryptoGridHtml() {
     const l = cryptoList();
-    return l.length ? l.map(walletCard).join("") : `<div class="empty" style="grid-column:1/-1">No wallets match.</div>`;
+    return l.length ? l.map(walletLockup).join("") : `<div class="empty" style="grid-column:1/-1">No wallets match.</div>`;
   }
   function depinGridHtml() {
     const l = depinList();
-    return l.length ? l.map(walletCard).join("") : "";
+    return l.length ? l.map(walletLockup).join("") : "";
   }
   const cryptoSafety = () => `<div class="trust warn crypto-safety">${ico("shield")}<div><b>Keep your crypto safe.</b> ${esc(S.catalog.crypto?.safety || "")}
     <div style="margin-top:6px">Wallets are made by independent companies; the Omarchy Store isn't affiliated with any of them and never holds your coins. <a style="color:var(--accent)" href="/legal/">Disclaimer</a>.</div></div></div>`;
@@ -962,11 +973,11 @@
         <div class="plug-search"><input id="cq" type="search" placeholder="Search wallets" value="${esc(S.cryptoQ)}" autocomplete="off" aria-label="Search wallets"></div>
       </div>
       <section class="shelf"><div class="shelf-head"><h2>Wallets</h2></div>
-        <div class="crypto-grid" id="cgrid">${cryptoGridHtml()}</div>
+        <div class="grid wallet-grid" id="cgrid">${cryptoGridHtml()}</div>
       </section>
       ${showDepins && depinList().length ? `<section class="shelf"><div class="shelf-head"><h2>Earn Crypto</h2></div>
         <p class="page-sub" style="margin-top:-8px;margin-bottom:18px">DePIN extensions let you earn crypto by sharing bandwidth, compute, or other resources. They run in your browser while you're online.</p>
-        <div class="crypto-grid" id="dgrid">${depinGridHtml()}</div>
+        <div class="grid wallet-grid" id="dgrid">${depinGridHtml()}</div>
       </section>` : ""}
       ${cryptoSafety()}
       ${footer()}
@@ -1019,15 +1030,15 @@
           <div><div class="k">Extension ID</div><div class="v"><code class="small">${esc(w.chrome_store_id)}</code></div></div>
         </div></section>
       ${more.length ? `<section class="shelf"><div class="shelf-head"><h2>More wallets</h2><a href="/crypto/">See All</a></div>
-        <div class="scroller crypto-row">${more.map(walletCard).join("")}</div></section>` : ""}
+        <div class="scroller rows3">${more.map(walletLockup).join("")}</div></section>` : ""}
       ${footer()}
     </div>`;
   }
   function cryptoShelf() {
     if (!wallets().length) return "";
     loadCryptoInstalled();
-    return `<section class="shelf"><div class="shelf-head"><h2>Crypto wallets</h2><a href="/crypto/">See All</a></div>
-      <div class="scroller crypto-row">${wallets().slice(0, 12).map(walletCard).join("")}</div></section>`;
+    return `<section class="shelf"><div class="shelf-head"><h2>Crypto Wallets</h2><a href="/crypto/">See All</a></div>
+      <div class="scroller rows3">${wallets().slice(0, 12).map(walletLockup).join("")}</div></section>`;
   }
   function plugShelf() {
     if (!S.plugins) { loadPlugins(); return ""; }
@@ -1160,12 +1171,12 @@
       ${bannerAd()}
       ${plugShelf()}
       ${saverShelf()}
-      ${cryptoShelf()}
       ${themeShelf("Make it yours: Themes", featuredThemes(14), "/themes/")}
       <section class="shelf">
         <div class="shelf-head"><h2>Top Charts</h2><a href="/charts/">See All</a></div>
         <div class="scroller rows3">${apps.slice(0, 12).map((a, i) => lockup(a, { rank: i + 1 })).join("")}</div>
       </section>
+      ${cryptoShelf()}
       ${collections.slice(1).map((c) => shelf(c.title, c.apps.map((id) => S.byId[id]))).join("")}
       ${shelf("Fresh Updates", fresh)}
       ${shelf("Games", games, "/category/games/")}
@@ -2231,7 +2242,8 @@
         if (paused || sc.scrollWidth <= sc.clientWidth + 10) return;
         const max = sc.scrollWidth - sc.clientWidth;
         const cardW = sc.firstElementChild?.getBoundingClientRect().width || sc.clientWidth;
-        const currentIdx = Math.round(sc.scrollLeft / cardW);
+        const step = sc.children[1] ? sc.children[1].offsetLeft - sc.children[0].offsetLeft : cardW;
+        const currentIdx = Math.round(sc.scrollLeft / (step || cardW));
         const cards = sc.children.length;
         const nextIdx = (currentIdx + 1) % cards;
         // When wrapping from last to first, wait an extra interval (so Ignite banner gets full time)
@@ -2240,7 +2252,7 @@
           return; // Skip this tick, advance on the next one
         }
         lastAdvance = Date.now();
-        const targetLeft = nextIdx === 0 ? 0 : sc.children[nextIdx].offsetLeft - sc.offsetLeft;
+        const targetLeft = nextIdx === 0 ? 0 : sc.children[nextIdx].offsetLeft - sc.children[0].offsetLeft;
         sc.scrollTo({ left: targetLeft, behavior: "smooth" });
         // Update dots for spot-row
         if (isSpot) {
@@ -2533,7 +2545,7 @@
   document.addEventListener("click", (e) => {
     const d = e.target.closest("[data-spot]"); if (!d) return;
     const row = view.querySelector(".spot-row"), card = row?.children[+d.dataset.spot];
-    if (card) row.scrollTo({ left: card.offsetLeft - row.offsetLeft, behavior: "smooth" });
+    if (card) row.scrollTo({ left: card.offsetLeft - row.children[0].offsetLeft, behavior: "smooth" });
   });
   // macOS-style bounce on icon click
   document.addEventListener("click", (e) => {

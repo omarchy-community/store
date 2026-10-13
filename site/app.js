@@ -864,8 +864,37 @@
   const chainLine = (w) => w.chains.slice(0, 3).join(" · ") + (w.chains.length > 3 ? ` +${w.chains.length - 3}` : "");
   function walletCard(w) {
     const img = asset(w.icon);
+    
+    // Unique gradient backgrounds for each wallet
+    const walletGradients = {
+        phantom: "linear-gradient(135deg, #9945FF 0%, #14F195 100%)",
+        metamask: "linear-gradient(135deg, #F6851B 0%, #3D7EFF 100%)",
+        solflare: "linear-gradient(135deg, #FFB800 0%, #F57C00 100%)",
+        backpack: "linear-gradient(135deg, #00D4AA 0%, #0066FF 100%)",
+        "coinbase-wallet": "linear-gradient(135deg, #0052FF 0%, #00C6FF 100%)",
+        rabby: "linear-gradient(135deg, #1A1A2E 0%, #16213E 100%)",
+        "trust-wallet": "linear-gradient(135deg, #00C6A7 0%, #007BFF 100%)",
+        "okx-wallet": "linear-gradient(135deg, #007AFF 0%, #00D4FF 100%)",
+        keplr: "linear-gradient(135deg, #00C896 0%, #007AFF 100%)",
+        xverse: "linear-gradient(135deg, #F7931A 0%, #FF9F0A 100%)",
+        leather: "linear-gradient(135deg, #F7931A 0%, #1A1A2E 100%)",
+        crossmark: "linear-gradient(135deg, #00A3E0 0%, #0052CC 100%)",
+        gemwallet: "linear-gradient(135deg, #00A3E0 0%, #0052CC 100%)",
+        rainbow: "linear-gradient(135deg, #E91E63 0%, #FF6B6B 100%)",
+        zerion: "linear-gradient(135deg, #0066FF 0%, #00D4FF 100%)",
+        "exodus-web3": "linear-gradient(135deg, #00A3E0 0%, #8B5CF6 100%)",
+        "grass-lite-node": "linear-gradient(135deg, #22C55E 0%, #06B6D4 100%)",
+        "gradient-sentry-node": "linear-gradient(135deg, #8B5CF6 0%, #06B6D4 100%)",
+        "nodepay-extension": "linear-gradient(135deg, #8B5CF6 0%, #EC4899 100%)",
+        "dawn-validator": "linear-gradient(135deg, #F97316 0%, #EC4899 100%)",
+        "teneo-community-node": "linear-gradient(135deg, #8B5CF6 0%, #06B6D4 100%)",
+        "openloop-sentry-node": "linear-gradient(135deg, #06B6D4 0%, #22C55E 100%)",
+    };
+    
+    const bg = walletGradients[w.id] || "linear-gradient(135deg, var(--pill), var(--card))";
     const isDepin = w.type === "depin";
-    return `<a class="crypto-card" href="/crypto/${esc(w.id)}/">
+    
+    return `<a class="crypto-card" href="/crypto/${esc(w.id)}/" style="background: ${bg};">
       <div class="cc-img">${img ? `<img src="${esc(img)}" alt="${esc(w.name)} icon" loading="lazy">` : ""}
         ${isDepin ? `<span class="cc-chip depin">Earn Crypto</span>` : ""}${S.desktop && S.cryptoHave.has(w.id) ? `<span class="cc-chip on">Installed</span>` : ""}</div>
       <div class="cc-meta">
@@ -981,7 +1010,7 @@
     return `<div class="page">
       ${backBtn()}
       <div class="detail-head">
-        ${walletImg(w, 128)}
+        ${walletImg(w, 80)}
         <div style="min-width:0">
           <h1>${esc(w.name)}</h1>
           <div class="sub">${esc(w.summary)}</div>

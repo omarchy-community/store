@@ -307,6 +307,28 @@ main { overflow-y: auto; overflow-x: hidden; outline: none; scroll-behavior: smo
 .aa-cta { margin-left: auto; font-weight: 700; font-size: 14px; color: #1ed760; white-space: nowrap; }
 .aa-cta:hover { text-decoration: underline; }
 
+/* Responsive fix for Billy Legal ad on half-page/small screens */
+@media (max-width: 720px) {
+  .artist-ad { margin-top: 24px; border-radius: 12px; }
+  .aa-hero { height: clamp(220px, 50vw, 400px); min-height: 220px; }
+  .aa-hero img { object-position: 50% 40%; }
+  .aa-name { font-size: clamp(32px, 10vw, 64px); bottom: 10px; left: 12px; }
+  .aa-bar { gap: 14px; padding: 14px 14px 16px; }
+  .aa-play { width: 48px; height: 48px; }
+  .aa-follow { padding: 5px 12px; font-size: 13px; }
+  .aa-cta { font-size: 13px; }
+}
+
+@media (max-width: 480px) {
+  .artist-ad { margin-top: 16px; border-radius: 10px; }
+  .aa-hero { height: clamp(180px, 55vw, 320px); min-height: 180px; }
+  .aa-name { font-size: clamp(28px, 12vw, 48px); bottom: 8px; left: 10px; }
+  .aa-bar { gap: 10px; padding: 10px 10px 12px; }
+  .aa-play { width: 40px; height: 40px; }
+  .aa-follow { padding: 4px 10px; font-size: 12px; }
+  .aa-cta { font-size: 12px; }
+}
+
 /* ---------- Featured spotlight (billboard) ---------- */
 .spot {
   position: relative; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); align-items: center; gap: 0;
@@ -811,6 +833,16 @@ select.sel { background: var(--pill); color: var(--text); border: 0; border-radi
 .spot-row { display: grid; grid-auto-flow: column; grid-auto-columns: calc(100% - 64px); gap: 18px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; margin: 0 0 10px; padding-bottom: 4px; scroll-behavior: smooth; }
 .spot-row::-webkit-scrollbar { display: none; }
 .spot-row > .spot { scroll-snap-align: start; margin-bottom: 0; min-width: 0; }
+
+@media (min-width: 1400px) {
+  .spot-row { grid-auto-columns: calc(50% - 30px); }
+  .spot-row > .spot { flex-shrink: 0; }
+}
+
+@media (min-width: 1800px) {
+  .spot-row { grid-auto-columns: calc(33.33% - 24px); }
+  .spot-row > .spot { flex-shrink: 0; }
+}
 .spot-dots { display: flex; justify-content: center; gap: 8px; margin: 6px 0 26px; }
 .spot-dots i { width: 7px; height: 7px; border-radius: 999px; background: var(--text-3); opacity: .5; transition: width .25s, opacity .25s; }
 .spot-dots i.on { width: 22px; opacity: 1; background: var(--text); }

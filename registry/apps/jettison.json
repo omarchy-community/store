@@ -1,0 +1,147 @@
+{
+ "id": "jettison",
+ "name": "Jettison",
+ "category": "utilities",
+ "install": {
+  "method": "release",
+  "packages": [
+   "jettison"
+  ],
+  "version": "1.0.0",
+  "url": "https://github.com/nemoclawai-tech/jettison/releases/download/v1.0.0/jettison-1.0.0-1-any.pkg.tar.zst",
+  "sha256": "b6fea11ec94e6ecf8b59bd7713b7e1443625f7eadbd706e7b5613b5fd045bc51"
+ },
+ "detect": [
+  "jettison"
+ ],
+ "kind": "gui",
+ "summary": "Throw the Omarchy Store overboard: remove it and everything it brought, cleanly and completely",
+ "homepage": "https://github.com/nemoclawai-tech/jettison",
+ "tags": [
+  "uninstall",
+  "remove",
+  "cleanup",
+  "omarchy store",
+  "omarchy"
+ ],
+ "source": "nemoclawai-tech",
+ "cli": false,
+ "icon": "featured/jettison/icon.png",
+ "github": "nemoclawai-tech/jettison",
+ "developer": "Omarchy Development Labs",
+ "featured": {
+  "badge": "New Release",
+  "eyebrow": "OMARCHY DEVELOPMENT LABS · FREE",
+  "headline": "Throw the Omarchy Store overboard.",
+  "tagline": "Jettison removes the Omarchy Store and everything it brought — the app, the desktop window, launcher entries, hooks, state and caches — even when the store itself is broken. Optionally takes SnapDock, Lifeboat, Omarchy Browser, the screensaver and theme with it and puts your desktop back to Omarchy's defaults.",
+  "price": "Free",
+  "launch_offer": "Free · Open source",
+  "gradient": [
+   "#ff7a45",
+   "#e5306b",
+   "#0b2440"
+  ],
+  "art": "featured/jettison/hero.webp",
+  "billboard": "featured/jettison/billboard.webp",
+  "og": "featured/jettison/og.png",
+  "order": 3,
+  "price_note": "Free · Open source (MIT)",
+  "chips": [
+   "One click",
+   "Works when the store is broken",
+   "Shows what it found first",
+   "Dry run",
+   "Password in a terminal",
+   "Removes itself too"
+  ],
+  "features": [
+   {
+    "icon": "power",
+    "hero": true,
+    "title": "Works even when the store is broken",
+    "body": "Jettison doesn't need the store to be running, updated or even complete. Blank window, failed update, half-installed — it still finds every piece and removes it."
+   },
+   {
+    "icon": "window",
+    "title": "Shows you what it found first",
+    "body": "A scan lists every component on your computer — app, desktop window, system package, launcher entries, hooks, state — and marks what will be removed before you press anything."
+   },
+   {
+    "icon": "desktops",
+    "title": "Your desktop back to default",
+    "body": "Flip one switch to also remove SnapDock (it puts your dock, keys and title bars back first), Lifeboat, Omarchy Browser, the screensaver and the theme. Tokyo Night comes back if the store theme was in use."
+   },
+   {
+    "icon": "backup",
+    "title": "Your own files are never touched",
+    "body": "Apps you installed through the store stay installed. Lifeboat backups on your Drive stay. Nothing in your home folder that isn't the store's own is removed."
+   },
+   {
+    "icon": "update",
+    "title": "Dry run",
+    "body": "See every step it would take, in a terminal, without changing a thing."
+   },
+   {
+    "icon": "infinity",
+    "title": "Leaves nothing behind",
+    "body": "Jettison can remove itself when it's done. Get the store back any time with one command."
+   }
+  ],
+  "steps": [
+   {
+    "title": "Install it",
+    "body": "Press GET in the Omarchy Store app, or run the one-line command above. Type your password when asked."
+   },
+   {
+    "title": "Review the scan",
+    "body": "Open Jettison (Super + Space, type Jettison). It lists everything the store left on your computer. Flip the switches for the apps you also want gone."
+   },
+   {
+    "title": "Press Jettison",
+    "body": "A terminal opens, asks for your password and shows every step. When it's done, the store is gone."
+   }
+  ],
+  "faq": [
+   {
+    "q": "The store won't open at all — can Jettison still remove it?",
+    "a": "Yes. That is exactly what it's for. Jettison never talks to the store; it finds the files and packages itself."
+   },
+   {
+    "q": "Will I lose the apps I installed through the store?",
+    "a": "No. Apps you installed through the store (Firefox, Telegram, Steam…) stay installed. Only the store's own parts go, plus SnapDock, Lifeboat, Omarchy Browser, the screensaver and theme if you turn that switch on."
+   },
+   {
+    "q": "Why does it ask for my password?",
+    "a": "Removing system packages needs it. It's typed in a terminal you can see, never into Jettison itself."
+   },
+   {
+    "q": "Can I get the store back later?",
+    "a": "Any time: curl -fsSL https://omarchystore.com/install.sh | bash"
+   },
+   {
+    "q": "Is there a warranty?",
+    "a": "No. Jettison is free, open-source software provided as is. It removes only the Omarchy Store's own files and packages, and optionally the apps listed. The authors and the Omarchy Store accept no liability. MIT licence."
+   }
+  ]
+ },
+ "changelog": [
+  {
+   "version": "1.0.0",
+   "date": "2026-10-13",
+   "title": "First release",
+   "items": [
+    "Finds and removes every part of the Omarchy Store: helper, Electron/AppImage desktop app, system package, launcher entries, hooks, state and caches",
+    "Works when the store is broken or half-installed",
+    "Optional: remove SnapDock, Lifeboat, Omarchy Browser, the screensaver and theme; desktop back to Omarchy's defaults",
+    "Dry run, scan, and a command-line mode (jettison --run)",
+    "Removes itself when done"
+   ]
+  }
+ ],
+ "description": "Jettison removes the Omarchy Store and everything it brought to your computer — cleanly, completely, in one click. It works even when the store itself is broken, stuck on a blank window, or half-installed, because nothing in Jettison depends on the store running.\n\nWHAT IT FINDS AND REMOVES\n• The Omarchy Store app: helper, site files and the omarchy-store command\n• The desktop app (Electron / AppImage), its settings and caches\n• The omarchy-store system package, if it was installed with pacman\n• Launcher entries, icons and the post-update hook the store added to Omarchy\n• State, tokens, logs and the downloaded catalog\n\nOPTIONALLY, WITH ONE SWITCH\n• SnapDock — puts your dock, keys and title bars back first\n• Lifeboat — your backups on Google Drive are kept\n• Omarchy Browser — your profile stays in your home folder\n• The Omarchy Store screensaver and theme — Tokyo Night comes back if the store theme was in use\n• Jettison itself, so nothing is left behind\n\nWHAT IT NEVER TOUCHES\nApps you installed through the store stay installed. Nothing in your home folder that isn't the store's own is removed.\n\nHOW IT WORKS\nOpen Jettison and it scans your computer, showing every component with a Will be removed / Kept / Not installed label. Press Jettison the Omarchy Store: a terminal opens, asks for your password, and shows every step. Try Dry run first to see the steps without changing anything.\n\nCOMMAND LINE\njettison --scan · jettison --dry-run · jettison --run [--all] [--self]\n\nGet the store back any time: curl -fsSL https://omarchystore.com/install.sh | bash\n\nDeveloped by Omarchy Development Labs. Free and open source (MIT).\n\nDISCLAIMER\nJettison is provided as is, without warranty. It removes only the Omarchy Store's own files and packages, and optionally the apps listed above. The authors and the Omarchy Store accept no liability for data loss or damage. MIT licence.",
+ "screenshots": [
+  "featured/jettison/main.webp",
+  "featured/jettison/all.webp",
+  "featured/jettison/confirm.webp"
+ ]
+}

@@ -15,6 +15,7 @@ REPOS=(
   nemoclawai-tech/rabbit-ears
   nemoclawai-tech/mystify-screensaver
   nemoclawai-tech/lifeboat
+  nemoclawai-tech/jettison
 )
 
 ok(){ printf '  ✓ %s\n' "$*"; }

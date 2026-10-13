@@ -3,6 +3,7 @@
   "name": "SnapDock",
   "category": "utilities",
   "github": null,
+    "license": "MIT",
   "homepage": "https://github.com/nemoclawai-tech/snapdock-releases",
   "install": {
     "method": "release",

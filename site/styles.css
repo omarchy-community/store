@@ -702,6 +702,9 @@ kbd { display: inline-grid; place-items: center; min-width: 30px; height: 28px; 
 .ignite-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
 .ignite-chips span { padding: 5px 11px; border-radius: 999px; font-size: 12.5px; font-weight: 600; background: rgba(255,255,255,.10); box-shadow: inset 0 0 0 1px rgba(255,255,255,.16); }
 .usb-n.win { background: #2f6fd8; color: #fff; font-size: 18px; }
+.ignite-os-switch { max-width: 260px; margin: 14px 0 4px; }
+.ignite-os-switch button { flex-direction: row; gap: 6px; padding: 8px 10px; font-size: 13px; }
+.ignite-os-switch svg, .ignite-os-switch span { pointer-events: none; }
 .ignite-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 14px; }
 .ignite-cols > div { padding: 16px 18px; border-radius: 14px; background: color-mix(in srgb, var(--bg) 60%, transparent); box-shadow: inset 0 0 0 1px var(--line); }
 .ignite-cols h4 { margin: 0 0 6px; font-size: 15px; }

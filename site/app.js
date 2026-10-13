@@ -1717,12 +1717,26 @@
       ${usbAfter()}
     </div>`;
   }
+  function igniteOS() {
+    if (!S.ignitePlatform) {
+      let saved = null;
+      try { saved = localStorage.getItem("ignite-os"); } catch {}
+      const ua = navigator.userAgent || "", plat = navigator.platform || "";
+      S.ignitePlatform = saved === "mac" || saved === "win" ? saved : (/Mac|iPhone|iPad/i.test(plat) || /Macintosh/i.test(ua)) ? "mac" : "win";
+    }
+    return S.ignitePlatform;
+  }
+  function igniteOSToggle() {
+    const p = igniteOS();
+    return `<div class="look-switch ignite-os-switch" role="radiogroup" aria-label="Your computer">
+      <button data-ignite-os="win" class="${p === "win" ? "on" : ""}" role="radio" aria-checked="${p === "win"}">⊞<span>Windows</span></button>
+      <button data-ignite-os="mac" class="${p === "mac" ? "on" : ""}" role="radio" aria-checked="${p === "mac"}">⌘<span>Mac</span></button>
+    </div>`;
+  }
   function igniteWindows() {
     const w = S.catalog.ignite || {};
-    return `<section class="usb-card ignite-win" id="windows">
-      <div class="usb-row"><span class="usb-n win">⊞</span><div class="grow"><h3>Keep Windows: install Omarchy next to it</h3>
-        <p class="muted small">Omarchy 4 can install into empty space on your drive and leave Windows alone. You choose Windows or Omarchy each time you start the computer. You just need to make that empty space first, on the Windows computer.</p></div></div>
-      <div class="ignite-cols">
+    const p = igniteOS();
+    const winBody = `<div class="ignite-cols">
         <div><h4>The easy way: Make room for Omarchy</h4>
           ${w.helper_ready ? `<ol class="usb-list">
             <li>On the Windows PC, download <a href="/ignite/Make-room-for-Omarchy.zip" download><b>Make room for Omarchy</b></a> and unzip it.</li>
@@ -1738,7 +1752,28 @@
             <li>Leave the new black <b>Unallocated</b> space empty. Don't format it.</li></ol></div>
       </div>
       <div class="ignite-then"><b>Then:</b> start the computer from your Ignite USB stick, pick your drive, and choose <b>Free space install</b>. <span class="warn-t">Don't pick the whole-drive option: that erases Windows.</span> After Omarchy starts, type <code>limine-scan</code> in a terminal to add Windows to the start-up menu.</div>
-      <p class="small muted">Back up anything important first. Shrinking a drive is safe, but not risk-free.</p>
+      <p class="small muted">Back up anything important first. Shrinking a drive is safe, but not risk-free.</p>`;
+    const macBody = `<div class="ignite-cols">
+        <div><h4>Apple Silicon Macs (M1–M4)</h4>
+          <p class="small">These Macs can't boot Omarchy's USB stick at all — Apple's firmware only starts macOS and Apple-signed systems. Dual-boot the way Windows PCs do isn't possible here, even with Disk Utility.</p>
+          <p class="small muted">Your options: run Omarchy in a free VM app like <a href="https://mac.getutm.app/" target="_blank" rel="noopener">UTM</a> alongside macOS, or install it on a separate PC. <a href="https://asahilinux.org/" target="_blank" rel="noopener">Asahi Linux</a> is the only native-boot Linux project for this hardware, and Omarchy isn't it (yet).</p>
+        </div>
+        <div><h4>Intel Macs (2020 and earlier)</h4>
+          <ol class="usb-list">
+            <li>Back up your Mac first (Time Machine). This is more advanced than the Windows path.</li>
+            <li>Open <b>Disk Utility</b>, select your main volume, click <b>Partition</b> and shrink it to free up 50–200 GB of unformatted space.</li>
+            <li>Turn off <b>FileVault</b> first if it's on (System Settings → Privacy &amp; Security).</li>
+            <li>You'll need a third-party boot manager such as <a href="https://www.rodsbooks.com/refind/" target="_blank" rel="noopener">rEFInd</a> to choose Omarchy or macOS at startup — Apple's own boot picker won't list it.</li>
+          </ol>
+          <p class="small muted">This path isn't officially supported by Omarchy and can be finicky on some Mac models. If in doubt, use a VM or a spare PC instead.</p>
+        </div>
+      </div>
+      <p class="small muted">Ignite still makes the USB stick for you from a Mac (see the download card above) — it's only the "keep my current OS side-by-side" step that works differently on a Mac.</p>`;
+    return `<section class="usb-card ignite-win" id="windows">
+      <div class="usb-row"><span class="usb-n win">${p === "mac" ? "⌘" : "⊞"}</span><div class="grow"><h3>Keep ${p === "mac" ? "macOS" : "Windows"}: install Omarchy next to it</h3>
+        <p class="muted small">${p === "mac" ? "On a Mac, dual-booting Omarchy works very differently than on a PC — see below." : "Omarchy 4 can install into empty space on your drive and leave Windows alone. You choose Windows or Omarchy each time you start the computer. You just need to make that empty space first, on the Windows computer."}</p></div></div>
+      ${igniteOSToggle()}
+      ${p === "mac" ? macBody : winBody}
     </section>`;
   }
   function usbAfter() {
@@ -2348,7 +2383,7 @@
   }
 
   document.addEventListener("click", (e) => {
-    const t = e.target.closest("[data-gal],[data-gal-to],[data-lb],[data-usb-confirm],[data-usb-dl],[data-usb-refresh],[data-usb-pick],[data-usb-write],[data-upd],[data-upd-plug],[data-upd-all],[data-upd-refresh],[data-restart],[data-get],[data-soon],[data-accept],[data-open],[data-copy],[data-close],[data-share],[data-chart],[data-zoom],[data-theme-get],[data-theme-use],[data-tfilter],[data-plug-get],[data-pfilter],[data-plug-more],[data-plug-search],[data-sfilter],[data-saver-more],[data-cchain],[data-crypto-get],[data-self-update],[data-self-later],[data-rm],[data-rm-yes],[data-share-theme],#more,.sheet");
+    const t = e.target.closest("[data-gal],[data-gal-to],[data-lb],[data-usb-confirm],[data-usb-dl],[data-usb-refresh],[data-usb-pick],[data-usb-write],[data-ignite-os],[data-upd],[data-upd-plug],[data-upd-all],[data-upd-refresh],[data-restart],[data-get],[data-soon],[data-accept],[data-open],[data-copy],[data-close],[data-share],[data-chart],[data-zoom],[data-theme-get],[data-theme-use],[data-tfilter],[data-plug-get],[data-pfilter],[data-plug-more],[data-plug-search],[data-sfilter],[data-saver-more],[data-cchain],[data-crypto-get],[data-self-update],[data-self-later],[data-rm],[data-rm-yes],[data-share-theme],#more,.sheet");
     if (!t) return;
     if (t.matches("[data-usb-dl]")) {
       post("/api/usb/download", {}).then(async (r) => { if (!r.ok) toast((await r.json().catch(() => ({}))).error || "Download failed"); loadUsb(); });
@@ -2356,6 +2391,8 @@
       loadUsb();
     } else if (t.matches("[data-usb-pick]")) {
       S.usbPick = t.dataset.usbPick; rerender();
+    } else if (t.matches("[data-ignite-os]")) {
+      S.ignitePlatform = t.dataset.igniteOs; try { localStorage.setItem("ignite-os", S.ignitePlatform); } catch {} rerender();
     } else if (t.matches("[data-usb-write]")) {
       const d = (S.usb?.drives || []).find((x) => x.path === S.usbPick);
       if (!d) return;

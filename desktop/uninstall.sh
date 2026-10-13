@@ -16,11 +16,19 @@ DEST="$HOME/.local/share/omarchy-store"
 say() { printf '\033[1m%s\033[0m\n' "$*"; }
 
 say "Removing the Omarchy Store…"
+echo "Enter your password to confirm (this also lets the store remove its system packages):"
+if ! sudo -v; then echo; say "Cancelled — nothing was removed."; exit 1; fi
+echo
 
-# 1. Stop the helper and any store window.
+# 1. Stop the helper and any store window (classic helper, Electron build, AppImage, old webapp).
 pkill -f "$DEST/omarchy-store --serve" 2>/dev/null || true
+pkill -f "omarchy-store --serve" 2>/dev/null || true
 pkill -f "omarchy-store-electron.AppImage" 2>/dev/null || true
+pkill -f "linux-unpacked/omarchy-store" 2>/dev/null || true
+pkill -f "Omarchy Store.*AppImage" 2>/dev/null || true
 pkill -f "app=.*omarchy-store" 2>/dev/null || true
+[ -n "${OMARCHY_STORE_PID:-}" ] && kill "$OMARCHY_STORE_PID" 2>/dev/null || true
+sleep 1
 
 # 2. Hooks the store installed (post-update validation).
 for d in "$HOME/.config/omarchy/hooks/post-update.d" "$HOME/.config/omarchy/hooks"; do
@@ -42,9 +50,24 @@ rm -rf "$HOME/.local/share/omarchy-store-electron" "$HOME/.config/Omarchy Store"
 rm -rf "$HOME/.local/share/omarchy/webapps/omarchy-store" "$HOME/.local/share/applications/omarchy-store-webapp.desktop" 2>/dev/null
 command -v omarchy-webapp-remove >/dev/null 2>&1 && omarchy-webapp-remove "Omarchy Store" >/dev/null 2>&1 || true
 
-# 4. State, cache and the app itself.
+# 4. State, cache and the app itself (including an Electron build's own copy of the store files).
 rm -rf "$HOME/.local/state/omarchy-store" "$HOME/.cache/omarchy-store" "$DEST"
+if [ -n "${OMARCHY_STORE_HOME:-}" ] && [ "$OMARCHY_STORE_HOME" != "$DEST" ] && [ -d "$OMARCHY_STORE_HOME" ]; then
+  case "$OMARCHY_STORE_HOME" in
+    "$HOME"/*) rm -rf "$OMARCHY_STORE_HOME/site" "$OMARCHY_STORE_HOME/omarchy-store" "$OMARCHY_STORE_HOME/uninstall.sh" 2>/dev/null ;;
+  esac
+fi
+rm -rf "$HOME/.config/Omarchy Store" "$HOME/.cache/Omarchy Store" "$HOME/.local/share/Omarchy Store" 2>/dev/null
+rm -f "$HOME/.local/share/applications/omarchy-store-electron.desktop" "$HOME/.local/share/applications/appimagekit-omarchy-store.desktop" 2>/dev/null
 update-desktop-database "$HOME/.local/share/applications" &>/dev/null || true
+
+# 5. The system package, if the store was installed with pacman/AUR (needs your password).
+SP=""
+for p in omarchy-store omarchy-store-bin omarchy-store-electron; do pacman -Qq "$p" >/dev/null 2>&1 && SP="$SP $p"; done
+if [ -n "$SP" ]; then
+  echo; say "Removing the Omarchy Store system package ($SP) — enter your password:"
+  sudo pacman -Rns --noconfirm $SP || true
+fi
 
 if [ "$ALL" = 1 ]; then
   echo

@@ -51,7 +51,7 @@ THEME_NOW = os.path.expanduser("~/.local/state/omarchy/current/theme.name")
 RELEASE_RE = re.compile(r"^https://github\.com/(nemoclawai-tech|omarchy-community)/[A-Za-z0-9_.-]+/releases/download/[A-Za-z0-9_.+-]+/[A-Za-z0-9_.+-]+\.pkg\.tar\.zst$")
 SHA_RE = re.compile(r"^[0-9a-f]{64}$")
 CACHE_DIR = os.path.expanduser("~/.cache/omarchy-store")
-VERSION = "1.8.0"   # desktop app version; the catalog's desktop_version tells us when a newer one is out
+VERSION = "1.8.1"   # desktop app version; the catalog's desktop_version tells us when a newer one is out
 
 TOKEN = secrets.token_urlsafe(24)
 # Write token to a file so install.sh can use it for pre-install
@@ -146,7 +146,13 @@ def run_crypto_install(w):
 # ---------------------------------------------------------------- catalog ----
 def load_catalog():
     with open(os.path.join(SITE_DIR, "catalog.json")) as f:
-        return {a["id"]: a for a in json.load(f)["apps"]}
+        cat = json.load(f)
+    out = {a["id"]: a for a in cat["apps"]}
+    # The store's own listing lives under its own key; it must count as installed/removable (that's us).
+    sa = cat.get("store_app")
+    if isinstance(sa, dict) and sa.get("id"):
+        out.setdefault(sa["id"], sa)
+    return out
 
 
 def load_themes():
@@ -499,14 +505,26 @@ def run_self_uninstall(everything):
     """Remove the Omarchy Store itself (and, with everything=True, the apps that came with it) in a
     visible terminal. The script copies itself to /tmp first, so it survives deleting the store."""
     script = os.path.join(APP_DIR, "uninstall.sh")
+    if not os.path.exists(script):
+        # Electron/AppImage installs don't ship the script next to the helper: fetch the current one.
+        script = os.path.join(STATE_DIR, "uninstall.sh")
+        with urllib.request.urlopen(REMOTE + "desktop-files/uninstall.sh", timeout=30) as r:
+            data = r.read(200_000)
+        if not data.startswith(b"#!/bin/bash") or b"Removing the Omarchy Store" not in data:
+            raise ValueError("couldn't download the uninstaller")
+        os.makedirs(STATE_DIR, exist_ok=True)
+        open(script, "wb").write(data)
     flag = " --all" if everything else ""
     what = "the Omarchy Store and the apps that came with it" if everything else "the Omarchy Store"
-    cmd = (f"echo {shlex.quote('Removing ' + what + '…')}; echo; bash {shlex.quote(script)}{flag}; echo; "
+    # Tell the script where this copy of the store lives (Electron builds keep it next to the app).
+    env = f"OMARCHY_STORE_HOME={shlex.quote(APP_DIR)} OMARCHY_STORE_PID={os.getpid()} "
+    cmd = (f"echo {shlex.quote('Removing ' + what + '…')}; echo; {env}bash {shlex.quote(script)}{flag}; echo; "
            f"read -n1 -r -p 'Press any key to close'")
     with JOBS_LOCK:
         JOBS["omarchy-store"] = {"state": "removing", "started": time.time()}
+    # The script stops this helper itself (OMARCHY_STORE_PID) once the password is confirmed, so a
+    # cancelled removal leaves the store running.
     in_terminal(cmd, "Remove Omarchy Store")
-    threading.Thread(target=lambda: (time.sleep(2), os._exit(0)), daemon=True).start()
 
 
 def run_uninstall(app):
@@ -884,7 +902,7 @@ def write_usb(iso, device):
 
 # ---------------------------------------------------------------- self-update ----
 SELF = {"available": None, "installed_new": False}
-SELF_FILES = ["omarchy-store", "site/index.html", "site/app.js", "site/styles.css"]
+SELF_FILES = ["omarchy-store", "uninstall.sh", "site/index.html", "site/app.js", "site/styles.css"]
 
 
 def self_update(target_version):
@@ -1089,6 +1107,10 @@ class Handler(SimpleHTTPRequestHandler):
                     os.remove(PORT_FILE)
                 except OSError:
                     pass
+                # Come back on the same port so the open window keeps working (see free_port).
+                os.environ["OMARCHY_STORE_PORT"] = str(self.server.server_port)
+                httpd = self.server
+                httpd.socket.close()                     # free the port before exec (fd would otherwise linger)
                 os.execv(sys.executable, [sys.executable, os.path.join(APP_DIR, "omarchy-store"), "--serve"])
             threading.Thread(target=again, daemon=True).start()
             return self._json(200, {"ok": True})
@@ -1158,7 +1180,7 @@ class Handler(SimpleHTTPRequestHandler):
                 run_install(app)
                 return self._json(202, {"ok": True})
             if self.path == "/api/uninstall-store":
-                run_self_uninstall(bool(body.get("all")))
+                run_self_uninstall(bool(data.get("all")))
                 return self._json(200, {"ok": True})
             if self.path == "/api/uninstall":
                 with JOBS_LOCK:
@@ -1390,8 +1412,14 @@ def alive(port):
 
 
 def free_port():
-    for p in range(DEFAULT_PORT, DEFAULT_PORT + 20):
+    # After a self-update restart we MUST come back on the same port: the Electron window (and the page
+    # that is reloading itself) only know the old one. The old port is in TIME_WAIT from the page's own
+    # requests, so the probe needs SO_REUSEADDR (the server sets it too) or it would wrongly skip ahead.
+    keep = os.environ.get("OMARCHY_STORE_PORT")
+    order = ([int(keep)] if keep and keep.isdigit() else []) + list(range(DEFAULT_PORT, DEFAULT_PORT + 20))
+    for p in order:
         with socket.socket() as s:
+            s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
             try:
                 s.bind(("127.0.0.1", p))
                 return p

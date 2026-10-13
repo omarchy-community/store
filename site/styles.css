@@ -282,8 +282,8 @@ main { overflow-y: auto; overflow-x: hidden; outline: none; scroll-behavior: smo
 /* Artist ad — modelled on a Spotify artist header */
 .artist-ad { margin-top: 34px; border-radius: 14px; overflow: hidden; background: #121212; color: #fff; box-shadow: var(--shadow); }
 /* Full width, height follows the artwork (capped); the artwork carries its own name and logo. */
-.aa-hero { position: relative; display: block; width: 100%; height: clamp(300px, 45vw, 550px); min-height: 300px; overflow: hidden; background: #0b0b0b; }
-.aa-hero img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 35%; transition: transform .6s; }
+.aa-hero { position: relative; display: block; width: 100%; height: auto; min-height: 220px; max-height: 550px; aspect-ratio: 16/9; overflow: hidden; background: #0b0b0b; }
+.aa-hero img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; object-position: center; transition: transform .6s; }
 .aa-hero .aa-name { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 .aa-hero:hover img { transform: scale(1.03); }
 .aa-hero::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,0) 35%, rgba(0,0,0,.55) 100%); }
@@ -310,7 +310,7 @@ main { overflow-y: auto; overflow-x: hidden; outline: none; scroll-behavior: smo
 /* Responsive fix for Billy Legal ad on half-page/small screens */
 @media (max-width: 720px) {
   .artist-ad { margin-top: 24px; border-radius: 12px; }
-  .aa-hero { height: clamp(220px, 50vw, 400px); min-height: 220px; }
+  .aa-hero { max-height: 400px; min-height: 220px; }
   .aa-hero img { object-position: 50% 40%; }
   .aa-name { font-size: clamp(32px, 10vw, 64px); bottom: 10px; left: 12px; }
   .aa-bar { gap: 14px; padding: 14px 14px 16px; }
@@ -321,7 +321,7 @@ main { overflow-y: auto; overflow-x: hidden; outline: none; scroll-behavior: smo
 
 @media (max-width: 480px) {
   .artist-ad { margin-top: 16px; border-radius: 10px; }
-  .aa-hero { height: clamp(180px, 55vw, 320px); min-height: 180px; }
+  .aa-hero { max-height: 320px; min-height: 180px; }
   .aa-name { font-size: clamp(28px, 12vw, 48px); bottom: 8px; left: 10px; }
   .aa-bar { gap: 10px; padding: 10px 10px 12px; }
   .aa-play { width: 40px; height: 40px; }
@@ -848,7 +848,17 @@ select.sel { background: var(--pill); color: var(--text); border: 0; border-radi
 .spot-dots i.on { width: 22px; opacity: 1; background: var(--text); }
 @media (max-width: 720px) { .spot-row { grid-auto-columns: calc(100% - 28px); gap: 12px; } }
 
-@media (min-width: 721px) { nav .d-hide { display: none !important; } .spot-row { grid-auto-columns: calc(100% - 110px); } }
+@media (min-width: 721px) { nav .d-hide { display: none !important; } .spot-row { grid-auto-columns: calc(100% - 64px); } }
+
+@media (min-width: 1400px) {
+  .spot-row { grid-auto-columns: calc(50% - 30px); }
+  .spot-row > .spot { flex-shrink: 0; }
+}
+
+@media (min-width: 1800px) {
+  .spot-row { grid-auto-columns: calc(33.33% - 24px); }
+  .spot-row > .spot { flex-shrink: 0; }
+}
 .spot-dots i { cursor: pointer; }
 
 /* Remove buttons + Installed list */
@@ -1246,4 +1256,34 @@ html[data-look="glass"] .brand .wordmark img { filter: drop-shadow(0 1px 2px rgb
 .cc-chains { display: flex; gap: 4px; margin-top: 5px; flex-wrap: wrap; }
 .cc-chains span { padding: 2px 8px; border-radius: 999px; background: var(--pill); color: var(--text-2); font-size: 11px; font-weight: 600; }
 .cc-type { padding: 2px 8px; border-radius: 999px; background: linear-gradient(135deg, rgba(158,206,106,.2), rgba(48,209,88,.2)); color: var(--good); font-size: 11px; font-weight: 700; }
+@media (max-width: 720px) { .crypto-row { grid-auto-columns: 78%; } }
+
+/* Wallet detail page header */
+.detail-head { position: relative; }
+.detail-head .ch-icons { display: grid; grid-template-columns: repeat(9, 40px); gap: 8px; margin-top: 16px; opacity: .5; }
+.detail-head .ch-icons img { width: 40px; height: 40px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,.3); transition: transform .2s, opacity .2s; }
+.detail-head .ch-icons img:hover { transform: scale(1.1); opacity: 1; }
+
+/* Report button */
+.report-btn { background: rgba(255,255,255,.15); color: #fff; }
+.report-btn:hover { background: rgba(255,69,58,.3); color: #ff6961; }
+.report-btn svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+/* Report issue modal */
+.report-modal { position: fixed; inset: 0; z-index: 1000; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,.8); backdrop-filter: blur(4px); }
+.report-modal.hidden { display: none; }
+.report-box { width: min(90vw, 520px); background: var(--card); border-radius: 24px; padding: 32px; box-shadow: 0 40px 80px rgba(0,0,0,.5); }
+.report-box h2 { font-size: 24px; font-weight: 800; margin: 0 0 8px; }
+.report-box p { color: var(--text-2); margin: 0 0 24px; }
+.report-form { display: grid; gap: 16px; }
+.report-field { display: grid; gap: 6px; }
+.report-field label { font-size: 14px; font-weight: 600; color: var(--text-2); }
+.report-field select, .report-field textarea { font: inherit; padding: 12px 14px; border-radius: 12px; border: 1px solid var(--line); background: var(--bg); color: var(--text); resize: vertical; min-height: 100px; }
+.report-field textarea { min-height: 120px; }
+.report-actions { display: flex; justify-content: flex-end; gap: 12px; margin-top: 8px; }
+.report-btn-primary { background: var(--accent); color: var(--accent-text); border: 0; border-radius: 999px; padding: 10px 24px; font-weight: 700; cursor: pointer; }
+.report-btn-primary:hover { filter: brightness(1.1); }
+.report-btn-ghost { background: var(--pill); color: var(--text-2); border: 0; border-radius: 999px; padding: 10px 24px; font-weight: 600; cursor: pointer; }
+.report-btn-ghost:hover { background: rgba(255,69,58,.18); color: #ff6961; }
+
 @media (max-width: 720px) { .crypto-row { grid-auto-columns: 78%; } }

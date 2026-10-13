@@ -15,72 +15,14 @@ jobs:
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # needed to see which app files this PR changed
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
       - name: Check registry
         run: python3 scripts/build.py --check
-      - name: Check packages exist (Arch repos or AUR)
-        run: |
-          python3 -u - <<'PY'
-          import json, glob, os, sys, time, urllib.request, urllib.parse
-          from concurrent.futures import ThreadPoolExecutor, as_completed
-
-          DEADLINE = time.time() + 240  # hard wall-clock budget for all lookups
-
-          def lookup(url):
-              """Return the results list, or None if the lookup itself failed."""
-              for attempt in range(2):
-                  if time.time() > DEADLINE:
-                      return None
-                  try:
-                      return json.load(urllib.request.urlopen(url, timeout=10))["results"]
-                  except Exception:
-                      time.sleep(1)
-              return None
-
-          def check(item):
-              f, p = item
-              r = lookup("https://archlinux.org/packages/search/json/?" + urllib.parse.urlencode({"name": p}))
-              if r == []:
-                  r = lookup("https://aur.archlinux.org/rpc/v5/info?arg[]=" + urllib.parse.quote(p))
-              return f, p, r
-
-          items = []
-          for f in sorted(glob.glob("registry/apps/*.json")):
-              a = json.load(open(f))
-              # Omarchy's own repo isn't searchable from CI; omarchy-installed apps are exempt.
-              if a["install"]["method"] in ("omarchy", "store"):
-                  continue
-              for p in a["detect"]:
-                  if not p.endswith("-bin"):
-                      items.append((f, p))
-
-          print(f"Checking {len(items)} packages", flush=True)
-          missing, unverified, done = [], [], set()
-          ex = ThreadPoolExecutor(max_workers=6)
-          futs = [ex.submit(check, i) for i in items]
-          try:
-              for fut in as_completed(futs, timeout=270):
-                  f, p, r = fut.result()
-                  done.add((f, p))
-                  if r is None:
-                      unverified.append(f"{f}: could not check {p!r} (lookup failed or timed out)")
-                      print(f"  ? {p}", flush=True)
-                  elif not r:
-                      missing.append(f"{f}: package {p!r} not found in Arch repos or AUR")
-                      print(f"  x {p}", flush=True)
-                  else:
-                      print(f"  ok {p}", flush=True)
-          except Exception:
-              pass
-          for i in items:
-              if i not in done:
-                  unverified.append(f"{i[0]}: {i[1]!r} not checked (time budget used up)")
-
-          # Lookup failures are warnings only; just a confirmed 'not found' fails the check.
-          for u in sorted(unverified):
-              print(f"::warning::{u}", flush=True)
-          print("\n".join(sorted(missing)) or "no confirmed-missing packages", flush=True)
-          os._exit(1 if missing else 0)
-          PY
+      - name: Check packages exist (Arch repos, Omarchy repo or AUR)
+        env:
+          BASE_REF: ${{ github.base_ref }}
+        run: python3 -u scripts/check_packages.py

@@ -104,6 +104,8 @@ const send = (env, chat, text, kb) => tg(env, "sendMessage", {
   chat_id: chat, text, parse_mode: "HTML", link_preview_options: { is_disabled: true },
   ...(kb ? { reply_markup: { inline_keyboard: kb } } : {}),
 });
+// Used outside the bot module (e.g. to tell a developer their app was approved/rejected).
+export const notifyUser = send;
 
 const WELCOME = (c) => `🛍️ <b>Welcome to the Omarchy Store!</b>
 
@@ -135,8 +137,16 @@ async function handleCommand(env, chat, from, text) {
   const arg = rest.join(" ");
   const c = await catalog();
   switch (cmd) {
-    case "/start": case "/help":
+    case "/start": case "/help": {
+      // Deep link from the submit page: t.me/OmarchyStoreBot?start=dev_<id> links this chat to
+      // their developer application, so we can tell them directly once it's approved/rejected.
+      const m = /^dev_(\d+)$/.exec(arg);
+      if (m) {
+        await env.DB.prepare("UPDATE developers SET telegram_chat_id=? WHERE id=?").bind(chat, Number(m[1])).run();
+        return send(env, chat, "✅ <b>You're linked!</b> I'll message you here the moment your app submission is approved (or if we need anything from you).");
+      }
       return send(env, chat, WELCOME(c), MENU);
+    }
     case "/search": case "/app":
       return arg ? doSearch(env, chat, arg) : send(env, chat, "Type an app name, e.g. <code>/search obsidian</code> (or just type <i>obsidian</i>).");
     case "/theme": {

@@ -155,7 +155,7 @@
       const pay = JSON.parse(d.payout || "{}");
       return `<div class="dev"><div>
           <div><span class="pill ${d.status}">${d.status}</span> &nbsp;<b>${esc(d.app_name)}</b> by ${esc(d.name)} · <a href="mailto:${esc(d.email)}">${esc(d.email)}</a></div>
-          <div class="small muted">#${d.id} · ${when(d.ts)}${d.website ? ` · <a href="${esc(d.website)}" target="_blank" rel="noopener">website</a>` : ""}${d.github ? ` · GitHub <a href="https://github.com/${esc(d.github)}" target="_blank" rel="noopener">${esc(d.github)}</a>` : ""}${d.app_url ? ` · <a href="${esc(d.app_url)}" target="_blank" rel="noopener">app link</a>` : ""}</div>
+          <div class="small muted">#${d.id} · ${when(d.ts)}${d.website ? ` · <a href="${esc(d.website)}" target="_blank" rel="noopener">website</a>` : ""}${d.github ? ` · GitHub <a href="https://github.com/${esc(d.github)}" target="_blank" rel="noopener">${esc(d.github)}</a>` : ""}${d.app_url ? ` · <a href="${esc(d.app_url)}" target="_blank" rel="noopener">app link</a>` : ""}${d.telegram_chat_id ? ` · <span class="pill approved">Telegram linked</span>` : ` · <span class="pill">No Telegram link yet</span>`}</div>
           <p>${esc(d.app_desc)}</p>
           <div class="small">${d.wants_paid ? `💲 Wants to sell at <b>$${d.price_usd}</b> — developer gets 90%, you get 10%.` : "Free app"}</div>
           ${Object.keys(pay).length ? `<div class="small muted">Payout: ${Object.entries(pay).map(([k, v]) => `${k.toUpperCase()} <span class="addr">${esc(v)}</span>`).join(" · ")}</div>` : ""}

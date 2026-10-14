@@ -52,7 +52,8 @@ CREATE TABLE IF NOT EXISTS developers (
   wants_paid INTEGER NOT NULL DEFAULT 0,
   price_usd REAL,
   payout TEXT,                    -- JSON {btc, base, sol, xrp} public addresses for the developer's 90%
-  note TEXT                       -- owner's note
+  note TEXT,                      -- owner's note
+  telegram_chat_id INTEGER        -- set once the developer confirms via the Telegram bot deep link
 );
 
 -- Crypto orders. The buyer pays the exact amount to a public address; the backend checks the

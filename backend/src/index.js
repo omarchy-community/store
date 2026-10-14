@@ -4,10 +4,11 @@
 //   Admin:   /admin/* with "Authorization: Bearer <ADMIN_KEY>"
 // Privacy: no IP addresses or cookies are stored. A daily-rotating hash counts unique visitors.
 
-import { storeBot, dailyDrop } from "./bot.js";
+import { storeBot, dailyDrop, notifyUser } from "./bot.js";
 
 const ORIGINS = [/^https:\/\/(www\.)?omarchystore\.com$/, /^https:\/\/omarchy-community\.github\.io$/, /^http:\/\/(127\.0\.0\.1|localhost):\d+$/];
 const ID_RE = /^[a-z0-9][a-z0-9-]{0,63}$/;
+const esc = (s) => String(s ?? "").replace(/[&<>]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" }[c]));
 
 export default {
   async fetch(req, env, ctx) {
@@ -126,7 +127,7 @@ async function route(req, env, ctx, url, okOrigin) {
     if (p === "/admin/stats" && M === "GET") return stats(url, env);
     if (p === "/admin/developers" && M === "GET")
       return json({ developers: (await env.DB.prepare("SELECT * FROM developers ORDER BY ts DESC LIMIT 500").all()).results });
-    if (p.startsWith("/admin/developers/") && M === "POST") return setDeveloper(p.split("/")[3], req, env);
+    if (p.startsWith("/admin/developers/") && M === "POST") return setDeveloper(p.split("/")[3], req, env, ctx);
     if (p === "/admin/reviews" && M === "GET")
       return json({ reviews: (await env.DB.prepare("SELECT id, app, rating, title, body, name, ts, hidden FROM reviews ORDER BY ts DESC LIMIT 500").all()).results });
     if (p.startsWith("/admin/reviews/") && M === "DELETE") {
@@ -279,10 +280,20 @@ async function postDeveloper(req, env, ctx) {
   return json({ ok: true, id: r.meta.last_row_id });
 }
 
-async function setDeveloper(id, req, env) {
+async function setDeveloper(id, req, env, ctx) {
   const b = await body(req);
   if (!["pending", "approved", "rejected"].includes(b.status)) fail("bad status");
-  await env.DB.prepare("UPDATE developers SET status=?, note=? WHERE id=?").bind(b.status, clip(b.note, 500), Number(id)).run();
+  const note = clip(b.note, 500);
+  await env.DB.prepare("UPDATE developers SET status=?, note=? WHERE id=?").bind(b.status, note, Number(id)).run();
+  if (b.status === "approved" || b.status === "rejected") {
+    const d = await env.DB.prepare("SELECT app_name, telegram_chat_id FROM developers WHERE id=?").bind(Number(id)).first();
+    if (d?.telegram_chat_id) {
+      const text = b.status === "approved"
+        ? `🎉 <b>${esc(d.app_name)} was approved!</b>\n\nWe're packaging it for the store now — it'll be live at ${env.SITE} shortly. Thanks for submitting!`
+        : `Your submission <b>${esc(d.app_name)}</b> wasn't approved this time.${note ? `\n\nNote: ${esc(note)}` : ""}\n\nQuestions? Reply here or email ${"info@omarchystore.com"}.`;
+      ctx.waitUntil(notifyUser(env, d.telegram_chat_id, text));
+    }
+  }
   return json({ ok: true });
 }
 

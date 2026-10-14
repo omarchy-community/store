@@ -2132,7 +2132,10 @@
             p_xrp: v("p_xrp"),
             agree: f.elements.agree.checked,
           }, (j) => {
-            f.outerHTML = `<div class="dev-done">${ico("ok")}<div><h3>Thanks — you're on the list!</h3><p>Application #${j.id} is waiting for approval. We'll email <b>${esc(v("email"))}</b>, usually within 1–2 days.</p></div></div>`;
+            f.outerHTML = `<div class="dev-done">${ico("ok")}<div><h3>Thanks — you're on the list!</h3>
+              <p>Application #${j.id} is waiting for approval. We'll email <b>${esc(v("email"))}</b>, usually within 1–2 days.</p>
+              <p style="margin-top:10px"><a class="btn" href="https://t.me/OmarchyStoreBot?start=dev_${j.id}" target="_blank" rel="noopener">Get notified on Telegram the moment it's approved</a></p>
+            </div></div>`;
           });
         }
   });

@@ -286,52 +286,52 @@ main { overflow-y: auto; overflow-x: hidden; outline: none; scroll-behavior: smo
 .ad-net { margin-top: 34px; min-height: 120px; }
 
 /* Artist ad — modelled on a Spotify artist header */
-.artist-ad { margin-top: 34px; border-radius: 14px; overflow: hidden; background: #121212; color: #fff; box-shadow: var(--shadow); }
-/* Full width, height follows the artwork (capped); the artwork carries its own name and logo. */
-.aa-hero { position: relative; display: block; width: 100%; height: auto; min-height: 220px; max-height: 550px; aspect-ratio: 16/9; overflow: hidden; background: #0b0b0b; }
+.artist-ad { margin-top: 28px; border-radius: 14px; overflow: hidden; background: #121212; color: #fff; box-shadow: var(--shadow); }
+/* Slim full-width strip: art is 1920x560 (~3.4:1), height capped so the sponsor never dominates the page. */
+.aa-hero { position: relative; display: block; width: 100%; height: auto; min-height: 120px; max-height: 300px; aspect-ratio: 1920/560; overflow: hidden; background: #0b0b0b; }
 .aa-hero img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; transition: transform .6s; }
 .aa-hero .aa-name { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 .aa-hero:hover img { transform: scale(1.03); }
-.aa-hero::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,0) 35%, rgba(0,0,0,.55) 100%); }
-.aa-hero .ad-chip { position: absolute; top: 14px; left: 16px; z-index: 1; background: rgba(0,0,0,.55); }
+.aa-hero::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,0) 55%, rgba(0,0,0,.35) 100%); }
+.aa-hero .ad-chip { position: absolute; top: 10px; left: 12px; z-index: 1; background: rgba(0,0,0,.55); }
 .aa-name {
   position: absolute; left: 18px; bottom: 14px; z-index: 1; margin: 0;
   font: 900 clamp(44px, 9vw, 96px)/.92 "Spotify Mix", "Circular", "Inter", "Helvetica Neue", Arial, sans-serif;
   letter-spacing: -.045em; text-shadow: 0 2px 18px rgba(0,0,0,.35);
 }
-.aa-bar { display: flex; align-items: center; gap: 22px; padding: 18px 18px 20px; background: linear-gradient(180deg, #2a2a2a, #181818); }
-.aa-play { width: 56px; height: 56px; border-radius: 50%; background: #1ed760; display: grid; place-items: center; flex: none; transition: transform .12s, background .12s; }
+.aa-bar { display: flex; align-items: center; gap: 16px; padding: 8px 14px; background: linear-gradient(180deg, #2a2a2a, #181818); }
+.aa-play { width: 36px; height: 36px; border-radius: 50%; background: #1ed760; display: grid; place-items: center; flex: none; transition: transform .12s, background .12s; }
 .aa-play:hover { transform: scale(1.05); background: #3be477; }
-.aa-play svg { width: 24px; height: 24px; fill: #000; stroke: none; margin-left: 2px; }
+.aa-play svg { width: 17px; height: 17px; fill: #000; stroke: none; margin-left: 2px; }
 .aa-icon { color: #b3b3b3; display: grid; place-items: center; }
 .aa-icon:hover { color: #fff; }
-.aa-icon svg { width: 30px; height: 30px; stroke-width: 1.8; }
-.aa-follow { border: 1px solid #878787; border-radius: 999px; padding: 6px 16px; font-weight: 700; font-size: 14px; }
+.aa-icon svg { width: 20px; height: 20px; stroke-width: 1.8; }
+.aa-follow { border: 1px solid #878787; border-radius: 999px; padding: 3px 12px; font-weight: 700; font-size: 12.5px; }
 .aa-follow:hover { border-color: #fff; transform: scale(1.03); }
-.aa-more { color: #b3b3b3; font-size: 18px; letter-spacing: 1px; }
+.aa-more { color: #b3b3b3; font-size: 15px; letter-spacing: 1px; }
 .aa-more:hover { color: #fff; }
-.aa-cta { margin-left: auto; font-weight: 700; font-size: 14px; color: #1ed760; white-space: nowrap; }
+.aa-cta { margin-left: auto; font-weight: 700; font-size: 13px; color: #1ed760; white-space: nowrap; }
 .aa-cta:hover { text-decoration: underline; }
 
 /* Responsive fix for Billy Legal ad on half-page/small screens */
 @media (max-width: 720px) {
-  .artist-ad { margin-top: 24px; border-radius: 12px; }
-  .aa-hero { max-height: 400px; min-height: 220px; }
-  .aa-hero img { object-position: 50% 40%; }
+  .artist-ad { margin-top: 22px; border-radius: 12px; }
+  .aa-hero { max-height: 220px; min-height: 110px; }
+  .aa-hero img { object-position: right center; }
   .aa-name { font-size: clamp(32px, 10vw, 64px); bottom: 10px; left: 12px; }
-  .aa-bar { gap: 14px; padding: 14px 14px 16px; }
-  .aa-play { width: 48px; height: 48px; }
-  .aa-follow { padding: 5px 12px; font-size: 13px; }
-  .aa-cta { font-size: 13px; }
+  .aa-bar { gap: 12px; padding: 7px 12px; }
+  .aa-play { width: 34px; height: 34px; }
+  .aa-follow { padding: 3px 10px; font-size: 12px; }
+  .aa-cta { font-size: 12px; }
 }
 
 @media (max-width: 480px) {
   .artist-ad { margin-top: 16px; border-radius: 10px; }
-  .aa-hero { max-height: 320px; min-height: 180px; }
+  .aa-hero { max-height: 180px; min-height: 110px; }
   .aa-name { font-size: clamp(28px, 12vw, 48px); bottom: 8px; left: 10px; }
-  .aa-bar { gap: 10px; padding: 10px 10px 12px; }
-  .aa-play { width: 40px; height: 40px; }
-  .aa-follow { padding: 4px 10px; font-size: 12px; }
+  .aa-bar { gap: 10px; padding: 6px 10px; }
+  .aa-play { width: 32px; height: 32px; }
+  .aa-follow { padding: 3px 9px; font-size: 11.5px; }
   .aa-cta { font-size: 12px; }
 }
 
@@ -531,7 +531,7 @@ kbd { display: inline-grid; place-items: center; min-width: 30px; height: 28px; 
   .ad-banner.house .ab-hint { text-align: left; }
   .aa-bar { gap: 16px; }
   .aa-cta { display: none; }
-  .aa-hero { height: clamp(150px, 42vw, 300px); }
+  .aa-hero { height: clamp(110px, 30vw, 200px); }
   .hero-card h3 { font-size: 24px; }
 }
 

@@ -32,6 +32,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          # Full history: build.py reads each app's first appearance from git to date the
+          # New Apps shelf. A shallow clone shows every app as added in one commit, which
+          # trips the bulk-import guard and leaves New Apps permanently empty.
+          fetch-depth: 0
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"

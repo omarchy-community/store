@@ -422,6 +422,15 @@ def added_dates():
     otherwise the shelf would show the entire catalogue as new.
     """
     try:
+        shallow = subprocess.run(["git", "rev-parse", "--is-shallow-repository"],
+                                 cwd=ROOT, capture_output=True, text=True, timeout=30).stdout.strip()
+        if shallow == "true":
+            print("  warn: shallow clone - add-dates would mark every app as a bulk import, so "
+                  "New Apps is left empty (set fetch-depth: 0 on actions/checkout)", file=sys.stderr)
+            return {}, set()
+    except Exception:
+        pass
+    try:
         out = subprocess.run(
             ["git", "log", "--diff-filter=A", "--name-only", "--pretty=format:D|%ad", "--date=short",
              "--", os.path.join("registry", "apps")],

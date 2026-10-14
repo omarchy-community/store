@@ -153,10 +153,15 @@
     const order = { pending: 0, approved: 1, rejected: 2 };
     return `<div class="card">${[...S.devs].sort((a, b) => order[a.status] - order[b.status] || b.ts - a.ts).map((d) => {
       const pay = JSON.parse(d.payout || "{}");
+      const shots = (() => { try { return JSON.parse(d.screenshots || "[]"); } catch { return []; } })();
+      const safe = (u) => /^https:\/\//.test(u || "") ? esc(u) : "";
       return `<div class="dev"><div>
-          <div><span class="pill ${d.status}">${d.status}</span> &nbsp;<b>${esc(d.app_name)}</b> by ${esc(d.name)} · <a href="mailto:${esc(d.email)}">${esc(d.email)}</a></div>
+          <div style="display:flex;gap:12px;align-items:center">${safe(d.logo_url) ? `<img src="${safe(d.logo_url)}" alt="" width="48" height="48" style="border-radius:12px;background:var(--card2)" referrerpolicy="no-referrer">` : ""}
+          <div><span class="pill ${d.status}">${d.status}</span> &nbsp;<b>${esc(d.app_name)}</b> by ${esc(d.name)} · <a href="mailto:${esc(d.email)}">${esc(d.email)}</a>${d.telegram ? ` · <a href="https://t.me/${esc(d.telegram)}" target="_blank" rel="noopener">@${esc(d.telegram)}</a>` : ""}
+          ${d.tagline ? `<div class="small" style="color:var(--text)">${esc(d.tagline)}</div>` : ""}</div></div>
           <div class="small muted">#${d.id} · ${when(d.ts)}${d.website ? ` · <a href="${esc(d.website)}" target="_blank" rel="noopener">website</a>` : ""}${d.github ? ` · GitHub <a href="https://github.com/${esc(d.github)}" target="_blank" rel="noopener">${esc(d.github)}</a>` : ""}${d.app_url ? ` · <a href="${esc(d.app_url)}" target="_blank" rel="noopener">app link</a>` : ""}${d.telegram_chat_id ? ` · <span class="pill approved">Telegram linked</span>` : ` · <span class="pill">No Telegram link yet</span>`}</div>
           <p>${esc(d.app_desc)}</p>
+          ${shots.length ? `<div style="display:flex;gap:8px;overflow-x:auto;margin:6px 0 8px">${shots.map((s) => safe(s) ? `<a href="${safe(s)}" target="_blank" rel="noopener"><img src="${safe(s)}" alt="" style="height:110px;border-radius:8px;background:var(--card2)" referrerpolicy="no-referrer"></a>` : "").join("")}</div>` : `<div class="small" style="color:var(--warn)">No screenshots supplied</div>`}
           <div class="small">${d.wants_paid ? `💲 Wants to sell at <b>$${d.price_usd}</b> — developer gets 90%, you get 10%.` : "Free app"}</div>
           ${Object.keys(pay).length ? `<div class="small muted">Payout: ${Object.entries(pay).map(([k, v]) => `${k.toUpperCase()} <span class="addr">${esc(v)}</span>`).join(" · ")}</div>` : ""}
           ${d.note ? `<div class="small muted">Your note: ${esc(d.note)}</div>` : ""}

@@ -1553,6 +1553,7 @@
         <ul class="info-list">
           <li><b>Installs through a package manager:</b> Arch repos, the AUR, or an Omarchy installer. No <code>curl | bash</code>, AppImages or custom scripts.</li>
           <li><b>AUR packages</b> need an active maintainer, must not be flagged out of date, and need some votes.</li>
+          <li><b>Marketing assets are required:</b> a square logo (PNG or SVG, at least 256×256), a one-line tagline, a write-up of at least 200 characters, and 1–6 real screenshots of the app running. We build your store page from these.</li>
           <li><b>No malware</b>, cracked software, or apps mainly for piracy.</li>
           <li>Apps that stop being maintained (archived repo, orphaned package) are removed.</li>
           <li>Top Charts are ranked by GitHub stars only.</li>
@@ -2122,7 +2123,11 @@
             github: v("github"),
             repo_url: v("repo_url"),
             app_name: v("app_name"),
+            tagline: v("tagline"),
             app_desc: v("app_desc"),
+            logo_url: v("logo_url"),
+            screenshots: v("screenshots").split(/\s+/).filter(Boolean),
+            telegram: v("telegram"),
             app_url: v("app_url"),
             wants_paid: paid,
             price_usd: paid ? Number(v("price_usd")) : null,
@@ -2151,8 +2156,12 @@
         <label>GitHub username <span class="muted">(optional)</span><input name="github" maxlength="100"></label>
         <label class="wide">GitHub repo URL<input name="repo_url" type="url" placeholder="https://github.com/owner/repo" required maxlength="200"></label>
         <label class="wide">App name<input name="app_name" required maxlength="80"></label>
-        <label class="wide">What does it do?<textarea name="app_desc" required minlength="20" maxlength="3000" rows="4"></textarea></label>
+        <label class="wide">Tagline <span class="muted">(one line shown under the name, 10–90 characters)</span><input name="tagline" required minlength="10" maxlength="90" placeholder="A Mac-style dock for Hyprland with a real minimize button"></label>
+        <label class="wide">Write-up <span class="muted">(at least 200 characters: what it does, who it's for, key features — this becomes your store page)</span><textarea name="app_desc" required minlength="200" maxlength="3000" rows="7"></textarea></label>
+        <label class="wide">Logo link <span class="muted">(PNG or SVG, square, at least 256×256 — e.g. a file in your GitHub repo)</span><input name="logo_url" type="url" required placeholder="https://raw.githubusercontent.com/you/app/main/icon.png" maxlength="400"></label>
+        <label class="wide">Screenshot links <span class="muted">(1–6, one per line, 16:10 or 16:9 looks best)</span><textarea name="screenshots" required rows="3" placeholder="https://…/screenshot-1.png&#10;https://…/screenshot-2.png"></textarea></label>
         <label class="wide">Link to the app or its source <span class="muted">(optional)</span><input name="app_url" type="url" placeholder="https://" maxlength="300"></label>
+        <label>Telegram username <span class="muted">(optional, so we can reach you)</span><input name="telegram" maxlength="40" placeholder="@yourname"></label>
       </div>
       <label class="check"><input type="checkbox" name="wants_paid" data-toggle-paid> I want to <b>sell</b> this app</label>
       <div class="paid-box" hidden>

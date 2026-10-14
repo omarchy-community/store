@@ -33,5 +33,110 @@
   "developer": "5ive7 Development Labs",
   "price_usd": 1.97,
   "description": "Legal Dock is a classic or Mac-style dock for Hyprland and Omarchy with two styles you can switch between with one click: Classic (the nwg-dock-hyprland dock) or Mac (a magnifying, macOS-style dock built with Quickshell, with running apps, a right-click menu, and middle-click to pin).\n\nIt adds a menu with Small/Medium/Large icon sizes, a lock for icon order, auto-hide, full-width and transparent modes, an app drawer button, and a confirm-before-reboot button.\n\nMac touches include a Rubik's Cube launcher that scrambles as you open windows, a New Incognito Window option on right-click for most browsers, launch-bounce animation, and Mac-style window animations (spring-open, shrink-and-fade close, minimize-to-dock).\n\nHyprland has no native minimize; Legal Dock adds a real one that parks windows on a hidden workspace and restores them from the dock.\n\nDeveloped by 5ive7 Development Labs. MIT licensed.",
-  "notes": "Packaged and mirrored by the Omarchy Store after review (license, package contents, no install hooks or outbound network calls). Source: https://github.com/5ive7/legal-dock"
+  "notes": "Packaged and mirrored by the Omarchy Store after review (license, package contents, no install hooks or outbound network calls). Source: https://github.com/5ive7/legal-dock",
+  "featured": {
+    "badge": "New Developer",
+    "eyebrow": "5IVE7 DEVELOPMENT LABS · $1.97",
+    "headline": "A real dock for Hyprland.",
+    "tagline": "Switch between a classic dock and a magnifying Mac-style dock in one click. Legal Dock adds the minimize button Hyprland never had, plus size, lock, auto-hide and transparency controls.",
+    "price": "$1.97",
+    "launch_offer": "$1.97 · MIT licensed",
+    "gradient": [
+      "#7aa2f7",
+      "#9d7cf7",
+      "#120f2e"
+    ],
+    "art": "featured/legal-dock/hero.webp",
+    "billboard": "featured/legal-dock/billboard.webp",
+    "og": "featured/legal-dock/og.png",
+    "order": 1.6,
+    "price_note": "$1.97 · open source (MIT)",
+    "chips": [
+      "Classic or Mac style",
+      "Real minimize",
+      "Magnifying icons",
+      "Auto-hide",
+      "Transparent mode",
+      "Reboot confirm"
+    ],
+    "features": [
+      {
+        "icon": "dock",
+        "hero": true,
+        "title": "Two docks, one click",
+        "body": "Classic (nwg-dock-hyprland) or a magnifying macOS-style dock built with Quickshell, with running apps, a right-click menu and middle-click to pin. Switch any time from the dock menu."
+      },
+      {
+        "icon": "minimize",
+        "title": "Minimize, finally",
+        "body": "Hyprland has no minimize. Legal Dock adds one: windows park on a hidden workspace and come back with a click on their dock icon. Bind it to a key or a title-bar button."
+      },
+      {
+        "icon": "resize",
+        "title": "Small, Medium or Large",
+        "body": "Pick your icon size from the dock menu, lock the icon order so nothing moves, and go full width if you like."
+      },
+      {
+        "icon": "window",
+        "title": "Hide or go see-through",
+        "body": "Auto-hide the dock until you need it, or make it transparent so your wallpaper shows through."
+      },
+      {
+        "icon": "power",
+        "title": "No accidental reboots",
+        "body": "Restart and Shut down live in the dock menu and always ask “Do you really want to…?” first."
+      },
+      {
+        "icon": "palette",
+        "title": "Mac touches",
+        "body": "Launch bounce, New Incognito Window on browser icons, a Rubik's Cube launcher that scrambles as you open windows, and optional Mac-style window animations."
+      }
+    ],
+    "steps": [
+      {
+        "title": "Get it",
+        "body": "Press GET in the Omarchy Store app and type your password when asked."
+      },
+      {
+        "title": "Start it at login",
+        "body": "Add `legal-dock start` to your Hyprland autostart (Omarchy: ~/.config/hypr/autostart.lua)."
+      },
+      {
+        "title": "Pick your style",
+        "body": "Open Legal Dock from the launcher (Super + Space) or run `legal-dock menu`, then choose Classic or Mac."
+      }
+    ],
+    "faq": [
+      {
+        "q": "Does it replace my Waybar?",
+        "a": "No. Legal Dock is a dock for your apps; your Omarchy top bar stays as it is."
+      },
+      {
+        "q": "Where are my pinned apps stored?",
+        "a": "In ~/.cache/nwg-dock-pinned, one app per line. Your colours are in ~/.config/nwg-dock-hyprland/style.css and are never overwritten."
+      },
+      {
+        "q": "Can it do the macOS genie effect?",
+        "a": "Hyprland can't do a true genie animation. Legal Dock ships Mac-style spring-open, shrink-and-fade close and slide-to-dock minimize animations instead."
+      },
+      {
+        "q": "Who makes it?",
+        "a": "5ive7 Development Labs, an independent developer. The Omarchy Store reviewed the package (licence, contents, no install scripts or network calls) before listing it. MIT licence, provided as is."
+      }
+    ]
+  },
+  "changelog": [
+    {
+      "version": "1.0.0",
+      "date": "2026-10-14",
+      "title": "First release",
+      "items": [
+        "Classic (nwg-dock) and Mac-style (Quickshell) docks with one-click switching",
+        "Real minimize for Hyprland",
+        "Small/Medium/Large, lock, auto-hide, full-width and transparent modes",
+        "Confirm-before-reboot and shut down",
+        "Mac touches: launch bounce, incognito on browser icons, Rubik's Cube launcher"
+      ]
+    }
+  ]
 }

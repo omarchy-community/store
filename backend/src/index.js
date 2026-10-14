@@ -259,10 +259,24 @@ async function postDeveloper(req, env, ctx) {
   const site = clip(b.website, 200), gh = clip(b.github, 100), appName = clip(b.app_name, 80), desc = clip(b.app_desc, 3000), appUrl = clip(b.app_url, 300);
   if (!appName || desc.length < 20) fail("Tell us your app's name and a short description (at least 20 characters)");
   for (const u of [site, appUrl]) if (u && !/^https:\/\//.test(u)) fail("Links must start with https://");
+  // Marketing assets: every listing needs a logo, a one-line tagline, a proper write-up and screenshots.
+  const tagline = clip(b.tagline, 90), logo = clip(b.logo_url, 400), tgUser = clip(b.telegram, 40).replace(/^@/, "");
+  const shots = (Array.isArray(b.screenshots) ? b.screenshots : String(b.screenshots || "").split(/\s+/))
+    .map((s) => clip(s, 400)).filter(Boolean).slice(0, 6);
+  const IMG = /^https:\/\/[^\s"'<>]+$/;
+  if (tagline.length < 10) fail("Add a one-line tagline (10–90 characters)");
+  if (desc.length < 200) fail("Your write-up needs at least 200 characters: what it does, who it's for, and its key features");
+  if (!IMG.test(logo)) fail("Add a link to your logo (https://…, PNG or SVG, at least 256×256)");
+  if (!shots.length) fail("Add at least one screenshot link (https://…)");
+  for (const s of shots) if (!IMG.test(s)) fail("Screenshot links must start with https://");
+  if (tgUser && !/^[A-Za-z0-9_]{5,32}$/.test(tgUser)) fail("That Telegram username doesn't look right");
   const wantsPaid = !!b.wants_paid;
   const price = wantsPaid ? Math.round(Number(b.price_usd) * 100) / 100 : null;
   if (wantsPaid && !(price >= 0.99 && price <= 999)) fail("Price must be between $0.99 and $999");
   const payout = {};
+  // The form sends p_evm/p_sol/p_btc/p_xrp; older clients send {payout:{base,sol,btc,xrp}}. Accept both.
+  const po = (b.payout && typeof b.payout === "object") ? b.payout : {};
+  b.payout = { btc: clip(po.btc || b.p_btc, 80), base: clip(po.base || b.p_evm, 60), sol: clip(po.sol || b.p_sol, 60), xrp: clip(po.xrp || b.p_xrp, 60) };
   if (b.payout && typeof b.payout === "object") {
     if (b.payout.btc) { if (!/^(bc1[ac-hj-np-z02-9]{11,71}|[13][a-km-zA-HJ-NP-Z1-9]{25,34})$/.test(b.payout.btc)) fail("That Bitcoin address doesn't look right"); payout.btc = b.payout.btc; }
     if (b.payout.base) { if (!/^0x[0-9a-fA-F]{40}$/.test(b.payout.base)) fail("That Base/Ethereum address doesn't look right"); payout.base = b.payout.base; }
@@ -273,10 +287,10 @@ async function postDeveloper(req, env, ctx) {
   await turnstile(b.turnstile, req, env);
   const v = await visitor(req, env);
   await rateLimit(env, "dev:" + v, 3, 86400);
-  const r = await env.DB.prepare(`INSERT INTO developers (ts, name, email, website, github, app_name, app_desc, app_url, wants_paid, price_usd, payout)
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`)
-    .bind(Date.now(), name, email, site, gh, appName, desc, appUrl, wantsPaid ? 1 : 0, price, JSON.stringify(payout)).run();
-  ctx.waitUntil(telegram(env, `🧑‍💻 New developer sign-up #${r.meta.last_row_id}\n${name} <${email}>\nApp: ${appName}${wantsPaid ? ` — wants to sell at $${price}` : " — free"}\n${desc.slice(0, 300)}\n\nApprove or reject: ${env.SITE}/admin/`));
+  const r = await env.DB.prepare(`INSERT INTO developers (ts, name, email, website, github, app_name, app_desc, app_url, wants_paid, price_usd, payout, tagline, logo_url, screenshots, telegram)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`)
+    .bind(Date.now(), name, email, site, gh, appName, desc, appUrl, wantsPaid ? 1 : 0, price, JSON.stringify(payout), tagline, logo, JSON.stringify(shots), tgUser || null).run();
+  ctx.waitUntil(telegram(env, `🧑‍💻 New developer sign-up #${r.meta.last_row_id}\n${name} <${email}>${tgUser ? ` · @${tgUser}` : ""}\nApp: ${appName}${wantsPaid ? ` — wants to sell at $${price}` : " — free"}\n${tagline}\n\n${desc.slice(0, 300)}\n\nLogo + ${shots.length} screenshot(s) attached.\nApprove or reject: ${env.SITE}/admin/`));
   return json({ ok: true, id: r.meta.last_row_id });
 }
 

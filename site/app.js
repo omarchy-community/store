@@ -67,6 +67,24 @@
   };
 
   const ICONS = {
+    window: '<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M6.5 6.5h.01M9 6.5h.01"/>',
+    minimize: '<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M8 16h8"/>',
+    resize: '<path d="M4 10V4h6M20 14v6h-6"/><path d="m4 4 6 6M20 20l-6-6"/>',
+    dock: '<rect x="2" y="15" width="20" height="6" rx="2"/><path d="M6 18h.01M10 18h.01M14 18h.01M18 18h.01"/><path d="M12 3v7m0 0-3-3m3 3 3-3"/>',
+    pin: '<path d="M9 3h6l-1 6 3 3v2h-5v7l-1 0v-7H6v-2l3-3z"/>',
+    power: '<path d="M12 3v9"/><path d="M7.5 6.5a8 8 0 1 0 9 0"/>',
+    update: '<path d="M3 12a9 9 0 0 1 15.3-6.4L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-15.3 6.4L3 16"/><path d="M3 21v-5h5"/>',
+    search: '<circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/>',
+    doctor: '<path d="M6 3v5a5 5 0 0 0 10 0V3"/><path d="M6 3H4.5M16 3h1.5"/><path d="M11 13v2a5 5 0 0 0 7 4.6"/><circle cx="19" cy="17" r="2.5"/>',
+    backup: '<ellipse cx="12" cy="6" rx="8" ry="3"/><path d="M4 6v6c0 1.7 3.6 3 8 3s8-1.3 8-3V6"/><path d="M4 12v6c0 1.7 3.6 3 8 3s8-1.3 8-3v-6"/>',
+    desktops: '<rect x="2" y="5" width="13" height="10" rx="2"/><path d="M18 8h3a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1h-8a1 1 0 0 1-1-1v-3"/>',
+    camera: '<path d="M3 8a2 2 0 0 1 2-2h2l1.5-2h7L17 6h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><circle cx="12" cy="12.5" r="3.5"/>',
+    cast: '<path d="M3 18a3 3 0 0 1 3 3M3 14a7 7 0 0 1 7 7M3 10a11 11 0 0 1 11 11"/><path d="M3 7V6a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-5"/>',
+    lock: '<rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/><path d="M12 14.5v2.5"/>',
+    language: '<path d="M3 5h11M8.5 3v2"/><path d="M12 5c0 4.5-3.5 8.5-8 10"/><path d="M6 10.5c1.6 2.6 4 4.4 7 5.5"/><path d="m13 21 4-10 4 10M14.6 17.8h4.8"/>',
+    assist: '<circle cx="12" cy="12" r="9"/><path d="M9.2 9.5a3 3 0 1 1 3.8 3.4c-.6.2-1 .8-1 1.4v.5"/><path d="M12 18h.01"/>',
+    drag: '<circle cx="9" cy="6" r="1.4"/><circle cx="15" cy="6" r="1.4"/><circle cx="9" cy="12" r="1.4"/><circle cx="15" cy="12" r="1.4"/><circle cx="9" cy="18" r="1.4"/><circle cx="15" cy="18" r="1.4"/>',
+    infinity: '<path d="M7 12a3.2 3.2 0 1 1 3.2 3.2c-2.2 0-2.4-6.4-4.6-6.4A3.2 3.2 0 0 0 7 12z" transform="translate(1.3)"/><path d="M17 12a3.2 3.2 0 1 0-3.2 3.2c2.2 0 2.4-6.4 4.6-6.4A3.2 3.2 0 0 1 17 12z" transform="translate(-1.3)"/>',
     trash: '<path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13M10 11v6M14 11v6"/>',
     puzzle: '<path d="M10 3h4v3a2 2 0 1 0 4 0V3h3v7h-3a2 2 0 1 0 0 4h3v7h-7v-3a2 2 0 1 0-4 0v3H3v-7h3a2 2 0 1 0 0-4H3V3h7z"/>',
     verified: '<path d="M12 2l2.4 1.8 3-.2.9 2.9 2.5 1.7-1 2.8 1 2.8-2.5 1.7-.9 2.9-3-.2L12 22l-2.4-1.8-3 .2-.9-2.9-2.5-1.7 1-2.8-1-2.8 2.5-1.7.9-2.9 3 .2z"/><path d="m8.5 12 2.5 2.5 4.5-5"/>',
@@ -1265,7 +1283,10 @@
         <div class="changelog">${entry(first, true)}${rest.length ? `<div class="cl-older">${rest.map((c) => entry(c, false)).join("")}</div>` : ""}</div>
       </section>`;
   }
-  const fico = (n) => `<svg viewBox="0 0 24 24">${FICON[n] || ""}</svg>`;
+  // Feature-card icons: prefer the richer FICON drawing, else fall back to the shared ICONS
+  // set. Without the fallback a name that exists in ICONS (star, search, shield…) renders as
+  // an EMPTY <svg> — a silent blank tile, which is how three of them shipped unnoticed.
+  const fico = (n) => `<svg viewBox="0 0 24 24">${FICON[n] || ICONS[n] || ""}</svg>`;
   function themesBanner(onPage = false) {
     const pick = featuredThemes(12, S.catalog.themes.filter((t) => t.mode !== "light"));
     if (pick.length < 12) return "";
@@ -2331,8 +2352,8 @@
         <img class="ignite-icon" src="${asset("featured/ignite/icon-256.png")}" alt="Ignite for Omarchy">
         <div><div class="eyebrow">FEATURED · FREE TOOL</div>
           <h1>Ignite <span>for Omarchy</span></h1>
-          <p>Turn any USB stick into an Omarchy installer in one click. Ignite always downloads the newest official Omarchy${iso ? `, right now <b>${esc(iso.version)}</b>,` : ""} and checks it's genuine before writing. Keeping Windows? Ignite makes room for Omarchy right next to it.</p>
-          <div class="ignite-chips"><span>✓ Always the newest Omarchy</span><span>✓ Checked genuine (SHA-256)</span><span>✓ Only shows USB sticks</span><span>✓ Install next to Windows</span></div></div>
+          <p>Turn any USB stick into an Omarchy installer in one click. Ignite always downloads the newest official Omarchy${iso ? `, right now <b>${esc(iso.version)}</b>,` : ""} and checks it's genuine before writing.</p>
+          <div class="ignite-chips"><span>✓ Always the newest Omarchy</span><span>✓ Checked genuine (SHA-256)</span><span>✓ Only shows USB sticks</span><span>✓ Verifies after writing</span></div></div>
       </section>`;
     if (!S.desktop) {
       return `<div class="page">${hero}
@@ -2497,7 +2518,7 @@
           <p class="small muted">This path isn't officially supported by Omarchy and can be finicky on some Mac models. If in doubt, use a VM or a spare PC instead.</p>
         </div>
       </div>
-      <p class="small muted">Ignite still makes the USB stick for you from a Mac (see the download card above) — it's only the "keep my current OS side-by-side" step that works differently on a Mac.</p>`;
+      <p class="small muted">Ignite itself is a Windows app — there's no Mac build yet. On a Mac, make the USB stick with balenaEtcher using the download card above.</p>`;
     return `<section class="usb-card ignite-win" id="windows">
       <div class="usb-row"><span class="usb-n win">${p === "mac" ? "⌘" : ico("grid")}</span><div class="grow"><h3>Keep ${p === "mac" ? "macOS" : "Windows"}: install Omarchy next to it</h3>
         <p class="muted small">${p === "mac" ? "On a Mac, dual-booting Omarchy works very differently than on a PC — see below." : "Omarchy 4 can install into empty space on your drive and leave Windows alone. You choose Windows or Omarchy each time you start the computer. You just need to make that empty space first, on the Windows computer."}</p></div></div>

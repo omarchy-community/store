@@ -538,6 +538,14 @@ def main():
     if errors:
         print("Registry errors:"); [print("  ✗", e) for e in errors]; sys.exit(1)
     print(f"✓ registry valid: {len(apps)} apps, {len(cats)} categories, {len(ads['campaigns'])} ad campaigns, {len(load_crypto()['wallets'])} crypto wallets")
+    # An icon name the site can't draw renders as an EMPTY <svg> — a silent blank tile.
+    # Fail the check rather than let that reach a listing page again.
+    import subprocess as _sp
+    _r = _sp.run([sys.executable, os.path.join(os.path.dirname(os.path.abspath(__file__)), "check_icons.py")],
+                 capture_output=True, text=True)
+    print((_r.stdout or _r.stderr).rstrip())
+    if _r.returncode:
+        sys.exit(1)
     if "--check" in sys.argv:
         return
     # Apps hidden from the admin portal ("hidden": true) stay in the registry but leave the store,

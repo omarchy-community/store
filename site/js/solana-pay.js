@@ -196,11 +196,15 @@
     ].join(""));
   }
 
-  function errorModal(msg) {
+  // `retryable` false means trying again cannot help (e.g. the app has no payout wallet),
+  // so we must not tell the buyer to try again.
+  function errorModal(msg, retryable) {
     modal("error", [
       "<h2>Payment not completed</h2>",
       "<p>" + esc(msg) + "</p>",
-      "<p class=\"pay-note\">Nothing was charged. You can safely try again.</p>",
+      retryable === false
+        ? "<p class=\"pay-note\">Nothing was charged.</p>"
+        : "<p class=\"pay-note\">Nothing was charged. You can safely try again.</p>",
       '<button class="cancel-btn" data-wm-close>Close</button>',
     ].join(""));
   }
@@ -221,12 +225,12 @@
     var price = Number(app.price_usd);
     var devWallet = app.developer_wallet;
 
-    if (!(price > 0)) return errorModal("This app doesn't have a price set yet.");
+    if (!(price > 0)) return errorModal("This app doesn't have a price set yet.", false);
     // Never charge without somewhere to send the developer's 90%.
     if (!devWallet) {
       return errorModal(
         "This app isn't ready to sell yet — the developer hasn't given us a payout wallet. " +
-        "Nothing was charged. Please check back shortly."
+        "Please check back shortly.", false
       );
     }
 
@@ -235,7 +239,7 @@
 
     var devPk;
     try { devPk = new W.PublicKey(devWallet); } catch (e) {
-      return errorModal("The developer's payout address is invalid, so we won't take a payment.");
+      return errorModal("The developer's payout address is invalid, so we won't take a payment.", false);
     }
 
     var wallets = availableWallets();

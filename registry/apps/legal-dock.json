@@ -11,7 +11,8 @@
     ],
     "version": "1.0.0",
     "url": "https://github.com/nemoclawai-tech/legal-dock-releases/releases/download/v1.0.0/legal-dock-1.0.0-1-any.pkg.tar.zst",
-    "sha256": "211f278dba742eeb8f68ac400d1ec8f33cd1292c964f98fdd15055de7f4ae5bc"
+    "sha256": "211f278dba742eeb8f68ac400d1ec8f33cd1292c964f98fdd15055de7f4ae5bc",
+    "size": 142464
   },
   "detect": [
     "legal-dock"
@@ -143,5 +144,11 @@
         "Mac touches: launch bounce, incognito on browser icons, Rubik's Cube launcher"
       ]
     }
+  ],
+  "age": "4+",
+  "screenshots": [
+    "featured/legal-dock/shot1.webp",
+    "featured/legal-dock/shot2.webp",
+    "featured/legal-dock/shot3.webp"
   ]
 }

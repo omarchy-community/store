@@ -449,7 +449,7 @@ def build(apps, cats, feat, ads):
             "screenshots": a.get("screenshots") or f.get("screenshots") or [],
             "homepage": a.get("homepage") or f.get("homepage") or g.get("homepage"),
             "license": g.get("license") if g.get("license") not in (None, "NOASSERTION") else f.get("license"),
-            "age": f.get("age"),
+            "age": a.get("age") or f.get("age"),
             "stars": g.get("stars"), "forks": g.get("forks"), "archived": g.get("archived"),
             "last_commit": g.get("pushed_at"), "release": g.get("release"), "released_at": g.get("released_at"),
             "package": {"name": main_pkg[k], **pk} if pk else {"name": main_pkg[k]},

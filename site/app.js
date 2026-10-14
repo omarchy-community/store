@@ -671,7 +671,7 @@
         <div style="min-width:0">
           <h1>${esc(t.name)}${t.archived ? `<span class="archived">Archived</span>` : ""}</h1>
           <div class="sub">${esc(t.description && t.description.length < 200 ? t.description : (t.mode === "light" ? "A light theme" : "A dark theme") + " for Omarchy")}</div>
-          <a class="dev" href="${safeUrl(gh || t.source_url)}" target="_blank" rel="noopener">${esc(t.author || "Unknown creator")}</a>
+          ${t.author ? `<a class="dev" href="/developer/${devSlug(t.author)}/" title="See everything by ${esc(t.author)}">${esc(t.author)}</a>` : `<span class="dev">Unknown creator</span>`}
           <div class="actions">
             ${themeBtn(t, true)}${themeRm(t)}
             ${gh ? `<a class="icon-btn" href="${esc(gh)}" target="_blank" rel="noopener" title="View on GitHub">${ico("github")}</a>` : ""}
@@ -1467,6 +1467,72 @@
         <div class="shelf-head"><h2>${esc(label(d))}</h2><span class="muted small">${list.filter((a) => a.added === d).length} added</span></div>
         <div class="grid">${list.filter((a) => a.added === d).map((a) => lockup(a)).join("")}</div>
       </section>`).join("")}
+      ${footer()}
+    </div>`;
+  }
+  // Developer pages: clicking a developer's name used to leave the store for GitHub. It now
+  // opens their page here, listing everything they have in the store, with the outbound links
+  // (GitHub, website) offered from there instead.
+  function devSlug(name) {
+    return String(name || "").toLowerCase().trim()
+      .replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "") || "unknown";
+  }
+  function devApps(slug) {
+    return S.catalog.apps.filter((a) => devSlug(a.developer) === slug)
+      .sort((x, y) => (y.stars || 0) - (x.stars || 0) || x.name.localeCompare(y.name));
+  }
+  // Theme makers are creators too. Many publish only on omarchythemes.com and never appear as
+  // an app developer, so a profile that only knew about apps would miss most of the people
+  // making things for Omarchy.
+  function devThemes(slug) {
+    return (S.catalog.themes || []).filter((t) => devSlug(t.author) === slug)
+      .sort((x, y) => (y.stars || 0) - (x.stars || 0) || x.name.localeCompare(y.name));
+  }
+  function devName(slug) {
+    const a = S.catalog.apps.find((x) => devSlug(x.developer) === slug);
+    if (a) return a.developer;
+    const t = (S.catalog.themes || []).find((x) => devSlug(x.author) === slug);
+    return t ? t.author : "";
+  }
+  function pageDeveloper(slug) {
+    slug = (slug || "").replace(/\/$/, "");
+    const list = devApps(slug), themes = devThemes(slug);
+    if (!list.length && !themes.length) return notFound();
+    const name = devName(slug);
+    // Their GitHub org/user, from app repos or from a theme's repo/source link.
+    const owners = [...new Set([
+      ...list.map((a) => (a.github || "").split("/")[0]),
+      ...themes.map((t) => (t.repo || "").split("/")[0]),
+      ...themes.map((t) => ((String(t.source_url || "").match(/github\.com\/([^/]+)/) || [])[1]) || ""),
+    ].filter(Boolean))];
+    const sites = [...new Set(list.map((a) => a.homepage).filter(Boolean))];
+    const stars = list.reduce((n, a) => n + (a.stars || 0), 0) + themes.reduce((n, t) => n + (t.stars || 0), 0);
+    const cats = [...new Set(list.map((a) => a.category).filter(Boolean))];
+    const catName = (id) => (S.catalog.categories.find((c) => c.id === id) || {}).name || id;
+    const made = [list.length ? (list.length === 1 ? "1 app" : list.length + " apps") : "",
+                  themes.length ? (themes.length === 1 ? "1 theme" : themes.length + " themes") : ""].filter(Boolean).join(" · ");
+    return `<div class="page">
+      ${backBtn()}
+      <div class="dev-head">
+        ${list.length ? iconImg(list[0], 96)
+          : `<div class="dev-avatar" aria-hidden="true">${esc((name || "?").trim().charAt(0).toUpperCase())}</div>`}
+        <div style="min-width:0">
+          <h1>${esc(name)}</h1>
+          <div class="sub">${made} in the store${cats.length ? ` · ${cats.slice(0, 3).map((c) => esc(catName(c))).join(", ")}` : ""}</div>
+          <div class="dev-links">
+            ${owners.map((o) => `<a class="btn ghost" href="https://github.com/${esc(o)}" target="_blank" rel="noopener">${ico("github")} github.com/${esc(o)}</a>`).join("")}
+            ${sites.slice(0, 1).map((u) => `<a class="btn ghost" href="${safeUrl(u)}" target="_blank" rel="noopener">${ico("globe")} Website</a>`).join("")}
+          </div>
+        </div>
+      </div>
+      ${list.length ? `<section class="shelf">
+        <div class="shelf-head"><h2>Apps by ${esc(name)}</h2>${stars ? `<span class="muted small">${stars.toLocaleString()} GitHub stars combined</span>` : ""}</div>
+        <div class="grid">${list.map((a) => lockup(a)).join("")}</div>
+      </section>` : ""}
+      ${themes.length ? `<section class="shelf">
+        <div class="shelf-head"><h2>Themes by ${esc(name)}</h2><a href="/themes/">All themes</a></div>
+        <div class="theme-grid">${themes.map((t) => themeCard(t)).join("")}</div>
+      </section>` : ""}
       ${footer()}
     </div>`;
   }
@@ -2688,7 +2754,7 @@
         <div style="min-width:0">
           <h1>${esc(a.name)}${appVersion(a) ? `<span class="ver-badge" title="The version you'll get">v${esc(appVersion(a))}</span>` : ""}${a.archived ? `<span class="archived">Archived</span>` : ""}</h1>
           <div class="sub">${esc(a.summary)}</div>
-          <a class="dev" href="${ghUrl || a.homepage ? safeUrl(ghUrl || a.homepage) : "#"}" target="_blank" rel="noopener">${esc(a.developer)}</a>
+          <a class="dev" href="/developer/${devSlug(a.developer)}/" title="See everything by ${esc(a.developer)}">${esc(a.developer)}</a>
           ${verifiedDev ? `<span class="pv ok" style="margin-left:8px" title="Downloads directly from ${esc(a.developer)}'s GitHub releases under ${esc(a.github || "")}, SHA-256 checked before install">${ico("verified")}Verified</span>` : ""}
           <div class="actions">
             ${getBtn(a, true)}${appRm(a)}
@@ -2944,6 +3010,7 @@
     else if (p === "charts") html = pageCharts();
     else if (p === "categories") html = pageCategories();
     else if (p === "new") html = pageNewApps();
+    else if (p === "developer") html = pageDeveloper(arg);
     else if (p === "themes") html = pageThemes();
     else if (p === "theme") html = pageTheme(arg), nav = "themes";
     else if (p === "plugins") html = pagePlugins();

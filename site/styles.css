@@ -1606,3 +1606,20 @@ html[data-look="glass"] .brand .wordmark img { filter: drop-shadow(0 1px 2px rgb
   font-size:.4em;font-weight:600;letter-spacing:.02em;vertical-align:middle;white-space:nowrap;
   color:var(--muted);background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12)}
 @media (max-width:560px){.detail-head h1 .ver-badge{font-size:.46em;margin-left:8px}}
+
+/* Developer page: who made it, and everything else they have in the store. */
+.dev-head{display:flex;gap:18px;align-items:center;margin:4px 0 22px}
+.dev-head img,.dev-head .ico-wrap{flex:0 0 auto;border-radius:20px}
+.dev-head h1{margin:0 0 4px;font-size:clamp(22px,3.4vw,32px);line-height:1.15}
+.dev-head .sub{color:var(--muted);margin-bottom:10px}
+.dev-links{display:flex;flex-wrap:wrap;gap:8px}
+.dev-links .btn{display:inline-flex;align-items:center;gap:7px;font-size:13px;padding:7px 12px}
+.dev-links .btn svg{width:15px;height:15px}
+a.dev{cursor:pointer}
+@media (max-width:560px){.dev-head{gap:13px}.dev-head img,.dev-head .ico-wrap{width:64px;height:64px}}
+
+/* Theme makers have no app icon, so their profile uses an initial instead. */
+.dev-avatar{width:96px;height:96px;border-radius:20px;display:grid;place-items:center;
+  font-size:40px;font-weight:700;color:var(--muted);background:var(--card);
+  border:1px solid rgba(255,255,255,.1)}
+@media (max-width:560px){.dev-avatar{width:64px;height:64px;font-size:28px;border-radius:16px}}

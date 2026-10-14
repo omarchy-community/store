@@ -577,7 +577,10 @@ kbd { display: inline-grid; place-items: center; min-width: 30px; height: 28px; 
 .upd-actions .btn { display: inline-flex; align-items: center; gap: 8px; }
 .upd-actions .ring, .empty .ring { width: 14px; height: 14px; border-radius: 50%; border: 2.5px solid currentColor; border-right-color: transparent; animation: spin .8s linear infinite; display: inline-block; }
 .empty .ring.big { width: 28px; height: 28px; margin-bottom: 12px; color: var(--accent); }
-.upd-sec { font-size: 20px; margin: 26px 0 10px; display: flex; align-items: center; gap: 10px; }
+.upd-sec { font-size: 20px; margin: 0; display: flex; align-items: center; gap: 10px; }
+.upd-sec-head { display: flex; align-items: center; justify-content: space-between; gap: 14px; margin: 26px 0 10px; flex-wrap: wrap; }
+.upd-sec-head .btn.small { padding: 7px 14px; font-size: 13px; }
+.upd-sec-head .get { padding: 8px 16px; border-radius: 999px; background: var(--accent); color: #fff; font-weight: 800; font-size: 12px; border: none; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
 .upd-sec span { font-size: 12px; font-weight: 800; padding: 2px 8px; border-radius: 999px; background: var(--pill); color: var(--pill-text); }
 .upd-list { background: var(--card); border-radius: 16px; overflow: hidden; }
 .upd-row { display: flex; align-items: center; gap: 16px; padding: 14px 18px; }

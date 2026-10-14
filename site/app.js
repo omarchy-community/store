@@ -1470,24 +1470,24 @@
         <p class="page-sub">${S.updLoading && !u ? "Checking for updates…" : u ? `Last checked ${esc(when)} · Omarchy Store ${esc(S.status?.version || "")}` : ""}</p></div>
         <div class="upd-actions">
           <button class="btn ghost" data-upd-refresh ${S.updLoading ? "disabled" : ""}>${S.updLoading ? '<span class="ring"></span> Checking' : "Check now"}</button>
-          ${u && storeOnly.length ? `<button class="btn ghost" data-upd-store-only ${storeOnlyBusy ? "disabled" : ""}>${storeOnlyBusy ? '<span class="ring"></span> Updating…' : "Only Update Store Apps"}</button>` : ""}
-          ${u && others ? `<button class="btn" data-upd-all ${running.has("__all__") ? "disabled" : ""}>${running.has("__all__") ? "Updating…" : "Update Omarchy OS"}</button>` : ""}
         </div>
       </div>
       ${storeBanner}
       ${!u ? `<div class="empty"><span class="ring big"></span><br>Checking your apps…</div>` :
         !apps.length && !others ? `<div class="upd-ok">${ico("installed")}<div><b>Everything is up to date</b><span>Your store apps and Omarchy are on the latest versions.</span></div></div>` : ""}
-      ${apps.length ? `<h2 class="upd-sec">Omarchy Store apps <span>${apps.length}</span></h2>
-        <p class="small muted" style="margin:-4px 0 10px">Apps listed in the Omarchy Store. Each updates on its own, with no password needed for plugins.</p>
+      ${apps.length ? `<div class="upd-sec-head"><h2 class="upd-sec">Omarchy Store apps <span>${apps.length}</span></h2>
+          <button class="btn ghost small" data-upd-store-only ${storeOnlyBusy ? "disabled" : ""}>${storeOnlyBusy ? '<span class="ring"></span> Updating…' : "Update All Store Apps"}</button></div>
+        <p class="small muted" style="margin:-4px 0 10px">Apps listed in the Omarchy Store. Each updates on its own, with no password needed for plugins.${storeOnly.length ? "" : " All of the apps below happen to come bundled with Omarchy's own packages right now, so they only update together with Omarchy OS."}</p>
         <div class="upd-list">${apps.map(({ a, installed, latest, via }) => `
           <div class="upd-row">
             <a href="${a.plugin ? "/plugins/" : `/app/${a.id}/`}">${a.plugin ? `<img class="upd-plug-ico" src="${esc(a.icon)}" alt="" width="56" height="56" loading="lazy">` : iconImg(a, 56)}</a>
             <div class="upd-meta"><a href="${a.plugin ? "/plugins/" : `/app/${a.id}/`}" class="name">${esc(a.name)}</a>
               <span class="ver">${esc(installed.split("-")[0])} → <b>${esc(latest.split("-")[0])}</b></span>
               ${via === "system" ? `<span class="note">Updates with Omarchy OS, below</span>` : via === "plugin" ? `<span class="note">Plugin · no password needed</span>` : ""}</div>
-            ${via === "system" ? "" : `<button class="get ${running.has(a.id) ? "busy" : ""}" ${a.plugin ? `data-upd-plug="${esc(a.id)}"` : `data-upd="${a.id}"`} ${running.has(a.id) ? "disabled" : ""}>${running.has(a.id) ? '<span class="ring"></span>' : "UPDATE"}</button>`}
+            ${via === "system" ? "" : `<button class="get ${running.has(a.id) ? "busy" : ""}" ${a.plugin ? `data-upd-plug="${esc(a.id)}"` : `data-upd="${esc(a.id)}"`} ${running.has(a.id) ? "disabled" : ""}>${running.has(a.id) ? '<span class="ring"></span>' : "UPDATE"}</button>`}
           </div>`).join("")}</div>` : ""}
-      ${others ? `<h2 class="upd-sec">Omarchy OS Updates <span>${others}</span></h2>
+      ${others ? `<div class="upd-sec-head"><h2 class="upd-sec">Omarchy OS Updates <span>${others}</span></h2>
+          <button class="get ${running.has("__all__") ? "busy" : ""}" data-upd-all ${running.has("__all__") ? "disabled" : ""}>${running.has("__all__") ? '<span class="ring"></span>' : "Update Omarchy OS"}</button></div>
         <p class="small muted" style="margin:-4px 0 10px">Pieces of Omarchy itself — the OS, kernel, desktop and built-in tools — plus any AUR apps you installed yourself. Arch doesn't allow updating one of these alone, so <b>Update Omarchy OS</b> updates all of them together and takes a safety snapshot first.</p>
         <div class="upd-list">${[...sysList.map((p) => ({ ...p, kind: "Omarchy / system package" })), ...aurList.map((p) => ({ ...p, kind: "AUR package" }))].map((p) => `
           <div class="upd-row">
@@ -1495,13 +1495,7 @@
             <div class="upd-meta"><span class="name">${esc(p.name)}</span>
               <span class="ver">${esc(p.installed)} → <b>${esc(p.latest)}</b></span>
               <span class="note">${esc(p.kind)}</span></div>
-          </div>`).join("")}</div>
-        <div class="upd-list" style="margin-top:10px"><div class="upd-row">
-          <span class="upd-sys-ico">${ico("refresh")}</span>
-          <div class="upd-meta"><span class="name">Update Omarchy OS</span>
-            <span class="note">Opens a terminal and updates all ${others} package${others === 1 ? "" : "s"} listed above.</span></div>
-          <button class="get ${running.has("__all__") ? "busy" : ""}" data-upd-all ${running.has("__all__") ? "disabled" : ""}>${running.has("__all__") ? '<span class="ring"></span>' : "Update Omarchy OS"}</button>
-        </div></div>` : ""}
+          </div>`).join("")}</div>` : ""}
       <p class="small muted" style="margin-top:28px">Updates open a terminal window so you can see what's happening and type your password. Omarchy Store checks for new apps and for a newer version of itself every hour.</p>
     </div>`;
   }
@@ -1522,7 +1516,7 @@
     // and leaves anything tied to the Omarchy OS update alone.
     const u = S.upd, apps = (u?.apps || []).map((x) => ({ ...x, a: x.via === "plugin" ? { id: x.id, name: x.name, icon: x.icon, plugin: 1 } : S.byId[x.id] })).filter((x) => x.a);
     const targets = apps.filter((x) => x.via !== "system");
-    if (!targets.length) return;
+    if (!targets.length) return toast("These apps update together with Omarchy OS — use Update Omarchy OS below");
     S.updOnlyBusy = true; rerender();
     toast(`Updating ${targets.length} store app${targets.length === 1 ? "" : "s"} — follow the terminal window(s)`);
     for (const t of targets) {

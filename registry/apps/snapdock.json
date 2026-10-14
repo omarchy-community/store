@@ -3,16 +3,15 @@
   "name": "SnapDock",
   "category": "utilities",
   "github": null,
-    "license": "MIT",
   "homepage": "https://github.com/nemoclawai-tech/snapdock-releases",
   "install": {
     "method": "release",
     "packages": [
       "snapdock"
     ],
-    "version": "2.0.6",
-    "url": "https://github.com/nemoclawai-tech/snapdock-releases/releases/download/v2.0.6/snapdock-2.0.6-1-any.pkg.tar.zst",
-    "sha256": "4d2244b2243f3980743daf2387c529d663ac32567c98f04ccc708d0799725b84"
+    "version": "2.0.7",
+    "url": "https://github.com/nemoclawai-tech/snapdock-releases/releases/download/v2.0.7/snapdock-2.0.7-1-any.pkg.tar.zst",
+    "sha256": "d61623a1a7e035ff4be5f96f282f6cf7439df7b57d10c55b500ae7a0952291ae"
   },
   "detect": [
     "snapdock"
@@ -348,7 +347,7 @@
       "note": "Already have an older SnapDock, or a dock setup of your own? SnapDock 2 puts back whatever the old version changed and never edits your own files."
     },
     "price_note": "Limited time",
-    "new_line": "New in 2.0.6: the dock's Omarchy Store button opens the new Omarchy Store app, with its own logo.",
+    "new_line": "New in 2.0.7: press Super + Shift + R to record your whole screen, and again to stop.",
     "order": 1
   },
   "tags": [
@@ -373,6 +372,15 @@
     "workspaces"
   ],
   "changelog": [
+    {
+      "version": "2.0.7",
+      "date": "2026-10-14",
+      "title": "Record your screen with one shortcut",
+      "items": [
+        "Press Super + Shift + R to start recording the whole screen; press it again to stop and save.",
+        "Point at the camera on the dock to see its screenshot shortcut (Super + Shift + S)."
+      ]
+    },
     {
       "version": "2.0.6",
       "date": "2026-10-12",
@@ -526,5 +534,6 @@
     }
   ],
   "stars": 4.3,
-  "reviews": 536
+  "reviews": 536,
+  "license": "MIT"
 }

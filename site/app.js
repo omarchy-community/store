@@ -1444,9 +1444,8 @@
     S.updLoading = false;
     // Count store apps AND pending system/Omarchy/AUR updates, so the nav badge lights up
     // even when only an OS-level (Omarchy) update is waiting and no store app needs one.
-    const appsN = (S.upd.apps || []).length;
-    const sysN = Math.max(0, (S.upd.system || 0) + (S.upd.aur || 0) - appsN);
-    const n = appsN + sysN, c = $("#upd-count");
+    // (system/aur counts are already de-duped against apps server-side.)
+    const n = (S.upd.apps || []).length + (S.upd.system || 0) + (S.upd.aur || 0), c = $("#upd-count");
     if (c) { c.textContent = n; c.hidden = !n; }
     if (currentPath() === "updates") rerender();
   }
@@ -1455,7 +1454,8 @@
     if (!S.upd) { loadUpdates(false); }
     const u = S.upd, apps = (u?.apps || []).map((x) => ({ ...x, a: x.via === "plugin" ? { id: x.id, name: x.name, icon: x.icon, plugin: 1 } : S.byId[x.id] })).filter((x) => x.a);
     const running = new Set(u?.running || []);
-    const others = Math.max(0, (u?.system || 0) + (u?.aur || 0) - apps.length);
+    const sysList = u?.sys_list || [], aurList = u?.aur_list || [];
+    const others = sysList.length + aurList.length;
     const when = u?.checked ? new Date(u.checked * 1000).toLocaleTimeString([], { hour: "numeric", minute: "2-digit" }) : "";
     const storeBanner = S.status?.restart_needed
       ? `<div class="upd-store"><div><b>A new version of Omarchy Store is ready</b><span>Version ${esc(S.status.store_update || "")} has been downloaded.</span></div><button class="btn" data-self-update>Restart store</button></div>` : "";
@@ -1482,12 +1482,18 @@
             <button class="get ${running.has(a.id) ? "busy" : ""}" ${a.plugin ? `data-upd-plug="${esc(a.id)}"` : `data-upd="${a.id}"`} ${running.has(a.id) ? "disabled" : ""}>${running.has(a.id) ? '<span class="ring"></span>' : "UPDATE"}</button>
           </div>`).join("")}</div>` : ""}
       ${others ? `<h2 class="upd-sec">System <span>${others}</span></h2>
-        <p class="small muted" style="margin:-4px 0 10px">Updates to Omarchy itself (the OS, kernel, desktop and built-in tools), plus any AUR apps outside the Store. Omarchy Store checks for these every time it refreshes updates.</p>
-        <div class="upd-list"><div class="upd-row">
-          <span class="upd-sys-ico">${ico("grid")}</span>
-          <div class="upd-meta"><span class="name">Omarchy system update</span>
-            <span class="ver">${others} package${others === 1 ? "" : "s"} ready</span>
-            <span class="note">Runs Omarchy's own updater (<code>omarchy-update</code>), which takes a safety snapshot first.</span></div>
+        <p class="small muted" style="margin:-4px 0 10px">Packages outside the Store's own apps: pieces of Omarchy itself (the OS, kernel, desktop and built-in tools) and any AUR apps you installed yourself. These all update together with <b>Update All</b>, which runs Omarchy's own updater (<code>omarchy-update</code>) and takes a safety snapshot first — Arch doesn't allow updating one system package on its own.</p>
+        <div class="upd-list">${[...sysList.map((p) => ({ ...p, kind: "Omarchy / system package" })), ...aurList.map((p) => ({ ...p, kind: "AUR package" }))].map((p) => `
+          <div class="upd-row">
+            <span class="upd-sys-ico">${ico("grid")}</span>
+            <div class="upd-meta"><span class="name">${esc(p.name)}</span>
+              <span class="ver">${esc(p.installed)} → <b>${esc(p.latest)}</b></span>
+              <span class="note">${esc(p.kind)} · updates with Update All</span></div>
+          </div>`).join("")}</div>
+        <div class="upd-list" style="margin-top:10px"><div class="upd-row">
+          <span class="upd-sys-ico">${ico("refresh")}</span>
+          <div class="upd-meta"><span class="name">Update everything above</span>
+            <span class="note">Opens a terminal and runs Omarchy's updater for all ${others} package${others === 1 ? "" : "s"} listed.</span></div>
           <button class="get ${running.has("__all__") ? "busy" : ""}" data-upd-all ${running.has("__all__") ? "disabled" : ""}>${running.has("__all__") ? '<span class="ring"></span>' : "UPDATE"}</button>
         </div></div>` : ""}
       <p class="small muted" style="margin-top:28px">Updates open a terminal window so you can see what's happening and type your password. Omarchy Store checks for new apps and for a newer version of itself every hour.</p>

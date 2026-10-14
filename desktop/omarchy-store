@@ -645,6 +645,7 @@ def check_updates(force=False):
         except Exception:
             pass
     apps = []
+    used_pkgs = set()
     for aid, a in cat.items():
         det = a.get("detect") or []
         pkg = det[0] if det else None
@@ -668,6 +669,7 @@ def check_updates(force=False):
         if new:
             apps.append({"id": aid, "installed": have[pkg], "latest": new,
                          "via": "system" if pkg in repo else ("release" if m == "release" else "aur")})
+            used_pkgs.add(pkg)
     # Plugins: the store's own (official) ones update by themselves, others get an UPDATE button.
     for pu in plugin_updates():
         with JOBS_LOCK:
@@ -679,7 +681,15 @@ def check_updates(force=False):
                 pass
         apps.append(pu)
     notify_updates([a for a in apps if not a.get("own")])
-    data = {"apps": apps, "system": len(repo), "aur": len(aur), "checked": time.time()}
+    # Every individual system (pacman repo) and AUR package that isn't already shown as a
+    # Store app above, named so the Updates page can list exactly what's being updated —
+    # not just a bare count — before the user hits Update.
+    sys_list = [{"name": n, "installed": (have.get(n) or "?").split("-")[0], "latest": v.split("-")[0]}
+                for n, v in sorted(repo.items()) if n not in used_pkgs]
+    aur_list = [{"name": n, "installed": (have.get(n) or "?").split("-")[0], "latest": v.split("-")[0]}
+                for n, v in sorted(aur.items()) if n not in used_pkgs]
+    data = {"apps": apps, "system": len(sys_list), "aur": len(aur_list),
+            "sys_list": sys_list, "aur_list": aur_list, "checked": time.time()}
     with UPD_LOCK:
         UPD.update(at=time.time(), data=data)
     return data

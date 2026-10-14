@@ -283,7 +283,7 @@ main { overflow-y: auto; overflow-x: hidden; outline: none; scroll-behavior: smo
 .artist-ad { margin-top: 34px; border-radius: 14px; overflow: hidden; background: #121212; color: #fff; box-shadow: var(--shadow); }
 /* Full width, height follows the artwork (capped); the artwork carries its own name and logo. */
 .aa-hero { position: relative; display: block; width: 100%; height: auto; min-height: 220px; max-height: 550px; aspect-ratio: 16/9; overflow: hidden; background: #0b0b0b; }
-.aa-hero img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; object-position: center; transition: transform .6s; }
+.aa-hero img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; transition: transform .6s; }
 .aa-hero .aa-name { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 .aa-hero:hover img { transform: scale(1.03); }
 .aa-hero::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,0) 35%, rgba(0,0,0,.55) 100%); }

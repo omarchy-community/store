@@ -588,12 +588,14 @@ kbd { display: inline-grid; place-items: center; min-width: 30px; height: 28px; 
 .upd-meta .ver { color: var(--text-2); font-size: 13px; font-variant-numeric: tabular-nums; }
 .upd-meta .ver b { color: var(--good, #30d158); }
 .upd-meta .note { color: var(--text-3); font-size: 12px; }
-.upd-ok, .upd-sys, .upd-store { display: flex; align-items: center; gap: 16px; padding: 20px 22px; border-radius: 16px; background: var(--card); margin-top: 18px; }
-.upd-ok svg, .upd-sys svg { width: 34px; height: 34px; flex: none; fill: none; stroke: var(--good, #30d158); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
-.upd-sys svg { stroke: var(--accent); }
-.upd-ok div, .upd-sys div, .upd-store div { display: flex; flex-direction: column; gap: 3px; flex: 1; }
-.upd-ok span, .upd-sys span, .upd-store span { color: var(--text-2); font-size: 14px; }
+.upd-ok, .upd-store { display: flex; align-items: center; gap: 16px; padding: 20px 22px; border-radius: 16px; background: var(--card); margin-top: 18px; }
+.upd-ok svg { width: 34px; height: 34px; flex: none; fill: none; stroke: var(--good, #30d158); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.upd-ok div, .upd-store div { display: flex; flex-direction: column; gap: 3px; flex: 1; }
+.upd-ok span, .upd-store span { color: var(--text-2); font-size: 14px; }
 .upd-store { background: linear-gradient(120deg, color-mix(in srgb, var(--accent) 22%, var(--card)), var(--card)); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--accent) 40%, transparent); }
+.upd-sys-ico { width: 56px; height: 56px; border-radius: 14px; flex: none; display: grid; place-items: center; background: color-mix(in srgb, var(--accent) 16%, var(--card)); }
+.upd-sys-ico svg { width: 28px; height: 28px; fill: none; stroke: var(--accent); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.upd-meta .note code { font-size: 11px; background: var(--card2, var(--card)); padding: 1px 5px; border-radius: 5px; }
 
 .promise { display: flex; align-items: center; gap: 18px; margin: 22px 0 6px; padding: 20px 24px; border-radius: 18px;
   background: linear-gradient(110deg, color-mix(in srgb, #ffb547 18%, var(--card)), var(--card) 70%);
@@ -706,6 +708,16 @@ kbd { display: inline-grid; place-items: center; min-width: 30px; height: 28px; 
 .ignite-os-switch { max-width: 260px; margin: 14px 0 4px; }
 .ignite-os-switch button { flex-direction: row; gap: 6px; padding: 8px 10px; font-size: 13px; }
 .ignite-os-switch svg, .ignite-os-switch span { pointer-events: none; }
+.usb-n svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.ignite-bundle .usb-n { background: linear-gradient(135deg, #ff7a45, #e5306b); color: #fff; font-size: 20px; font-weight: 900; }
+.bundle-list { display: grid; gap: 8px; margin-top: 14px; }
+.bundle-item { display: flex; align-items: flex-start; gap: 12px; padding: 10px 12px; border-radius: 12px; background: color-mix(in srgb, var(--bg) 60%, transparent); box-shadow: inset 0 0 0 1px var(--line); cursor: pointer; }
+.bundle-item input { margin-top: 3px; width: 16px; height: 16px; accent-color: var(--accent); flex: none; cursor: pointer; }
+.bundle-item b { display: block; font-size: 14px; }
+.bundle-item .small { display: block; margin-top: 1px; }
+.usb-cmd { display: flex; align-items: center; gap: 10px; margin-top: 14px; padding: 10px 14px; border-radius: 12px; background: var(--pill); }
+.usb-cmd code { flex: 1; min-width: 0; overflow-wrap: anywhere; }
+.usb-cmd .btn { flex: none; }
 .ignite-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 14px; }
 .ignite-cols > div { padding: 16px 18px; border-radius: 14px; background: color-mix(in srgb, var(--bg) 60%, transparent); box-shadow: inset 0 0 0 1px var(--line); }
 .ignite-cols h4 { margin: 0 0 6px; font-size: 15px; }

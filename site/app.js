@@ -1442,7 +1442,11 @@
       S.upd = await (await fetch("/api/updates" + (force ? "?refresh=1" : ""), { cache: "no-store" })).json();
     } catch { S.upd = S.upd || { apps: [], system: 0, aur: 0, running: [], error: true }; }
     S.updLoading = false;
-    const n = (S.upd.apps || []).length, c = $("#upd-count");
+    // Count store apps AND pending system/Omarchy/AUR updates, so the nav badge lights up
+    // even when only an OS-level (Omarchy) update is waiting and no store app needs one.
+    const appsN = (S.upd.apps || []).length;
+    const sysN = Math.max(0, (S.upd.system || 0) + (S.upd.aur || 0) - appsN);
+    const n = appsN + sysN, c = $("#upd-count");
     if (c) { c.textContent = n; c.hidden = !n; }
     if (currentPath() === "updates") rerender();
   }
@@ -1467,7 +1471,8 @@
       ${storeBanner}
       ${!u ? `<div class="empty"><span class="ring big"></span><br>Checking your apps…</div>` :
         !apps.length && !others ? `<div class="upd-ok">${ico("installed")}<div><b>Everything is up to date</b><span>Your store apps and Omarchy are on the latest versions.</span></div></div>` : ""}
-      ${apps.length ? `<h2 class="upd-sec">Store apps <span>${apps.length}</span></h2>
+      ${apps.length ? `<h2 class="upd-sec">Omarchy Store apps <span>${apps.length}</span></h2>
+        <p class="small muted" style="margin:-4px 0 10px">Apps listed in the Omarchy Store. Each updates on its own, with no password needed for plugins.</p>
         <div class="upd-list">${apps.map(({ a, installed, latest, via }) => `
           <div class="upd-row">
             <a href="${a.plugin ? "/plugins/" : `/app/${a.id}/`}">${a.plugin ? `<img class="upd-plug-ico" src="${esc(a.icon)}" alt="" width="56" height="56" loading="lazy">` : iconImg(a, 56)}</a>
@@ -1476,8 +1481,15 @@
               ${via === "system" ? `<span class="note">Updates with your system (Update All)</span>` : via === "plugin" ? `<span class="note">Plugin · no password needed</span>` : ""}</div>
             <button class="get ${running.has(a.id) ? "busy" : ""}" ${a.plugin ? `data-upd-plug="${esc(a.id)}"` : `data-upd="${a.id}"`} ${running.has(a.id) ? "disabled" : ""}>${running.has(a.id) ? '<span class="ring"></span>' : "UPDATE"}</button>
           </div>`).join("")}</div>` : ""}
-      ${others ? `<div class="upd-sys">${ico("grid")}<div><b>${others} system package${others === 1 ? "" : "s"} can be updated</b>
-        <span>Omarchy and its built-in parts. <b>Update All</b> runs Omarchy's own updater, which takes a safety snapshot first.</span></div></div>` : ""}
+      ${others ? `<h2 class="upd-sec">System <span>${others}</span></h2>
+        <p class="small muted" style="margin:-4px 0 10px">Updates to Omarchy itself (the OS, kernel, desktop and built-in tools), plus any AUR apps outside the Store. Omarchy Store checks for these every time it refreshes updates.</p>
+        <div class="upd-list"><div class="upd-row">
+          <span class="upd-sys-ico">${ico("grid")}</span>
+          <div class="upd-meta"><span class="name">Omarchy system update</span>
+            <span class="ver">${others} package${others === 1 ? "" : "s"} ready</span>
+            <span class="note">Runs Omarchy's own updater (<code>omarchy-update</code>), which takes a safety snapshot first.</span></div>
+          <button class="get ${running.has("__all__") ? "busy" : ""}" data-upd-all ${running.has("__all__") ? "disabled" : ""}>${running.has("__all__") ? '<span class="ring"></span>' : "UPDATE"}</button>
+        </div></div>` : ""}
       <p class="small muted" style="margin-top:28px">Updates open a terminal window so you can see what's happening and type your password. Omarchy Store checks for new apps and for a newer version of itself every hour.</p>
     </div>`;
   }
@@ -1740,9 +1752,54 @@
   function igniteOSToggle() {
     const p = igniteOS();
     return `<div class="look-switch ignite-os-switch" role="radiogroup" aria-label="Your computer">
-      <button data-ignite-os="win" class="${p === "win" ? "on" : ""}" role="radio" aria-checked="${p === "win"}">⊞<span>Windows</span></button>
+      <button data-ignite-os="win" class="${p === "win" ? "on" : ""}" role="radio" aria-checked="${p === "win"}">${ico("grid")}<span>Windows</span></button>
       <button data-ignite-os="mac" class="${p === "mac" ? "on" : ""}" role="radio" aria-checked="${p === "mac"}">⌘<span>Mac</span></button>
     </div>`;
+  }
+  // ---------- First-party app bundle (offered after Omarchy installs) ----------
+  const IGNITE_BUNDLE = [
+    { id: "touchfix", why: "Fixes trackpad/touch input quirks — handy on Mac hardware especially" },
+    { id: "snapdock", why: "Mac/Windows-style dock, Launchpad and Task Manager" },
+    { id: "omarchy-browser", why: "The browser built for Omarchy, with the store built in" },
+    { id: "lifeboat", why: "Back up your whole Omarchy setup to Google Drive" },
+    { id: "rabbit-ears", why: "Free live TV, hundreds of channels, no account" },
+    { id: "marquee-socials", why: "All your social accounts in one app" },
+  ];
+  function igniteBundleOn() {
+    if (S.igniteBundleOn == null) {
+      let saved = null; try { saved = localStorage.getItem("ignite-bundle-on"); } catch {}
+      S.igniteBundleOn = saved !== "off";
+    }
+    return S.igniteBundleOn;
+  }
+  function igniteBundleExcluded() {
+    if (!S.igniteBundleExcl) {
+      let saved = null; try { saved = JSON.parse(localStorage.getItem("ignite-bundle-excl") || "[]"); } catch { saved = []; }
+      S.igniteBundleExcl = new Set(Array.isArray(saved) ? saved : []);
+    }
+    return S.igniteBundleExcl;
+  }
+  function igniteBundleCmd() {
+    const excl = igniteBundleExcluded();
+    const ids = IGNITE_BUNDLE.filter((b) => !excl.has(b.id)).map((b) => b.id);
+    if (!ids.length) return "";
+    const parts = [`curl -fsSL ${SITE}install.sh | bash`];
+    ids.forEach((id) => { const a = S.byId?.[id]; parts.push(a ? cmdFor(a) : `curl -fsSL ${SITE}get.sh | bash -s ${id}`); });
+    return parts.join(" && ");
+  }
+  function igniteBundleSection() {
+    const on = igniteBundleOn(), excl = igniteBundleExcluded(), cmd = igniteBundleCmd();
+    return `<section class="usb-card ignite-bundle">
+      <div class="usb-row"><span class="usb-n">+</span><div class="grow"><h3>Also set up our free apps</h3>
+        <p class="muted small">Once Omarchy is running, one command installs the Omarchy Store plus the free first-party apps you pick below — TouchFix included, since Mac trackpads often need it.</p></div>
+        <button class="btn ${on ? "" : "ghost"}" data-bundle-toggle aria-pressed="${on}">${on ? "On" : "Off"}</button></div>
+      ${on ? `<div class="bundle-list">${IGNITE_BUNDLE.map((b) => { const a = S.byId?.[b.id]; const checked = !excl.has(b.id);
+        return `<label class="bundle-item"><input type="checkbox" data-bundle-app="${b.id}" ${checked ? "checked" : ""}>
+          <span class="grow"><b>${esc(a ? a.name : b.id)}</b><span class="muted small">${esc(b.why)}</span></span></label>`; }).join("")}</div>
+      ${cmd ? `<div class="usb-cmd"><code class="small">${esc(cmd)}</code><button class="btn ghost" data-copy="${esc(cmd)}">Copy</button></div>
+        <p class="small muted">Run this in a terminal (Super + Return) after Omarchy's first boot. Asks for your password; nothing is launched automatically.</p>`
+      : `<p class="small muted">Nothing picked — turn on an app above to get its install command.</p>`}` : ""}
+    </section>`;
   }
   function igniteWindows() {
     const w = S.catalog.ignite || {};
@@ -1781,7 +1838,7 @@
       </div>
       <p class="small muted">Ignite still makes the USB stick for you from a Mac (see the download card above) — it's only the "keep my current OS side-by-side" step that works differently on a Mac.</p>`;
     return `<section class="usb-card ignite-win" id="windows">
-      <div class="usb-row"><span class="usb-n win">${p === "mac" ? "⌘" : "⊞"}</span><div class="grow"><h3>Keep ${p === "mac" ? "macOS" : "Windows"}: install Omarchy next to it</h3>
+      <div class="usb-row"><span class="usb-n win">${p === "mac" ? "⌘" : ico("grid")}</span><div class="grow"><h3>Keep ${p === "mac" ? "macOS" : "Windows"}: install Omarchy next to it</h3>
         <p class="muted small">${p === "mac" ? "On a Mac, dual-booting Omarchy works very differently than on a PC — see below." : "Omarchy 4 can install into empty space on your drive and leave Windows alone. You choose Windows or Omarchy each time you start the computer. You just need to make that empty space first, on the Windows computer."}</p></div></div>
       ${igniteOSToggle()}
       ${p === "mac" ? macBody : winBody}
@@ -1795,7 +1852,8 @@
         <li>Turn off <b>Secure Boot</b> in the BIOS if it won't start.</li>
         <li>Answer five questions. Omarchy installs in a few minutes. <a href="https://omarchy.org/manual/getting-started/" target="_blank" rel="noopener">Full guide</a></li>
       </ol>
-      <p class="small muted">Ignite for Omarchy is a free community tool from the Omarchy Store, not an official Omarchy product. Omarchy is made by DHH and the Omarchy team; Ignite downloads it from the official server and does not change it. Writing a USB stick erases it — you're responsible for picking the right drive.</p></section>`;
+      <p class="small muted">Ignite for Omarchy is a free community tool from the Omarchy Store, not an official Omarchy product. Omarchy is made by DHH and the Omarchy team; Ignite downloads it from the official server and does not change it. Writing a USB stick erases it — you're responsible for picking the right drive.</p></section>`
+      + igniteBundleSection();
   }
 
   function pageSearch(q) {
@@ -2408,7 +2466,7 @@
   }
 
   document.addEventListener("click", (e) => {
-    const t = e.target.closest("[data-gal],[data-gal-to],[data-lb],[data-usb-confirm],[data-usb-dl],[data-usb-refresh],[data-usb-pick],[data-usb-write],[data-ignite-os],[data-upd],[data-upd-plug],[data-upd-all],[data-upd-refresh],[data-restart],[data-get],[data-soon],[data-accept],[data-open],[data-copy],[data-close],[data-share],[data-chart],[data-zoom],[data-theme-get],[data-theme-use],[data-tfilter],[data-plug-get],[data-pfilter],[data-plug-more],[data-plug-search],[data-sfilter],[data-saver-more],[data-cchain],[data-crypto-get],[data-self-update],[data-self-later],[data-rm],[data-rm-yes],[data-share-theme],#more,.sheet");
+    const t = e.target.closest("[data-gal],[data-gal-to],[data-lb],[data-usb-confirm],[data-usb-dl],[data-usb-refresh],[data-usb-pick],[data-usb-write],[data-ignite-os],[data-bundle-toggle],[data-bundle-app],[data-upd],[data-upd-plug],[data-upd-all],[data-upd-refresh],[data-restart],[data-get],[data-soon],[data-accept],[data-open],[data-copy],[data-close],[data-share],[data-chart],[data-zoom],[data-theme-get],[data-theme-use],[data-tfilter],[data-plug-get],[data-pfilter],[data-plug-more],[data-plug-search],[data-sfilter],[data-saver-more],[data-cchain],[data-crypto-get],[data-self-update],[data-self-later],[data-rm],[data-rm-yes],[data-share-theme],#more,.sheet");
     if (!t) return;
     if (t.matches("[data-usb-dl]")) {
       post("/api/usb/download", {}).then(async (r) => { if (!r.ok) toast((await r.json().catch(() => ({}))).error || "Download failed"); loadUsb(); });
@@ -2418,6 +2476,13 @@
       S.usbPick = t.dataset.usbPick; rerender();
     } else if (t.matches("[data-ignite-os]")) {
       S.ignitePlatform = t.dataset.igniteOs; try { localStorage.setItem("ignite-os", S.ignitePlatform); } catch {} rerender();
+    } else if (t.matches("[data-bundle-toggle]")) {
+      S.igniteBundleOn = !igniteBundleOn(); try { localStorage.setItem("ignite-bundle-on", S.igniteBundleOn ? "on" : "off"); } catch {} rerender();
+    } else if (t.matches("[data-bundle-app]")) {
+      const excl = igniteBundleExcluded(), id = t.dataset.bundleApp;
+      if (excl.has(id)) excl.delete(id); else excl.add(id);
+      try { localStorage.setItem("ignite-bundle-excl", JSON.stringify([...excl])); } catch {}
+      rerender();
     } else if (t.matches("[data-usb-write]")) {
       const d = (S.usb?.drives || []).find((x) => x.path === S.usbPick);
       if (!d) return;

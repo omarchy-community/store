@@ -11,10 +11,13 @@ database_id = "7d424b51-d172-41f2-abc0-8497b99d2b65"
 [vars]
 SITE = "https://omarchystore.com"
 # Public payout addresses (cold storage). PUBLIC addresses only — never keys or seed phrases.
-WALLET_BTC = "bc1qpslg4dsu58eshpkmjwlchet7l0ma6qkx87jez7"
-WALLET_EVM = "0x4075e5738E8bb1e6f7b05B3BB83E74F1838F643c"   # Ethereum + Base (USDC and ETH)
-WALLET_SOL = "4Mpud9mbrjKEFWN8HP1VoVaxf5yRmgZVRG6rJVWbUAuk"  # Solana (SOL and USDC)
-WALLET_XRP = "rPDuYdmQcw2GWJBBui2vbTA9B6YiAP8rQ6"            # XRP Ledger
+# Donation addresses, removed Oct 2026 at the owner's request: these were his COLD STORAGE
+# addresses, and publishing one exposes its full balance and transaction history to anyone
+# who looks it up. Replacements must be fresh receive-only addresses, never cold storage.
+WALLET_BTC = ""
+WALLET_EVM = ""   # Ethereum + Base (USDC and ETH)
+WALLET_SOL = ""   # Solana (SOL and USDC)
+WALLET_XRP = ""   # XRP Ledger
 STORE_CHANNEL = "@omarchystore"                                  # Telegram channel for the daily drop
 TURNSTILE_SITEKEY = "0x4AAAAAAFTiarDYb1tekwRe"
 GITHUB_REPO = "omarchy-community/store"                           # admin catalog editor commits here

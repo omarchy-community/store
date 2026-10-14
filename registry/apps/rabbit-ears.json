@@ -1,276 +1,287 @@
 {
- "id": "rabbit-ears",
- "name": "Rabbit Ears",
- "category": "media",
- "github": "nemoclawai-tech/rabbit-ears",
- "homepage": "https://github.com/nemoclawai-tech/rabbit-ears",
- "install": {
-  "method": "release",
-  "packages": [
-   "rabbit-ears"
-  ],
-  "version": "1.4.1",
-  "url": "https://github.com/nemoclawai-tech/rabbit-ears/releases/download/v1.4.1/rabbit-ears-1.4.1-1-any.pkg.tar.zst",
-  "sha256": "e9fe12254d86fe46b521327367d07ed39a41990a3d850c108e1b5e1967f0e8eb"
- },
- "detect": [
-  "rabbit-ears"
- ],
- "kind": "gui",
- "developer": "Omarchy Development Labs",
- "license": "MIT",
- "icon": "featured/rabbit-ears/icon.png",
- "screenshots": [
-  "featured/rabbit-ears/shot1.webp",
-  "featured/rabbit-ears/shot2.webp",
-  "featured/rabbit-ears/shot3.webp",
-  "featured/rabbit-ears/shot4.webp"
- ],
- "summary": "Free live TV for Omarchy: hundreds of public channels, a live programme guide and favourites, no account needed",
- "tags": [
-  "tv",
-  "live tv",
-  "television",
-  "news",
-  "sport",
-  "streaming",
-  "iptv",
-  "channels",
-  "video",
-  "free"
- ],
- "age": "Everyone",
- "description": "New in 1.4.0: Cast, Pop-out, and Quality buttons right in the player. Pick higher quality (720p, 1080p) when available.\n\nRabbit Ears turns your Omarchy computer into a TV. Open it and you're watching: news, sport, music, kids, movies and local channels from the USA, UK, Canada, Australia and 70+ more countries. No account, no subscription, nothing to sign up for.\n\nWATCH\n\u2022 Hundreds of free channels, checked every hour so dead ones disappear by themselves.\n\u2022 Click a channel and it plays. Up and down arrows change channel, like a remote.\n\u2022 Full screen with a double-click or F. Mute with M.\n\nWHAT'S ON\n\u2022 Press G for the guide: what's playing now and what's next, channel by channel. Click a programme to jump straight to it.\n\u2022 The now-playing bar shows the current programme and its times.\n\nMAKE IT YOURS\n\u2022 Hold a channel (or press \u2605) to add it to your favourites. They get their own tab.\n\u2022 Search by name, or browse by country or by type: News, Sports, Kids, Music, Movies.\n\u2022 The colours follow your Omarchy theme.\n\nWHERE THE CHANNELS COME FROM\nThe list comes from the Free-TV/IPTV project, which only includes channels that the broadcaster itself gives away for free (free-to-air and ad-supported stations). Rabbit Ears hosts, records and re-streams nothing: it plays each broadcaster's own public address, exactly as a web browser would. Some channels only play in their home country; those are marked.",
- "changelog": [
-  {
-   "version": "1.4.1",
-   "date": "2026-10-12",
-   "title": "New logo",
-   "items": [
-    "New logo: the approved retro TV design, on the app, launcher and dock."
-   ]
-  },
-  {
-   "version": "1.4.0",
-   "date": "2026-10-12",
-   "title": "Player buttons & quality picker",
-   "items": [
-    "Cast, Pop-out, and Quality buttons now right in the player - no keyboard shortcuts needed.",
-    "Quality picker: click HD to see all sources for a channel and pick higher resolution (720p, 1080p) when available.",
-    "Press Q to open the quality picker."
-   ]
-  },
-  {
-   "version": "1.3.0",
-   "date": "2026-10-11",
-   "title": "Cast to your TV",
-   "items": [
-    "Press C (or tap \ud83d\udce1) to find Chromecast, Roku, and DLNA smart TVs on your network. Click a device and the channel plays on your TV.",
-    "Pop-out mini player: Press P and the picture floats in a corner above everything. Drag it anywhere, scroll to resize, double-click to bring the app back."
-   ]
-  },
-  {
-   "version": "1.2.0",
-   "date": "2026-10-11",
-   "title": "Pop-out mini player",
-   "items": [
-    "Press P (or the \u29c9 button): the picture pops out into a small window that stays on top of everything. Drag it anywhere, scroll to make it bigger or smaller, double-click to bring the full app back."
-   ]
-  },
-  {
-   "version": "1.1.0",
-   "date": "2026-10-11",
-   "title": "Never a dead channel",
-   "items": [
-    "Up to 5 feeds per channel (the broadcaster's own, Pluto TV, Samsung TV Plus, Plex, Roku\u2026). If one freezes or buffers, Rabbit Ears switches to the next by itself.",
-    "Source pill in the player shows which feed is playing; click it or press S to switch.",
-    "New Movies and Series tabs: free film and TV-show channels from licensed free platforms.",
-    "Update available button in the app: one click installs the newest version.",
-    "New icon."
-   ]
-  },
-  {
-   "version": "1.0.0",
-   "date": "2026-10-11",
-   "title": "First release",
-   "items": [
-    "Hundreds of free public channels from 70+ countries, refreshed hourly.",
-    "What's on guide with now and next, click to watch.",
-    "Favourites, search, country and genre tabs.",
-    "Full screen, mute, remote-style channel up/down.",
-    "Colours follow your Omarchy theme."
-   ]
-  }
- ],
- "featured": {
-  "badge": "New app",
-  "eyebrow": "FREE LIVE TV",
-  "headline": "Hundreds of TV channels. Free. No account.",
-  "tagline": "News, sport, music, kids and movies from 70+ countries, with a live guide of what's on. Click a channel and you're watching. Open source, nothing to sign up for.",
-  "price": "Free",
-  "price_note": "Open source",
-  "gradient": [
-   "#140c1e",
-   "#e23c6b",
-   "#ff8a3d"
-  ],
-  "art": "featured/rabbit-ears/billboard.webp",
-  "billboard": "featured/rabbit-ears/billboard.webp",
-  "chips": [
-   "Hundreds of channels",
-   "Backup feeds",
-   "What's on guide",
-   "Movies & Series",
-   "No account"
-  ],
-  "order": 3,
-  "features": [
-   {
-    "icon": "window",
-    "hero": true,
-    "title": "Just press play",
-    "body": "Open Rabbit Ears and it's already playing. A grid of channels with their logos on the left, the picture on the right. Click any channel to switch; arrow keys work like a remote."
-   },
-   {
-    "icon": "update",
-    "title": "Never a dead channel",
-    "body": "Every channel can have several feeds behind it. If the one you're watching freezes or buffers, Rabbit Ears quietly switches to the next. Press S to switch yourself."
-   },
-   {
-    "icon": "pin",
-    "title": "Pop it out",
-    "body": "Press P and the picture floats in a corner, on top of everything, while you work. Drag it anywhere, scroll to resize, double-click to come back."
-   },
-   {
-    "icon": "cast",
-    "title": "Cast to your TV",
-    "body": "Press C to find Chromecast, Roku, and DLNA smart TVs on your network. Click a device and the channel plays on your TV while you keep working."
-   },
-   {
-    "icon": "grid",
-    "title": "What's on, right now",
-    "body": "Press G and see what's playing now and what's next on every channel that publishes a guide. Click a programme and you're watching it."
-   },
-   {
-    "icon": "pin",
-    "title": "Favourites and search",
-    "body": "Hold a channel to make it a favourite; they get their own tab. Search by name, or flick through countries and genres: News, Sports, Kids, Music, Movies."
-   },
-   {
-    "icon": "resize",
-    "title": "Full screen or a corner",
-    "body": "Double-click for full screen, or keep it small in the corner while you work. The window is yours to size and move."
-   },
-   {
-    "icon": "update",
-    "title": "Always fresh",
-    "body": "The channel list and guide are rebuilt every hour by the Omarchy Store. Every stream is checked first, so channels that go dark drop out on their own."
-   },
-   {
-    "icon": "palette",
-    "title": "Looks like it belongs",
-    "body": "Colours follow your Omarchy theme, so it matches the rest of your desktop whatever theme you pick."
-   }
-  ],
-  "steps": [
-   {
-    "title": "Install it",
-    "body": "Press GET in the Omarchy Store app, or use the install options above. Type your password when asked."
-   },
-   {
-    "title": "Open Rabbit Ears",
-    "body": "Press Super + Space, type Rabbit, press Enter. It starts on a channel straight away."
-   },
-   {
-    "title": "Find something to watch",
-    "body": "Pick a country or genre at the top, press G for the guide, and hold a channel to add it to your favourites."
-   }
-  ],
-  "shortcuts": [
-   {
-    "keys": [
-     "\u2191",
-     "\u2193"
-    ],
-    "does": "Channel up / down"
-   },
-   {
-    "keys": [
-     "G"
-    ],
-    "does": "What's on guide"
-   },
-   {
-    "keys": [
-     "P"
-    ],
-    "does": "Pop out mini player"
-   },
-   {
-    "keys": [
-     "S"
-    ],
-    "does": "Next feed for this channel"
-   },
-   {
-    "keys": [
-     "C"
-    ],
-    "does": "Cast to TV"
-   },
-   {
-    "keys": [
-     "F"
-    ],
-    "does": "Full screen (double-click works too)"
-   },
-   {
-    "keys": [
-     "M"
-    ],
-    "does": "Mute"
-   },
-   {
-    "keys": [
-     "/"
-    ],
-    "does": "Search channels"
-   },
-   {
-    "keys": [
-     "Esc"
-    ],
-    "does": "Leave full screen / close"
-   }
-  ],
-  "faq": [
-   {
-    "q": "Is it legal?",
-    "a": "Yes. Rabbit Ears only lists channels the broadcaster itself gives away for free, from the Free-TV/IPTV project, and plays each one from the broadcaster's own public address, like a web browser would. It hosts, records and re-streams nothing."
-   },
-   {
-    "q": "Why doesn't a channel play?",
-    "a": "Some broadcasters only allow viewing in their own country; those channels are marked. Others go off air now and then; the list is re-checked every hour and dead channels drop out."
-   },
-   {
-    "q": "Is there a guide for every channel?",
-    "a": "The big US, UK, Canadian and Australian channels have a now-and-next guide. Many smaller stations don't publish one, so they show their country or genre instead."
-   },
-   {
-    "q": "Does it cost anything?",
-    "a": "No. Rabbit Ears is free and open source (MIT)."
-   }
-  ],
-  "promise": {
-   "title": "Free, open source, no account.",
-   "body": "Rabbit Ears is free to use and free to look inside. There's no sign-up, no tracking and nothing to pay, now or later."
-  },
+  "id": "rabbit-ears",
+  "name": "Rabbit Ears",
+  "category": "media",
+  "github": "nemoclawai-tech/rabbit-ears",
+  "homepage": "https://github.com/nemoclawai-tech/rabbit-ears",
   "install": {
-   "file": "https://github.com/nemoclawai-tech/rabbit-ears/releases/download/v1.3.0/rabbit-ears-1.3.0-install.sh",
-   "file_name": "rabbit-ears-install.sh",
-   "note": "Needs Quickshell and Qt Multimedia (the installer adds them if they're missing). Nothing else on your system is changed."
-  }
- },
- "stars": 4.2,
- "reviews": 385
+    "method": "release",
+    "packages": [
+      "rabbit-ears"
+    ],
+    "version": "1.4.2",
+    "url": "https://github.com/nemoclawai-tech/rabbit-ears/releases/download/v1.4.2/rabbit-ears-1.4.2-1-any.pkg.tar.zst",
+    "sha256": "d4e28abd5a51eeb6198adb48ff8c42622e7cc66a18fe9fe69ffa6d3c4d8ce413",
+    "size": 263598
+  },
+  "detect": [
+    "rabbit-ears"
+  ],
+  "kind": "gui",
+  "developer": "Omarchy Development Labs",
+  "license": "MIT",
+  "icon": "featured/rabbit-ears/icon.png",
+  "screenshots": [
+    "featured/rabbit-ears/shot1.webp",
+    "featured/rabbit-ears/shot2.webp",
+    "featured/rabbit-ears/shot3.webp",
+    "featured/rabbit-ears/shot4.webp"
+  ],
+  "summary": "Free live TV for Omarchy: hundreds of public channels, a live programme guide and favourites, no account needed",
+  "tags": [
+    "tv",
+    "live tv",
+    "television",
+    "news",
+    "sport",
+    "streaming",
+    "iptv",
+    "channels",
+    "video",
+    "free"
+  ],
+  "age": "Everyone",
+  "description": "New in 1.4.0: Cast, Pop-out, and Quality buttons right in the player. Pick higher quality (720p, 1080p) when available.\n\nRabbit Ears turns your Omarchy computer into a TV. Open it and you're watching: news, sport, music, kids, movies and local channels from the USA, UK, Canada, Australia and 70+ more countries. No account, no subscription, nothing to sign up for.\n\nWATCH\n• Hundreds of free channels, checked every hour so dead ones disappear by themselves.\n• Click a channel and it plays. Up and down arrows change channel, like a remote.\n• Full screen with a double-click or F. Mute with M.\n\nWHAT'S ON\n• Press G for the guide: what's playing now and what's next, channel by channel. Click a programme to jump straight to it.\n• The now-playing bar shows the current programme and its times.\n\nMAKE IT YOURS\n• Hold a channel (or press ★) to add it to your favourites. They get their own tab.\n• Search by name, or browse by country or by type: News, Sports, Kids, Music, Movies.\n• The colours follow your Omarchy theme.\n\nWHERE THE CHANNELS COME FROM\nThe list comes from the Free-TV/IPTV project, which only includes channels that the broadcaster itself gives away for free (free-to-air and ad-supported stations). Rabbit Ears hosts, records and re-streams nothing: it plays each broadcaster's own public address, exactly as a web browser would. Some channels only play in their home country; those are marked.",
+  "changelog": [
+    {
+      "version": "1.4.2",
+      "date": "2026-10-14",
+      "title": "The guide stays live",
+      "items": [
+        "The programme guide refreshes every 20 minutes while the app is open, instead of only at launch",
+        "If the guide is nearly exhausted — after a sleep or a dropped connection — it refreshes immediately",
+        "The store publishes 36 hours of guide instead of 14, refreshed every 4 hours instead of daily"
+      ]
+    },
+    {
+      "version": "1.4.1",
+      "date": "2026-10-12",
+      "title": "New logo",
+      "items": [
+        "New logo: the approved retro TV design, on the app, launcher and dock."
+      ]
+    },
+    {
+      "version": "1.4.0",
+      "date": "2026-10-12",
+      "title": "Player buttons & quality picker",
+      "items": [
+        "Cast, Pop-out, and Quality buttons now right in the player - no keyboard shortcuts needed.",
+        "Quality picker: click HD to see all sources for a channel and pick higher resolution (720p, 1080p) when available.",
+        "Press Q to open the quality picker."
+      ]
+    },
+    {
+      "version": "1.3.0",
+      "date": "2026-10-11",
+      "title": "Cast to your TV",
+      "items": [
+        "Press C (or tap 📡) to find Chromecast, Roku, and DLNA smart TVs on your network. Click a device and the channel plays on your TV.",
+        "Pop-out mini player: Press P and the picture floats in a corner above everything. Drag it anywhere, scroll to resize, double-click to bring the app back."
+      ]
+    },
+    {
+      "version": "1.2.0",
+      "date": "2026-10-11",
+      "title": "Pop-out mini player",
+      "items": [
+        "Press P (or the ⧉ button): the picture pops out into a small window that stays on top of everything. Drag it anywhere, scroll to make it bigger or smaller, double-click to bring the full app back."
+      ]
+    },
+    {
+      "version": "1.1.0",
+      "date": "2026-10-11",
+      "title": "Never a dead channel",
+      "items": [
+        "Up to 5 feeds per channel (the broadcaster's own, Pluto TV, Samsung TV Plus, Plex, Roku…). If one freezes or buffers, Rabbit Ears switches to the next by itself.",
+        "Source pill in the player shows which feed is playing; click it or press S to switch.",
+        "New Movies and Series tabs: free film and TV-show channels from licensed free platforms.",
+        "Update available button in the app: one click installs the newest version.",
+        "New icon."
+      ]
+    },
+    {
+      "version": "1.0.0",
+      "date": "2026-10-11",
+      "title": "First release",
+      "items": [
+        "Hundreds of free public channels from 70+ countries, refreshed hourly.",
+        "What's on guide with now and next, click to watch.",
+        "Favourites, search, country and genre tabs.",
+        "Full screen, mute, remote-style channel up/down.",
+        "Colours follow your Omarchy theme."
+      ]
+    }
+  ],
+  "featured": {
+    "badge": "New app",
+    "eyebrow": "FREE LIVE TV",
+    "headline": "Hundreds of TV channels. Free. No account.",
+    "tagline": "News, sport, music, kids and movies from 70+ countries, with a live guide of what's on. Click a channel and you're watching. Open source, nothing to sign up for.",
+    "price": "Free",
+    "price_note": "Open source",
+    "gradient": [
+      "#140c1e",
+      "#e23c6b",
+      "#ff8a3d"
+    ],
+    "art": "featured/rabbit-ears/billboard.webp",
+    "billboard": "featured/rabbit-ears/billboard.webp",
+    "chips": [
+      "Hundreds of channels",
+      "Backup feeds",
+      "What's on guide",
+      "Movies & Series",
+      "No account"
+    ],
+    "order": 3,
+    "features": [
+      {
+        "icon": "window",
+        "hero": true,
+        "title": "Just press play",
+        "body": "Open Rabbit Ears and it's already playing. A grid of channels with their logos on the left, the picture on the right. Click any channel to switch; arrow keys work like a remote."
+      },
+      {
+        "icon": "update",
+        "title": "Never a dead channel",
+        "body": "Every channel can have several feeds behind it. If the one you're watching freezes or buffers, Rabbit Ears quietly switches to the next. Press S to switch yourself."
+      },
+      {
+        "icon": "pin",
+        "title": "Pop it out",
+        "body": "Press P and the picture floats in a corner, on top of everything, while you work. Drag it anywhere, scroll to resize, double-click to come back."
+      },
+      {
+        "icon": "cast",
+        "title": "Cast to your TV",
+        "body": "Press C to find Chromecast, Roku, and DLNA smart TVs on your network. Click a device and the channel plays on your TV while you keep working."
+      },
+      {
+        "icon": "grid",
+        "title": "What's on, right now",
+        "body": "Press G and see what's playing now and what's next on every channel that publishes a guide. Click a programme and you're watching it."
+      },
+      {
+        "icon": "pin",
+        "title": "Favourites and search",
+        "body": "Hold a channel to make it a favourite; they get their own tab. Search by name, or flick through countries and genres: News, Sports, Kids, Music, Movies."
+      },
+      {
+        "icon": "resize",
+        "title": "Full screen or a corner",
+        "body": "Double-click for full screen, or keep it small in the corner while you work. The window is yours to size and move."
+      },
+      {
+        "icon": "update",
+        "title": "Always fresh",
+        "body": "The channel list and guide are rebuilt every hour by the Omarchy Store. Every stream is checked first, so channels that go dark drop out on their own."
+      },
+      {
+        "icon": "palette",
+        "title": "Looks like it belongs",
+        "body": "Colours follow your Omarchy theme, so it matches the rest of your desktop whatever theme you pick."
+      }
+    ],
+    "steps": [
+      {
+        "title": "Install it",
+        "body": "Press GET in the Omarchy Store app, or use the install options above. Type your password when asked."
+      },
+      {
+        "title": "Open Rabbit Ears",
+        "body": "Press Super + Space, type Rabbit, press Enter. It starts on a channel straight away."
+      },
+      {
+        "title": "Find something to watch",
+        "body": "Pick a country or genre at the top, press G for the guide, and hold a channel to add it to your favourites."
+      }
+    ],
+    "shortcuts": [
+      {
+        "keys": [
+          "↑",
+          "↓"
+        ],
+        "does": "Channel up / down"
+      },
+      {
+        "keys": [
+          "G"
+        ],
+        "does": "What's on guide"
+      },
+      {
+        "keys": [
+          "P"
+        ],
+        "does": "Pop out mini player"
+      },
+      {
+        "keys": [
+          "S"
+        ],
+        "does": "Next feed for this channel"
+      },
+      {
+        "keys": [
+          "C"
+        ],
+        "does": "Cast to TV"
+      },
+      {
+        "keys": [
+          "F"
+        ],
+        "does": "Full screen (double-click works too)"
+      },
+      {
+        "keys": [
+          "M"
+        ],
+        "does": "Mute"
+      },
+      {
+        "keys": [
+          "/"
+        ],
+        "does": "Search channels"
+      },
+      {
+        "keys": [
+          "Esc"
+        ],
+        "does": "Leave full screen / close"
+      }
+    ],
+    "faq": [
+      {
+        "q": "Is it legal?",
+        "a": "Yes. Rabbit Ears only lists channels the broadcaster itself gives away for free, from the Free-TV/IPTV project, and plays each one from the broadcaster's own public address, like a web browser would. It hosts, records and re-streams nothing."
+      },
+      {
+        "q": "Why doesn't a channel play?",
+        "a": "Some broadcasters only allow viewing in their own country; those channels are marked. Others go off air now and then; the list is re-checked every hour and dead channels drop out."
+      },
+      {
+        "q": "Is there a guide for every channel?",
+        "a": "The big US, UK, Canadian and Australian channels have a now-and-next guide. Many smaller stations don't publish one, so they show their country or genre instead."
+      },
+      {
+        "q": "Does it cost anything?",
+        "a": "No. Rabbit Ears is free and open source (MIT)."
+      }
+    ],
+    "promise": {
+      "title": "Free, open source, no account.",
+      "body": "Rabbit Ears is free to use and free to look inside. There's no sign-up, no tracking and nothing to pay, now or later."
+    },
+    "install": {
+      "file": "https://github.com/nemoclawai-tech/rabbit-ears/releases/download/v1.3.0/rabbit-ears-1.3.0-install.sh",
+      "file_name": "rabbit-ears-install.sh",
+      "note": "Needs Quickshell and Qt Multimedia (the installer adds them if they're missing). Nothing else on your system is changed."
+    }
+  },
+  "stars": 4.2,
+  "reviews": 385
 }

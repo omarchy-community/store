@@ -30,7 +30,7 @@ jobs:
       - name: Build channel list (probes every stream)
         run: python3 scripts/tv.py --out /tmp/tv
       - name: Build programme guide
-        run: python3 scripts/tv_guide.py --in /tmp/tv/tv.json --out /tmp/tv --hours 14
+        run: python3 scripts/tv_guide.py --in /tmp/tv/tv.json --out /tmp/tv --hours 36
       - name: Publish to data branch if changed
         run: |
           set -e

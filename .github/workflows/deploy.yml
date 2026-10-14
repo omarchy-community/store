@@ -8,7 +8,14 @@ on:
   push:
     branches: [main]
   schedule:
+    # 06:00 UTC: the full daily refresh (new themes, stars, versions).
+    # Every 4 hours: Rabbit Ears' live TV guide is rebuilt hourly on the `data` branch, but it
+    # only reaches omarchystore.com when THIS workflow runs, because deploy copies those files
+    # into the published site. With a once-a-day deploy the guide users actually saw could be
+    # 24 h old, so the app ran out of programme data and kept showing the last thing it knew —
+    # "old stuff on repeat". Four-hourly bounds that staleness well inside the guide's window.
     - cron: "0 6 * * *"
+    - cron: "40 2,10,14,18,22 * * *"
   workflow_dispatch:
 
 permissions:

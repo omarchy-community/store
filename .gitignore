@@ -26,3 +26,4 @@ site/screensavers/
 site/tv.json
 site/tv-guide.json
 node_modules/
+.dev.vars

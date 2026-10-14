@@ -540,6 +540,15 @@ def main():
     print(f"✓ registry valid: {len(apps)} apps, {len(cats)} categories, {len(ads['campaigns'])} ad campaigns, {len(load_crypto()['wallets'])} crypto wallets")
     if "--check" in sys.argv:
         return
+    # Apps hidden from the admin portal ("hidden": true) stay in the registry but leave the store,
+    # along with any Discover banner, shelf slot or sponsored-app ad that pointed at them.
+    hidden = {k for k, a in apps.items() if a.get("hidden")}
+    if hidden:
+        print(f"Hiding {len(hidden)} app(s): {', '.join(sorted(hidden))}")
+        apps = {k: a for k, a in apps.items() if k not in hidden}
+        feat = {**feat, "hero": [h for h in feat["hero"] if h["app"] not in hidden],
+                "collections": [{**c, "apps": [x for x in c["apps"] if x not in hidden]} for c in feat["collections"]]}
+        ads = {**ads, "campaigns": [c for c in ads["campaigns"] if not (c.get("type") == "app" and c.get("app") in hidden)]}
     cat = build(apps, cats, feat, ads)
     os.makedirs(os.path.dirname(OUT), exist_ok=True)
     with open(OUT, "w") as f:

@@ -421,7 +421,7 @@
 
   function artistAd(c) {
     const u = esc(adUrl(c.url));
-    const L = `href="${u}" target="_blank" rel="sponsored noopener"`;
+    const L = `href="${u}" target="_blank" rel="sponsored noopener" data-ad="${esc(c.id)}"`;
     return `<section class="artist-ad" aria-label="Sponsored: ${esc(c.title)}">
       <a class="aa-hero" ${L}>
         <img src="${esc(adImg(c.image))}" alt="" loading="lazy">
@@ -448,7 +448,7 @@
       const [g1, g2] = c.gradient || ["#333", "#555"];
       // House ads get enhanced design with decorative elements
       if (c.type === "house") {
-        return `<a class="ad-banner house" href="${esc(adUrl(c.url))}" style="background:linear-gradient(135deg,${g1} 0%,${g2} 100%)">
+        return `<a class="ad-banner house" data-ad="${esc(c.id)}" href="${esc(adUrl(c.url))}" style="background:linear-gradient(135deg,${g1} 0%,${g2} 100%)">
           <div class="ab-deco"></div>
           <div class="ab-content">
             <span class="ad-chip">${c.id === "house-advertise" ? "Grow your reach" : "Join the store"}</span>
@@ -461,7 +461,7 @@
           </div>
         </a>`;
       }
-      return `<a class="ad-banner" href="${esc(adUrl(c.url))}" target="_blank" rel="sponsored noopener" style="background:linear-gradient(120deg,${g1},${g2})">
+      return `<a class="ad-banner" data-ad="${esc(c.id)}" href="${esc(adUrl(c.url))}" target="_blank" rel="sponsored noopener" style="background:linear-gradient(120deg,${g1},${g2})">
         <div><span class="ad-chip">Sponsored</span><h3>${esc(c.title)}</h3><p>${esc(c.body)}</p></div>
         <span class="cta">${esc(c.cta || "Learn more")}</span></a>`;
     }
@@ -486,7 +486,7 @@
     const c = ads("sponsored-app").find((c) => S.byId[c.app] && filter(S.byId[c.app]));
     if (!c) return "";
     const a = S.byId[c.app];
-    return `<a class="lockup ad-app" href="/app/${a.id}/">
+    return `<a class="lockup ad-app" data-ad="${esc(c.id)}" href="/app/${a.id}/">
       ${iconImg(a, 64)}
       <div class="meta"><div class="name"><span class="ad-badge">Ad</span>${esc(a.name)}</div><div class="sub">${esc(a.summary)}</div>
       <div class="stars">Sponsored by ${esc(c.sponsor || a.developer)}</div></div>${getBtn(a)}</a>`;
@@ -495,7 +495,7 @@
     const c = ads("search")[0];
     if (!c) return "";
     const [g1, g2] = c.gradient || ["#333", "#555"];
-    return `<a class="ad-banner" href="${esc(adUrl(c.url))}" target="_blank" rel="sponsored noopener" style="background:linear-gradient(120deg,${g1},${g2});padding:18px 22px">
+    return `<a class="ad-banner" data-ad="${esc(c.id)}" href="${esc(adUrl(c.url))}" target="_blank" rel="sponsored noopener" style="background:linear-gradient(120deg,${g1},${g2});padding:18px 22px">
       <div><span class="ad-chip">Sponsored</span><h3 style="font-size:18px">${esc(c.title)}</h3><p>${esc(c.body)}</p></div><span class="cta">${esc(c.cta)}</span></a>`;
   }
 
@@ -1562,34 +1562,6 @@
 
 
   // ---------- Submit an app / Advertise (own pages, not GitHub file links) ----------
-  function pageSubmit() {
-    const form = `${REPO}/issues/new?template=submit-app.yml`;
-    return `<div class="page info-page" style="max-width:860px">
-      <h1 class="page-title">Submit an app</h1>
-      <p class="page-sub">Listing is free. Every app is reviewed by a person before it goes live, and paying for ads never changes rankings.</p>
-      <div class="info-cards">
-        <div class="info-card"><span class="go-n">1</span><div><h3>Tell us about it</h3><p>Fill in a short form: name, link, package name, category and a one-line summary.</p></div></div>
-        <div class="info-card"><span class="go-n">2</span><div><h3>We review it</h3><p>We check it installs from Arch, the AUR or an Omarchy installer, and that it's safe.</p></div></div>
-        <div class="info-card"><span class="go-n">3</span><div><h3>It goes live</h3><p>Your app gets its own page with stars, screenshots, a GET button and updates.</p></div></div>
-      </div>
-      <div class="info-cta"><a class="btn big" href="${form}" target="_blank" rel="noopener">Submit your app</a>
-        <span class="muted small">Opens a short form on GitHub (free account needed).</span></div>
-      <section class="shelf"><div class="shelf-head"><h2>Listing rules</h2></div>
-        <ul class="info-list">
-          <li><b>Installs through a package manager:</b> Arch repos, the AUR, or an Omarchy installer. No <code>curl | bash</code>, AppImages or custom scripts.</li>
-          <li><b>AUR packages</b> need an active maintainer, must not be flagged out of date, and need some votes.</li>
-          <li><b>Marketing assets are required:</b> a square logo (PNG or SVG, at least 256×256), a one-line tagline, a write-up of at least 200 characters, and 1–6 real screenshots of the app running. We build your store page from these.</li>
-          <li><b>No malware</b>, cracked software, or apps mainly for piracy.</li>
-          <li>Apps that stop being maintained (archived repo, orphaned package) are removed.</li>
-          <li>Top Charts are ranked by GitHub stars only.</li>
-        </ul></section>
-      <section class="shelf" id="developers">${devFormHtml()}</section>
-      <section class="shelf"><div class="shelf-head"><h2>Developers: sell your app</h2></div>
-        <p>Built something people would pay for? Sign up above and tick <b>I want to sell this app</b>. Buyers pay in crypto — USDC on Base, Ethereum or Solana, plus SOL, Bitcoin and XRP — and your share goes straight to your own wallet. No waiting for payouts.</p></section>
-      <p class="small muted">Technical people can also open a pull request directly: <a style="color:var(--accent)" href="https://raw.githubusercontent.com/omarchy-community/store/main/CONTRIBUTING.md" target="_blank" rel="noopener">contributor guide</a>.</p>
-      ${footer()}
-    </div>`;
-  }
   function pageContact() {
     const soc = liveSocials();
     return `<div class="page info-page" style="max-width:860px">
@@ -1606,32 +1578,646 @@
       ${footer()}
     </div>`;
   }
-  function pageAdvertise() {
-    const form = `${REPO}/issues/new?template=advertising.yml`;
-    return `<div class="page info-page" style="max-width:860px">
-      <h1 class="page-title">Advertise on the Omarchy Store</h1>
-      <p class="page-sub">Reach Omarchy and Arch Linux users: developers, creators and power users who chose their own OS.</p>
-      <div class="info-cards">
-        <div class="info-card"><span class="go-n">▣</span><div><h3>Discover banner</h3><p>A big banner between shelves on the store's front page.</p></div></div>
-        <div class="info-card"><span class="go-n">★</span><div><h3>Sponsored app</h3><p>Your listing at the top of a category or search results, with an Ad badge.</p></div></div>
-        <div class="info-card"><span class="go-n">⌕</span><div><h3>Search banner</h3><p>A compact banner under search results.</p></div></div>
+  // =====================================================================================
+  // Portal v2 — Developers (/submit/), Advertisers (/advertise/), Donate (/donate/)
+  // Private status links (?status=<id>&t=<token>) stand in for accounts until real log-ins exist.
+  // =====================================================================================
+  const qs = (k) => new URLSearchParams(location.search).get(k);
+  const P = { draft: "os-dev-draft", links: "os-portal-links", step: 0 };
+  const pGet = async (path) => { const r = await fetch(API + path, { cache: "no-store" }); const j = await r.json().catch(() => ({})); if (!r.ok) throw new Error(j.error || "Something went wrong"); return j; };
+  const pPost = async (path, b) => { const r = await apiPost(path, b); const j = await r.json().catch(() => ({})); if (!r.ok) throw new Error(j.error || "Something went wrong"); return j; };
+  const myLinks = () => { try { return JSON.parse(localStorage.getItem(P.links) || "[]"); } catch { return []; } };
+  const saveLink = (kind, id, url, name) => { try { localStorage.setItem(P.links, JSON.stringify([{ kind, id, url, name, ts: Date.now() }, ...myLinks().filter((l) => !(l.kind === kind && l.id === id))].slice(0, 20))); } catch {} };
+  const fmtDate = (ts) => new Date(ts).toLocaleDateString([], { month: "short", day: "numeric", year: "numeric" });
+  const fmtWhen = (ts) => new Date(ts).toLocaleString([], { month: "short", day: "numeric", hour: "numeric", minute: "2-digit" });
+  const httpsOk = (u) => /^https:\/\/[^\s"'<>]+$/.test(u || "");
+  const pIco = {
+    heart: '<path d="M12 20.5s-7.5-4.6-9.3-9.4C1.4 7.6 3.6 4 7.2 4c2 0 3.6 1.1 4.8 2.8C13.2 5.1 14.8 4 16.8 4c3.6 0 5.8 3.6 4.5 7.1-1.8 4.8-9.3 9.4-9.3 9.4z"/>',
+    bolt: '<path d="M13 2 4 14h7l-1 8 9-12h-7z"/>', coin: '<circle cx="12" cy="12" r="9"/><path d="M14.5 9.2c-.5-.8-1.4-1.2-2.5-1.2-1.6 0-2.7.8-2.7 2s1 1.6 2.7 2 2.8.9 2.8 2.1-1.2 2-2.8 2c-1.2 0-2.2-.5-2.7-1.4M12 6.5V8m0 8v1.5"/>',
+    eye: '<path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>', send: '<path d="M22 2 11 13M22 2l-7 20-4-9-9-4z"/>',
+    clock: '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>', users: '<circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.5-3.6 3.2-5.5 6.5-5.5s6 1.9 6.5 5.5M16 4.8a3.3 3.3 0 0 1 0 6.4M18 14.6c2 .6 3.3 2.4 3.5 5.4"/>',
+    lock: '<rect x="4" y="10" width="16" height="11" rx="2.5"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/>', edit: '<path d="M4 20h4L19 9l-4-4L4 16z"/><path d="m13.5 6.5 4 4"/>',
+    link: '<path d="M10 14a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1"/><path d="M14 10a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1"/>', search: '<circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/>',
+  };
+  const pi = (n) => `<svg viewBox="0 0 24 24">${pIco[n] || ICONS[n] || ""}</svg>`;
+  const tracker = (steps, at, bad) => `<ol class="p-track">${steps.map(([k, label], i) => {
+    const idx = steps.findIndex(([x]) => x === at);
+    return `<li class="${i < idx ? "done" : i === idx ? (bad ? "bad" : "now") : ""}"><i>${i < idx ? "✓" : i + 1}</i><span>${label}</span></li>`; }).join("")}</ol>`;
+  const thread = (msgs, mine) => `<div class="p-thread">${msgs.length ? msgs.map((m) => `<div class="p-msg ${m.sender === "store" ? "them" : "me"}">
+      <div class="p-bubble">${esc(m.body)}</div><div class="p-meta">${m.sender === "store" ? "Omarchy Store" : mine} · ${fmtWhen(m.ts)}</div></div>`).join("")
+    : `<p class="muted small">No messages yet. We'll post updates here.</p>`}</div>`;
+  const pField = (label, input, hint = "", wide = false) => `<label class="${wide ? "wide" : ""}">${label}${hint ? ` <span class="muted">${hint}</span>` : ""}${input}</label>`;
+
+  // ---------------------------------------------------------------- Developers
+  const DEV_STEPS = [["you", "You"], ["app", "Your app"], ["page", "Store page"], ["price", "Pricing"], ["send", "Review & send"]];
+  const LICENSES = ["MIT", "GPL-3.0", "GPL-2.0", "LGPL-3.0", "Apache-2.0", "BSD-3-Clause", "BSD-2-Clause", "MPL-2.0", "AGPL-3.0", "ISC", "Unlicense", "Proprietary (paid)", "Other"];
+  const INSTALLS = [["aur", "AUR package"], ["pacman", "Official Arch package"], ["release", "GitHub release (.pkg.tar.zst)"], ["none", "Not packaged yet — help me"]];
+  const draft = () => { try { return JSON.parse(localStorage.getItem(P.draft) || "{}"); } catch { return {}; } };
+  const devVal = (k) => esc(draft()[k] ?? "");
+
+  function pageSubmit() {
+    if (qs("status")) return `<div class="page p-page" id="p-status" data-kind="dev"><div class="p-loading">Loading your submission…</div></div>`;
+    const links = myLinks().filter((l) => l.kind === "dev");
+    return `<div class="page p-page">
+      <section class="p-hero dev">
+        <div class="p-hero-copy">
+          <div class="eyebrow">OMARCHY STORE FOR DEVELOPERS</div>
+          <h1>Ship your app to every Omarchy desktop.</h1>
+          <p>List it free in the world's largest app store for Omarchy. One-click install, a beautiful store page, real reviews, and the option to sell it for crypto — you keep 90%.</p>
+          <div class="p-cta"><a class="btn big" href="#dev-wizard" data-p-jump="dev-wizard">Start your submission</a>
+            ${links.length ? `<a class="btn ghost" href="${esc(links[0].url)}">Check my submission</a>` : `<span class="p-hint">Takes about 5 minutes · saves as you go</span>`}</div>
+        </div>
+        <div class="p-hero-art" aria-hidden="true">
+          <div class="p-mock-card">
+            <div class="p-mock-row"><div class="p-mock-ico" id="pv-hero-ico"></div><div><b id="pv-hero-name">Your App</b><span id="pv-hero-tag">Your one-line tagline lives here</span></div><span class="p-mock-get">GET</span></div>
+            <div class="p-mock-shots"><i></i><i></i><i></i></div>
+            <div class="p-mock-stars">★★★★★ <span>Reviews from real Omarchy users</span></div>
+          </div>
+        </div>
+      </section>
+
+      <div class="p-benefits">
+        <div><span>${ico("plus")}</span><b>Free to list</b><p>No fees, no contracts. Your app gets its own store page.</p></div>
+        <div><span>${pi("bolt")}</span><b>One-click install</b><p>People press GET in the desktop app and it's installed.</p></div>
+        <div><span>${pi("coin")}</span><b>Sell it, keep 90%</b><p>Paid in crypto straight to your wallet. Apple and Google take up to 30%.</p></div>
+        <div><span>${ico("ok")}</span><b>Reviewed by a person</b><p>Every app is checked for safety before it goes live.</p></div>
       </div>
-      <div class="info-cta"><a class="btn big" href="${form}" target="_blank" rel="noopener">Ask about advertising</a>
-        <span class="muted small">Flat monthly pricing per slot. We reply with rates and availability.</span></div>
-      <section class="shelf"><div class="shelf-head"><h2>What we accept</h2></div>
+
+      ${links.length ? `<section class="shelf"><div class="shelf-head"><h2>Your submissions</h2><span class="muted small">Saved in this browser</span></div>
+        <div class="p-mine">${links.map((l) => `<a class="p-mine-row" href="${esc(l.url)}">${ico("code")}<b>${esc(l.name)}</b><span class="muted small">Submitted ${fmtDate(l.ts)}</span><span class="p-go">Open status →</span></a>`).join("")}</div></section>` : ""}
+
+      <section class="shelf"><div class="shelf-head"><h2>How it works</h2></div>
+        <ol class="p-steps">
+          <li><i>1</i><b>Submit</b><p>Tell us about your app and add your logo, screenshots and write-up.</p></li>
+          <li><i>2</i><b>Review</b><p>A person checks the license, the package and the code. Usually 1–2 days.</p></li>
+          <li><i>3</i><b>Go live</b><p>Your page goes up with a GET button, reviews and automatic updates.</p></li>
+          <li><i>4</i><b>Grow</b><p>Great apps get picked for Featured, Essentials and our socials.</p></li>
+        </ol></section>
+
+      <section class="shelf" id="dev-wizard"><div class="shelf-head"><h2>Submit your app</h2><button class="p-link" type="button" data-p-clear>Start over</button></div>
+        <div class="p-wizard">
+          <form id="dev-form" class="p-form" novalidate>
+            <ol class="p-stepper">${DEV_STEPS.map(([k, l], i) => `<li data-p-step="${i}" class="${i === P.step ? "on" : i < P.step ? "done" : ""}"><i>${i + 1}</i><span>${l}</span></li>`).join("")}</ol>
+            ${devStepHtml()}
+          </form>
+          <aside class="p-preview" id="dev-preview">${devPreviewHtml(draft())}</aside>
+        </div></section>
+
+      <section class="shelf"><div class="shelf-head"><h2>Listing rules</h2></div>
         <ul class="info-list">
-          <li>Developer tools, hardware, hosting, VPNs and privacy tools, Linux-friendly software and services, courses, conferences and music.</li>
-          <li>We don't accept gambling, malware or "PC cleaner" software, or misleading claims.</li>
-        </ul></section>
-      <section class="shelf"><div class="shelf-head"><h2>Respectful by design</h2></div>
-        <ul class="info-list">
-          <li>Every ad is clearly labelled <b>Sponsored</b> or <b>Ad</b>.</li>
-          <li>Ads never change Top Charts or search ranking.</li>
-          <li>No tracking pixels and no third-party cookies.</li>
-        </ul></section>
+          <li><b>Installs through a package manager:</b> Arch repos, the AUR, or a signed GitHub release package. No <code>curl | bash</code>, AppImages or custom scripts. Not packaged yet? Pick "help me" and we'll talk.</li>
+          <li><b>Open about what it is:</b> a real license, a public source repository, and screenshots of the app actually running.</li>
+          <li><b>Marketing assets:</b> a square logo (PNG or SVG, at least 256×256), a one-line tagline, a write-up of at least 200 characters and 1–6 screenshots.</li>
+          <li><b>No malware</b>, cracked software, or apps mainly for piracy. Apps that stop being maintained are removed.</li>
+          <li>Top Charts are ranked by GitHub stars only — nobody can buy a ranking.</li>
+        </ul>
+        <p class="small muted" style="margin-top:12px">Technical people can also open a pull request directly: <a style="color:var(--accent)" href="https://raw.githubusercontent.com/omarchy-community/store/main/CONTRIBUTING.md" target="_blank" rel="noopener">contributor guide</a>.</p></section>
       ${footer()}
     </div>`;
   }
+
+  function devStepHtml() {
+    const d = draft(), v = (k) => esc(d[k] ?? ""), cats = S.catalog.categories || [];
+    const sel = (name, opts, cur) => `<select name="${name}">${opts.map(([k, l]) => `<option value="${esc(k)}" ${k === cur ? "selected" : ""}>${esc(l)}</option>`).join("")}</select>`;
+    const step = [
+      `<div class="p-step-h"><h3>About you</h3><p>Who's behind the app. Your email stays private.</p></div>
+       <div class="fgrid">
+        ${pField("Company or studio", `<input name="company" maxlength="80" value="${v("company")}" placeholder="Independent? Use your own name">`)}
+        ${pField("Your name", `<input name="name" maxlength="80" value="${v("name")}">`)}
+        ${pField("Email", `<input name="email" type="email" maxlength="120" value="${v("email")}">`)}
+        ${pField("Website", `<input name="website" type="url" maxlength="200" placeholder="https://" value="${v("website")}">`, "(optional)")}
+        ${pField("GitHub username", `<input name="github" maxlength="39" value="${v("github")}">`, "(optional)")}
+        ${pField("Telegram", `<input name="telegram" maxlength="40" placeholder="@yourname" value="${v("telegram")}">`, "(optional)")}
+       </div>`,
+      `<div class="p-step-h"><h3>Your app</h3><p>The basics people see first.</p></div>
+       <div class="fgrid">
+        ${pField("App name", `<input name="app_name" maxlength="80" value="${v("app_name")}">`)}
+        ${pField("Category", sel("category", [["", "Choose…"], ...cats.map((c) => [c.id, c.name])], d.category))}
+        ${pField("Tagline", `<input name="tagline" minlength="10" maxlength="90" value="${v("tagline")}" placeholder="A Mac-style dock for Hyprland with a real minimize button"><span class="p-count" data-count="tagline" data-min="10" data-max="90"></span>`, "(one line, 10–90 characters)", true)}
+        ${pField("Source repository", `<input name="repo_url" type="url" maxlength="200" value="${v("repo_url")}" placeholder="https://github.com/you/your-app">`, "(GitHub, GitLab or Codeberg)", true)}
+        ${pField("License", sel("license", [["", "Choose…"], ...LICENSES.map((l) => [l, l])], d.license))}
+        ${pField("How it installs", sel("install_kind", [["", "Choose…"], ...INSTALLS], d.install_kind))}
+        ${pField("Package name", `<input name="install_pkg" maxlength="80" value="${v("install_pkg")}" placeholder="e.g. my-app or my-app-bin">`, "(AUR / Arch package)")}
+        ${pField("App website", `<input name="app_url" type="url" maxlength="300" placeholder="https://" value="${v("app_url")}">`, "(optional)")}
+       </div>`,
+      `<div class="p-step-h"><h3>Your store page</h3><p>We build your page from these. Real screenshots of the app running work best.</p></div>
+       <div class="fgrid">
+        ${pField("Logo link", `<input name="logo_url" type="url" maxlength="400" value="${v("logo_url")}" placeholder="https://raw.githubusercontent.com/you/app/main/icon.png">`, "(square PNG or SVG, at least 256×256)", true)}
+        ${pField("Screenshot links", `<textarea name="screenshots" rows="4" placeholder="https://…/screenshot-1.png&#10;https://…/screenshot-2.png">${v("screenshots")}</textarea>`, "(1–6, one per line, 16:10 or 16:9)", true)}
+        <div class="wide p-shots" id="pv-shots"></div>
+        ${pField("Write-up", `<textarea name="app_desc" rows="8" maxlength="3000" placeholder="What it does, who it's for, and its best features.">${v("app_desc")}</textarea><span class="p-count" data-count="app_desc" data-min="200" data-max="3000"></span>`, "(at least 200 characters)", true)}
+       </div>`,
+      `<div class="p-step-h"><h3>Pricing</h3><p>Most apps are free. If you sell yours, buyers pay in crypto and your share goes straight to your wallet.</p></div>
+       <div class="p-choice">
+        <label class="p-opt ${d.wants_paid ? "" : "on"}"><input type="radio" name="wants_paid" value="" ${d.wants_paid ? "" : "checked"}><b>Free</b><span>Anyone can install it.</span></label>
+        <label class="p-opt ${d.wants_paid ? "on" : ""}"><input type="radio" name="wants_paid" value="1" ${d.wants_paid ? "checked" : ""}><b>Paid</b><span>You keep 90%. The store's fee is 10%.</span></label>
+       </div>
+       <div class="paid-box" ${d.wants_paid ? "" : "hidden"}>
+        <p class="small">Enter the PUBLIC addresses you want to be paid to. <b>Never enter a seed phrase or private key.</b> Payment for third-party apps settles in USDC on Solana with an automatic 90/10 split.</p>
+        <div class="fgrid">
+          ${pField("Price (USD)", `<input name="price_usd" type="number" min="0.99" max="999" step="0.01" placeholder="4.99" value="${v("price_usd")}">`)}
+          ${pField("Solana address", `<input name="p_sol" maxlength="44" value="${v("p_sol")}">`, "(recommended)")}
+          ${pField("Base / Ethereum address", `<input name="p_evm" maxlength="42" placeholder="0x…" value="${v("p_evm")}">`)}
+          ${pField("Bitcoin address", `<input name="p_btc" maxlength="74" placeholder="bc1…" value="${v("p_btc")}">`)}
+          ${pField("XRP address", `<input name="p_xrp" maxlength="35" placeholder="r…" value="${v("p_xrp")}">`)}
+        </div></div>`,
+      `<div class="p-step-h"><h3>Review & send</h3><p>This is roughly how your page will look. Go back to change anything.</p></div>
+       ${devReviewHtml(d)}
+       <label class="check"><input type="checkbox" name="agree" ${d.agree ? "checked" : ""}> My app is mine to publish, contains no malware, and I accept the <a href="/legal/" style="color:var(--accent)">store terms</a>.</label>
+       <div class="ts-box"></div>`,
+    ][P.step];
+    return `<div class="p-step">${step}</div>
+      <div class="form-err" hidden></div>
+      <div class="p-nav">${P.step ? `<button class="btn ghost" type="button" data-p-back>Back</button>` : "<span></span>"}
+        <span class="p-saved muted small">${pi("lock")} Draft saved in this browser</span>
+        ${P.step < DEV_STEPS.length - 1 ? `<button class="btn" type="button" data-p-next>Continue</button>` : `<button class="btn big" type="submit">Submit for review</button>`}</div>`;
+  }
+
+  function devReviewHtml(d) {
+    const shots = String(d.screenshots || "").split(/\s+/).filter(httpsOk).slice(0, 6);
+    const cat = (S.catalog.categories || []).find((c) => c.id === d.category);
+    return `<div class="p-review">
+      <div class="p-rv-head">${httpsOk(d.logo_url) ? `<img src="${esc(d.logo_url)}" alt="" referrerpolicy="no-referrer">` : `<div class="p-mock-ico"></div>`}
+        <div><h3>${esc(d.app_name || "Your app")}</h3><p>${esc(d.tagline || "")}</p><span class="muted small">${esc(d.company || "")}${cat ? ` · ${esc(cat.name)}` : ""}${d.license ? ` · ${esc(d.license)}` : ""}</span></div>
+        <span class="p-mock-get">${d.wants_paid && d.price_usd ? "$" + esc(d.price_usd) : "GET"}</span></div>
+      ${shots.length ? `<div class="p-rv-shots">${shots.map((s) => `<img src="${esc(s)}" alt="" referrerpolicy="no-referrer" loading="lazy" onerror="this.outerHTML='<span class=p-badimg>Image link is broken</span>'">`).join("")}</div>` : ""}
+      <p class="p-rv-desc">${esc(d.app_desc || "")}</p>
+      <dl class="p-rv-facts"><div><dt>Source</dt><dd>${esc(d.repo_url || "—")}</dd></div><div><dt>Installs from</dt><dd>${esc((INSTALLS.find(([k]) => k === d.install_kind) || [, "—"])[1])}${d.install_pkg ? ` · ${esc(d.install_pkg)}` : ""}</dd></div>
+        <div><dt>Contact</dt><dd>${esc(d.name || "")} · ${esc(d.email || "")}</dd></div></dl>
+    </div>`;
+  }
+
+  function devPreviewHtml(d) {
+    const shots = String(d.screenshots || "").split(/\s+/).filter(httpsOk).slice(0, 3);
+    return `<div class="p-pv-label">${pi("eye")} Live preview</div>
+      <div class="p-pv-card">
+        <div class="p-mock-row">${httpsOk(d.logo_url) ? `<img class="p-pv-ico" src="${esc(d.logo_url)}" alt="" referrerpolicy="no-referrer">` : `<div class="p-mock-ico"></div>`}
+          <div><b>${esc(d.app_name || "Your App")}</b><span>${esc(d.tagline || "Your one-line tagline")}</span></div><span class="p-mock-get">${d.wants_paid && d.price_usd ? "$" + esc(d.price_usd) : "GET"}</span></div>
+        <div class="p-pv-shots">${shots.length ? shots.map((s) => `<img src="${esc(s)}" alt="" referrerpolicy="no-referrer" loading="lazy" onerror="this.outerHTML='<span class=p-badimg>Image link is broken</span>'">`).join("") : "<i></i><i></i>"}</div>
+      </div>
+      <ul class="p-check">${[
+        ["Tagline", (d.tagline || "").length >= 10], ["Source repository", /^https:\/\/(github\.com|gitlab\.com|codeberg\.org)\/[\w.-]+\/[\w.-]+\/?$/.test(d.repo_url || "")],
+        ["Logo", httpsOk(d.logo_url)], ["Screenshots", String(d.screenshots || "").split(/\s+/).some(httpsOk)], ["Write-up (200+ characters)", (d.app_desc || "").length >= 200],
+      ].map(([l, ok]) => `<li class="${ok ? "ok" : ""}"><i>${ok ? "✓" : ""}</i>${l}</li>`).join("")}</ul>`;
+  }
+
+  // Save every keystroke to the draft and refresh the preview.
+  function devCapture(f) {
+    const d = draft();
+    for (const el of f.elements) {
+      if (!el.name || el.name === "cf-turnstile-response") continue;
+      if (el.type === "radio") { if (el.checked) d[el.name] = el.value; }
+      else if (el.type === "checkbox") d[el.name] = el.checked;
+      else d[el.name] = el.value;
+    }
+    try { localStorage.setItem(P.draft, JSON.stringify(d)); } catch {}
+    return d;
+  }
+  function devRefresh(d) {
+    const pv = $("#dev-preview"); if (pv) pv.innerHTML = devPreviewHtml(d);
+    const sh = $("#pv-shots"); if (sh) sh.innerHTML = String(d.screenshots || "").split(/\s+/).filter(httpsOk).slice(0, 6).map((s) => `<img src="${esc(s)}" alt="" referrerpolicy="no-referrer" loading="lazy" onerror="this.outerHTML='<span class=p-badimg>Image link is broken</span>'">`).join("");
+    document.querySelectorAll("[data-count]").forEach((c) => { const n = (d[c.dataset.count] || "").length; c.textContent = `${n} / ${c.dataset.max}`; c.classList.toggle("bad", n > 0 && n < Number(c.dataset.min)); });
+    const box = $("#dev-form .paid-box"); if (box) box.hidden = !d.wants_paid;
+    document.querySelectorAll("#dev-form .p-opt").forEach((o) => o.classList.toggle("on", o.querySelector("input").checked));
+  }
+  // Client-side checks per step (the server checks everything again).
+  function devCheck(step, d) {
+    const email = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+    if (step === 0) {
+      if (!d.company?.trim()) return "Enter your company or studio name (or your own name)";
+      if (!d.name?.trim()) return "Enter your name";
+      if (!email.test(d.email || "")) return "Enter a valid email";
+      if (d.website && !httpsOk(d.website)) return "Your website must start with https://";
+    }
+    if (step === 1) {
+      if (!d.app_name?.trim()) return "Enter your app's name";
+      if (!d.category) return "Pick a category";
+      if ((d.tagline || "").trim().length < 10) return "Your tagline needs at least 10 characters";
+      if (!/^https:\/\/(github\.com|gitlab\.com|codeberg\.org)\/[\w.-]+\/[\w.-]+\/?$/.test(d.repo_url || "")) return "Add your source repository, like https://github.com/you/your-app";
+      if (!d.license) return "Pick a license";
+      if (!d.install_kind) return "Tell us how it installs";
+      if (["aur", "pacman"].includes(d.install_kind) && !/^[a-z0-9@._+-]+$/.test(d.install_pkg || "")) return "Enter the package name";
+    }
+    if (step === 2) {
+      if (!httpsOk(d.logo_url)) return "Add a link to your logo (https://…)";
+      const s = String(d.screenshots || "").split(/\s+/).filter(Boolean);
+      if (!s.length || !s.every(httpsOk)) return "Add 1–6 screenshot links, each starting with https://";
+      if (s.length > 6) return "Use at most 6 screenshots";
+      if ((d.app_desc || "").trim().length < 200) return `Your write-up needs at least 200 characters (you have ${(d.app_desc || "").trim().length})`;
+    }
+    if (step === 3 && d.wants_paid) {
+      const p = Number(d.price_usd);
+      if (!(p >= 0.99 && p <= 999)) return "Set a price between $0.99 and $999";
+      if (!(d.p_sol || d.p_evm || d.p_btc || d.p_xrp)) return "Add at least one wallet address so you can be paid";
+    }
+    return "";
+  }
+  function devGoto(step) {
+    const f = $("#dev-form"); if (!f) return;
+    P.step = Math.max(0, Math.min(DEV_STEPS.length - 1, step));
+    f.innerHTML = `<ol class="p-stepper">${DEV_STEPS.map(([k, l], i) => `<li data-p-step="${i}" class="${i === P.step ? "on" : i < P.step ? "done" : ""}"><i>${i < P.step ? "✓" : i + 1}</i><span>${l}</span></li>`).join("")}</ol>${devStepHtml()}`;
+    devRefresh(draft());
+    if (P.step === DEV_STEPS.length - 1) { const b = $("#dev-form .ts-box"); if (b) turnstileMount(b); }
+    $("#dev-wizard")?.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+  function devSubmit(f) {
+    const d = devCapture(f);
+    for (let i = 0; i < DEV_STEPS.length - 1; i++) { const m = devCheck(i, d); if (m) { devGoto(i); const e = $("#dev-form .form-err"); e.textContent = m; e.hidden = false; return; } }
+    if (!d.agree) { const e = f.querySelector(".form-err"); e.textContent = "Please accept the store terms"; e.hidden = false; return; }
+    const hint = d.install_kind === "aur" || d.install_kind === "pacman" ? `${d.install_kind}:${d.install_pkg}` : d.install_kind;
+    submitForm(f, "/developers", {
+      company: d.company, name: d.name, email: d.email, website: d.website, github: d.github, telegram: d.telegram,
+      app_name: d.app_name, category: d.category, tagline: d.tagline, repo_url: (d.repo_url || "").replace(/\/+$/, ""), license: d.license, install_hint: hint, app_url: d.app_url,
+      logo_url: d.logo_url, screenshots: String(d.screenshots || "").split(/\s+/).filter(Boolean), app_desc: d.app_desc,
+      wants_paid: !!d.wants_paid, price_usd: d.wants_paid ? Number(d.price_usd) : null, p_evm: d.p_evm, p_sol: d.p_sol, p_btc: d.p_btc, p_xrp: d.p_xrp, agree: true,
+    }, (j) => {
+      saveLink("dev", j.id, j.url.replace(/^https:\/\/omarchystore\.com/, ""), d.app_name);
+      try { localStorage.removeItem(P.draft); } catch {}
+      P.step = 0;
+      $("#dev-wizard").innerHTML = `<div class="p-done">${ico("ok")}<div>
+        <h3>${esc(d.app_name)} is in the review queue</h3>
+        <p>Your private status page shows where it is, our messages, and lets you send fixes. <b>Save this link</b> — it's the key to your submission.</p>
+        <div class="p-linkbox"><code>${esc(j.url)}</code><button class="btn" type="button" data-copy="${esc(j.url)}">Copy link</button></div>
+        <div class="p-cta"><a class="btn" href="${esc(j.url.replace(/^https:\/\/omarchystore\.com/, ""))}">Open my status page</a>
+          <a class="btn ghost" href="https://t.me/OmarchyStoreBot?start=dev_${j.id}" target="_blank" rel="noopener">Get updates on Telegram</a></div>
+      </div></div>`;
+    });
+  }
+
+  async function loadDevStatus(el) {
+    const id = qs("status"), t = qs("t");
+    try {
+      const d = await pGet(`/dev/status?id=${encodeURIComponent(id)}&t=${encodeURIComponent(t)}`);
+      saveLink("dev", d.id, location.pathname + location.search, d.app_name);
+      const ST = { pending: ["In review", "We're checking your app. Usually 1–2 days."], changes: ["Changes needed", "We need a few fixes — see the message below, then send an update."],
+        approved: ["Approved", "Approved! We're preparing your store page."], live: ["Live", "Your app is live in the store."], rejected: ["Not approved", "Your app wasn't approved this time. See our message below."] }[d.status] || [d.status, ""];
+      const at = d.status === "changes" ? "review" : d.status === "pending" ? "review" : d.status === "rejected" ? "review" : d.status;
+      const editable = ["pending", "changes"].includes(d.status);
+      el.innerHTML = `${backBtn()}
+        <section class="p-status-head">
+          ${httpsOk(d.logo_url) ? `<img src="${esc(d.logo_url)}" alt="" referrerpolicy="no-referrer">` : `<div class="p-mock-ico"></div>`}
+          <div><div class="eyebrow">SUBMISSION #${d.id}</div><h1>${esc(d.app_name)}</h1><p>${esc(d.tagline || "")}</p></div>
+          <span class="p-pill ${d.status}">${ST[0]}</span>
+        </section>
+        ${tracker([["sent", "Submitted"], ["review", d.status === "changes" ? "Changes needed" : d.status === "rejected" ? "Not approved" : "In review"], ["approved", "Approved"], ["live", "Live"]], at, ["changes", "rejected"].includes(d.status))}
+        <p class="p-status-note">${ST[1]}${d.listing ? ` <a href="${esc(d.listing.replace(/^https:\/\/omarchystore\.com/, ""))}">Open your store page →</a>` : ""}</p>
+        <div class="p-cols">
+          <section class="p-card"><h2>Messages</h2>${thread(d.messages, "You")}
+            <form class="p-reply" data-p-reply="dev"><textarea name="body" rows="3" maxlength="2000" placeholder="Write to the Omarchy Store team…"></textarea>
+              <div class="form-err" hidden></div><button class="btn" type="submit">${pi("send")} Send</button></form>
+            ${d.telegram_linked ? `<p class="small muted">${ico("ok")} You get Telegram alerts for this submission.</p>` : `<a class="btn ghost" href="https://t.me/OmarchyStoreBot?start=dev_${d.id}" target="_blank" rel="noopener">Get updates on Telegram</a>`}
+          </section>
+          <section class="p-card"><h2>Your submission</h2>
+            <dl class="p-rv-facts">
+              <div><dt>Company</dt><dd>${esc(d.company || "—")}</dd></div><div><dt>Submitted</dt><dd>${fmtDate(d.ts)}</dd></div>
+              <div><dt>Source</dt><dd>${httpsOk(d.repo_url) ? `<a href="${esc(d.repo_url)}" target="_blank" rel="noopener">${esc(d.repo_url.replace(/^https:\/\//, ""))}</a>` : "—"}</dd></div>
+              <div><dt>License</dt><dd>${esc(d.license || "—")}</dd></div><div><dt>Installs from</dt><dd>${esc(d.install_hint || "—")}</dd></div>
+              <div><dt>Price</dt><dd>${d.wants_paid ? `$${esc(d.price_usd)}` : "Free"}</dd></div>
+            </dl>
+            ${d.screenshots?.length ? `<div class="p-rv-shots">${d.screenshots.map((s) => httpsOk(s) ? `<img src="${esc(s)}" alt="" referrerpolicy="no-referrer" loading="lazy" onerror="this.outerHTML='<span class=p-badimg>Image link is broken</span>'">` : "").join("")}</div>` : ""}
+            ${editable ? `<button class="btn ghost" type="button" data-p-edit>${pi("edit")} Edit and resend</button>` : ""}
+          </section>
+        </div>
+        ${editable ? `<form class="p-card p-form" id="dev-update" hidden><h2>Update your submission</h2>
+          <div class="fgrid">
+            ${pField("Tagline", `<input name="tagline" maxlength="90" value="${esc(d.tagline || "")}">`, "", true)}
+            ${pField("Source repository", `<input name="repo_url" value="${esc(d.repo_url || "")}">`, "", true)}
+            ${pField("Logo link", `<input name="logo_url" value="${esc(d.logo_url || "")}">`, "", true)}
+            ${pField("Screenshot links", `<textarea name="screenshots" rows="4">${esc((d.screenshots || []).join("\n"))}</textarea>`, "(one per line)", true)}
+            ${pField("Write-up", `<textarea name="app_desc" rows="8" maxlength="3000">${esc(d.app_desc || "")}</textarea>`, "", true)}
+            ${pField("App website", `<input name="app_url" value="${esc(d.app_url || "")}">`)}
+            ${pField("Installs from", `<input name="install_hint" value="${esc(d.install_hint || "")}" placeholder="aur:my-app">`)}
+            ${pField("What changed?", `<input name="note" maxlength="300" placeholder="Added two screenshots">`, "(optional)", true)}
+          </div><div class="form-err" hidden></div>
+          <div class="p-nav"><button class="btn ghost" type="button" data-p-edit>Cancel</button><button class="btn" type="submit">Send update</button></div>
+          <input type="hidden" name="category" value="${esc(d.category || "")}"><input type="hidden" name="license" value="${esc(d.license || "")}"></form>` : ""}
+        <p class="small muted">${pi("lock")} This page is private. Anyone with this link can see it, so only share it with your team.</p>
+        ${footer()}`;
+      el.dataset.d = JSON.stringify({ id: d.id });
+    } catch (e) {
+      el.innerHTML = `<div class="p-card" style="max-width:620px;margin:40px auto;text-align:center"><h2>We couldn't open that submission</h2><p class="muted">${esc(e.message)}. Check the link from your confirmation, or <a style="color:var(--accent)" href="/contact/">contact us</a> and we'll send a new one.</p><a class="btn" href="/submit/">Go to Submit an app</a></div>`;
+    }
+  }
+
+  // ---------------------------------------------------------------- Advertisers
+  const SLOTS = [
+    { id: "banner", name: "Discover billboard", where: "A wide banner between shelves on the store's front page — the first thing people see.", best: "Brand launches, products, services" },
+    { id: "sponsored-app", name: "Sponsored listing", where: "Your app at the top of its category and in search results, with a small Ad badge.", best: "Apps already in the store" },
+    { id: "search", name: "Search banner", where: "A compact banner under search results, shown when people are looking for something.", best: "Tools and services people search for" },
+    { id: "artist", name: "Artist spotlight", where: "A full-width music feature with your artwork, play and follow buttons.", best: "Musicians, labels, podcasts" },
+  ];
+  const BUDGETS = ["Not sure yet", "Under $250", "$250–$1,000", "$1,000–$5,000", "$5,000+"];
+  function slotMock(id) {
+    const shelf = `<div class="sm-shelf"><i></i><i></i><i></i><i></i></div>`;
+    if (id === "banner") return `<div class="sm"><div class="sm-hero"></div>${shelf}<div class="sm-ad wide">Your brand</div>${shelf}</div>`;
+    if (id === "sponsored-app") return `<div class="sm"><div class="sm-title"></div><div class="sm-row ad"><b></b><span>Ad</span></div><div class="sm-row"><b></b></div><div class="sm-row"><b></b></div></div>`;
+    if (id === "search") return `<div class="sm"><div class="sm-search">${pi("search")}</div><div class="sm-row"><b></b></div><div class="sm-row"><b></b></div><div class="sm-ad slim">Your banner</div></div>`;
+    return `<div class="sm"><div class="sm-ad art"><span>▶</span>Your music</div>${shelf}</div>`;
+  }
+  function adPreview(d) {
+    const slot = d.slot || "banner", title = d.headline || "Your headline here", body = d.body || "One short line about what you offer.", cta = d.cta || "Learn more";
+    if (slot === "sponsored-app") {
+      const a = S.byId[d.app];
+      return a ? `<div class="lockup ad-app">${iconImg(a, 64)}<div class="meta"><div class="name"><span class="ad-badge">Ad</span>${esc(a.name)}</div><div class="sub">${esc(a.summary)}</div><div class="stars">Sponsored by ${esc(d.company || a.developer)}</div></div></div>`
+        : `<p class="muted small">Pick your app above to see the preview.</p>`;
+    }
+    if (slot === "artist") return `<div class="p-ad-artist" style="${httpsOk(d.image_url) ? `background-image:url('${esc(d.image_url)}')` : ""}"><span class="ad-chip">Sponsored</span><h3>${esc(title)}</h3><span class="cta">${esc(cta)}</span></div>`;
+    return `<div class="ad-banner p-ad-pv" style="${httpsOk(d.image_url) ? `background:linear-gradient(90deg,rgba(0,0,0,.65),rgba(0,0,0,.1)),url('${esc(d.image_url)}') center/cover` : "background:linear-gradient(120deg,#1a1b26,#7aa2f7)"}${slot === "search" ? ";padding:18px 22px" : ""}">
+      <div><span class="ad-chip">Sponsored</span><h3 ${slot === "search" ? 'style="font-size:18px"' : ""}>${esc(title)}</h3><p>${esc(body)}</p></div><span class="cta">${esc(cta)}</span></div>`;
+  }
+
+  function pageAdvertise() {
+    if (qs("status")) return `<div class="page p-page" id="p-status" data-kind="ad"><div class="p-loading">Loading your campaign…</div></div>`;
+    const links = myLinks().filter((l) => l.kind === "ad");
+    const d = { slot: "banner" };
+    return `<div class="page p-page">
+      <section class="p-hero ads">
+        <div class="p-hero-copy">
+          <div class="eyebrow">ADVERTISE WITH US</div>
+          <h1>Put your brand where Omarchy users discover software.</h1>
+          <p>Reach the developers, creators and power users who chose their own desktop — on the web and inside the Omarchy Store app. Clearly labelled, no tracking, and you pay in crypto.</p>
+          <div class="p-cta"><a class="btn big" href="#ad-book" data-p-jump="ad-book">Plan a campaign</a>
+            ${links.length ? `<a class="btn ghost" href="${esc(links[0].url)}">Check my campaign</a>` : `<span class="p-hint">Request a quote · we reply in 1–2 days</span>`}</div>
+        </div>
+        <div class="p-hero-art" aria-hidden="true"><div class="p-hero-ad">${adPreview({ headline: "Your brand, front and center", body: "Seen by Linux power users every day.", cta: "Learn more" })}</div></div>
+      </section>
+
+      <div class="p-benefits">
+        <div><span>${pi("users")}</span><b>A rare audience</b><p>Developers and Linux power users who are hard to reach anywhere else.</p></div>
+        <div><span>${ico("globe")}</span><b>Web + desktop app</b><p>Your ad shows on omarchystore.com and inside the desktop store.</p></div>
+        <div><span>${ico("shield")}</span><b>Trusted, not creepy</b><p>No tracking pixels, no third-party cookies. Every ad is labelled.</p></div>
+        <div><span>${pi("coin")}</span><b>Pay in crypto</b><p>USDC, ETH, SOL, Bitcoin or XRP. No card fees, no middlemen.</p></div>
+      </div>
+
+      <section class="shelf"><div class="shelf-head"><h2>Placements</h2><span class="muted small">Pick one to start</span></div>
+        <div class="p-slots">${SLOTS.map((s) => `<button type="button" class="p-slot" data-p-slot="${s.id}">${slotMock(s.id)}<b>${s.name}</b><p>${s.where}</p><span class="muted small">Best for: ${s.best}</span><span class="p-go">Choose →</span></button>`).join("")}</div></section>
+
+      ${links.length ? `<section class="shelf"><div class="shelf-head"><h2>Your campaigns</h2><span class="muted small">Saved in this browser</span></div>
+        <div class="p-mine">${links.map((l) => `<a class="p-mine-row" href="${esc(l.url)}">${ico("megaphone")}<b>${esc(l.name)}</b><span class="muted small">Requested ${fmtDate(l.ts)}</span><span class="p-go">Open status →</span></a>`).join("")}</div></section>` : ""}
+
+      <section class="shelf" id="ad-book"><div class="shelf-head"><h2>Request a quote</h2><span class="muted small">No payment now — we reply with price and availability</span></div>
+        <div class="p-wizard">
+          <form id="ad-form" class="p-form" novalidate>
+            <div class="p-step-h"><h3>1 · Placement and dates</h3></div>
+            <div class="p-choice four">${SLOTS.map((s) => `<label class="p-opt ${s.id === d.slot ? "on" : ""}"><input type="radio" name="slot" value="${s.id}" ${s.id === d.slot ? "checked" : ""}><b>${s.name}</b></label>`).join("")}</div>
+            <div class="fgrid">
+              <label class="wide p-app-pick" hidden>App to sponsor <input name="app" list="p-apps" placeholder="Start typing an app name…" autocomplete="off"><datalist id="p-apps">${S.catalog.apps.slice(0, 2000).map((a) => `<option value="${esc(a.id)}">${esc(a.name)}</option>`).join("")}</datalist></label>
+              ${pField("Start date", `<input name="starts" type="date">`)}
+              ${pField("End date", `<input name="ends" type="date">`)}
+              ${pField("Budget", `<select name="budget">${BUDGETS.map((b) => `<option>${b}</option>`).join("")}</select>`, "(helps us suggest the right slot)", true)}
+            </div>
+            <div class="p-step-h"><h3>2 · Your ad</h3><p>We'll polish it with you before it goes live.</p></div>
+            <div class="fgrid p-creative">
+              ${pField("Headline", `<input name="headline" maxlength="60" placeholder="Linux-native hosting with a free tier">`, "", true)}
+              ${pField("One line of copy", `<input name="body" maxlength="140" placeholder="Deploy in seconds. No credit card needed.">`, "", true)}
+              ${pField("Button text", `<input name="cta" maxlength="24" placeholder="Try it free">`)}
+              ${pField("Link", `<input name="url" type="url" maxlength="300" placeholder="https://">`)}
+              ${pField("Artwork link", `<input name="image_url" type="url" maxlength="400" placeholder="https://… (2400×900 for billboards)">`, "(optional — we copy it to our server, so no tracking)", true)}
+            </div>
+            <div class="p-pv-label">${pi("eye")} Live preview</div>
+            <div class="p-ad-preview" id="ad-preview">${adPreview(d)}</div>
+            <div class="p-step-h"><h3>3 · About you</h3></div>
+            <div class="fgrid">
+              ${pField("Company or brand", `<input name="company" maxlength="80">`)}
+              ${pField("Your name", `<input name="name" maxlength="80">`)}
+              ${pField("Email", `<input name="email" type="email" maxlength="120">`)}
+              ${pField("Website", `<input name="website" type="url" maxlength="200" placeholder="https://">`, "(optional)")}
+              ${pField("Telegram", `<input name="telegram" maxlength="40" placeholder="@yourname">`, "(optional)")}
+              ${pField("Anything else?", `<textarea name="notes" rows="3" maxlength="1500" placeholder="Goals, audience, questions…"></textarea>`, "(optional)", true)}
+            </div>
+            <label class="check"><input type="checkbox" name="agree"> My ad follows the policy below, and I understand every ad is labelled Sponsored.</label>
+            <div class="ts-box"></div>
+            <div class="form-err" hidden></div>
+            <div class="p-nav"><span></span><button class="btn big" type="submit">Request a quote</button></div>
+          </form>
+          <aside class="p-preview p-faq-side">
+            <div class="p-pv-label">${pi("clock")} What happens next</div>
+            <ol class="p-mini-steps"><li><b>We reply with a quote</b>Price and available dates, usually within 1–2 days.</li><li><b>You approve and pay</b>In crypto, from your private campaign page.</li><li><b>Your ad goes live</b>On the dates you picked. We send you click numbers.</li></ol>
+          </aside>
+        </div></section>
+
+      <section class="shelf"><div class="shelf-head"><h2>Ad policy</h2></div>
+        <div class="p-policy"><div><h3>${ico("ok")} We accept</h3><p>Developer tools, hardware, hosting, VPNs and privacy tools, Linux-friendly software and services, courses, conferences, and music.</p></div>
+          <div><h3>${ico("warn")} We don't accept</h3><p>Gambling, malware or "PC cleaner" software, token promotions, or misleading claims.</p></div>
+          <div><h3>${ico("shield")} Respectful by design</h3><p>Every ad is labelled <b>Sponsored</b> or <b>Ad</b>. Ads never change Top Charts or search ranking. No tracking pixels and no third-party cookies.</p></div></div></section>
+      ${footer()}
+    </div>`;
+  }
+
+  async function loadAdStatus(el) {
+    const id = qs("status"), t = qs("t");
+    try {
+      const a = await pGet(`/ads/status?id=${encodeURIComponent(id)}&t=${encodeURIComponent(t)}`);
+      saveLink("ad", a.id, location.pathname + location.search, `${a.company} — ${(SLOTS.find((s) => s.id === a.slot) || {}).name || a.slot}`);
+      const ST = { new: ["Received", "We're looking at your request and will reply with a quote."], quoted: ["Quote ready", "Your quote is below. Pay when you're ready and we'll book your dates."],
+        approved: ["Approved", "Approved — pay below to lock in your dates."], paid: ["Paid", "Payment received. We're setting up your ad."], live: ["Live", "Your ad is live!"],
+        declined: ["Declined", "We can't run this campaign. See our message below."], done: ["Finished", "This campaign has ended. Thanks for advertising with us!"] }[a.status] || [a.status, ""];
+      const at = { new: "new", quoted: "quoted", approved: "quoted", paid: "paid", live: "live", done: "live", declined: "quoted" }[a.status];
+      const canPay = ["quoted", "approved"].includes(a.status) && a.quote_usd > 0;
+      el.innerHTML = `${backBtn()}
+        <section class="p-status-head"><div class="p-mock-ico p-ad-ico">${ico("megaphone")}</div>
+          <div><div class="eyebrow">CAMPAIGN #${a.id}</div><h1>${esc(a.company)}</h1><p>${esc((SLOTS.find((s) => s.id === a.slot) || {}).name || a.slot)} · ${esc(a.starts)} → ${esc(a.ends)}</p></div>
+          <span class="p-pill ${a.status}">${ST[0]}</span></section>
+        ${tracker([["new", "Request received"], ["quoted", "Quote"], ["paid", "Paid"], ["live", "Live"]], at, a.status === "declined")}
+        <p class="p-status-note">${ST[1]}</p>
+        ${a.quote_usd ? `<section class="p-card p-quote"><div><div class="eyebrow">YOUR QUOTE</div><div class="p-price">$${Number(a.quote_usd).toLocaleString()}</div><p class="muted small">${esc((SLOTS.find((s) => s.id === a.slot) || {}).name)} · ${esc(a.starts)} → ${esc(a.ends)}</p></div>
+          ${canPay ? `<div class="p-pay"><label>Pay with<select id="ad-chain">${(a.payments || []).map((m) => `<option value="${m.id}" ${m.recommended ? "selected" : ""}>${esc(m.name)}</option>`).join("")}</select></label><button class="btn big" type="button" data-p-adpay>Pay now</button></div>`
+            : a.order?.status === "paid" || a.status === "paid" || a.status === "live" ? `<span class="p-pill live">Paid ✓</span>` : ""}
+          <div id="ad-invoice"></div></section>` : ""}
+        <div class="p-cols">
+          <section class="p-card"><h2>Messages</h2>${thread(a.messages, "You")}
+            <form class="p-reply" data-p-reply="ad"><textarea name="body" rows="3" maxlength="2000" placeholder="Write to the Omarchy Store team…"></textarea>
+              <div class="form-err" hidden></div><button class="btn" type="submit">${pi("send")} Send</button></form></section>
+          <section class="p-card"><h2>Your ad</h2><div class="p-ad-preview">${adPreview({ ...a, body: a.body })}</div>
+            <dl class="p-rv-facts"><div><dt>Link</dt><dd>${esc(a.url || "—")}</dd></div><div><dt>Budget</dt><dd>${esc(a.budget || "—")}</dd></div><div><dt>Contact</dt><dd>${esc(a.name)} · ${esc(a.email)}</dd></div></dl></section>
+        </div>
+        <p class="small muted">${pi("lock")} This page is private. Anyone with this link can see it, so only share it with your team.</p>
+        ${footer()}`;
+    } catch (e) {
+      el.innerHTML = `<div class="p-card" style="max-width:620px;margin:40px auto;text-align:center"><h2>We couldn't open that campaign</h2><p class="muted">${esc(e.message)}. Check the link from your confirmation, or <a style="color:var(--accent)" href="/contact/">contact us</a>.</p><a class="btn" href="/advertise/">Go to Advertise</a></div>`;
+    }
+  }
+  function adCapture(f) {
+    const d = {}; for (const el of f.elements) if (el.name && (el.type !== "radio" || el.checked)) d[el.name] = el.type === "checkbox" ? el.checked : el.value.trim();
+    return d;
+  }
+  function adRefresh(f) {
+    const d = adCapture(f);
+    f.querySelectorAll(".p-opt").forEach((o) => o.classList.toggle("on", o.querySelector("input").checked));
+    f.querySelector(".p-app-pick").hidden = d.slot !== "sponsored-app";
+    f.querySelector(".p-creative").hidden = d.slot === "sponsored-app";
+    $("#ad-preview").innerHTML = adPreview(d);
+  }
+  async function adInvoice(btn) {
+    const box = $("#ad-invoice"), chain = $("#ad-chain").value;
+    btn.disabled = true; btn.textContent = "Creating invoice…";
+    try {
+      const o = await pPost("/ads/pay", { id: qs("status"), t: qs("t"), chain });
+      box.innerHTML = `<div class="p-invoice"><p>Send <b>exactly</b> this amount. The extra digits identify your payment.</p>
+        <div class="p-linkbox"><span class="muted small">Amount</span><code>${esc(o.amount)} ${esc(o.coin)}</code><button class="btn ghost" type="button" data-copy="${esc(o.amount)}">Copy</button></div>
+        <div class="p-linkbox"><span class="muted small">To (${esc(o.network)})</span><code>${esc(o.address)}</code><button class="btn ghost" type="button" data-copy="${esc(o.address)}">Copy</button></div>
+        ${o.tag ? `<div class="p-linkbox"><span class="muted small">Destination tag</span><code>${esc(o.tag)}</code><button class="btn ghost" type="button" data-copy="${esc(o.tag)}">Copy</button></div>` : ""}
+        <div class="p-cta"><a class="btn" href="${esc(o.uri)}">Open in wallet</a><span class="muted small" id="ad-paystate">Waiting for payment… this page checks automatically.</span></div></div>`;
+      btn.hidden = true;
+      const poll = async () => {
+        if (!document.body.contains(box)) return;
+        try { const s = await pGet(`/orders/${o.id}`); if (s.status === "paid") { $("#ad-paystate").textContent = "Paid ✓ — thank you!"; setTimeout(route, 1500); return; } if (s.status === "seen") $("#ad-paystate").textContent = "Payment seen — waiting for confirmations…"; } catch {}
+        setTimeout(poll, 20000);
+      };
+      setTimeout(poll, 20000);
+    } catch (e) { box.innerHTML = `<p class="form-err">${esc(e.message)}</p>`; btn.disabled = false; btn.textContent = "Pay now"; }
+  }
+
+  // ---------------------------------------------------------------- Donate
+  const COINS = [
+    { id: "btc", name: "Bitcoin", sym: "BTC", net: "Bitcoin network", addr: "bc1qpslg4dsu58eshpkmjwlchet7l0ma6qkx87jez7", uri: (a) => `bitcoin:${a}`, color: "#f7931a",
+      glyph: '<circle cx="16" cy="16" r="16" fill="#f7931a"/><path fill="#fff" d="M22.6 14c.3-2-1.2-3.1-3.3-3.8l.7-2.7-1.6-.4-.7 2.6-1.3-.3.7-2.7-1.7-.4-.6 2.7-1-.3-2.3-.5-.4 1.7s1.2.3 1.2.3c.7.2.8.6.8 1l-.8 3.1.2.1-.2-.1-1.1 4.4c-.1.2-.3.5-.8.4l-1.2-.3-.8 1.9 2.2.5 1.2.3-.7 2.8 1.7.4.7-2.7 1.3.3-.7 2.7 1.7.4.7-2.8c2.8.5 5 .3 5.9-2.3.7-2.1 0-3.3-1.5-4.1 1.1-.3 1.9-1 2.1-2.5zm-3.8 5.3c-.5 2.1-4 1-5.2.7l.9-3.7c1.2.3 4.8.9 4.3 3zm.5-5.4c-.5 1.9-3.4.9-4.3.7l.8-3.4c1 .2 4 .7 3.5 2.7z"/>' },
+    { id: "evm", name: "Ethereum & Base", sym: "ETH · USDC", net: "Ethereum or Base", addr: "0x4075e5738E8bb1e6f7b05B3BB83E74F1838F643c", uri: (a) => `ethereum:${a}`, color: "#627eea",
+      glyph: '<circle cx="16" cy="16" r="16" fill="#627eea"/><path fill="#fff" fill-opacity=".6" d="M16.5 4v8.9l7.5 3.3z"/><path fill="#fff" d="M16.5 4 9 16.2l7.5-3.3z"/><path fill="#fff" fill-opacity=".6" d="M16.5 22v6L24 17.6z"/><path fill="#fff" d="M16.5 28v-6L9 17.6z"/><path fill="#fff" fill-opacity=".2" d="m16.5 20.6 7.5-4.4-7.5-3.3z"/><path fill="#fff" fill-opacity=".6" d="m9 16.2 7.5 4.4v-7.7z"/>' },
+    { id: "sol", name: "Solana", sym: "SOL · USDC", net: "Solana", addr: "4Mpud9mbrjKEFWN8HP1VoVaxf5yRmgZVRG6rJVWbUAuk", uri: (a) => `solana:${a}`, color: "#9945ff",
+      glyph: '<defs><linearGradient id="solg" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#9945ff"/><stop offset="1" stop-color="#14f195"/></linearGradient></defs><circle cx="16" cy="16" r="16" fill="#111"/><path fill="url(#solg)" d="M10.3 19.6a.6.6 0 0 1 .4-.2h12.6c.3 0 .4.3.2.5l-2.5 2.5a.6.6 0 0 1-.4.2H8c-.3 0-.4-.3-.2-.5zm0-9.4a.6.6 0 0 1 .4-.2h12.6c.3 0 .4.3.2.5L21 13a.6.6 0 0 1-.4.2H8c-.3 0-.4-.3-.2-.5zm11.4 4.7a.6.6 0 0 0-.4-.2H8.7c-.3 0-.4.3-.2.5l2.5 2.5c.1.1.3.2.4.2h12.6c.3 0 .4-.3.2-.5z"/>' },
+    { id: "xrp", name: "XRP", sym: "XRP", net: "XRP Ledger", addr: "rPDuYdmQcw2GWJBBui2vbTA9B6YiAP8rQ6", uri: null, color: "#23292f",
+      glyph: '<circle cx="16" cy="16" r="16" fill="#23292f"/><path fill="#fff" d="M23 8h2.9l-6 5.9a5.6 5.6 0 0 1-7.8 0L6.1 8H9l4.6 4.5a3.5 3.5 0 0 0 4.8 0zM9 24H6.1l6-6a5.6 5.6 0 0 1 7.8 0l6 6H23l-4.6-4.5a3.5 3.5 0 0 0-4.8 0z"/>' },
+  ];
+  const coinIcon = (c, s = 40) => `<svg viewBox="0 0 32 32" width="${s}" height="${s}" aria-hidden="true">${c.glyph}</svg>`;
+
+  function pageDonate() {
+    return `<div class="page p-page">
+      <section class="p-hero donate">
+        <div class="p-hero-copy">
+          <div class="eyebrow">SUPPORT THE PROJECT</div>
+          <h1>Keep Omarchy Store free.</h1>
+          <p>No paywalls, no tracking, no selling your data. The world's largest app store for Omarchy is built by its founder and the community — your donation keeps it running, growing and independent.</p>
+          <div class="p-cta"><a class="btn big p-heart-btn" href="#coins" data-p-jump="coins">${pi("heart")} Donate with crypto</a><span class="p-hint">Goes straight to the founder's wallet</span></div>
+        </div>
+        <div class="p-hero-art" aria-hidden="true"><div class="p-coin-orbit">${COINS.map((c, i) => `<span style="--i:${i}">${coinIcon(c, 64)}</span>`).join("")}<b>${pi("heart")}</b></div></div>
+      </section>
+
+      <section class="shelf" id="coins"><div class="shelf-head"><h2>Choose a coin</h2><span class="muted small">Any amount helps</span></div>
+        <div class="p-coins">${COINS.map((c) => `<article class="p-coin" style="--c:${c.color}">
+          <header>${coinIcon(c)}<div><b>${c.name}</b><span>${c.sym}</span></div></header>
+          <img class="p-qr" src="${S.desktop ? SITE : "/"}assets/donate/${c.id}.svg" alt="QR code for the ${c.name} address" width="168" height="168">
+          <div class="p-addr"><code>${c.addr}</code></div>
+          <div class="p-coin-acts"><button class="btn" type="button" data-copy="${c.addr}" data-p-donate="${c.id}">Copy address</button>${c.uri ? `<a class="btn ghost" href="${c.uri(c.addr)}" data-p-donate="${c.id}">Open in wallet</a>` : ""}</div>
+          <p class="p-warn">${ico("warn")}<span>Send only on <b>${c.net}</b>. Other networks can lose your coins.</span></p>
+        </article>`).join("")}</div>
+        <p class="small muted" style="margin-top:12px">${ico("ok")} Every address is checksum-verified. Donations go directly to the founder's own wallet — the store never holds your money. Crypto donations aren't refundable and aren't tax-deductible.</p></section>
+
+      <section class="shelf"><div class="shelf-head"><h2>Where your support goes</h2></div>
+        <div class="p-benefits three">
+          <div><span>${ico("code")}</span><b>New features</b><p>The desktop app, Ignite, SnapDock, the browser — and what comes next.</p></div>
+          <div><span>${ico("shield")}</span><b>Safety reviews</b><p>Checking every submitted app before it reaches your desktop.</p></div>
+          <div><span>${ico("globe")}</span><b>Staying free</b><p>Hosting, domains and services, so the store never needs a paywall.</p></div>
+        </div></section>
+
+      <section class="shelf"><div class="shelf-head"><h2>Supporters</h2><button class="p-link" type="button" data-p-wall>Add your name</button></div>
+        <div id="p-wall" class="p-wall"><p class="muted small">Loading…</p></div>
+        <form id="sup-form" class="p-card p-form" hidden><h3>Add your name to the wall</h3><p class="muted small">Thank you! Names appear after a quick check. No links, please.</p>
+          <div class="fgrid">${pField("Name or nickname", `<input name="name" maxlength="40">`)}${pField("Coin you sent", `<select name="chain"><option value="">Prefer not to say</option>${COINS.map((c) => `<option value="${c.id}">${c.name}</option>`).join("")}</select>`)}
+          ${pField("Short message", `<input name="message" maxlength="140" placeholder="Keep it going!">`, "(optional)", true)}</div>
+          <div class="ts-box"></div><div class="form-err" hidden></div><div class="p-nav"><span></span><button class="btn" type="submit">Add me</button></div></form></section>
+
+      <section class="shelf"><div class="shelf-head"><h2>Other ways to help</h2></div>
+        <div class="info-cards">
+          <a class="info-card" href="${REPO}" target="_blank" rel="noopener"><span class="go-n">${ico("star")}</span><div><h3>Star us on GitHub</h3><p>It helps more people find the store.</p></div></a>
+          <a class="info-card" href="/submit/"><span class="go-n">${ico("plus")}</span><div><h3>Submit an app</h3><p>Made something great? List it for free.</p></div></a>
+          <a class="info-card" href="/advertise/"><span class="go-n">${ico("megaphone")}</span><div><h3>Advertise</h3><p>Reach Omarchy users and support the store.</p></div></a>
+        </div></section>
+      ${footer()}
+    </div>`;
+  }
+  async function loadWall() {
+    const el = $("#p-wall"); if (!el) return;
+    try {
+      const d = await pGet("/donate");
+      el.innerHTML = d.supporters.length ? d.supporters.map((s) => { const c = COINS.find((x) => x.id === s.chain);
+        return `<div class="p-sup">${c ? coinIcon(c, 22) : `<span class="p-sup-h">${pi("heart")}</span>`}<div><b>${esc(s.name)}</b>${s.message ? `<span>${esc(s.message)}</span>` : ""}</div></div>`; }).join("")
+        : `<p class="muted small">Be the first name on the wall. ${pi("heart")}</p>`;
+    } catch { el.innerHTML = `<p class="muted small">Couldn't load the wall right now.</p>`; }
+  }
+
+  // ---------------------------------------------------------------- events
+  function portalAfter(p) {
+    if (p === "submit") { const s = $("#p-status"); if (s) loadDevStatus(s); else devRefresh(draft()); if (P.step === DEV_STEPS.length - 1) { const b = $("#dev-form .ts-box"); if (b) turnstileMount(b); } }
+    if (p === "advertise") { const s = $("#p-status"); if (s) loadAdStatus(s); else { const b = $("#ad-form .ts-box"); if (b) turnstileMount(b); const f = $("#ad-form"); if (f) adRefresh(f); } }
+    if (p === "donate") loadWall();
+    if (location.hash && ["submit", "advertise", "donate"].includes(p)) setTimeout(() => document.getElementById(location.hash.slice(1))?.scrollIntoView({ block: "start" }), 50);
+  }
+  document.addEventListener("input", (e) => {
+    const f = e.target.closest("#dev-form"); if (f) devRefresh(devCapture(f));
+    const a = e.target.closest("#ad-form"); if (a) adRefresh(a);
+  });
+  document.addEventListener("change", (e) => {
+    const f = e.target.closest("#dev-form"); if (f) devRefresh(devCapture(f));
+    const a = e.target.closest("#ad-form"); if (a) adRefresh(a);
+  });
+  document.addEventListener("click", (e) => {
+    const t = e.target.closest("[data-p-next],[data-p-back],[data-p-step],[data-p-clear],[data-p-jump],[data-p-slot],[data-p-edit],[data-p-wall],[data-p-adpay],[data-p-donate],[data-ad]");
+    if (!t) return;
+    if (t.matches("[data-ad]")) { trackEvent("ad", t.dataset.ad); return; }
+    if (t.matches("[data-p-donate]")) { trackEvent("donate", t.dataset.pDonate); return; }
+    if (t.matches("[data-p-jump]")) { e.preventDefault(); document.getElementById(t.dataset.pJump)?.scrollIntoView({ behavior: "smooth", block: "start" }); return; }
+    const f = $("#dev-form");
+    if (t.matches("[data-p-next]") && f) {
+      const d = devCapture(f), m = devCheck(P.step, d);
+      if (m) { const er = f.querySelector(".form-err"); er.textContent = m; er.hidden = false; return; }
+      devGoto(P.step + 1);
+    } else if (t.matches("[data-p-back]") && f) { devCapture(f); devGoto(P.step - 1); }
+    else if (t.matches("[data-p-step]") && f) {
+      const want = Number(t.dataset.pStep), d = devCapture(f);
+      for (let i = 0; i < want; i++) { const m = devCheck(i, d); if (m) { devGoto(i); const er = $("#dev-form .form-err"); er.textContent = m; er.hidden = false; return; } }
+      devGoto(want);
+    } else if (t.matches("[data-p-clear]")) { if (confirm("Clear the form and start over?")) { try { localStorage.removeItem(P.draft); } catch {} P.step = 0; devGoto(0); } }
+    else if (t.matches("[data-p-slot]")) {
+      const r = document.querySelector(`#ad-form input[name="slot"][value="${t.dataset.pSlot}"]`);
+      if (r) { r.checked = true; adRefresh($("#ad-form")); }
+      $("#ad-book")?.scrollIntoView({ behavior: "smooth", block: "start" });
+    } else if (t.matches("[data-p-edit]")) { const u = $("#dev-update"); if (u) { u.hidden = !u.hidden; if (!u.hidden) u.scrollIntoView({ behavior: "smooth" }); } }
+    else if (t.matches("[data-p-wall]")) { const s = $("#sup-form"); s.hidden = !s.hidden; if (!s.hidden && !s.dataset.ts) { s.dataset.ts = 1; turnstileMount(s.querySelector(".ts-box")); } }
+    else if (t.matches("[data-p-adpay]")) adInvoice(t);
+  });
+  document.addEventListener("submit", async (e) => {
+    const f = e.target;
+    if (f.matches("#dev-form")) { e.preventDefault(); devSubmit(f); }
+    else if (f.matches("#ad-form")) {
+      e.preventDefault();
+      const d = adCapture(f), er = f.querySelector(".form-err");
+      const bad = !d.starts || !d.ends ? "Pick a start and end date" : d.ends < d.starts ? "The end date is before the start date"
+        : d.slot === "sponsored-app" && !S.byId[d.app] ? "Pick the app you want to sponsor from the list"
+        : d.slot !== "sponsored-app" && d.headline.length < 3 ? "Add a headline for your ad" : d.slot !== "sponsored-app" && !httpsOk(d.url) ? "Add the link your ad should open (https://…)"
+        : !d.company ? "Enter your company or brand" : !d.name ? "Enter your name" : !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(d.email) ? "Enter a valid email" : !d.agree ? "Please accept the ad policy" : "";
+      if (bad) { er.textContent = bad; er.hidden = false; return; }
+      submitForm(f, "/ads/request", d, (j) => {
+        const path = j.url.replace(/^https:\/\/omarchystore\.com/, "");
+        saveLink("ad", j.id, path, `${d.company} — ${(SLOTS.find((s) => s.id === d.slot) || {}).name}`);
+        $("#ad-book").innerHTML = `<div class="p-done">${ico("ok")}<div><h3>Thanks, ${esc(d.name.split(" ")[0])} — your request is in</h3>
+          <p>We'll reply with a quote and available dates, usually within 1–2 days. Everything happens on your private campaign page. <b>Save this link.</b></p>
+          <div class="p-linkbox"><code>${esc(j.url)}</code><button class="btn" type="button" data-copy="${esc(j.url)}">Copy link</button></div>
+          <div class="p-cta"><a class="btn" href="${esc(path)}">Open my campaign page</a></div></div></div>`;
+      });
+    } else if (f.matches("[data-p-reply]")) {
+      e.preventDefault();
+      const kind = f.dataset.pReply, body = f.body.value.trim(), er = f.querySelector(".form-err"), btn = f.querySelector("button");
+      if (body.length < 2) { er.textContent = "Write a message first"; er.hidden = false; return; }
+      btn.disabled = true;
+      try { await pPost(kind === "dev" ? "/dev/message" : "/ads/message", { id: qs("status"), t: qs("t"), body }); toast("Message sent"); route(); }
+      catch (x) { er.textContent = x.message; er.hidden = false; btn.disabled = false; }
+    } else if (f.matches("#dev-update")) {
+      e.preventDefault();
+      const v = (n) => (f.elements[n]?.value || "").trim(), er = f.querySelector(".form-err"), btn = f.querySelector('[type="submit"]');
+      btn.disabled = true; btn.textContent = "Sending…";
+      try {
+        await pPost("/dev/update", { id: qs("status"), t: qs("t"), tagline: v("tagline"), repo_url: v("repo_url"), logo_url: v("logo_url"), screenshots: v("screenshots").split(/\s+/).filter(Boolean),
+          app_desc: v("app_desc"), app_url: v("app_url"), install_hint: v("install_hint"), category: v("category"), license: v("license"), note: v("note") });
+        toast("Update sent — it's back in the review queue"); route();
+      } catch (x) { er.textContent = x.message; er.hidden = false; btn.disabled = false; btn.textContent = "Send update"; }
+    } else if (f.matches("#sup-form")) {
+      e.preventDefault();
+      submitForm(f, "/supporters", { name: f.elements.name.value, message: f.elements.message.value, chain: f.elements.chain.value }, () => {
+        f.outerHTML = `<div class="p-done">${pi("heart")}<div><h3>Thank you!</h3><p>Your name will appear on the wall shortly.</p></div></div>`;
+      });
+    }
+  });
 
   // ---------- Get Omarchy: the landing page for people who don't have Omarchy yet ----------
   function pageGetOmarchy() {
@@ -2116,6 +2702,7 @@
     err.hidden = true;
     const token = form.querySelector(".ts-box")?.dataset.token;
     if (!token) { err.textContent = "Please complete the anti-spam check (the box above)."; err.hidden = false; return; }
+    const label = btn.textContent;
     btn.disabled = true; btn.textContent = "Sending…";
     try {
       const r = await apiPost(path, { ...payload, turnstile: token });
@@ -2123,7 +2710,7 @@
       if (!r.ok) throw new Error(j.error || "Something went wrong");
       done(j);
     } catch (e) {
-      err.textContent = e.message; err.hidden = false; btn.disabled = false; btn.textContent = "Submit";
+      err.textContent = e.message; err.hidden = false; btn.disabled = false; btn.textContent = label;
       try { window.turnstile?.reset(form.querySelector(".ts-box")); } catch {}
     }
   }
@@ -2136,79 +2723,8 @@
       submitForm(f, "/reviews", { app: id, rating, title: f.title.value, body: f.body.value, name: f.name.value }, (j) => {
         closeSheet(); toast(j.updated ? "Thanks — your review was updated" : "Thanks — your review is live"); loadReviews(id, true);
       });
-    } else if (f.matches("#dev-form")) {
-          e.preventDefault();
-          const v = (n) => (f.elements[n]?.value || "").trim();
-          const paid = f.elements.wants_paid.checked;
-          submitForm(f, "/developers", {
-            company: v("company"),
-            name: v("name"),
-            email: v("email"),
-            website: v("website"),
-            github: v("github"),
-            repo_url: v("repo_url"),
-            app_name: v("app_name"),
-            tagline: v("tagline"),
-            app_desc: v("app_desc"),
-            logo_url: v("logo_url"),
-            screenshots: v("screenshots").split(/\s+/).filter(Boolean),
-            telegram: v("telegram"),
-            app_url: v("app_url"),
-            wants_paid: paid,
-            price_usd: paid ? Number(v("price_usd")) : null,
-            p_evm: v("p_evm"),
-            p_sol: v("p_sol"),
-            p_btc: v("p_btc"),
-            p_xrp: v("p_xrp"),
-            agree: f.elements.agree.checked,
-          }, (j) => {
-            f.outerHTML = `<div class="dev-done">${ico("ok")}<div><h3>Thanks — you're on the list!</h3>
-              <p>Application #${j.id} is waiting for approval. We'll email <b>${esc(v("email"))}</b>, usually within 1–2 days.</p>
-              <p style="margin-top:10px"><a class="btn" href="https://t.me/OmarchyStoreBot?start=dev_${j.id}" target="_blank" rel="noopener">Get notified on Telegram the moment it's approved</a></p>
-            </div></div>`;
-          });
-        }
+    }
   });
-  function devFormHtml() {
-    return `<form id="dev-form" class="dev-form">
-      <h2>Developer sign-up</h2>
-      <p class="muted small">Every developer is approved by a person before their apps go live.</p>
-      <div class="fgrid">
-        <label>Company name<input name="company" required maxlength="80"></label>
-        <label>Your name<input name="name" required maxlength="80"></label>
-        <label>Email<input name="email" type="email" required maxlength="120"></label>
-        <label>Website <span class="muted">(optional)</span><input name="website" type="url" placeholder="https://" maxlength="200"></label>
-        <label>GitHub username <span class="muted">(optional)</span><input name="github" maxlength="100"></label>
-        <label class="wide">GitHub repo URL<input name="repo_url" type="url" placeholder="https://github.com/owner/repo" required maxlength="200"></label>
-        <label class="wide">App name<input name="app_name" required maxlength="80"></label>
-        <label class="wide">Tagline <span class="muted">(one line shown under the name, 10–90 characters)</span><input name="tagline" required minlength="10" maxlength="90" placeholder="A Mac-style dock for Hyprland with a real minimize button"></label>
-        <label class="wide">Write-up <span class="muted">(at least 200 characters: what it does, who it's for, key features — this becomes your store page)</span><textarea name="app_desc" required minlength="200" maxlength="3000" rows="7"></textarea></label>
-        <label class="wide">Logo link <span class="muted">(PNG or SVG, square, at least 256×256 — e.g. a file in your GitHub repo)</span><input name="logo_url" type="url" required placeholder="https://raw.githubusercontent.com/you/app/main/icon.png" maxlength="400"></label>
-        <label class="wide">Screenshot links <span class="muted">(1–6, one per line, 16:10 or 16:9 looks best)</span><textarea name="screenshots" required rows="3" placeholder="https://…/screenshot-1.png&#10;https://…/screenshot-2.png"></textarea></label>
-        <label class="wide">Link to the app or its source <span class="muted">(optional)</span><input name="app_url" type="url" placeholder="https://" maxlength="300"></label>
-        <label>Telegram username <span class="muted">(optional, so we can reach you)</span><input name="telegram" maxlength="40" placeholder="@yourname"></label>
-      </div>
-      <label class="check"><input type="checkbox" name="wants_paid" data-toggle-paid> I want to <b>sell</b> this app</label>
-      <div class="paid-box" hidden>
-        <p class="small">Paid apps are paid for in crypto. <b>You keep 90%</b> — the store's fee is 10% (Apple and Google take 15–30%). Your 90% goes straight to your own wallet: enter the PUBLIC addresses you want to be paid to. Never enter a seed phrase or private key.</p>
-        <div class="fgrid">
-          <label>Price (USD)<input name="price_usd" type="number" min="0.99" max="999" step="0.01" placeholder="4.99"></label>
-          <label>Base / Ethereum address <span class="muted">(0x…)</span><input name="p_evm" maxlength="42" placeholder="0x…"></label>
-          <label>Solana address<input name="p_sol" maxlength="44"></label>
-          <label>Bitcoin address <span class="muted">(bc1…)</span><input name="p_btc" maxlength="74"></label>
-          <label>XRP address <span class="muted">(r…)</span><input name="p_xrp" maxlength="35"></label>
-        </div>
-      </div>
-      <label class="check"><input type="checkbox" name="agree" required> My app is mine to publish, contains no malware, and I accept the <a href="/legal/" style="color:var(--accent)">store terms</a>.</label>
-      <div class="ts-box"></div>
-      <div class="form-err" hidden></div>
-      <button class="btn big" type="submit">Submit application</button>
-    </form>`;
-  }
-  document.addEventListener("change", (e) => {
-    if (e.target.matches("[data-toggle-paid]")) e.target.closest("form").querySelector(".paid-box").hidden = !e.target.checked;
-  });
-
   function pageGetDesktop() {
     return `<div class="page" style="max-width:760px">
       <h1 class="page-title">Get the desktop app</h1>
@@ -2237,11 +2753,13 @@
       <h3>Your responsibility</h3>
       <p>You are solely responsible for deciding what to install. Before installing, review the app's source code, package, license and reputation, and keep backups of important data. Packages from the AUR are community-maintained and are not reviewed or signed by Arch Linux. Installing system software requires administrator access; only proceed if you trust the app.</p>
       <h3>Privacy</h3>
-      <p>We count page views and installs to improve the store, without cookies and without storing your IP address. Each visit is counted with a one-way code that changes every day, so we can't follow anyone over time. Reviews and developer applications you submit are stored on Cloudflare. Forms use Cloudflare Turnstile to block spam.</p>
+      <p>We count page views and installs to improve the store, without cookies and without storing your IP address. Each visit is counted with a one-way code that changes every day, so we can't follow anyone over time. Reviews, app submissions, advertising requests, messages and supporter-wall entries you submit are stored on Cloudflare. Anyone who has a private status link can see that submission, so keep it to yourself and your team. Forms use Cloudflare Turnstile to block spam.</p>
       <h3>Paid apps and payments</h3>
       <p>Paid apps are sold by their developers and paid for in cryptocurrency, sent directly from your wallet to the developer's and the store's public addresses. Blockchain payments can't be reversed, so check the app page, the amount and the network before you pay. Refunds are at the developer's discretion.</p>
       <h3>Advertising</h3>
       <p>Sponsored content is labelled "Sponsored" or "Ad" and links to third-party websites. Advertisers are solely responsible for their content, products and services. An ad is not an endorsement, and we are not responsible for anything on sites you visit through it.</p>
+      <h3>Donations</h3>
+      <p>Donations are voluntary gifts sent in cryptocurrency directly to the founder's own public wallet addresses listed on the <a style="color:var(--accent)" href="/donate/">Donate</a> page. They don't buy any product, service or special treatment, can't be refunded (blockchain payments are final), and aren't tax-deductible. Always check the network before sending: coins sent on the wrong network can be lost for good. The store reads the public blockchain to see that a donation arrived; it never holds your money or keys.</p>
       <h3>Trademarks</h3>
       <p>App names, logos, icons and screenshots belong to their respective owners and are shown only to identify the software. Omarchy Store is an unofficial community project and is not affiliated with Omarchy, Basecamp, 37signals, Arch Linux, GitHub, Flathub or any listed developer.</p>
       <h3>Removal requests</h3>
@@ -2260,6 +2778,7 @@
     <a class="fc" href="/submit/"><span class="fc-i">${ico("plus")}</span><span><b>Made an app?</b>List it in the store for free</span></a>
     <a class="fc" href="/advertise/"><span class="fc-i">${ico("megaphone")}</span><span><b>Advertise with us</b>Reach Omarchy users</span></a>
     <a class="fc" href="/contact/"><span class="fc-i">${ico("mail")}</span><span><b>Contact us</b>${CONTACT_EMAIL}</span></a>
+    <a class="fc fc-donate" href="/donate/"><span class="fc-i"><svg viewBox="0 0 24 24"><path d="M12 20.5s-7.5-4.6-9.3-9.4C1.4 7.6 3.6 4 7.2 4c2 0 3.6 1.1 4.8 2.8C13.2 5.1 14.8 4 16.8 4c3.6 0 5.8 3.6 4.5 7.1-1.8 4.8-9.3 9.4-9.3 9.4z"/></svg></span><span><b>Donate</b>Keep the store free</span></a>
   </div>
   <div class="footer">
     <span class="disclaim">${DISCLAIMER_SHORT} <a href="/legal/">Full disclaimer</a></span>
@@ -2268,6 +2787,7 @@
     <a href="/submit/">Submit an app</a>
     <a href="/advertise/">Advertise</a>
     <a href="/contact/">Contact</a>
+    <a href="/donate/">Donate</a>
     <span>Data updated ${ago(S.catalog.generated_at).toLowerCase()}</span>
   </div>`;
 
@@ -2311,6 +2831,7 @@
     else if (p === "usb" || p === "ignite") { if (p === "usb") history.replaceState(null, "", "/ignite/"); html = pageUsb(); nav = "get-omarchy"; }
     else if (p === "submit") html = pageSubmit();
     else if (p === "advertise") html = pageAdvertise();
+    else if (p === "donate") html = pageDonate();
     else if (p === "contact") html = pageContact();
     else if (p === "get-omarchy" || p === "get") { if (p === "get") history.replaceState(null, "", "/get-omarchy/"); html = pageGetOmarchy(); nav = "get-omarchy"; }
     else if (p === "get-desktop") html = pageGetDesktop();
@@ -2330,9 +2851,9 @@
     document.title = pageTitle(p, arg);
     track();
     if (p === "app") initShotAutoScroll();
-    if (p === "submit") { const b = $("#dev-form .ts-box"); if (b) turnstileMount(b); }
+    portalAfter(p);
   }
-  const TITLES = { submit: "Submit an App – List Your App Free", advertise: "Advertise on the Omarchy Store", themes: "Omarchy Themes – Browse & Install Desktop Themes", charts: "Top Charts – Most Popular Omarchy Apps", categories: "App Categories", legal: "Disclaimer", "get-desktop": "Get the Desktop App", search: "Search", installed: "Installed", updates: "Updates", usb: "Ignite for Omarchy – Make an Omarchy Installer USB in One Click", ignite: "Ignite for Omarchy – Make an Omarchy Installer USB in One Click", "get-omarchy": "Get Omarchy – How to Install Omarchy Linux (Free, Step by Step)", get: "Get Omarchy – How to Install Omarchy Linux (Free, Step by Step)" };
+  const TITLES = { submit: "Submit an App – List Your App Free", advertise: "Advertise on the Omarchy Store", donate: "Donate – Keep Omarchy Store Free", themes: "Omarchy Themes – Browse & Install Desktop Themes", charts: "Top Charts – Most Popular Omarchy Apps", categories: "App Categories", legal: "Disclaimer", "get-desktop": "Get the Desktop App", search: "Search", installed: "Installed", updates: "Updates", usb: "Ignite for Omarchy – Make an Omarchy Installer USB in One Click", ignite: "Ignite for Omarchy – Make an Omarchy Installer USB in One Click", "get-omarchy": "Get Omarchy – How to Install Omarchy Linux (Free, Step by Step)", get: "Get Omarchy – How to Install Omarchy Linux (Free, Step by Step)" };
   function pageTitle(p, arg) {
     const a = p === "app" && S.byId[arg];
     if (a) return `${a.name} for Omarchy Linux – Install ${a.name} | Omarchy Store`;

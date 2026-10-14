@@ -17,11 +17,14 @@ WALLET_SOL = "4Mpud9mbrjKEFWN8HP1VoVaxf5yRmgZVRG6rJVWbUAuk"  # Solana (SOL and U
 WALLET_XRP = "rPDuYdmQcw2GWJBBui2vbTA9B6YiAP8rQ6"            # XRP Ledger
 STORE_CHANNEL = "@omarchystore"                                  # Telegram channel for the daily drop
 TURNSTILE_SITEKEY = "0x4AAAAAAFTiarDYb1tekwRe"
+GITHUB_REPO = "omarchy-community/store"                           # admin catalog editor commits here
+GITHUB_BRANCH = "main"
 
 # Secrets (set with `wrangler secret put`, never committed):
 #   ADMIN_KEY          admin portal password
 #   TURNSTILE_SECRET   anti-spam check
 #   TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID   owner alerts
+#   GITHUB_TOKEN       fine-grained token, this repo only, Contents: read & write (admin catalog editor)
 
 [triggers]
 crons = ["*/10 * * * *"]   # check waiting crypto orders every 10 minutes

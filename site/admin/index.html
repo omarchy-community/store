@@ -4,73 +4,145 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
+<meta name="referrer" content="no-referrer">
 <title>Admin · Omarchy Store</title>
 <link rel="icon" href="/assets/favicon.ico">
 <style>
-  :root { --bg: #0f1020; --card: #1a1b2e; --card2: #23253d; --line: #2e3150; --text: #eef0ff; --t2: #a9adcf; --t3: #6f74a0;
-    --accent: #7aa2f7; --good: #9ece6a; --warn: #e0af68; --bad: #f7768e; color-scheme: dark; }
+  :root { --bg: #0b0c18; --side: rgba(16,18,34,.82); --card: rgba(255,255,255,.055); --card2: rgba(255,255,255,.09); --line: rgba(255,255,255,.1); --text: #f2f4ff; --t2: rgba(225,230,255,.7); --t3: rgba(225,230,255,.42);
+    --accent: #7aa2f7; --accent2: #bb9af7; --good: #9ece6a; --warn: #e0af68; --bad: #f7768e; --pink: #ff5ca0; color-scheme: dark; }
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { background: var(--bg); color: var(--text); font: 15px/1.45 "Adwaita Sans", "Inter", "Segoe UI", system-ui, sans-serif; }
-  a { color: var(--accent); }
-  button { font: inherit; cursor: pointer; border: 0; }
-  .wrap { max-width: 1200px; margin: 0 auto; padding: 28px 24px 80px; }
-  header { display: flex; align-items: center; gap: 14px; margin-bottom: 22px; }
-  header img { width: 40px; height: 40px; }
-  header h1 { font-size: 22px; letter-spacing: -.01em; }
-  header .sp { flex: 1; }
-  .tabs { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 20px; }
-  .tabs button { padding: 8px 16px; border-radius: 999px; background: var(--card); color: var(--t2); font-weight: 600; }
-  .tabs button.on { background: var(--accent); color: #0f1020; }
-  .tabs .n { margin-left: 6px; padding: 0 7px; border-radius: 999px; background: var(--bad); color: #fff; font-size: 12px; }
-  .btn { padding: 8px 16px; border-radius: 999px; background: var(--accent); color: #0f1020; font-weight: 700; }
-  .btn.ghost { background: var(--card2); color: var(--text); }
-  .btn.ok { background: var(--good); } .btn.no { background: var(--bad); color: #fff; } .btn.sm { padding: 5px 12px; font-size: 13px; }
-  .kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-bottom: 16px; }
-  .kpi { background: var(--card); border-radius: 16px; padding: 16px 18px; }
-  .kpi .k { color: var(--t2); font-size: 13px; font-weight: 600; }
-  .kpi .v { font-size: 30px; font-weight: 800; letter-spacing: -.02em; margin-top: 4px; }
-  .kpi .s { color: var(--t3); font-size: 12px; }
-  .card { background: var(--card); border-radius: 16px; padding: 18px; margin-bottom: 14px; }
-  .card h2 { font-size: 16px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; }
+  html, body { min-height: 100%; }
+  body { color: var(--text); font: 14.5px/1.45 "Adwaita Sans", "Inter", "Segoe UI", system-ui, sans-serif;
+    background: radial-gradient(900px 600px at 0% 0%, rgba(122,162,247,.16), transparent 60%), radial-gradient(900px 700px at 100% 100%, rgba(187,154,247,.14), transparent 60%), var(--bg); background-attachment: fixed; }
+  a { color: var(--accent); text-decoration: none; } a:hover { text-decoration: underline; }
+  button { font: inherit; cursor: pointer; border: 0; color: inherit; background: none; }
+  input, textarea, select { font: inherit; color: var(--text); background: rgba(0,0,0,.25); border: 1px solid var(--line); border-radius: 10px; padding: 9px 11px; width: 100%; }
+  input:focus, textarea:focus, select:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(122,162,247,.2); }
+  input[readonly] { opacity: .6; } select option { background: #1a1b2e; } textarea { resize: vertical; }
+  svg.i { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; flex: none; }
+  .shell { display: grid; grid-template-columns: 248px minmax(0, 1fr); min-height: 100vh; }
+  aside.side { position: sticky; top: 0; height: 100vh; overflow: auto; padding: 18px 12px; background: var(--side); border-right: 1px solid var(--line); backdrop-filter: blur(20px); display: flex; flex-direction: column; gap: 2px; }
+  .brand { display: flex; align-items: center; gap: 10px; padding: 4px 10px 16px; } .brand img { width: 34px; height: 34px; } .brand b { font-size: 15px; display: block; } .brand span { font-size: 12px; color: var(--t3); }
+  .side .sec { font-size: 11px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; color: var(--t3); padding: 14px 12px 6px; }
+  .side a.nv { display: flex; align-items: center; gap: 11px; padding: 9px 12px; border-radius: 10px; color: var(--t2); font-weight: 600; text-decoration: none; }
+  .side a.nv:hover { background: var(--card); color: var(--text); }
+  .side a.nv.on { background: linear-gradient(90deg, rgba(122,162,247,.28), rgba(122,162,247,.08)); color: var(--text); box-shadow: inset 2px 0 0 var(--accent); }
+  .side .n { margin-left: auto; min-width: 20px; padding: 0 7px; border-radius: 999px; background: var(--bad); color: #fff; font-size: 11.5px; font-weight: 800; text-align: center; }
+  .side .foot { margin-top: auto; padding-top: 14px; display: flex; flex-direction: column; gap: 2px; }
+  main { padding: 26px 32px 80px; min-width: 0; }
+  .top { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; flex-wrap: wrap; } .top h1 { font-size: 26px; letter-spacing: -.02em; } .top .sub { color: var(--t2); font-size: 14px; } .top .sp { flex: 1; }
+  .btn { display: inline-flex; align-items: center; gap: 7px; padding: 8px 15px; border-radius: 999px; background: var(--accent); color: #0b0c18; font-weight: 700; white-space: nowrap; }
+  .btn:hover { filter: brightness(1.08); text-decoration: none; } .btn:disabled { opacity: .5; cursor: default; }
+  .btn.ghost { background: var(--card2); color: var(--text); } .btn.ok { background: var(--good); } .btn.no { background: var(--bad); color: #fff; } .btn.warn { background: var(--warn); }
+  .btn.sm { padding: 5px 11px; font-size: 13px; } .btn .i { width: 15px; height: 15px; }
+  .card { background: var(--card); border-radius: 18px; padding: 18px; box-shadow: inset 0 0 0 1px var(--line); margin-bottom: 14px; }
+  .card h2 { font-size: 16px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+  .kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 12px; margin-bottom: 14px; }
+  .kpi { background: var(--card); border-radius: 18px; padding: 16px 18px; box-shadow: inset 0 0 0 1px var(--line); position: relative; overflow: hidden; }
+  .kpi .k { color: var(--t2); font-size: 12.5px; font-weight: 600; } .kpi .v { font-size: 28px; font-weight: 800; letter-spacing: -.02em; margin-top: 2px; } .kpi .s { color: var(--t3); font-size: 12px; }
+  .kpi::after { content: ""; position: absolute; right: -20px; top: -20px; width: 80px; height: 80px; border-radius: 50%; background: var(--kc, var(--accent)); opacity: .14; }
+  a.kpi { color: inherit; text-decoration: none; } a.kpi:hover { box-shadow: inset 0 0 0 1px var(--accent); }
   .grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 14px; }
-  table { width: 100%; border-collapse: collapse; font-size: 14px; }
-  td, th { text-align: left; padding: 7px 6px; border-top: 1px solid var(--line); vertical-align: top; }
-  th { color: var(--t3); font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: .04em; border-top: 0; }
+  .split { display: grid; grid-template-columns: 360px minmax(0, 1fr); gap: 14px; align-items: start; }
+  table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+  td, th { text-align: left; padding: 8px 6px; border-top: 1px solid var(--line); vertical-align: top; }
+  th { color: var(--t3); font-weight: 700; font-size: 11.5px; text-transform: uppercase; letter-spacing: .05em; border-top: 0; }
   td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
-  .bar { height: 6px; border-radius: 3px; background: var(--accent); opacity: .8; }
-  .muted { color: var(--t2); } .small { font-size: 13px; }
+  .bar { height: 5px; border-radius: 3px; background: var(--accent); opacity: .75; margin-top: 4px; }
+  .muted { color: var(--t2); } .small { font-size: 12.5px; } .faint { color: var(--t3); }
   .chart { width: 100%; height: 220px; }
-  .pill { display: inline-block; padding: 2px 9px; border-radius: 999px; font-size: 12px; font-weight: 700; background: var(--card2); }
-  .pill.pending { background: color-mix(in srgb, var(--warn) 25%, transparent); color: var(--warn); }
-  .pill.approved, .pill.paid { background: color-mix(in srgb, var(--good) 22%, transparent); color: var(--good); }
-  .pill.rejected, .pill.expired { background: color-mix(in srgb, var(--bad) 20%, transparent); color: var(--bad); }
-  .pill.seen { background: color-mix(in srgb, var(--accent) 22%, transparent); color: var(--accent); }
-  .dev { border-top: 1px solid var(--line); padding: 14px 0; display: grid; grid-template-columns: 1fr auto; gap: 10px; }
-  .dev:first-of-type { border-top: 0; }
-  .dev p { color: var(--t2); font-size: 14px; white-space: pre-wrap; margin: 6px 0; }
-  .acts { display: flex; gap: 6px; align-items: flex-start; flex-wrap: wrap; justify-content: flex-end; }
-  .login { max-width: 420px; margin: 12vh auto; background: var(--card); border-radius: 20px; padding: 28px; text-align: center; }
-  .login img { width: 64px; height: 64px; }
-  .login h1 { font-size: 22px; margin: 10px 0 4px; }
-  .login input { width: 100%; margin: 18px 0 10px; padding: 12px 14px; border-radius: 12px; border: 1px solid var(--line); background: var(--bg); color: var(--text); font: inherit; }
-  .err { color: var(--bad); font-weight: 600; min-height: 1.4em; font-size: 14px; }
+  .pill { display: inline-block; padding: 2px 9px; border-radius: 999px; font-size: 11.5px; font-weight: 800; background: var(--card2); color: var(--t2); white-space: nowrap; }
+  .pill.pending, .pill.new, .pill.quoted, .pill.changes, .pill.scheduled, .pill.waiting { background: rgba(224,175,104,.2); color: var(--warn); }
+  .pill.approved, .pill.paid, .pill.live, .pill.done, .pill.connected, .pill.success { background: rgba(158,206,106,.2); color: var(--good); }
+  .pill.rejected, .pill.expired, .pill.declined, .pill.failure, .pill.cancelled { background: rgba(247,118,142,.2); color: var(--bad); }
+  .pill.seen, .pill.in_progress, .pill.queued { background: rgba(122,162,247,.2); color: var(--accent); }
+  .list { display: flex; flex-direction: column; gap: 4px; max-height: calc(100vh - 210px); overflow: auto; }
+  .row { display: flex; align-items: center; gap: 11px; padding: 9px 10px; border-radius: 12px; color: var(--text); text-decoration: none; cursor: pointer; }
+  .row:hover { background: var(--card2); text-decoration: none; } .row.on { background: rgba(122,162,247,.18); box-shadow: inset 0 0 0 1px rgba(122,162,247,.4); }
+  .row img, .row .ph { width: 38px; height: 38px; border-radius: 22.5%; object-fit: cover; flex: none; background: var(--card2); }
+  .row .t { flex: 1; min-width: 0; } .row .t b { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; } .row .t span { display: block; font-size: 12px; color: var(--t3); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .tabs { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 12px; }
+  .tabs button { padding: 6px 13px; border-radius: 999px; background: var(--card); color: var(--t2); font-weight: 600; font-size: 13px; box-shadow: inset 0 0 0 1px var(--line); }
+  .tabs button.on { background: var(--accent); color: #0b0c18; box-shadow: none; }
+  .tabs .c { margin-left: 5px; opacity: .7; }
+  .detail-head { display: flex; gap: 16px; align-items: center; margin-bottom: 12px; } .detail-head img, .detail-head .ph { width: 72px; height: 72px; border-radius: 22.5%; object-fit: cover; background: var(--card2); flex: none; }
+  .detail-head h2 { font-size: 22px; margin: 0; } .detail-head > div { flex: 1; min-width: 0; }
+  .shots { display: flex; gap: 8px; overflow-x: auto; margin: 10px 0; } .shots img { height: 130px; border-radius: 10px; background: var(--card2); }
+  .desc { white-space: pre-wrap; color: var(--t2); font-size: 13.5px; max-height: 220px; overflow: auto; padding: 10px 12px; border-radius: 12px; background: rgba(0,0,0,.18); }
+  dl.facts { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 10px 16px; margin: 12px 0; }
+  dl.facts dt { font-size: 11px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: var(--t3); } dl.facts dd { font-size: 13.5px; overflow-wrap: anywhere; }
+  .acts { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+  .thread { display: flex; flex-direction: column; gap: 8px; max-height: 320px; overflow: auto; margin-bottom: 10px; }
+  .msg { max-width: 85%; padding: 8px 12px; border-radius: 14px; white-space: pre-wrap; font-size: 13.5px; } .msg .m { font-size: 11px; opacity: .65; margin-top: 3px; }
+  .msg.store { align-self: flex-end; background: var(--accent); color: #0b0c18; border-bottom-right-radius: 4px; } .msg.other { background: var(--card2); border-bottom-left-radius: 4px; }
+  .form { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px 12px; }
+  .form label { display: flex; flex-direction: column; gap: 5px; font-size: 12.5px; font-weight: 700; color: var(--t2); } .form label.w { grid-column: 1 / -1; }
+  .form .hint { font-weight: 400; color: var(--t3); }
+  .form label.check { flex-direction: row; align-items: center; gap: 8px; } .check input { width: auto; }
+  .savebar { position: sticky; bottom: 10px; display: flex; align-items: center; gap: 10px; padding: 12px 14px; margin-top: 14px; border-radius: 14px; background: rgba(16,18,34,.94); box-shadow: inset 0 0 0 1px var(--line), 0 -10px 30px rgba(0,0,0,.3); backdrop-filter: blur(12px); flex-wrap: wrap; }
+  .savebar input { flex: 1; min-width: 200px; }
+  .err { color: var(--bad); font-weight: 600; font-size: 13.5px; } .okmsg { color: var(--good); font-weight: 600; font-size: 13.5px; }
   .addr { font-family: ui-monospace, "JetBrainsMono NF", monospace; font-size: 12px; word-break: break-all; }
-  .stars { color: #ff9f0a; letter-spacing: 1px; }
-  .hidden-row { opacity: .45; }
-  select { background: var(--card2); color: var(--text); border: 0; border-radius: 999px; padding: 7px 12px; font: inherit; }
+  .stars { color: #ff9f0a; letter-spacing: 1px; white-space: nowrap; } .hidden-row { opacity: .45; }
+  .inbox a { display: flex; align-items: center; gap: 12px; padding: 11px 12px; border-radius: 12px; color: var(--text); text-decoration: none; } .inbox a:hover { background: var(--card2); }
+  .inbox .ic { width: 34px; height: 34px; border-radius: 10px; display: grid; place-items: center; background: rgba(122,162,247,.18); color: var(--accent); flex: none; }
+  .inbox .ic.w { background: rgba(224,175,104,.18); color: var(--warn); } .inbox .ic.p { background: rgba(255,92,160,.18); color: var(--pink); }
+  .inbox b { flex: 1; font-weight: 600; } .empty { padding: 30px; text-align: center; color: var(--t3); }
+  .login { max-width: 420px; margin: 14vh auto; background: var(--card); border-radius: 22px; padding: 30px; text-align: center; box-shadow: inset 0 0 0 1px var(--line), 0 30px 60px rgba(0,0,0,.4); backdrop-filter: blur(20px); }
+  .login img { width: 64px; height: 64px; } .login h1 { font-size: 22px; margin: 10px 0 4px; } .login input { margin: 18px 0 10px; padding: 12px 14px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; } .chip { display: inline-flex; align-items: center; gap: 6px; padding: 4px 6px 4px 10px; border-radius: 999px; background: var(--card2); font-size: 12.5px; }
+  .chip button { width: 20px; height: 20px; border-radius: 50%; background: rgba(0,0,0,.3); font-size: 12px; line-height: 1; }
+  .hero-item { display: grid; grid-template-columns: 26px minmax(0, 1fr) auto; gap: 10px; align-items: start; padding: 12px; border-radius: 14px; background: rgba(0,0,0,.18); margin-bottom: 8px; }
+  .hero-item .num { font-weight: 800; color: var(--t3); padding-top: 6px; } .hero-item > .acts { flex-direction: column; }
+  .swatch { display: block; width: 100%; height: 22px; border-radius: 8px; }
+  .adpv { border-radius: 16px; padding: 18px 20px; color: #fff; display: flex; align-items: center; justify-content: space-between; gap: 14px; min-height: 96px; background-size: cover; background-position: center; }
+  .adpv h3 { font-size: 20px; } .adpv p { opacity: .85; font-size: 13.5px; } .adpv .c { padding: 8px 15px; border-radius: 999px; background: #fff; color: #000; font-weight: 800; white-space: nowrap; }
+  .adpv .chip2 { font-size: 10.5px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; opacity: .8; }
+  .setup ol { padding-left: 20px; display: flex; flex-direction: column; gap: 10px; } .setup li { line-height: 1.5; }
+  .setup code { background: rgba(0,0,0,.35); padding: 2px 7px; border-radius: 6px; font-size: 12.5px; font-family: ui-monospace, monospace; }
+  .toast { position: fixed; bottom: 22px; left: 50%; transform: translateX(-50%); padding: 11px 18px; border-radius: 999px; background: #1f2340; box-shadow: 0 12px 30px rgba(0,0,0,.5), inset 0 0 0 1px var(--line); font-weight: 600; z-index: 99; }
+  .deploy { display: flex; align-items: center; gap: 10px; padding: 8px 0; border-top: 1px solid var(--line); font-size: 13px; } .deploy:first-child { border-top: 0; } .deploy span.t { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .mobile-nav { display: none; }
+  @media (max-width: 1000px) { .split { grid-template-columns: minmax(0, 1fr); } .list { max-height: 300px; } }
+  @media (max-width: 820px) { .shell { grid-template-columns: minmax(0, 1fr); } aside.side { display: none; } .mobile-nav { display: block; margin-bottom: 14px; } main { padding: 18px 14px 80px; } .form { grid-template-columns: minmax(0, 1fr); } }
 </style>
 </head>
 <body>
 <div id="app"></div>
 <script>
 (() => {
-  const API = "https://omarchy-store-api.omarchystore.workers.dev";
+  // On a local test server you can point at a local API with localStorage["os-admin-api"]; the live site always uses the real one.
+  const API = /^(localhost|127\.0\.0\.1)$/.test(location.hostname) && localStorage.getItem("os-admin-api") || "https://omarchy-store-api.omarchystore.workers.dev";
   const KEY = "omarchy-store-admin-key";
-  const $ = (s) => document.querySelector(s);
+  const $ = (s, r = document) => r.querySelector(s);
   const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
   const num = (n) => Number(n || 0).toLocaleString();
-  const when = (ts) => new Date(ts).toLocaleString([], { month: "short", day: "numeric", hour: "numeric", minute: "2-digit" });
-  const S = { tab: "overview", days: 30 };
+  const usd = (n) => "$" + Number(n || 0).toLocaleString(undefined, { maximumFractionDigits: 2 });
+  const when = (ts) => ts ? new Date(ts).toLocaleString([], { month: "short", day: "numeric", hour: "numeric", minute: "2-digit" }) : "";
+  const safe = (u) => /^https:\/\//.test(u || "") ? esc(u) : "";
+  const parse = (s, d) => { try { return JSON.parse(s); } catch { return d; } };
+  const today = () => new Date().toISOString().slice(0, 10);
+  const setHash = (h) => history.replaceState(null, "", h);   // change the URL without re-rendering
+  const I = {
+    dash: '<path d="M3 13h8V3H3zM13 21h8v-8h-8zM3 21h8v-6H3zM13 3v8h8V3z"/>',
+    code: '<path d="m8 8-4 4 4 4m8-8 4 4-4 4m-6 3 4-14"/>', grid: '<rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/>',
+    star: '<path d="M12 2l3 6.6 7 .8-5.2 4.8 1.4 7L12 17.8 5.8 21.2l1.4-7L2 9.4l7-.8z"/>', mega: '<path d="M3 10v4a1 1 0 0 0 1 1h3l6 4V5L7 9H4a1 1 0 0 0-1 1z"/><path d="M17 8.5a5 5 0 0 1 0 7"/>',
+    chat: '<path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/>', coin: '<circle cx="12" cy="12" r="9"/><path d="M14.5 9.2c-.5-.8-1.4-1.2-2.5-1.2-1.6 0-2.7.8-2.7 2s1 1.6 2.7 2 2.8.9 2.8 2.1-1.2 2-2.8 2c-1.2 0-2.2-.5-2.7-1.4M12 6.5V8m0 8v1.5"/>',
+    chart: '<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>', clock: '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>', gear: '<circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/>',
+    heart: '<path d="M12 20.5s-7.5-4.6-9.3-9.4C1.4 7.6 3.6 4 7.2 4c2 0 3.6 1.1 4.8 2.8C13.2 5.1 14.8 4 16.8 4c3.6 0 5.8 3.6 4.5 7.1-1.8 4.8-9.3 9.4-9.3 9.4z"/>',
+    ext: '<path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/>', plus: '<path d="M12 5v14M5 12h14"/>', up: '<path d="m6 15 6-6 6 6"/>', down: '<path d="m6 9 6 6 6-6"/>', x: '<path d="M6 6l12 12M18 6 6 18"/>',
+    git: '<circle cx="6" cy="6" r="2.5"/><circle cx="6" cy="18" r="2.5"/><circle cx="18" cy="9" r="2.5"/><path d="M6 8.5v7M18 11.5c0 3-3 4-7 4.5"/>', out: '<path d="M15 4h4a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1h-4M10 17l5-5-5-5M15 12H3"/>',
+  };
+  const i = (n) => `<svg class="i" viewBox="0 0 24 24">${I[n] || ""}</svg>`;
+  const S = { days: 30, cache: {}, sel: {}, filter: { subs: "review", ads: "requests", money: "donations" } };
+  const NAV = [
+    ["Overview", [["dashboard", "Dashboard", "dash"], ["analytics", "Analytics", "chart"]]],
+    ["Store", [["submissions", "App submissions", "code"], ["catalog", "Catalog", "grid"], ["featured", "Featured & Discover", "star"], ["reviews", "Reviews", "chat"]]],
+    ["Business", [["ads", "Advertising", "mega"], ["money", "Sales & donations", "coin"]]],
+    ["System", [["activity", "Activity log", "clock"], ["settings", "Settings", "gear"]]],
+  ];
+  const toast = (m) => { const t = Object.assign(document.createElement("div"), { className: "toast", textContent: m }); document.body.append(t); setTimeout(() => t.remove(), 2800); };
+
   const api = async (path, opts = {}) => {
     const r = await fetch(API + path, { ...opts, headers: { "Content-Type": "application/json", Authorization: "Bearer " + localStorage.getItem(KEY), ...(opts.headers || {}) } });
     const j = await r.json().catch(() => ({}));
@@ -78,6 +150,9 @@
     if (!r.ok) throw new Error(j.error || r.statusText);
     return j;
   };
+  const post = (path, body) => api(path, { method: "POST", body: JSON.stringify(body || {}) });
+  const cached = async (k, fn) => S.cache[k] || (S.cache[k] = await fn());
+  const bust = (...ks) => ks.forEach((k) => delete S.cache[k]);
 
   function login(msg = "") {
     $("#app").innerHTML = `<form class="login" id="lf">
@@ -85,144 +160,621 @@
       <p class="muted small">Enter your admin key. It's saved in this browser only.</p>
       <input id="k" type="password" autocomplete="current-password" placeholder="osk_…" autofocus>
       <div class="err">${esc(msg)}</div>
-      <button class="btn" style="width:100%">Sign in</button></form>`;
+      <button class="btn" style="width:100%;justify-content:center">Sign in</button></form>`;
     $("#lf").onsubmit = async (e) => {
       e.preventDefault();
       localStorage.setItem(KEY, $("#k").value.trim());
-      try { await api("/admin/check"); load(); } catch (er) { if (er.message !== "auth") login(er.message); }
+      try { await api("/admin/check"); go(); } catch (er) { if (er.message !== "auth") login(er.message); }
     };
   }
 
-  async function load() {
-    $("#app").innerHTML = `<div class="wrap"><p class="muted">Loading…</p></div>`;
-    try {
-      const [stats, devs, revs, ords] = await Promise.all([api(`/admin/stats?days=${S.days}`), api("/admin/developers"), api("/admin/reviews"), api("/admin/orders")]);
-      Object.assign(S, { stats, devs: devs.developers, revs: revs.reviews, ords: ords.orders, wallets: ords.wallets });
-      render();
-    } catch (e) { if (e.message !== "auth") $("#app").innerHTML = `<div class="wrap"><p class="err">Couldn't load: ${esc(e.message)}</p></div>`; }
+  // ------------------------------------------------------------------ shell + router
+  const route = () => { const [p, ...rest] = (location.hash.slice(1) || "dashboard").split("/"); return { p, arg: decodeURIComponent(rest.join("/")) }; };
+  const PAGE_TITLE = Object.fromEntries(NAV.flatMap(([, it]) => it).map(([id, n]) => [id, n]));
+  function shell(body, title, sub = "", actions = "") {
+    const { p } = route(), o = S.cache.overview || {};
+    // A slow page that finishes after you've already clicked somewhere else must not paint over it.
+    if (PAGE_TITLE[p] && title !== PAGE_TITLE[p] && title !== "Something went wrong") return;
+    S.shown = title;
+    const badge = { submissions: (o.developers?.pending || 0) + (o.unread || []).filter((u) => u.k === "dev").length,
+      ads: (o.ads?.new || 0) + (o.unread || []).filter((u) => u.k === "ad").length, money: o.supporters_waiting || 0, settings: o.github === false ? 1 : 0 };
+    $("#app").innerHTML = `<div class="shell"><aside class="side">
+        <div class="brand"><img src="/assets/logo.svg" alt=""><div><b>Omarchy Store</b><span>Admin portal</span></div></div>
+        ${NAV.map(([sec, items]) => `<div class="sec">${sec}</div>${items.map(([id, n, ic]) => `<a class="nv ${p === id ? "on" : ""}" href="#${id}">${i(ic)}${n}${badge[id] ? `<span class="n">${badge[id]}</span>` : ""}</a>`).join("")}`).join("")}
+        <div class="foot"><a class="nv" href="/" target="_blank">${i("ext")}Open store</a><a class="nv" href="#" data-out>${i("out")}Sign out</a></div>
+      </aside><main>
+        <select class="mobile-nav" data-mnav>${NAV.flatMap(([, it]) => it).map(([id, n]) => `<option value="${id}" ${p === id ? "selected" : ""}>${n}</option>`).join("")}</select>
+        <div class="top"><div><h1>${title}</h1>${sub ? `<div class="sub">${sub}</div>` : ""}</div><span class="sp"></span>${actions}</div>
+        <div id="view">${body}</div></main></div>`;
   }
+  const loading = (title) => { if (!$("#view") || S.shown !== title) shell(`<div class="empty">Loading…</div>`, title); };
 
+  async function go() {
+    if (!localStorage.getItem(KEY)) return login();
+    const { p, arg } = route();
+    const pages = { dashboard, analytics, submissions, catalog, featured, reviews, ads, money, activity, settings };
+    try { if (!S.cache.overview) S.cache.overview = await api("/admin/overview"); await (pages[p] || dashboard)(arg); }
+    catch (e) { if (e.message !== "auth") shell(`<div class="card"><p class="err">Couldn't load: ${esc(e.message)}</p></div>`, "Something went wrong"); }
+  }
+  window.addEventListener("hashchange", go);
+  const refreshOverview = async () => { S.cache.overview = await api("/admin/overview"); };
+
+  // ------------------------------------------------------------------ charts / tables
   function chart(series) {
     const W = 1000, H = 220, P = 28, max = Math.max(5, ...series.map((d) => d.views));
-    const x = (i) => P + (i * (W - 2 * P)) / Math.max(1, series.length - 1);
+    const x = (k) => P + (k * (W - 2 * P)) / Math.max(1, series.length - 1);
     const y = (v) => H - P - (v / max) * (H - 2 * P);
-    const line = (k) => series.map((d, i) => `${i ? "L" : "M"}${x(i).toFixed(1)},${y(d[k]).toFixed(1)}`).join("");
+    const line = (k) => series.map((d, n) => `${n ? "L" : "M"}${x(n).toFixed(1)},${y(d[k]).toFixed(1)}`).join("");
     const area = `${line("views")}L${x(series.length - 1)},${H - P}L${x(0)},${H - P}Z`;
-    const ticks = [0, Math.round(max / 2), max].map((v) => `<text x="4" y="${y(v) + 4}" fill="#6f74a0" font-size="11">${v}</text><line x1="${P}" x2="${W - P}" y1="${y(v)}" y2="${y(v)}" stroke="#2e3150"/>`).join("");
-    const labels = series.filter((_, i) => i % Math.ceil(series.length / 8) === 0 || i === series.length - 1)
+    const ticks = [0, Math.round(max / 2), max].map((v) => `<text x="4" y="${y(v) + 4}" fill="#6f74a0" font-size="11">${v}</text><line x1="${P}" x2="${W - P}" y1="${y(v)}" y2="${y(v)}" stroke="rgba(255,255,255,.08)"/>`).join("");
+    const labels = series.filter((_, n) => n % Math.ceil(series.length / 8) === 0 || n === series.length - 1)
       .map((d) => `<text x="${x(series.indexOf(d))}" y="${H - 6}" fill="#6f74a0" font-size="11" text-anchor="middle">${d.day.slice(5)}</text>`).join("");
-    return `<svg class="chart" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none">${ticks}
-      <path d="${area}" fill="rgba(122,162,247,.15)"/><path d="${line("views")}" fill="none" stroke="#7aa2f7" stroke-width="2.5"/>
+    return `<svg class="chart" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none"><defs><linearGradient id="ag" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7aa2f7" stop-opacity=".35"/><stop offset="1" stop-color="#7aa2f7" stop-opacity="0"/></linearGradient></defs>${ticks}
+      <path d="${area}" fill="url(#ag)"/><path d="${line("views")}" fill="none" stroke="#7aa2f7" stroke-width="2.5"/>
       <path d="${line("visitors")}" fill="none" stroke="#9ece6a" stroke-width="2" stroke-dasharray="5 4"/>${labels}</svg>
       <div class="small muted"><span style="color:#7aa2f7">━</span> Page views &nbsp; <span style="color:#9ece6a">┅</span> Unique visitors (per day)</div>`;
   }
   const table = (rows, cols, empty = "Nothing yet") => {
     if (!rows?.length) return `<p class="muted small">${empty}</p>`;
-    const max = Math.max(...rows.map((r) => r[cols[1][0]] || 0));
-    return `<table><tr>${cols.map(([, h], i) => `<th class="${i ? "num" : ""}">${h}</th>`).join("")}</tr>
+    const max = Math.max(1, ...rows.map((r) => r[cols[1][0]] || 0));
+    return `<table><tr>${cols.map(([, h], n) => `<th class="${n ? "num" : ""}">${h}</th>`).join("")}</tr>
       ${rows.map((r) => `<tr><td>${esc(r[cols[0][0]] || "(direct)")}<div class="bar" style="width:${((r[cols[1][0]] || 0) / max) * 100}%"></div></td>
         ${cols.slice(1).map(([k]) => `<td class="num">${num(r[k])}</td>`).join("")}</tr>`).join("")}</table>`;
   };
+  const daysSel = () => `<select data-days style="width:auto">${[7, 30, 90, 365].map((d) => `<option value="${d}" ${d === S.days ? "selected" : ""}>Last ${d} days</option>`).join("")}</select>`;
 
-  function overview() {
-    const s = S.stats, sum = (arr, k) => (arr || []).reduce((t, r) => t + (r[k] || 0), 0);
-    const pend = S.devs.filter((d) => d.status === "pending").length;
-    const paid = (s.orders || []).find((o) => o.status === "paid");
+  // ------------------------------------------------------------------ dashboard
+  async function dashboard() {
+    loading("Dashboard");
+    const [o, s, gh] = await Promise.all([api("/admin/overview"), cached("stats" + S.days, () => api(`/admin/stats?days=${S.days}`)), cached("gh", () => api("/admin/gh/status"))]);
+    S.cache.overview = o;
     const installs = (s.kinds || []).find((k) => k.kind === "install")?.n || 0;
-    return `<div class="kpis">
-        <div class="kpi"><div class="k">Visitors today</div><div class="v">${num(s.today?.visitors)}</div><div class="s">${num(s.today?.views)} page views</div></div>
-        <div class="kpi"><div class="k">Visitors · last ${s.days} days</div><div class="v">${num(s.totals?.visitors)}</div><div class="s">${num(s.totals?.views)} page views</div></div>
-        <div class="kpi"><div class="k">Installs · last ${s.days} days</div><div class="v">${num(installs)}</div><div class="s">from the desktop app</div></div>
-        <div class="kpi"><div class="k">Reviews</div><div class="v">${num(s.reviews?.n)}</div><div class="s">${s.reviews?.avg ? `average ${s.reviews.avg} ★` : "none yet"}</div></div>
-        <div class="kpi"><div class="k">Developers waiting</div><div class="v" style="color:${pend ? "var(--warn)" : ""}">${pend}</div><div class="s">${S.devs.length} sign-ups total</div></div>
-        <div class="kpi"><div class="k">Sales</div><div class="v">$${num(paid?.usd || 0)}</div><div class="s">${num(paid?.n || 0)} paid orders</div></div>
+    const paid = (s.orders || []).find((x) => x.status === "paid");
+    const inbox = [
+      o.developers.pending && ["#submissions", "w", "code", `${o.developers.pending} app submission${o.developers.pending > 1 ? "s" : ""} waiting for review`],
+      ...o.unread.filter((u) => u.k === "dev").map((u) => [`#submissions/${u.id}`, "", "chat", `New message on app submission #${u.id}`]),
+      o.ads.new && ["#ads", "w", "mega", `${o.ads.new} new advertising request${o.ads.new > 1 ? "s" : ""}`],
+      ...o.unread.filter((u) => u.k === "ad").map((u) => [`#ads/${u.id}`, "", "chat", `New message from advertiser #${u.id}`]),
+      o.ads.paid && ["#ads", "", "coin", `${o.ads.paid} paid ad${o.ads.paid > 1 ? "s" : ""} waiting to be set live`],
+      o.supporters_waiting && ["#money/supporters", "p", "heart", `${o.supporters_waiting} supporter name${o.supporters_waiting > 1 ? "s" : ""} to approve`],
+      !o.github && ["#settings", "w", "git", "Connect GitHub so you can edit listings from here"],
+    ].filter(Boolean);
+    const runs = gh.runs || [];
+    shell(`
+      <div class="kpis">
+        <a class="kpi" href="#analytics"><div class="k">Visitors today</div><div class="v">${num(s.today?.visitors)}</div><div class="s">${num(s.today?.views)} page views</div></a>
+        <a class="kpi" href="#analytics" style="--kc:#9ece6a"><div class="k">Visitors · ${s.days} days</div><div class="v">${num(s.totals?.visitors)}</div><div class="s">${num(s.totals?.views)} page views</div></a>
+        <a class="kpi" href="#analytics" style="--kc:#bb9af7"><div class="k">Installs · ${s.days} days</div><div class="v">${num(installs)}</div><div class="s">from the desktop app</div></a>
+        <a class="kpi" href="#money" style="--kc:#ff5ca0"><div class="k">Donations · 30 days</div><div class="v">${usd(o.donations_30d?.usd)}</div><div class="s">${num(o.donations_30d?.n)} donation${o.donations_30d?.n === 1 ? "" : "s"}</div></a>
+        <a class="kpi" href="#money/orders" style="--kc:#e0af68"><div class="k">Sales</div><div class="v">${usd(paid?.usd)}</div><div class="s">${num(paid?.n)} paid order${paid?.n === 1 ? "" : "s"}</div></a>
+        <a class="kpi" href="#reviews" style="--kc:#7dcfff"><div class="k">Reviews</div><div class="v">${num(s.reviews?.n)}</div><div class="s">${s.reviews?.avg ? `average ${s.reviews.avg} ★` : "no ratings yet"} · ${num(o.reviews_7d)} this week</div></a>
       </div>
-      <div class="card"><h2>Traffic <select id="days">${[7, 30, 90, 365].map((d) => `<option value="${d}" ${d === S.days ? "selected" : ""}>Last ${d} days</option>`).join("")}</select></h2>${chart(s.series)}</div>
+      <div class="grid2">
+        <div class="card"><h2>To do</h2><div class="inbox">${inbox.length ? inbox.map(([h, c, ic, t]) => `<a href="${h}"><span class="ic ${c}">${i(ic)}</span><b>${t}</b><span class="faint">→</span></a>`).join("") : `<div class="empty">All caught up ✨</div>`}</div></div>
+        <div class="card"><h2>Publishing <a class="small" href="#settings">GitHub ${gh.connected ? `<span class="pill connected">connected</span>` : `<span class="pill pending">not connected</span>`}</a></h2>
+          ${runs.length ? runs.map((r) => `<div class="deploy"><span class="pill ${r.conclusion || r.status}">${esc((r.conclusion || r.status).replace("_", " "))}</span><span class="t">${esc(r.title)}</span><span class="faint small">${when(r.ts)}</span><a href="${esc(r.url)}" target="_blank" rel="noopener">${i("ext")}</a></div>`).join("")
+            : `<p class="muted small">${gh.connected ? "No deploys yet." : "Connect GitHub in Settings to see live deploy status here and edit listings without touching code."}</p>`}</div>
+      </div>
+      <div class="card"><h2>Traffic ${daysSel()}</h2>${chart(s.series)}</div>
+      <div class="grid2">
+        <div class="card"><h2>Top pages</h2>${table((s.pages || []).slice(0, 8), [["path", "Page"], ["views", "Views"]])}</div>
+        <div class="card"><h2>Ad clicks · 30 days</h2>${table(o.ad_clicks_30d, [["item", "Campaign"], ["n", "Clicks"], ["people", "People"]], "No ad clicks recorded yet. Clicks are counted from now on.")}</div>
+      </div>`, "Dashboard", new Date().toLocaleDateString([], { weekday: "long", month: "long", day: "numeric" }), `<button class="btn ghost sm" data-reload>Refresh</button>`);
+  }
+
+  async function analytics() {
+    loading("Analytics");
+    const s = await cached("stats" + S.days, () => api(`/admin/stats?days=${S.days}`));
+    shell(`<div class="card"><h2>Traffic ${daysSel()}</h2>${chart(s.series)}</div>
       <div class="grid2">
         <div class="card"><h2>Top pages</h2>${table(s.pages, [["path", "Page"], ["views", "Views"]])}</div>
         <div class="card"><h2>Where visitors come from</h2>${table(s.refs, [["ref", "Site"], ["views", "Views"]], "No referrals yet — visits so far were direct.")}</div>
         <div class="card"><h2>Countries</h2>${table(s.countries, [["country", "Country"], ["visitors", "Visitors"]])}</div>
         <div class="card"><h2>Devices</h2>${table((s.devices || []).map((d) => ({ ...d, device: { "desktop-app": "Omarchy Store desktop app", phone: "Phone / tablet", computer: "Computer (web)" }[d.device] || d.device })), [["device", "Device"], ["visitors", "Visitors"]])}</div>
         <div class="card"><h2>Most installed</h2>${table(s.installs, [["item", "App"], ["n", "Installs"]], "No installs tracked yet.")}</div>
+        <div class="card"><h2>Events</h2>${table(s.kinds, [["kind", "Event"], ["n", "Count"]])}</div>
       </div>
-      <p class="small muted">Privacy: no cookies and no IP addresses are stored. Unique visitors are counted with a one-way code that changes every day.</p>`;
+      <p class="small muted">Privacy: no cookies and no IP addresses are stored. Unique visitors are counted with a one-way code that changes every day.</p>`, "Analytics", "Privacy-friendly traffic from the website and the desktop app");
   }
 
-  function developers() {
-    if (!S.devs.length) return `<div class="card"><p class="muted">No developer sign-ups yet. They apply at <a href="/submit/#developers" target="_blank">omarchystore.com/submit</a>.</p></div>`;
-    const order = { pending: 0, approved: 1, rejected: 2 };
-    return `<div class="card">${[...S.devs].sort((a, b) => order[a.status] - order[b.status] || b.ts - a.ts).map((d) => {
-      const pay = JSON.parse(d.payout || "{}");
-      const shots = (() => { try { return JSON.parse(d.screenshots || "[]"); } catch { return []; } })();
-      const safe = (u) => /^https:\/\//.test(u || "") ? esc(u) : "";
-      return `<div class="dev"><div>
-          <div style="display:flex;gap:12px;align-items:center">${safe(d.logo_url) ? `<img src="${safe(d.logo_url)}" alt="" width="48" height="48" style="border-radius:12px;background:var(--card2)" referrerpolicy="no-referrer">` : ""}
-          <div><span class="pill ${d.status}">${d.status}</span> &nbsp;<b>${esc(d.app_name)}</b> by ${esc(d.name)} · <a href="mailto:${esc(d.email)}">${esc(d.email)}</a>${d.telegram ? ` · <a href="https://t.me/${esc(d.telegram)}" target="_blank" rel="noopener">@${esc(d.telegram)}</a>` : ""}
-          ${d.tagline ? `<div class="small" style="color:var(--text)">${esc(d.tagline)}</div>` : ""}</div></div>
-          <div class="small muted">#${d.id} · ${when(d.ts)}${d.website ? ` · <a href="${esc(d.website)}" target="_blank" rel="noopener">website</a>` : ""}${d.github ? ` · GitHub <a href="https://github.com/${esc(d.github)}" target="_blank" rel="noopener">${esc(d.github)}</a>` : ""}${d.app_url ? ` · <a href="${esc(d.app_url)}" target="_blank" rel="noopener">app link</a>` : ""}${d.telegram_chat_id ? ` · <span class="pill approved">Telegram linked</span>` : ` · <span class="pill">No Telegram link yet</span>`}</div>
-          <p>${esc(d.app_desc)}</p>
-          ${shots.length ? `<div style="display:flex;gap:8px;overflow-x:auto;margin:6px 0 8px">${shots.map((s) => safe(s) ? `<a href="${safe(s)}" target="_blank" rel="noopener"><img src="${safe(s)}" alt="" style="height:110px;border-radius:8px;background:var(--card2)" referrerpolicy="no-referrer"></a>` : "").join("")}</div>` : `<div class="small" style="color:var(--warn)">No screenshots supplied</div>`}
-          <div class="small">${d.wants_paid ? `💲 Wants to sell at <b>$${d.price_usd}</b> — developer gets 90%, you get 10%.` : "Free app"}</div>
-          ${Object.keys(pay).length ? `<div class="small muted">Payout: ${Object.entries(pay).map(([k, v]) => `${k.toUpperCase()} <span class="addr">${esc(v)}</span>`).join(" · ")}</div>` : ""}
-          ${d.note ? `<div class="small muted">Your note: ${esc(d.note)}</div>` : ""}
-        </div><div class="acts">
-          ${d.status !== "approved" ? `<button class="btn ok sm" data-dev="${d.id}" data-st="approved">Approve</button>` : ""}
-          ${d.status !== "rejected" ? `<button class="btn no sm" data-dev="${d.id}" data-st="rejected">Reject</button>` : ""}
-          ${d.status !== "pending" ? `<button class="btn ghost sm" data-dev="${d.id}" data-st="pending">Back to pending</button>` : ""}
-        </div></div>`; }).join("")}</div>`;
+  // ------------------------------------------------------------------ submissions
+  const DEV_TABS = [["review", "Needs review", (d) => d.status === "pending"], ["changes", "Changes requested", (d) => d.status === "changes"], ["approved", "Approved", (d) => d.status === "approved"],
+    ["live", "Live", (d) => d.status === "live"], ["rejected", "Rejected", (d) => d.status === "rejected"], ["all", "All", () => true]];
+  async function submissions(arg) {
+    loading("App submissions");
+    const devs = (await cached("devs", () => api("/admin/developers"))).developers;
+    const sel = arg ? devs.find((d) => d.id === Number(arg)) : null;
+    if (sel && !DEV_TABS.find(([k]) => k === S.filter.subs)[2](sel)) S.filter.subs = "all";
+    const list = devs.filter(DEV_TABS.find(([k]) => k === S.filter.subs)[2]);
+    const msgs = sel ? (await api(`/admin/developers/${sel.id}/messages`)).messages : [];
+    shell(`<div class="tabs">${DEV_TABS.map(([k, n, fn]) => `<button data-subtab="${k}" class="${S.filter.subs === k ? "on" : ""}">${n}<span class="c">${devs.filter(fn).length}</span></button>`).join("")}</div>
+      <div class="split"><div class="card" style="padding:8px"><div class="list">${list.length ? list.map((d) => `<a class="row ${sel?.id === d.id ? "on" : ""}" href="#submissions/${d.id}">
+          ${safe(d.logo_url) ? `<img src="${safe(d.logo_url)}" alt="" referrerpolicy="no-referrer">` : `<span class="ph"></span>`}
+          <span class="t"><b>${esc(d.app_name)}</b><span>${esc(d.company || d.name)} · ${when(d.ts)}</span></span><span class="pill ${d.status}">${d.status}</span></a>`).join("")
+          : `<div class="empty">Nothing here.</div>`}</div></div>
+        <div>${sel ? devDetail(sel, msgs) : `<div class="card empty">Pick a submission on the left.<br><span class="small">New ones also arrive on Telegram.</span></div>`}</div></div>`,
+      "App submissions", "Review, message developers, and publish their apps");
   }
-
-  function reviews() {
-    if (!S.revs.length) return `<div class="card"><p class="muted">No reviews yet. People write them on each app's page.</p></div>`;
-    return `<div class="card"><table><tr><th>App</th><th>Rating</th><th>Review</th><th>When</th><th></th></tr>
-      ${S.revs.map((r) => `<tr class="${r.hidden ? "hidden-row" : ""}"><td><a href="/app/${esc(r.app)}/" target="_blank">${esc(r.app)}</a></td>
-        <td class="stars">${"★".repeat(r.rating)}${"☆".repeat(5 - r.rating)}</td>
-        <td><b>${esc(r.title)}</b> ${esc(r.body)}<div class="small muted">— ${esc(r.name)}</div></td>
-        <td class="small muted">${when(r.ts)}</td>
-        <td><div class="acts"><button class="btn ghost sm" data-hide="${r.id}" data-h="${r.hidden ? 0 : 1}">${r.hidden ? "Show" : "Hide"}</button>
-          <button class="btn no sm" data-del="${r.id}">Delete</button></div></td></tr>`).join("")}</table></div>`;
+  function devDetail(d, msgs) {
+    const pay = parse(d.payout || "{}", {}), shots = parse(d.screenshots || "[]", []);
+    return `<div class="card">
+      <div class="detail-head">${safe(d.logo_url) ? `<img src="${safe(d.logo_url)}" alt="" referrerpolicy="no-referrer">` : `<span class="ph"></span>`}
+        <div><span class="pill ${d.status}">${d.status}</span> <span class="faint small">#${d.id} · submitted ${when(d.ts)}${d.updated_ts && d.updated_ts - d.ts > 5000 ? ` · updated ${when(d.updated_ts)}` : ""}</span>
+          <h2>${esc(d.app_name)}</h2><div class="muted">${esc(d.tagline || "")}</div></div></div>
+      ${shots.length ? `<div class="shots">${shots.map((s) => safe(s) ? `<a href="${safe(s)}" target="_blank" rel="noopener"><img src="${safe(s)}" alt="" referrerpolicy="no-referrer"></a>` : "").join("")}</div>` : `<p class="small" style="color:var(--warn)">No screenshots supplied</p>`}
+      <div class="desc">${esc(d.app_desc)}</div>
+      <dl class="facts">
+        <div><dt>Developer</dt><dd>${esc(d.company || "—")}<br>${esc(d.name)} · <a href="mailto:${esc(d.email)}">${esc(d.email)}</a></dd></div>
+        <div><dt>Source</dt><dd>${safe(d.repo_url) ? `<a href="${safe(d.repo_url)}" target="_blank" rel="noopener">${esc(d.repo_url.replace("https://", ""))}</a>` : "—"}${d.github ? `<br>GitHub <a href="https://github.com/${esc(d.github)}" target="_blank" rel="noopener">@${esc(d.github)}</a>` : ""}</dd></div>
+        <div><dt>Installs from</dt><dd>${esc(d.install_hint || "—")}</dd></div>
+        <div><dt>Category · License</dt><dd>${esc(d.category || "—")} · ${esc(d.license || "—")}</dd></div>
+        <div><dt>Price</dt><dd>${d.wants_paid ? `<b>$${d.price_usd}</b> — dev gets 90%, you get 10%` : "Free"}</dd></div>
+        <div><dt>Telegram</dt><dd>${d.telegram ? `<a href="https://t.me/${esc(d.telegram)}" target="_blank" rel="noopener">@${esc(d.telegram)}</a> ` : ""}${d.telegram_chat_id ? `<span class="pill approved">alerts linked</span>` : `<span class="faint">no alerts link</span>`}</dd></div>
+        ${d.website || d.app_url ? `<div><dt>Links</dt><dd>${safe(d.website) ? `<a href="${safe(d.website)}" target="_blank" rel="noopener">website</a> ` : ""}${safe(d.app_url) ? `<a href="${safe(d.app_url)}" target="_blank" rel="noopener">app</a>` : ""}</dd></div>` : ""}
+        ${Object.keys(pay).length ? `<div><dt>Payout wallets</dt><dd>${Object.entries(pay).map(([k, v]) => `${k.toUpperCase()} <span class="addr">${esc(v)}</span>`).join("<br>")}</dd></div>` : ""}
+        ${d.listing_id ? `<div><dt>Store listing</dt><dd><a href="/app/${esc(d.listing_id)}/" target="_blank">${esc(d.listing_id)}</a> · <a href="#catalog/${esc(d.listing_id)}">edit</a></dd></div>` : ""}
+      </dl>
+      <div class="acts" style="margin-bottom:6px">
+        ${!["approved", "live"].includes(d.status) ? `<button class="btn ok sm" data-devst="approved">Approve</button>` : ""}
+        ${!["changes", "live"].includes(d.status) ? `<button class="btn warn sm" data-devst="changes">Request changes</button>` : ""}
+        ${d.status !== "rejected" ? `<button class="btn no sm" data-devst="rejected">Reject</button>` : ""}
+        ${d.status === "approved" ? `<button class="btn ok sm" data-devst="live">Mark live & tell developer</button>` : ""}
+        ${d.status !== "pending" ? `<button class="btn ghost sm" data-devst="pending">Back to review</button>` : ""}
+        <span style="flex:1"></span>
+        ${!d.listing_id && d.status !== "rejected" ? `<button class="btn sm" data-mklisting>${i("plus")}Create store listing</button>` : ""}
+        <button class="btn ghost sm" data-resetlink="dev">New status link</button>
+      </div>
+      <p class="small faint">Approve = you've checked it. It goes live when its listing is published (Create store listing — or Marquee packages it), then press "Mark live".</p>
+    </div>
+    <div class="card"><h2>Conversation <span class="small faint">the developer sees this on their status page</span></h2>
+      <div class="thread">${msgs.length ? msgs.map((m) => `<div class="msg ${m.sender === "store" ? "store" : "other"}">${esc(m.body)}<div class="m">${m.sender === "store" ? "You" : esc(d.name)} · ${when(m.ts)}</div></div>`).join("") : `<p class="muted small">No messages yet.</p>`}</div>
+      <textarea id="dmsg" rows="3" placeholder="Write to ${esc(d.name)}… (also sent on Telegram if they linked it)"></textarea>
+      <div class="acts" style="margin-top:8px"><button class="btn sm" data-devmsg>Send message</button><span class="faint small">Tip: type a note first, then press Request changes or Reject — it's sent with the status.</span></div>
+    </div>
+    <div class="card"><h2>Private note</h2><textarea id="dnote" rows="2" placeholder="Only you see this">${esc(d.note || "")}</textarea><div class="acts" style="margin-top:8px"><button class="btn ghost sm" data-devnote>Save note</button></div></div>`;
   }
+  const slug = (s) => String(s || "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "").slice(0, 40) || "new-app";
 
-  function sales() {
-    const w = S.wallets || {};
-    const EXP = { btc: "https://mempool.space/tx/", "usdc-base": "https://basescan.org/tx/", "eth-base": "https://basescan.org/tx/", "usdc-eth": "https://etherscan.io/tx/", sol: "https://solscan.io/tx/", "usdc-sol": "https://solscan.io/tx/", xrp: "https://livenet.xrpl.org/transactions/" };
-    return `<div class="card"><h2>Your payout wallets <span class="small muted">public addresses · payments go straight here</span></h2>
-        <table>${[["Bitcoin", w.btc], ["Ethereum & Base (USDC, ETH)", w.evm], ["Solana (SOL, USDC)", w.sol], ["XRP", w.xrp]].map(([n, a]) => `<tr><td>${n}</td><td class="addr">${a ? esc(a) : `<span class="muted">not set</span>`}</td></tr>`).join("")}</table></div>
-      <div class="card"><h2>Orders <button class="btn ghost sm" id="chk">Check blockchains now</button></h2>
-        ${S.ords.length ? `<table><tr><th>Order</th><th>App</th><th>Paid with</th><th class="num">Price</th><th>Status</th><th>When</th></tr>
-          ${S.ords.map((o) => `<tr><td class="addr">${esc(o.id)}</td><td>${esc(o.app)}</td><td>${esc(o.chain)}</td><td class="num">$${o.usd}</td>
-            <td><span class="pill ${o.status}">${o.status}</span>${o.txid ? ` <a class="small" href="${EXP[o.chain]}${esc(o.txid)}" target="_blank" rel="noopener">tx</a>` : ""}</td><td class="small muted">${when(o.ts)}</td></tr>`).join("")}</table>`
-          : `<p class="muted small">No orders yet. Checkout appears on paid apps once you set a price on an approved developer's app.</p>`}
-        <p class="small muted" style="margin-top:10px">The store checks the public blockchain every 10 minutes and marks an order paid once the exact amount arrives. It never holds keys or moves money.</p></div>`;
+  // ------------------------------------------------------------------ catalog editor
+  const getCatalog = () => cached("catalog", async () => (await fetch("/catalog.json", { cache: "no-store" })).json());
+  const appIcon = (a) => a.icon ? (/^https?:/.test(a.icon) ? a.icon : "/" + a.icon) : "";
+  function catList(cat, arg) {
+    const q = (S.sel.catq || "").toLowerCase();
+    const apps = cat.apps.filter((a) => !q || a.name.toLowerCase().includes(q) || a.id.includes(q) || (a.developer || "").toLowerCase().includes(q)).slice(0, 300);
+    return apps.map((a) => `<a class="row ${arg === a.id ? "on" : ""}" href="#catalog/${a.id}">${appIcon(a) ? `<img src="${esc(appIcon(a))}" alt="" loading="lazy">` : `<span class="ph"></span>`}
+        <span class="t"><b>${esc(a.name)}</b><span>${esc(a.id)} · ${esc(a.category)}</span></span></a>`).join("")
+      + (apps.length === 300 ? `<p class="faint small" style="padding:8px">Showing the first 300 — search to find others.</p>` : !apps.length ? `<div class="empty">No match.</div>` : "");
   }
-
-  function render() {
-    const pend = S.devs.filter((d) => d.status === "pending").length;
-    const tabs = [["overview", "Overview"], ["developers", "Developers", pend], ["reviews", "Reviews"], ["sales", "Sales"]];
-    $("#app").innerHTML = `<div class="wrap">
-      <header><img src="/assets/logo.svg" alt=""><h1>Omarchy Store admin</h1><span class="sp"></span>
-        <a class="btn ghost sm" href="/" target="_blank">Open store</a><button class="btn ghost sm" id="out">Sign out</button></header>
-      <nav class="tabs">${tabs.map(([id, n, c]) => `<button data-tab="${id}" class="${S.tab === id ? "on" : ""}">${n}${c ? `<span class="n">${c}</span>` : ""}</button>`).join("")}</nav>
-      ${{ overview, developers, reviews, sales }[S.tab]()}
-    </div>`;
+  async function catalog(arg, prefill) {
+    loading("Catalog");
+    const [cat, gh] = await Promise.all([getCatalog(), cached("gh", () => api("/admin/gh/status"))]);
+    const right = !gh.connected ? `<div class="card">${ghSetup(gh)}</div>`
+      : arg ? `<div id="editor"><div class="card empty">Loading listing…</div></div>`
+      : `<div class="card empty">Pick an app to edit, or create a new listing.<br><span class="small">Saving publishes to the live store in about 2 minutes.</span></div>`;
+    shell(`<div class="split"><div class="card" style="padding:10px">
+        <input id="catq" placeholder="Search ${num(cat.apps.length)} apps…" value="${esc(S.sel.catq || "")}" style="margin-bottom:8px">
+        <div class="list" id="catlist">${catList(cat, arg)}</div></div>
+        <div>${right}</div></div>`, "Catalog", "Edit any listing — name, text, icon, screenshots, category, age, visibility",
+      gh.connected ? `<button class="btn sm" data-newlisting>${i("plus")}New listing</button>` : "");
+    if (gh.connected && arg) await loadEditor(arg, prefill);
   }
-
-  document.addEventListener("click", async (e) => {
-    const t = e.target.closest("button"); if (!t) return;
+  const CATS = () => (S.cache.catalog?.categories || []).map((c) => [c.id, c.name]);
+  // keep = {sha, isNew, devId} when re-rendering an editor that's already open (e.g. JSON tab -> form tab)
+  async function loadEditor(id, prefill, keep) {
+    const el = $("#editor"); if (!el) return;
+    const path = `registry/apps/${id}.json`;
     try {
-      if (t.dataset.tab) { S.tab = t.dataset.tab; render(); }
-      else if (t.id === "out") { localStorage.removeItem(KEY); login(); }
-      else if (t.dataset.dev) {
-        const note = t.dataset.st === "rejected" ? prompt("Optional note (only you see it):") ?? "" : "";
-        await api(`/admin/developers/${t.dataset.dev}`, { method: "POST", body: JSON.stringify({ status: t.dataset.st, note }) }); load();
-      } else if (t.dataset.hide) { await api(`/admin/reviews/${t.dataset.hide}`, { method: "POST", body: JSON.stringify({ hidden: t.dataset.h === "1" }) }); load(); }
-      else if (t.dataset.del) { if (confirm("Delete this review for good?")) { await api(`/admin/reviews/${t.dataset.del}`, { method: "DELETE" }); load(); } }
-      else if (t.id === "chk") { t.textContent = "Checking…"; const r = await api("/admin/check-orders", { method: "POST" }); alert(`Checked ${r.checked} open order(s), ${r.paid || 0} newly paid.`); load(); }
-    } catch (er) { if (er.message !== "auth") alert(er.message); }
-  });
-  document.addEventListener("change", (e) => { if (e.target.id === "days") { S.days = Number(e.target.value); load(); } });
+      let f = { sha: keep?.sha ?? null, text: null }, hist = { commits: [] };
+      if (!prefill) {
+        [f, hist] = await Promise.all([api(`/admin/gh/file?path=${encodeURIComponent(path)}`), api(`/admin/gh/history?path=${encodeURIComponent(path)}`)]);
+        if (f.text === null) { el.innerHTML = `<div class="card"><p class="err">No registry file for "${esc(id)}" yet.</p><p class="muted small">Use "New listing" to create one.</p></div>`; return; }
+      }
+      const a = prefill ? { ...prefill } : JSON.parse(f.text);
+      const devId = keep?.devId ?? a._dev; delete a._dev;
+      const isNew = keep ? keep.isNew : !!prefill;
+      S.ed = { path, sha: f.sha, data: a, isNew, devId };
+      const v = (k) => esc(a[k] ?? ""), inst = a.install || {};
+      el.innerHTML = `<div class="card">
+        <div class="detail-head">${a.icon ? `<img src="${esc(/^https?:/.test(a.icon) ? a.icon : "/" + a.icon)}" alt="" referrerpolicy="no-referrer">` : `<span class="ph"></span>`}
+          <div><span class="faint small">${isNew ? "NEW LISTING — not published yet" : esc(path)}</span><h2>${esc(a.name || id)}</h2>${!isNew ? `<a class="small" href="/app/${esc(id)}/" target="_blank">View live page ${i("ext")}</a>` : ""}</div>
+          ${a.hidden ? `<span class="pill rejected">Hidden</span>` : `<span class="pill live">Visible</span>`}</div>
+        <div class="tabs"><button class="on" data-edtab="form">Details</button><button data-edtab="json">Raw JSON</button></div>
+        <div id="ed-form" class="form">
+          <label>Name<input data-k="name" value="${v("name")}"></label>
+          <label>Developer<input data-k="developer" value="${v("developer")}" placeholder="Shown under the name"></label>
+          <label class="w">Tagline <span class="hint">(one line under the name)</span><input data-k="summary" maxlength="140" value="${v("summary")}"></label>
+          <label class="w">Description <span class="hint">(leave empty to use the upstream text)</span><textarea data-k="description" rows="9">${v("description")}</textarea></label>
+          <label>Category<select data-k="category">${CATS().map(([k, n]) => `<option value="${k}" ${k === a.category ? "selected" : ""}>${esc(n)}</option>`).join("")}</select></label>
+          <label>Type<select data-k="kind"><option value="gui" ${a.kind === "gui" ? "selected" : ""}>Desktop app (window)</option><option value="terminal" ${a.kind === "terminal" ? "selected" : ""}>Terminal app</option></select></label>
+          <label>Age rating<select data-k="age"><option value="">Automatic</option>${["4+", "8+", "9+", "12+", "17+"].map((x) => `<option ${a.age === x ? "selected" : ""}>${x}</option>`).join("")}</select></label>
+          <label>GitHub repo <span class="hint">(owner/repo)</span><input data-k="github" value="${v("github")}"></label>
+          <label class="w">Homepage<input data-k="homepage" value="${v("homepage")}" placeholder="https://"></label>
+          <label class="w">Icon <span class="hint">(https:// link, or a featured/… file)</span><input data-k="icon" value="${v("icon")}"></label>
+          <label class="w">Screenshots <span class="hint">(one per line)</span><textarea data-k="screenshots" rows="4">${esc((a.screenshots || []).join("\n"))}</textarea></label>
+          <label>Install method<select data-ik="method">${["pacman", "aur", "omarchy", "release", "store"].filter((m) => m !== "store" || inst.method === "store").map((m) => `<option ${inst.method === m ? "selected" : ""}>${m}</option>`).join("")}</select></label>
+          <label>Packages <span class="hint">(space-separated)</span><input data-ik="packages" value="${esc((inst.packages || []).join(" "))}"></label>
+          <label class="w check"><input type="checkbox" data-k="hidden" ${a.hidden ? "checked" : ""}> Hide this app from the store (it stays in the registry — untick to bring it back)</label>
+        </div>
+        <div id="ed-json" hidden><textarea id="ed-raw" rows="24" spellcheck="false" class="addr"></textarea></div>
+        <div class="savebar"><input id="ed-msg" placeholder="What did you change? (shows in the history)"><span id="ed-st" class="small"></span><button class="btn" data-edsave>${isNew ? "Create & publish" : "Save & publish"}</button></div>
+      </div>
+      ${hist.commits.length ? `<div class="card"><h2>History <span class="small faint">restore any earlier version</span></h2><table>${hist.commits.map((c, n) => `<tr><td>${esc(c.message)}<div class="faint small">${esc(c.author || "")} · ${when(c.ts)}</div></td>
+        <td class="num">${n ? `<button class="btn ghost sm" data-restore="${c.sha}">Restore</button>` : `<span class="pill live">current</span>`}</td></tr>`).join("")}</table></div>` : ""}`;
+    } catch (e) { el.innerHTML = `<div class="card"><p class="err">${esc(e.message)}</p></div>`; }
+  }
+  function collectEditor() {
+    if (!$("#ed-json").hidden) return JSON.parse($("#ed-raw").value);
+    const a = { ...S.ed.data };
+    document.querySelectorAll("#ed-form [data-k]").forEach((el) => {
+      const k = el.dataset.k;
+      if (el.type === "checkbox") { if (el.checked) a[k] = true; else delete a[k]; return; }
+      const val = el.value.trim();
+      if (k === "screenshots") { const l = val.split(/\s+/).filter(Boolean); if (l.length) a[k] = l; else delete a[k]; return; }
+      if (val === "") { if (k === "icon" && "icon" in S.ed.data) a[k] = null; else delete a[k]; } else a[k] = val;
+    });
+    const inst = { ...(a.install || {}) };
+    inst.method = $('[data-ik="method"]').value;
+    const pk = $('[data-ik="packages"]').value.trim().split(/\s+/).filter(Boolean);
+    if (pk.length) inst.packages = pk; else delete inst.packages;
+    a.install = inst;
+    if (!a.detect?.length && pk.length) a.detect = [pk[0]];
+    return a;
+  }
+  async function saveEditor(btn, dataOverride, msgOverride) {
+    const st = $("#ed-st");
+    let data;
+    try { data = dataOverride || collectEditor(); } catch { st.innerHTML = `<span class="err">That JSON isn't valid</span>`; return; }
+    btn.disabled = true; st.textContent = "Checking and saving…";
+    try {
+      const r = await post("/admin/gh/file", { path: S.ed.path, sha: S.ed.sha, data, message: msgOverride || $("#ed-msg").value.trim() || `${S.ed.isNew ? "Add" : "Edit"} ${data.name || data.id}` });
+      if (S.ed.devId) { await post(`/admin/developers/${S.ed.devId}`, { listing_id: data.id, status: "approved" }); bust("devs"); }
+      bust("gh");
+      toast("Saved — the store is rebuilding (about 2 minutes)");
+      setHash("#catalog/" + data.id);
+      await loadEditor(data.id);
+      const st2 = $("#ed-st"); if (st2) st2.innerHTML = `<span class="okmsg">Saved ✓ live in about 2 minutes · <a href="${esc(r.url)}" target="_blank" rel="noopener">commit</a></span>`;
+    } catch (e) { st.innerHTML = `<span class="err">${esc(e.message)}</span>`; btn.disabled = false; }
+  }
 
-  localStorage.getItem(KEY) ? load() : login();
+  // ------------------------------------------------------------------ featured
+  async function featured() {
+    loading("Featured & Discover");
+    const gh = await cached("gh", () => api("/admin/gh/status"));
+    if (!gh.connected) return shell(`<div class="card">${ghSetup(gh)}</div>`, "Featured & Discover");
+    const [f, cat] = await Promise.all([api("/admin/gh/file?path=registry/featured.json"), getCatalog()]);
+    S.feat = { sha: f.sha, data: JSON.parse(f.text) };
+    renderFeatured(cat);
+  }
+  function renderFeatured(cat) {
+    const d = S.feat.data, name = (id) => cat.apps.find((a) => a.id === id)?.name || id;
+    shell(`<datalist id="appids">${cat.apps.map((a) => `<option value="${esc(a.id)}">${esc(a.name)}</option>`).join("")}</datalist>
+      <div class="card"><h2>Discover hero banners <button class="btn ghost sm" data-fadd="hero">${i("plus")}Add banner</button></h2>
+        <p class="small muted" style="margin-bottom:10px">The big rotating banners at the top of Discover, in this order.</p>
+        ${d.hero.map((h, n) => `<div class="hero-item"><span class="num">${n + 1}</span><div class="form">
+          <label>App<input list="appids" data-h="${n}" data-f="app" value="${esc(h.app)}"></label>
+          <label>Eyebrow<input data-h="${n}" data-f="eyebrow" value="${esc(h.eyebrow || "")}" placeholder="FEATURED APP"></label>
+          <label class="w">Headline<input data-h="${n}" data-f="headline" value="${esc(h.headline || "")}"></label>
+          <label class="w">Colors <span class="hint">(2–3 hex colors, comma-separated)</span><input data-h="${n}" data-f="gradient" value="${esc((h.gradient || []).join(", "))}"><span class="swatch" style="background:linear-gradient(120deg,${(h.gradient?.length > 1 ? h.gradient : ["#333", "#555"]).map(esc).join(",")})"></span></label>
+        </div><div class="acts"><button class="btn ghost sm" data-fmove="hero:${n}:-1" title="Move up">${i("up")}</button><button class="btn ghost sm" data-fmove="hero:${n}:1" title="Move down">${i("down")}</button><button class="btn ghost sm" data-fdel="hero:${n}" title="Remove">${i("x")}</button></div></div>`).join("")}
+      </div>
+      <div class="card"><h2>Collections (shelves) <button class="btn ghost sm" data-fadd="col">${i("plus")}Add shelf</button></h2>
+        ${d.collections.map((c, n) => `<div class="hero-item"><span class="num">${n + 1}</span><div>
+          <input data-c="${n}" value="${esc(c.title)}" style="font-weight:700;margin-bottom:8px">
+          <div class="chips">${c.apps.map((id, k) => `<span class="chip">${esc(name(id))}<button data-cdel="${n}:${k}" title="Remove">×</button></span>`).join("")}</div>
+          <div class="acts" style="margin-top:8px"><input list="appids" data-cadd="${n}" placeholder="Add an app…" style="max-width:260px"><button class="btn ghost sm" data-cplus="${n}">Add</button></div>
+        </div><div class="acts"><button class="btn ghost sm" data-fmove="col:${n}:-1" title="Move up">${i("up")}</button><button class="btn ghost sm" data-fmove="col:${n}:1" title="Move down">${i("down")}</button><button class="btn ghost sm" data-fdel="col:${n}" title="Remove">${i("x")}</button></div></div>`).join("")}
+      </div>
+      <div class="savebar"><input id="f-msg" placeholder="What did you change?"><span id="f-st" class="small"></span><button class="btn" data-fsave>Save & publish</button></div>`,
+      "Featured & Discover", "Choose what's promoted on the front page. Top Charts stay ranked by GitHub stars only.");
+  }
+  function syncFeatured() {
+    const d = S.feat.data;
+    document.querySelectorAll("[data-h]").forEach((el) => { const h = d.hero[Number(el.dataset.h)], f = el.dataset.f;
+      if (f === "gradient") h.gradient = el.value.split(",").map((x) => x.trim()).filter(Boolean); else if (el.value.trim()) h[f] = el.value.trim(); else delete h[f]; });
+    document.querySelectorAll("[data-c]").forEach((el) => { d.collections[Number(el.dataset.c)].title = el.value.trim(); });
+  }
+
+  // ------------------------------------------------------------------ ads
+  async function ads(arg) {
+    loading("Advertising");
+    const [reqs, o, gh] = await Promise.all([cached("adreqs", () => api("/admin/ads/requests")), api("/admin/overview"), cached("gh", () => api("/admin/gh/status"))]);
+    S.cache.overview = o;
+    if (arg && /^\d+$/.test(arg)) S.filter.ads = "requests";
+    const tab = S.filter.ads;
+    let body = "";
+    if (tab === "requests") {
+      const sel = arg && /^\d+$/.test(arg) ? reqs.requests.find((r) => r.id === Number(arg)) : null;
+      const msgs = sel ? (await api(`/admin/ads/requests/${sel.id}/messages`)).messages : [];
+      body = `<div class="split"><div class="card" style="padding:8px"><div class="list">${reqs.requests.length ? reqs.requests.map((r) => `<a class="row ${sel?.id === r.id ? "on" : ""}" href="#ads/${r.id}">
+          <span class="ph" style="display:grid;place-items:center;background:linear-gradient(135deg,#ff7a3d,#e3266c);color:#fff">${i("mega")}</span>
+          <span class="t"><b>${esc(r.company)}</b><span>${esc(r.slot)} · ${esc(r.starts)} → ${esc(r.ends)}</span></span><span class="pill ${r.status}">${r.status}</span></a>`).join("")
+        : `<div class="empty">No requests yet. They come in from <a href="/advertise/" target="_blank">/advertise</a>.</div>`}</div></div>
+        <div>${sel ? adDetail(sel, msgs, gh) : `<div class="card empty">Pick a request on the left.</div>`}</div></div>`;
+    } else if (!gh.connected) body = `<div class="card">${ghSetup(gh)}</div>`;
+    else {
+      const f = await api("/admin/gh/file?path=registry/ads.json");
+      S.adsfile = { sha: f.sha, data: JSON.parse(f.text) };
+      const clicks = Object.fromEntries((o.ad_clicks_30d || []).map((c) => [c.item, c])), t = today();
+      const state = (c) => c.ends && c.ends < t ? "expired" : c.starts && c.starts > t ? "scheduled" : "live";
+      body = `<div class="card"><h2>Campaigns <button class="btn sm" data-campnew>${i("plus")}New campaign</button></h2>
+        <table><tr><th>Campaign</th><th>Placement</th><th>Dates</th><th>Status</th><th class="num">Clicks · 30d</th><th></th></tr>
+        ${S.adsfile.data.campaigns.map((c, n) => `<tr><td><b>${esc(c.title || c.app || c.id)}</b><div class="faint small">${esc(c.id)} · ${esc(c.type)}</div></td><td>${esc(c.slot)}</td>
+          <td class="small">${esc(c.starts || "—")} → ${esc(c.ends || "—")}</td><td><span class="pill ${state(c)}">${state(c)}</span></td>
+          <td class="num">${num(clicks[c.id]?.n)}<div class="faint small">${num(clicks[c.id]?.people)} people</div></td>
+          <td class="num"><button class="btn ghost sm" data-campedit="${n}">Edit</button></td></tr>`).join("")}</table></div>
+        <div id="camp-ed"></div>`;
+    }
+    shell(`<div class="tabs"><button data-adtab="requests" class="${tab === "requests" ? "on" : ""}">Requests${reqs.requests.filter((r) => r.status === "new").length ? `<span class="c">${reqs.requests.filter((r) => r.status === "new").length}</span>` : ""}</button><button data-adtab="campaigns" class="${tab === "campaigns" ? "on" : ""}">Campaigns</button></div>${body}`,
+      "Advertising", "Quote requests, take payment, and run campaigns");
+  }
+  function adPreview(c) {
+    const bg = c.image ? `background-image:linear-gradient(90deg,rgba(0,0,0,.65),rgba(0,0,0,.1)),url('${esc(/^https:/.test(c.image) ? c.image : "/" + c.image)}')` : `background:linear-gradient(120deg,${(c.gradient?.length > 1 ? c.gradient : ["#1a1b26", "#7aa2f7"]).map(esc).join(",")})`;
+    return `<div class="adpv" style="${bg}"><div><div class="chip2">Sponsored</div><h3>${esc(c.title || c.headline || "Headline")}</h3><p>${esc(c.body || "")}</p></div><span class="c">${esc(c.cta || "Learn more")}</span></div>`;
+  }
+  function adDetail(r, msgs, gh) {
+    return `<div class="card">
+      <div class="detail-head"><div><span class="pill ${r.status}">${r.status}</span> <span class="faint small">#${r.id} · ${when(r.ts)}</span><h2>${esc(r.company)}</h2>
+        <div class="muted">${esc(r.name)} · <a href="mailto:${esc(r.email)}">${esc(r.email)}</a>${r.telegram ? ` · <a href="https://t.me/${esc(r.telegram)}" target="_blank" rel="noopener">@${esc(r.telegram)}</a>` : ""}${safe(r.website) ? ` · <a href="${safe(r.website)}" target="_blank" rel="noopener">website</a>` : ""}</div></div></div>
+      ${r.slot === "sponsored-app" ? `<p>Sponsored listing for <a href="/app/${esc(r.app)}/" target="_blank"><b>${esc(r.app)}</b></a></p>` : adPreview({ ...r, title: r.headline, image: r.image_url })}
+      <dl class="facts"><div><dt>Placement</dt><dd>${esc(r.slot)}</dd></div><div><dt>Dates</dt><dd>${esc(r.starts)} → ${esc(r.ends)}</dd></div><div><dt>Budget</dt><dd>${esc(r.budget || "—")}</dd></div>
+        <div><dt>Link</dt><dd>${safe(r.url) ? `<a href="${safe(r.url)}" target="_blank" rel="noopener">${esc(r.url)}</a>` : "—"}</dd></div>
+        ${r.campaign_id ? `<div><dt>Campaign</dt><dd>${esc(r.campaign_id)}</dd></div>` : ""}</dl>
+      ${r.notes ? `<div class="desc">${esc(r.notes)}</div>` : ""}
+      <div class="form" style="margin-top:12px"><label>Quote (USD)<input id="aq" type="number" min="1" step="1" value="${r.quote_usd ?? ""}" placeholder="e.g. 250"></label>
+        <label>Status<select id="ast">${["new", "quoted", "approved", "paid", "live", "declined", "done"].map((s) => `<option ${s === r.status ? "selected" : ""}>${s}</option>`).join("")}</select></label>
+        <label class="w">Private note<input id="anote" value="${esc(r.admin_note || "")}" placeholder="Only you see this"></label></div>
+      <div class="acts" style="margin-top:10px"><button class="btn ghost sm" data-adsave="${r.id}">Save</button>
+        ${["new", "quoted"].includes(r.status) ? `<button class="btn ok sm" data-adquote="${r.id}">Send quote</button>` : ""}
+        ${!["declined", "done"].includes(r.status) ? `<button class="btn no sm" data-addecline="${r.id}">Decline</button>` : ""}
+        <span style="flex:1"></span>
+        ${gh.connected && ["approved", "paid", "quoted"].includes(r.status) && !r.campaign_id ? `<button class="btn sm" data-adcamp="${r.id}">${i("plus")}Create campaign</button>` : ""}
+        <button class="btn ghost sm" data-resetlink="ad">New status link</button></div>
+      <p class="small faint" style="margin-top:8px">Flow: send a quote → they pay in crypto on their page (it turns Paid automatically) → create the campaign → set status Live.</p>
+    </div>
+    <div class="card"><h2>Conversation <span class="small faint">the advertiser sees this on their campaign page</span></h2>
+      <div class="thread">${msgs.length ? msgs.map((m) => `<div class="msg ${m.sender === "store" ? "store" : "other"}">${esc(m.body)}<div class="m">${m.sender === "store" ? "You" : esc(r.name)} · ${when(m.ts)}</div></div>`).join("") : `<p class="muted small">No messages yet.</p>`}</div>
+      <textarea id="amsg" rows="3" placeholder="Write to ${esc(r.name)}…"></textarea>
+      <div class="acts" style="margin-top:8px"><button class="btn sm" data-admsg="${r.id}">Send message</button><a class="btn ghost sm" href="mailto:${esc(r.email)}?subject=${encodeURIComponent("Your Omarchy Store ad request #" + r.id)}">Email instead</a></div></div>`;
+  }
+  function campEditor(n, preset) {
+    S.campOpen = n;
+    const c = preset || (n === -1 ? { id: "", slot: "banner", type: "direct", starts: today(), ends: "" } : { ...S.adsfile.data.campaigns[n] });
+    S.campBase = c;
+    const v = (k) => esc(c[k] ?? "");
+    $("#camp-ed").innerHTML = `<div class="card"><h2>${n === -1 ? "New campaign" : "Edit " + esc(c.id)}<button class="btn ghost sm" data-campclose>Close</button></h2>
+      <div class="form" id="camp-form">
+        <label>Campaign id <span class="hint">(lowercase-with-dashes)</span><input data-ck="id" value="${v("id")}" ${n !== -1 ? "readonly" : ""}></label>
+        <label>Placement<select data-ck="slot">${["banner", "search", "sponsored-app"].map((s) => `<option ${s === c.slot ? "selected" : ""}>${s}</option>`).join("")}</select></label>
+        <label>Type<select data-ck="type">${[["direct", "Paid banner"], ["app", "Sponsored app"], ["artist", "Artist spotlight"], ["house", "House ad (ours)"]].map(([k, l]) => `<option value="${k}" ${k === c.type ? "selected" : ""}>${l}</option>`).join("")}</select></label>
+        <label>Sponsored app id <span class="hint">(sponsored-app only)</span><input data-ck="app" value="${v("app")}"></label>
+        <label class="w">Headline<input data-ck="title" value="${v("title")}"></label>
+        <label class="w">Copy<input data-ck="body" value="${v("body")}"></label>
+        <label>Button<input data-ck="cta" value="${v("cta")}"></label>
+        <label>Link<input data-ck="url" value="${v("url")}" placeholder="https://"></label>
+        <label class="w">Image <span class="hint">(ads/file.webp in the repo, or https://)</span><input data-ck="image" value="${v("image")}"></label>
+        <label>Colors <span class="hint">(if no image)</span><input data-ck="gradient" value="${esc((c.gradient || []).join(", "))}" placeholder="#1a1b26, #ff9e64"></label>
+        <label>Sponsor name<input data-ck="sponsor" value="${v("sponsor")}"></label>
+        <label>Starts<input type="date" data-ck="starts" value="${v("starts")}"></label>
+        <label>Ends<input type="date" data-ck="ends" value="${v("ends")}"></label>
+      </div>
+      <div style="margin-top:12px" id="camp-pv">${adPreview(c)}</div>
+      <div class="savebar"><span id="c-st" class="small" style="flex:1"></span>${n !== -1 ? `<button class="btn ghost sm" data-camppause>End today</button><button class="btn no sm" data-campdel>Delete</button>` : ""}<button class="btn" data-campsave>Save & publish</button></div></div>`;
+    $("#camp-ed").scrollIntoView({ behavior: "smooth" });
+  }
+  function collectCamp() {
+    const c = { ...S.campBase };
+    document.querySelectorAll("#camp-form [data-ck]").forEach((el) => {
+      const k = el.dataset.ck, val = el.value.trim();
+      if (k === "gradient") { const g = val.split(",").map((x) => x.trim()).filter(Boolean); if (g.length) c.gradient = g; else delete c.gradient; }
+      else if (val) c[k] = val; else delete c[k];
+    });
+    if (!c.image) c.image = null;
+    return c;
+  }
+  async function saveAds(campaigns, msg, st) {
+    st.textContent = "Checking and saving…";
+    try {
+      await post("/admin/gh/file", { path: "registry/ads.json", sha: S.adsfile.sha, data: { ...S.adsfile.data, campaigns }, message: msg });
+      bust("gh"); toast("Saved — the store is rebuilding"); S.campOpen = undefined; await ads();
+      return true;
+    } catch (e) { st.innerHTML = `<span class="err">${esc(e.message)}</span>`; return false; }
+  }
+
+  // ------------------------------------------------------------------ reviews
+  async function reviews() {
+    loading("Reviews");
+    const revs = (await cached("revs", () => api("/admin/reviews"))).reviews;
+    shell(revs.length ? `<div class="card"><table><tr><th>App</th><th>Rating</th><th>Review</th><th>When</th><th></th></tr>
+      ${revs.map((r) => `<tr class="${r.hidden ? "hidden-row" : ""}"><td><a href="/app/${esc(r.app)}/" target="_blank">${esc(r.app)}</a></td>
+        <td class="stars">${"★".repeat(r.rating)}${"☆".repeat(5 - r.rating)}</td>
+        <td><b>${esc(r.title)}</b> ${esc(r.body)}<div class="small faint">— ${esc(r.name)}</div></td>
+        <td class="small faint">${when(r.ts)}</td>
+        <td><div class="acts" style="justify-content:flex-end"><button class="btn ghost sm" data-hide="${r.id}" data-h="${r.hidden ? 0 : 1}">${r.hidden ? "Show" : "Hide"}</button>
+          <button class="btn no sm" data-del="${r.id}">Delete</button></div></td></tr>`).join("")}</table></div>`
+      : `<div class="card empty">No reviews yet. People write them on each app's page.</div>`, "Reviews", "Hide or delete anything abusive. Reviews publish instantly.");
+  }
+
+  // ------------------------------------------------------------------ money: donations + supporters + orders
+  const EXP = { btc: "https://mempool.space/tx/", "usdc-base": "https://basescan.org/tx/", "eth-base": "https://basescan.org/tx/", "usdc-eth": "https://etherscan.io/tx/", eth: "https://etherscan.io/tx/", sol: "https://solscan.io/tx/", "usdc-sol": "https://solscan.io/tx/", xrp: "https://livenet.xrpl.org/transactions/" };
+  const ADDR_EXP = { btc: "https://mempool.space/address/", evm: "https://basescan.org/address/", sol: "https://solscan.io/account/", xrp: "https://livenet.xrpl.org/accounts/" };
+  const DEC = { btc: 8, "usdc-base": 6, "usdc-eth": 6, "usdc-sol": 6, "eth-base": 18, eth: 18, sol: 9, xrp: 6 };
+  const fmtUnits = (u, d) => { const s = BigInt(u).toString().padStart(d + 1, "0"); return (s.slice(0, -d) + "." + s.slice(-d)).replace(/\.?0+$/, ""); };
+  async function money(arg) {
+    if (arg) S.filter.money = arg;
+    loading("Sales & donations");
+    const [don, ords] = await Promise.all([cached("don", () => api("/admin/donations")), cached("ords", () => api("/admin/orders"))]);
+    const tab = S.filter.money, w = don.wallets || {};
+    const live = don.donations.filter((d) => !d.ignored), total = live.reduce((t, d) => t + (d.usd || 0), 0);
+    let body;
+    if (tab === "donations") body = `
+      <div class="kpis"><div class="kpi" style="--kc:#ff5ca0"><div class="k">Donations · all time</div><div class="v">${usd(total)}</div><div class="s">${num(live.length)} donation${live.length === 1 ? "" : "s"} (USD value when received)</div></div>
+        <div class="kpi"><div class="k">Last wallet check</div><div class="v" style="font-size:18px">${don.scanned ? when(Number(don.scanned)) : "never"}</div><div class="s">automatic every 30 minutes</div></div></div>
+      <div class="card"><h2>Donations <button class="btn ghost sm" data-scan>Check wallets now</button></h2>
+        ${don.donations.length ? `<table><tr><th>When</th><th>Coin</th><th class="num">Amount</th><th class="num">≈ USD</th><th></th></tr>
+          ${don.donations.map((d) => `<tr class="${d.ignored ? "hidden-row" : ""}"><td class="small">${when(d.ts)}</td><td>${esc(d.coin)} <span class="faint small">${esc(d.chain)}</span></td>
+            <td class="num">${fmtUnits(d.units, DEC[d.chain] ?? 18)}</td><td class="num">${d.usd ? usd(d.usd) : "—"}</td>
+            <td class="num"><div class="acts" style="justify-content:flex-end">${d.txid.startsWith("bal:") ? `<span class="faint small">balance change</span>` : `<a class="btn ghost sm" href="${EXP[d.chain]}${esc(d.txid.replace(/:usdc$/, ""))}" target="_blank" rel="noopener">tx</a>`}
+              <button class="btn ghost sm" data-donign="${d.id}" data-v="${d.ignored ? 0 : 1}" title="e.g. your own transfer">${d.ignored ? "Count it" : "Not a donation"}</button></div></td></tr>`).join("")}</table>`
+          : `<p class="muted small">No donations yet. They're detected automatically when money arrives at your wallets and isn't a store order. If you move your own money in, mark it "Not a donation".</p>`}</div>`;
+    else if (tab === "supporters") body = `<div class="card"><h2>Supporters wall <a class="small" href="/donate/" target="_blank">View on the store ${i("ext")}</a></h2>
+        ${don.supporters.length ? `<table><tr><th>Name</th><th>Message</th><th>Coin</th><th>When</th><th></th></tr>${don.supporters.map((s) => `<tr><td><b>${esc(s.name)}</b></td><td>${esc(s.message || "")}</td><td>${esc(s.chain || "—")}</td><td class="small faint">${when(s.ts)}</td>
+          <td class="num"><div class="acts" style="justify-content:flex-end">${s.approved ? `<span class="pill live">on the wall</span><button class="btn ghost sm" data-sup="${s.id}" data-v="0">Hide</button>` : `<button class="btn ok sm" data-sup="${s.id}" data-v="1">Approve</button>`}<button class="btn no sm" data-supdel="${s.id}">Delete</button></div></td></tr>`).join("")}</table>`
+          : `<p class="muted small">Nobody has added their name yet.</p>`}</div>`;
+    else body = `<div class="card"><h2>Orders <button class="btn ghost sm" data-chk>Check blockchains now</button></h2>
+        ${ords.orders.length ? `<table><tr><th>Order</th><th>For</th><th>Paid with</th><th class="num">Price</th><th>Status</th><th>When</th></tr>
+          ${ords.orders.map((o) => `<tr><td class="addr">${esc(o.id)}</td><td>${String(o.app).startsWith("ad-") ? `<a href="#ads/${esc(o.app.slice(3))}">Ad request #${esc(o.app.slice(3))}</a>` : esc(o.app)}</td><td>${esc(o.chain)}</td><td class="num">$${o.usd}</td>
+            <td><span class="pill ${o.status}">${o.status}</span>${o.txid ? ` <a class="small" href="${EXP[o.chain]}${esc(o.txid)}" target="_blank" rel="noopener">tx</a>` : ""}</td><td class="small faint">${when(o.ts)}</td></tr>`).join("")}</table>`
+          : `<p class="muted small">No orders yet. Paid apps and ad invoices show up here.</p>`}
+        <p class="small faint" style="margin-top:10px">The store checks the public blockchain every 10 minutes and marks an order paid once the exact amount arrives. It never holds keys or moves money.</p></div>`;
+    shell(`<div class="tabs">${[["donations", "Donations"], ["supporters", "Supporters wall", don.supporters.filter((s) => !s.approved).length], ["orders", "Orders"]].map(([k, n, c]) => `<button data-mtab="${k}" class="${tab === k ? "on" : ""}">${n}${c ? `<span class="c">${c}</span>` : ""}</button>`).join("")}</div>
+      ${body}
+      <div class="card"><h2>Your wallets <span class="small faint">public addresses — donations, sales and ad payments go straight here</span></h2>
+        <table>${[["Bitcoin", "btc"], ["Ethereum & Base (ETH, USDC)", "evm"], ["Solana (SOL, USDC)", "sol"], ["XRP", "xrp"]].map(([n, k]) => `<tr><td>${n}</td><td class="addr">${w[k] ? esc(w[k]) : `<span class="faint">not set</span>`}</td><td class="num">${w[k] ? `<a class="btn ghost sm" href="${ADDR_EXP[k]}${esc(w[k])}" target="_blank" rel="noopener">explorer</a>` : ""}</td></tr>`).join("")}</table></div>`,
+      "Sales & donations", "Everything paid in crypto, verified on the public blockchain");
+  }
+
+  // ------------------------------------------------------------------ activity + settings
+  async function activity() {
+    loading("Activity log");
+    const a = (await api("/admin/audit")).audit;
+    shell(`<div class="card">${a.length ? `<table><tr><th>When</th><th>Action</th><th>What</th><th>Details</th></tr>${a.map((x) => `<tr><td class="small faint" style="white-space:nowrap">${when(x.ts)}</td><td><span class="pill">${esc(x.action)}</span></td><td>${esc(x.target)}</td><td class="small muted">${esc(x.detail)}</td></tr>`).join("")}</table>`
+      : `<div class="empty">Nothing yet. Every change you make in the admin portal is recorded here.</div>`}</div>`, "Activity log", "Every change made from this portal");
+  }
+  function ghSetup(gh) {
+    return `<div class="setup"><h2>Connect GitHub ${gh.connected ? `<span class="pill connected">connected</span>` : `<span class="pill pending">not connected</span>`}</h2>
+      ${gh.connected ? `<p class="muted">Connected to <b>${esc(gh.repo)}</b>${gh.can_push ? " with write access. Edits publish in about 2 minutes." : " — but the key can't write. Recreate it with Contents: Read and write."}</p>` : `
+      <p class="muted" style="margin-bottom:12px">Editing listings, Featured and ads from here saves straight to the store's GitHub repo, and the store republishes itself in about 2 minutes. It needs a one-time key from GitHub:</p>
+      <ol>
+        <li>Open a terminal (<b>Super + Return</b>) and run:<br><code>bash ~/omarchy-store/scripts/connect-github.sh</code></li>
+        <li>Your browser opens GitHub's new-token page with most boxes filled in. Check these:
+          <b>Resource owner</b> <code>omarchy-community</code> · <b>Expiration</b> <code>No expiration</code> ·
+          <b>Repository access</b> <code>Only select repositories → omarchy-community/store</code> ·
+          <b>Contents</b> <code>Read and write</code> · <b>Actions</b> <code>Read-only</code></li>
+        <li>Click <b>Generate token</b>, copy it, and paste it into the terminal (it stays hidden). The script checks it and connects it.</li>
+        <li>Reload this page.</li>
+      </ol>
+      ${gh.error ? `<p class="err" style="margin-top:10px">${esc(gh.error)}</p>` : ""}`}</div>`;
+  }
+  async function settings() {
+    loading("Settings");
+    const gh = await api("/admin/gh/status"); S.cache.gh = gh;
+    shell(`<div class="card">${ghSetup(gh)}</div>
+      <div class="grid2"><div class="card"><h2>Admin key</h2><p class="muted small">You're signed in on this browser. The key is stored only here and on the server. Wrong keys are locked out after 10 tries.</p><div class="acts" style="margin-top:10px"><button class="btn ghost sm" data-out>Sign out on this browser</button></div></div>
+        <div class="card"><h2>Coming next: accounts</h2><p class="muted small">Developers and advertisers get a private status link today. The database is ready for real company accounts — email sign-in, team members, and all of a company's apps or campaigns in one place — when you want them.</p></div></div>`,
+      "Settings");
+  }
+
+  // ------------------------------------------------------------------ events
+  document.addEventListener("click", async (e) => {
+    const t = e.target.closest("button, a[data-out]"); if (!t) return;
+    const ds = t.dataset, { arg } = route();
+    try {
+      if ("out" in ds) { e.preventDefault(); localStorage.removeItem(KEY); S.cache = {}; login(); }
+      else if ("reload" in ds) { S.cache = {}; go(); }
+      else if (ds.subtab) { S.filter.subs = ds.subtab; setHash("#submissions"); submissions(); }
+      else if (ds.adtab) { S.filter.ads = ds.adtab; S.campOpen = undefined; setHash("#ads"); ads(); }
+      else if (ds.mtab) { S.filter.money = ds.mtab; setHash("#money"); money(); }
+      else if (ds.devst) {
+        const msg = $("#dmsg").value.trim();
+        if (ds.devst === "changes" && !msg) { $("#dmsg").focus(); $("#dmsg").placeholder = "Tell the developer what to change, then press Request changes again"; toast("Write what needs changing first"); return; }
+        if (ds.devst === "rejected" && !msg && !confirm("Reject without a message? The developer will only see 'not approved'.")) return;
+        let message = msg;
+        if (ds.devst === "live" && !msg) { const d = S.cache.devs.developers.find((x) => x.id === Number(arg)); message = d?.listing_id ? `Your app is live: https://omarchystore.com/app/${d.listing_id}/` : ""; }
+        await post(`/admin/developers/${arg}`, { status: ds.devst, message }); bust("devs"); await refreshOverview(); toast("Updated"); submissions(arg);
+      } else if ("devmsg" in ds) { const m = $("#dmsg").value.trim(); if (!m) return; await post(`/admin/developers/${arg}`, { message: m }); await refreshOverview(); toast("Sent"); submissions(arg); }
+      else if ("devnote" in ds) { await post(`/admin/developers/${arg}`, { note: $("#dnote").value }); bust("devs"); toast("Note saved"); }
+      else if (ds.resetlink) {
+        if (!confirm("Make a new private status link? The old link stops working.")) return;
+        const r = await post(ds.resetlink === "dev" ? `/admin/developers/${arg}/reset-link` : `/admin/ads/requests/${arg}/reset-link`);
+        prompt("New status link — copy it and send it to them:", r.url);
+      } else if ("mklisting" in ds) {
+        const d = S.cache.devs.developers.find((x) => x.id === Number(arg));
+        const [kind, pkg] = String(d.install_hint || "").split(":");
+        const ghm = (d.repo_url || "").match(/^https:\/\/github\.com\/([\w.-]+\/[\w.-]+)/);
+        const id = slug(d.app_name);
+        const draft = { id, name: d.app_name, category: d.category || "utilities", ...(ghm ? { github: ghm[1] } : {}), homepage: d.app_url || d.repo_url,
+          install: { method: ["aur", "pacman"].includes(kind) ? kind : "aur", packages: [pkg || id] }, detect: [pkg || id], kind: "gui",
+          developer: d.company || d.name, icon: d.logo_url, screenshots: parse(d.screenshots, []), summary: d.tagline, description: d.app_desc, age: "4+", _dev: d.id };
+        setHash("#catalog/" + id); await catalog(id, draft);
+        if (!["aur", "pacman"].includes(kind)) toast("Heads up: this app isn't in the AUR/Arch repos — it needs packaging before it can install");
+      } else if ("newlisting" in ds) {
+        const raw = prompt("New listing id (lowercase-with-dashes, e.g. my-app):"); if (!raw) return;
+        const id = slug(raw); setHash("#catalog/" + id);
+        await catalog(id, { id, name: raw, category: "utilities", install: { method: "aur", packages: [id] }, detect: [id], kind: "gui", summary: "" });
+      } else if (ds.edtab) {
+        if (ds.edtab === "json") { try { $("#ed-raw").value = JSON.stringify(collectEditor(), null, 1); } catch {} $("#ed-form").hidden = true; $("#ed-json").hidden = false; document.querySelectorAll("[data-edtab]").forEach((b) => b.classList.toggle("on", b === t)); }
+        else { let d; try { d = JSON.parse($("#ed-raw").value); } catch { return toast("Fix the JSON first"); } await loadEditor(d.id || S.ed.data.id, d, { sha: S.ed.sha, isNew: S.ed.isNew, devId: S.ed.devId }); }
+      } else if ("edsave" in ds) saveEditor(t);
+      else if (ds.restore) {
+        if (!confirm("Restore this version? It's saved as a new change, so you can undo it too.")) return;
+        const old = await api(`/admin/gh/file?path=${encodeURIComponent(S.ed.path)}&ref=${ds.restore}`);
+        saveEditor(t, JSON.parse(old.text), `Restore ${S.ed.data.name || S.ed.data.id} to version ${ds.restore.slice(0, 7)}`);
+      }
+      // featured
+      else if (ds.fadd) { syncFeatured(); if (ds.fadd === "hero") S.feat.data.hero.push({ app: "", eyebrow: "FEATURED APP", headline: "", gradient: ["#1a1b26", "#7aa2f7"] }); else S.feat.data.collections.push({ title: "New shelf", apps: [] }); renderFeatured(await getCatalog()); }
+      else if (ds.fmove) { syncFeatured(); const [k, n, d] = ds.fmove.split(":"), arr = k === "hero" ? S.feat.data.hero : S.feat.data.collections, a = Number(n), b = a + Number(d); if (b < 0 || b >= arr.length) return; [arr[a], arr[b]] = [arr[b], arr[a]]; renderFeatured(await getCatalog()); }
+      else if (ds.fdel) { syncFeatured(); const [k, n] = ds.fdel.split(":"); (k === "hero" ? S.feat.data.hero : S.feat.data.collections).splice(Number(n), 1); renderFeatured(await getCatalog()); }
+      else if (ds.cdel) { syncFeatured(); const [n, k] = ds.cdel.split(":").map(Number); S.feat.data.collections[n].apps.splice(k, 1); renderFeatured(await getCatalog()); }
+      else if (ds.cplus) { syncFeatured(); const v = $(`[data-cadd="${ds.cplus}"]`).value.trim(), cat = await getCatalog(); if (!cat.apps.some((a) => a.id === v)) return toast("Pick an app from the list"); S.feat.data.collections[Number(ds.cplus)].apps.push(v); renderFeatured(cat); }
+      else if ("fsave" in ds) {
+        syncFeatured(); const st = $("#f-st"); st.textContent = "Checking and saving…"; t.disabled = true;
+        try { const r = await post("/admin/gh/file", { path: "registry/featured.json", sha: S.feat.sha, data: S.feat.data, message: $("#f-msg").value.trim() || "Update Discover banners and shelves" }); S.feat.sha = r.sha; bust("gh"); st.innerHTML = `<span class="okmsg">Saved ✓ live in about 2 minutes</span>`; toast("Saved — the store is rebuilding"); }
+        catch (x) { st.innerHTML = `<span class="err">${esc(x.message)}</span>`; } t.disabled = false;
+      }
+      // ad requests
+      else if (ds.adsave || ds.adquote || ds.addecline) {
+        const id = Number(ds.adsave || ds.adquote || ds.addecline), r = S.cache.adreqs.requests.find((x) => x.id === id);
+        const q = $("#aq").value, msg = $("#amsg").value.trim();
+        const body = { quote_usd: q === "" ? null : Number(q), admin_note: $("#anote").value, status: $("#ast").value, message: msg };
+        if (ds.adquote) { if (!(Number(q) > 0)) { $("#aq").focus(); return toast("Enter the quote first"); } body.status = "quoted"; body.message = msg || `Here's your quote: $${Number(q).toLocaleString()} for the ${r.slot} placement, ${r.starts} to ${r.ends}. You can pay securely in crypto from this page whenever you're ready.`; }
+        if (ds.addecline) { if (!msg && !confirm("Decline without a message?")) return; body.status = "declined"; }
+        await post(`/admin/ads/requests/${id}`, body); bust("adreqs"); await refreshOverview(); toast("Saved"); ads(String(id));
+      } else if (ds.admsg) { const m = $("#amsg").value.trim(); if (!m) return; await post(`/admin/ads/requests/${ds.admsg}`, { message: m }); await refreshOverview(); toast("Sent"); ads(ds.admsg); }
+      else if (ds.adcamp) {
+        const r = S.cache.adreqs.requests.find((x) => x.id === Number(ds.adcamp)), cid = slug(`${r.company}-${r.starts.slice(0, 7)}`);
+        let image = null;
+        if (r.image_url) { t.disabled = true; toast("Copying their artwork to our server…"); image = (await post("/admin/gh/ad-image", { campaign_id: cid, url: r.image_url })).image; }
+        S.filter.ads = "campaigns"; setHash("#ads"); await ads();
+        const preset = r.slot === "sponsored-app" ? { id: cid, slot: "sponsored-app", type: "app", app: r.app, sponsor: r.company, image: null, starts: r.starts, ends: r.ends }
+          : { id: cid, slot: r.slot === "artist" ? "banner" : r.slot, type: r.slot === "artist" ? "artist" : "direct", title: r.headline, body: r.body, cta: r.cta, url: r.url, image, sponsor: r.company, starts: r.starts, ends: r.ends };
+        S.fromReq = r.id; campEditor(-1, preset);
+      } else if (ds.campedit !== undefined) campEditor(Number(ds.campedit));
+      else if ("campnew" in ds) campEditor(-1);
+      else if ("campclose" in ds) { S.campOpen = undefined; $("#camp-ed").innerHTML = ""; }
+      else if ("campsave" in ds) {
+        const c = collectCamp(), list = [...S.adsfile.data.campaigns], n = S.campOpen;
+        if (n === -1) { if (!c.id) return ($("#c-st").innerHTML = `<span class="err">Give it an id</span>`); if (list.some((x) => x.id === c.id)) return ($("#c-st").innerHTML = `<span class="err">That id is taken</span>`); list.push(c); } else list[n] = c;
+        const fromReq = S.fromReq;
+        if (await saveAds(list, `${n === -1 ? "Add" : "Edit"} ad campaign ${c.id}`, $("#c-st")) && fromReq) { await post(`/admin/ads/requests/${fromReq}`, { campaign_id: c.id }); bust("adreqs"); S.fromReq = null; }
+      } else if ("camppause" in ds) {
+        const list = [...S.adsfile.data.campaigns]; list[S.campOpen] = { ...list[S.campOpen], ends: new Date(Date.now() - 864e5).toISOString().slice(0, 10) };
+        await saveAds(list, `End ad campaign ${list[S.campOpen].id}`, $("#c-st"));
+      } else if ("campdel" in ds) {
+        if (!confirm("Delete this campaign?")) return;
+        const gone = S.adsfile.data.campaigns[S.campOpen].id;
+        await saveAds(S.adsfile.data.campaigns.filter((_, n) => n !== S.campOpen), `Delete ad campaign ${gone}`, $("#c-st"));
+      }
+      // reviews
+      else if (ds.hide) { await post(`/admin/reviews/${ds.hide}`, { hidden: ds.h === "1" }); bust("revs"); reviews(); }
+      else if (ds.del) { if (confirm("Delete this review for good?")) { await api(`/admin/reviews/${ds.del}`, { method: "DELETE" }); bust("revs"); reviews(); } }
+      // money
+      else if ("chk" in ds) { t.textContent = "Checking…"; t.disabled = true; const r = await post("/admin/check-orders"); toast(`Checked ${r.checked} open order(s), ${r.paid || 0} newly paid`); bust("ords"); money(); }
+      else if ("scan" in ds) { t.textContent = "Checking…"; t.disabled = true; const r = await post("/admin/donations/scan"); toast(r.baseline ? "First check done — new donations are tracked from now on" : `${r.added} new donation(s)${r.errors?.length ? " · some networks didn't answer, will retry" : ""}`); bust("don"); await refreshOverview(); money(); }
+      else if (ds.donign) { await post(`/admin/donations/${ds.donign}`, { ignored: ds.v === "1" }); bust("don"); money(); }
+      else if (ds.sup) { await post(`/admin/supporters/${ds.sup}`, { approved: ds.v === "1" }); bust("don"); await refreshOverview(); money(); }
+      else if (ds.supdel) { if (confirm("Delete this entry?")) { await api(`/admin/supporters/${ds.supdel}`, { method: "DELETE" }); bust("don"); await refreshOverview(); money(); } }
+    } catch (er) { if (er.message !== "auth") toast(er.message); t.disabled = false; }
+  });
+  document.addEventListener("change", (e) => {
+    if (e.target.matches("[data-days]")) { S.days = Number(e.target.value); go(); }
+    if (e.target.matches("[data-mnav]")) location.hash = "#" + e.target.value;
+  });
+  document.addEventListener("input", async (e) => {
+    if (e.target.id === "catq") { S.sel.catq = e.target.value; $("#catlist").innerHTML = catList(await getCatalog(), route().arg); }
+    if (e.target.closest("#camp-form")) $("#camp-pv").innerHTML = adPreview(collectCamp());
+  });
+
+  localStorage.getItem(KEY) ? go() : login();
 })();
 </script>
 </body>

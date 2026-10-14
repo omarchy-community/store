@@ -476,16 +476,21 @@ def main():
         "/legal/": ("Disclaimer | Omarchy Store", "Omarchy Store lists third-party software provided as-is, without warranty. Read the full disclaimer.",
                     '<h1 class="page-title">Disclaimer</h1>' f'<p>{e(DISCLAIMER)}</p>'),
         "/submit/": ("Submit an App to the Omarchy Store – Free Listing | Omarchy Store",
-                     "List your Linux app in the Omarchy Store for free. Every app is reviewed; installs through Arch, the AUR or Omarchy installers.",
-                     '<h1 class="page-title">Submit an app</h1><p>Listing is free. Fill in a short form and a maintainer reviews your app.</p>'
-                     '<p><a href="https://github.com/omarchy-community/store/issues/new?template=submit-app.yml">Submit your app</a></p>'),
+                     "Ship your app to every Omarchy desktop. List it free in the world's largest app store for Omarchy, or sell it for crypto and keep 90%.",
+                     '<h1 class="page-title">Submit an app</h1><p>List your app free in the world\'s largest app store for Omarchy. '
+                     'One-click install, a beautiful store page, real reviews, and the option to sell it for crypto — you keep 90%.</p>'
+                     '<p>Every app is reviewed by a person before it goes live. Track your submission and talk to the team on your private status page.</p>'),
         "/contact/": ("Contact the Omarchy Store",
                       "Get in touch with the Omarchy Store: info@omarchystore.com. Developers, advertisers, press and support.",
                       '<h1 class="page-title">Contact us</h1><p>Email <a href="mailto:info@omarchystore.com">info@omarchystore.com</a>.</p>'),
         "/advertise/": ("Advertise on the Omarchy Store | Omarchy Store",
-                        "Reach Omarchy and Arch Linux users with a Discover banner, sponsored app or search banner. Clearly labelled, no tracking.",
-                        '<h1 class="page-title">Advertise on the Omarchy Store</h1><p>Discover banners, sponsored apps and search banners.</p>'
-                        '<p><a href="https://github.com/omarchy-community/store/issues/new?template=advertising.yml">Ask about advertising</a></p>'),
+                        "Put your brand where Omarchy users discover software: Discover billboards, sponsored listings, search banners and artist spotlights. Clearly labelled, no tracking, pay in crypto.",
+                        '<h1 class="page-title">Advertise on the Omarchy Store</h1><p>Discover billboards, sponsored listings, search banners and artist spotlights. '
+                        'Request a quote and pay in crypto. Every ad is labelled, with no tracking pixels and no third-party cookies.</p>'),
+        "/donate/": ("Donate – Keep Omarchy Store Free | Omarchy Store",
+                     "Support the world's largest app store for Omarchy. Donate with Bitcoin, Ethereum, Base, USDC, Solana or XRP — straight to the founder's wallet.",
+                     '<h1 class="page-title">Keep Omarchy Store free</h1><p>No paywalls, no tracking. Donate with Bitcoin, Ethereum, Base, USDC, Solana or XRP. '
+                     'Donations go directly to the founder\'s wallet.</p>'),
         "/get-omarchy/": ("How to Install Omarchy Linux – Free, Step by Step | Omarchy Store",
                   "How to install Omarchy Linux in about 15 minutes: make the USB, keep Windows or replace it, install, then add apps and themes in one click.",
                   '<h1 class="page-title">Get Omarchy</h1><p>Omarchy is a free, fast and beautiful Linux desktop made by DHH. Install it in about 15 minutes.</p>'

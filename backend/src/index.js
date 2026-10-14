@@ -5,6 +5,7 @@
 // Privacy: no IP addresses or cookies are stored. A daily-rotating hash counts unique visitors.
 
 import { storeBot, dailyDrop, notifyUser } from "./bot.js";
+import { portalRoute, portalAdmin, devFields, issueToken, scanDonations, adPaid } from "./portal.js";
 
 const ORIGINS = [/^https:\/\/(www\.)?omarchystore\.com$/, /^https:\/\/omarchy-community\.github\.io$/, /^http:\/\/(127\.0\.0\.1|localhost):\d+$/];
 const ID_RE = /^[a-z0-9][a-z0-9-]{0,63}$/;
@@ -31,6 +32,7 @@ export default {
   },
   async scheduled(evt, env, ctx) {
     ctx.waitUntil(checkOrders(env));
+    ctx.waitUntil(scanDonations(helpers(env, ctx)).catch((e) => console.error("donations", e)));
     // Daily drop to the Telegram channel + subscribers, once a day after 16:00 UTC (noon EDT).
     if (new Date(evt.scheduledTime).getUTCHours() >= 16) ctx.waitUntil(dailyDrop(env).catch((e) => console.error(e)));
   },
@@ -98,6 +100,21 @@ async function rateLimit(env, key, max, windowSec) {
   await env.DB.prepare("UPDATE rl SET n = n + 1 WHERE k=?").bind(key).run();
 }
 
+// Everything portal.js needs, in one object (keeps a single copy of each helper).
+const helpers = (env, ctx) => ({ env, ctx, json, fail, body, clip, sha, esc, turnstile, telegram, visitor, rateLimit, notifyUser,
+  methods, makeOrder, usdPrice, rpc, incomingBTC, incomingXRP, EVM_RPC, SOL_RPC, USDC, TRANSFER, COIN, DEC, fmt, EXPLORER });
+
+// Failed admin logins: 10 tries per 15 minutes per visitor, then locked out for the rest of the window.
+async function adminGate(req, env) {
+  const v = await visitor(req, env), k = "adminfail:" + v, now = Math.floor(Date.now() / 1000);
+  await env.DB.prepare("CREATE TABLE IF NOT EXISTS rl (k TEXT PRIMARY KEY, n INTEGER, reset INTEGER)").run();
+  const row = await env.DB.prepare("SELECT n, reset FROM rl WHERE k=?").bind(k).first();
+  if (row && row.reset >= now && row.n >= 10) fail("Too many wrong keys — try again in 15 minutes", 429);
+  if (await isAdmin(req, env)) return;
+  await rateLimit(env, k, 10, 900);
+  fail("wrong admin key", 401);
+}
+
 // ------------------------------------------------------------------ router
 async function route(req, env, ctx, url, okOrigin) {
   const p = url.pathname.replace(/\/+$/, "") || "/";
@@ -120,14 +137,16 @@ async function route(req, env, ctx, url, okOrigin) {
   if (p === "/developers" && M === "POST") return postDeveloper(req, env, ctx);
   if (p === "/orders" && M === "POST") return createOrder(req, env);
   if (p.startsWith("/orders/") && M === "GET") return getOrder(p.split("/")[2], env);
+  if (!p.startsWith("/admin")) { const r = await portalRoute(p, M, req, url, helpers(env, ctx)); if (r) return r; }
 
   if (p.startsWith("/admin")) {
-    if (!(await isAdmin(req, env))) fail("wrong admin key", 401);
+    // The admin portal only works from the store's own pages (blocks scripts on other sites using a stolen key).
+    if (!okOrigin) fail("forbidden", 403);
+    await adminGate(req, env);
     if (p === "/admin/check") return json({ ok: true });
     if (p === "/admin/stats" && M === "GET") return stats(url, env);
     if (p === "/admin/developers" && M === "GET")
       return json({ developers: (await env.DB.prepare("SELECT * FROM developers ORDER BY ts DESC LIMIT 500").all()).results });
-    if (p.startsWith("/admin/developers/") && M === "POST") return setDeveloper(p.split("/")[3], req, env, ctx);
     if (p === "/admin/reviews" && M === "GET")
       return json({ reviews: (await env.DB.prepare("SELECT id, app, rating, title, body, name, ts, hidden FROM reviews ORDER BY ts DESC LIMIT 500").all()).results });
     if (p.startsWith("/admin/reviews/") && M === "DELETE") {
@@ -142,6 +161,7 @@ async function route(req, env, ctx, url, okOrigin) {
     if (p === "/admin/orders" && M === "GET")
       return json({ orders: (await env.DB.prepare("SELECT * FROM orders ORDER BY ts DESC LIMIT 500").all()).results, wallets: { btc: env.WALLET_BTC, evm: env.WALLET_EVM, sol: env.WALLET_SOL, xrp: env.WALLET_XRP } });
     if (p === "/admin/check-orders" && M === "POST") return json(await checkOrders(env));
+    const r = await portalAdmin(p, M, req, url, helpers(env, ctx)); if (r) return r;
   }
   fail("not found", 404);
 }
@@ -166,7 +186,7 @@ async function hit(req, env, ctx) {
 async function event(req, env, ctx) {
   const b = await body(req, 1024);
   const kind = clip(b.kind, 20), item = clip(b.item, 80);
-  if (!/^(install|get|open|theme|plugin|usb|update|remove)$/.test(kind) || !/^[a-z0-9._-]{1,80}$/i.test(item)) fail("bad event");
+  if (!/^(install|get|open|theme|plugin|usb|update|remove|ad|donate)$/.test(kind) || !/^[a-z0-9._-]{1,80}$/i.test(item)) fail("bad event");
   const v = await visitor(req, env);
   ctx.waitUntil(env.DB.prepare("INSERT INTO events (day, ts, kind, item, visitor) VALUES (?, ?, ?, ?, ?)").bind(day(), Date.now(), kind, item, v).run());
   return json({ ok: true });
@@ -253,22 +273,18 @@ async function trending(env) {
 // ------------------------------------------------------------------ developers
 async function postDeveloper(req, env, ctx) {
   const b = await body(req, 16384);
-  const name = clip(b.name, 80), email = clip(b.email, 120);
+  const H = helpers(env, ctx);
+  const company = clip(b.company, 80), name = clip(b.name, 80), email = clip(b.email, 120);
+  if (!company) fail("Please enter your company or studio name (or your own name if you're independent)");
   if (!name) fail("Please enter your name");
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) fail("Please enter a valid email");
-  const site = clip(b.website, 200), gh = clip(b.github, 100), appName = clip(b.app_name, 80), desc = clip(b.app_desc, 3000), appUrl = clip(b.app_url, 300);
-  if (!appName || desc.length < 20) fail("Tell us your app's name and a short description (at least 20 characters)");
-  for (const u of [site, appUrl]) if (u && !/^https:\/\//.test(u)) fail("Links must start with https://");
-  // Marketing assets: every listing needs a logo, a one-line tagline, a proper write-up and screenshots.
-  const tagline = clip(b.tagline, 90), logo = clip(b.logo_url, 400), tgUser = clip(b.telegram, 40).replace(/^@/, "");
-  const shots = (Array.isArray(b.screenshots) ? b.screenshots : String(b.screenshots || "").split(/\s+/))
-    .map((s) => clip(s, 400)).filter(Boolean).slice(0, 6);
-  const IMG = /^https:\/\/[^\s"'<>]+$/;
-  if (tagline.length < 10) fail("Add a one-line tagline (10–90 characters)");
-  if (desc.length < 200) fail("Your write-up needs at least 200 characters: what it does, who it's for, and its key features");
-  if (!IMG.test(logo)) fail("Add a link to your logo (https://…, PNG or SVG, at least 256×256)");
-  if (!shots.length) fail("Add at least one screenshot link (https://…)");
-  for (const s of shots) if (!IMG.test(s)) fail("Screenshot links must start with https://");
+  const site = clip(b.website, 200), gh = clip(b.github, 100).replace(/^@/, ""), appName = clip(b.app_name, 80);
+  if (!appName) fail("Tell us your app's name");
+  if (site && !/^https:\/\//.test(site)) fail("Links must start with https://");
+  if (gh && !/^[A-Za-z0-9-]{1,39}$/.test(gh)) fail("That GitHub username doesn't look right");
+  // Listing fields (tagline, write-up, logo, screenshots, repo, category...) — same rules as later updates.
+  const f = devFields(b, H);
+  const tgUser = clip(b.telegram, 40).replace(/^@/, "");
   if (tgUser && !/^[A-Za-z0-9_]{5,32}$/.test(tgUser)) fail("That Telegram username doesn't look right");
   const wantsPaid = !!b.wants_paid;
   const price = wantsPaid ? Math.round(Number(b.price_usd) * 100) / 100 : null;
@@ -276,39 +292,25 @@ async function postDeveloper(req, env, ctx) {
   const payout = {};
   // The form sends p_evm/p_sol/p_btc/p_xrp; older clients send {payout:{base,sol,btc,xrp}}. Accept both.
   const po = (b.payout && typeof b.payout === "object") ? b.payout : {};
-  b.payout = { btc: clip(po.btc || b.p_btc, 80), base: clip(po.base || b.p_evm, 60), sol: clip(po.sol || b.p_sol, 60), xrp: clip(po.xrp || b.p_xrp, 60) };
-  if (b.payout && typeof b.payout === "object") {
-    if (b.payout.btc) { if (!/^(bc1[ac-hj-np-z02-9]{11,71}|[13][a-km-zA-HJ-NP-Z1-9]{25,34})$/.test(b.payout.btc)) fail("That Bitcoin address doesn't look right"); payout.btc = b.payout.btc; }
-    if (b.payout.base) { if (!/^0x[0-9a-fA-F]{40}$/.test(b.payout.base)) fail("That Base/Ethereum address doesn't look right"); payout.base = b.payout.base; }
-    if (b.payout.sol) { if (!/^[1-9A-HJ-NP-Za-km-z]{32,44}$/.test(b.payout.sol)) fail("That Solana address doesn't look right"); payout.sol = b.payout.sol; }
-    if (b.payout.xrp) { if (!/^r[1-9A-HJ-NP-Za-km-z]{24,34}$/.test(b.payout.xrp)) fail("That XRP address doesn't look right"); payout.xrp = b.payout.xrp; }
-  }
+  const P = { btc: clip(po.btc || b.p_btc, 80), base: clip(po.base || b.p_evm, 60), sol: clip(po.sol || b.p_sol, 60), xrp: clip(po.xrp || b.p_xrp, 60) };
+  if (P.btc) { if (!/^(bc1[ac-hj-np-z02-9]{11,71}|[13][a-km-zA-HJ-NP-Z1-9]{25,34})$/.test(P.btc)) fail("That Bitcoin address doesn't look right"); payout.btc = P.btc; }
+  if (P.base) { if (!/^0x[0-9a-fA-F]{40}$/.test(P.base)) fail("That Base/Ethereum address doesn't look right"); payout.base = P.base; }
+  if (P.sol) { if (!/^[1-9A-HJ-NP-Za-km-z]{32,44}$/.test(P.sol)) fail("That Solana address doesn't look right"); payout.sol = P.sol; }
+  if (P.xrp) { if (!/^r[1-9A-HJ-NP-Za-km-z]{24,34}$/.test(P.xrp)) fail("That XRP address doesn't look right"); payout.xrp = P.xrp; }
+  if (wantsPaid && !Object.keys(payout).length) fail("Add at least one wallet address so you can be paid");
   if (!b.agree) fail("Please accept the developer terms");
   await turnstile(b.turnstile, req, env);
   const v = await visitor(req, env);
   await rateLimit(env, "dev:" + v, 3, 86400);
-  const r = await env.DB.prepare(`INSERT INTO developers (ts, name, email, website, github, app_name, app_desc, app_url, wants_paid, price_usd, payout, tagline, logo_url, screenshots, telegram)
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`)
-    .bind(Date.now(), name, email, site, gh, appName, desc, appUrl, wantsPaid ? 1 : 0, price, JSON.stringify(payout), tagline, logo, JSON.stringify(shots), tgUser || null).run();
-  ctx.waitUntil(telegram(env, `🧑‍💻 New developer sign-up #${r.meta.last_row_id}\n${name} <${email}>${tgUser ? ` · @${tgUser}` : ""}\nApp: ${appName}${wantsPaid ? ` — wants to sell at $${price}` : " — free"}\n${tagline}\n\n${desc.slice(0, 300)}\n\nLogo + ${shots.length} screenshot(s) attached.\nApprove or reject: ${env.SITE}/admin/`));
-  return json({ ok: true, id: r.meta.last_row_id });
-}
-
-async function setDeveloper(id, req, env, ctx) {
-  const b = await body(req);
-  if (!["pending", "approved", "rejected"].includes(b.status)) fail("bad status");
-  const note = clip(b.note, 500);
-  await env.DB.prepare("UPDATE developers SET status=?, note=? WHERE id=?").bind(b.status, note, Number(id)).run();
-  if (b.status === "approved" || b.status === "rejected") {
-    const d = await env.DB.prepare("SELECT app_name, telegram_chat_id FROM developers WHERE id=?").bind(Number(id)).first();
-    if (d?.telegram_chat_id) {
-      const text = b.status === "approved"
-        ? `🎉 <b>${esc(d.app_name)} was approved!</b>\n\nWe're packaging it for the store now — it'll be live at ${env.SITE} shortly. Thanks for submitting!`
-        : `Your submission <b>${esc(d.app_name)}</b> wasn't approved this time.${note ? `\n\nNote: ${esc(note)}` : ""}\n\nQuestions? Reply here or email ${"info@omarchystore.com"}.`;
-      ctx.waitUntil(notifyUser(env, d.telegram_chat_id, text));
-    }
-  }
-  return json({ ok: true });
+  const { token, hash } = await issueToken(H);
+  const r = await env.DB.prepare(`INSERT INTO developers (ts, name, email, website, github, app_name, app_desc, app_url, wants_paid, price_usd, payout, tagline, logo_url, screenshots, telegram,
+        company, repo_url, category, license, install_hint, token_hash, updated_ts)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`)
+    .bind(Date.now(), name, email, site, gh, appName, f.desc, f.appUrl, wantsPaid ? 1 : 0, price, JSON.stringify(payout), f.tagline, f.logo, JSON.stringify(f.shots), tgUser || null,
+      company, f.repo, f.category, f.license, f.install, hash, Date.now()).run();
+  const id = r.meta.last_row_id;
+  ctx.waitUntil(telegram(env, `🧑‍💻 New app submission #${id}\n${company} — ${name} <${email}>${tgUser ? ` · @${tgUser}` : ""}\nApp: ${appName}${wantsPaid ? ` — wants to sell at $${price}` : " — free"}\n${f.tagline}\n${f.repo}\n\n${f.desc.slice(0, 300)}\n\nReview: ${env.SITE}/admin/#submissions/${id}`));
+  return json({ ok: true, id, token, url: `${env.SITE}/submit/?status=${id}&t=${token}` });
 }
 
 // ------------------------------------------------------------------ crypto checkout
@@ -383,6 +385,12 @@ async function createOrder(req, env) {
   await turnstile(b.turnstile, req, env);
   const v = await visitor(req, env);
   await rateLimit(env, "ord:" + v, 10, 3600);
+  return json(await makeOrder(env, { app, price, chain, email: b.email }));
+}
+
+// Creates an order with a unique amount for `price` USD. Used by app checkout and ad invoices.
+async function makeOrder(env, { app, price, chain, email }) {
+  if (!methods(env).some((m) => m.id === chain)) fail("That payment method isn't available");
   const dec = DEC[chain], coin = COIN[chain];
   const rate = await usdPrice(coin);
   // Unique tail: stablecoins get 1–999 millionths of a dollar; volatile coins get a few smallest units scaled to the decimals.
@@ -394,7 +402,7 @@ async function createOrder(req, env) {
   const address = addrFor(env, chain);
   const tag = chain === "xrp" ? 100000000 + Math.floor(Math.random() * 899999999) : null;
   await env.DB.prepare("INSERT INTO orders (id, ts, app, chain, address, usd, amount_sats, amount, tag, email) VALUES (?, ?, ?, ?, ?, ?, 0, ?, ?, ?)")
-    .bind(id, Date.now(), app, chain, address, price, units.toString(), tag, clip(b.email, 120)).run();
+    .bind(id, Date.now(), app, chain, address, price, units.toString(), tag, clip(email, 120)).run();
   const amt = fmt(units, dec);
   const uri = chain === "btc" ? `bitcoin:${address}?amount=${amt}`
     : chain === "sol" ? `solana:${address}?amount=${amt}&label=${encodeURIComponent("Omarchy Store")}`
@@ -402,7 +410,7 @@ async function createOrder(req, env) {
     : chain === "xrp" ? `https://xrpl.org/send?to=${address}&dt=${tag}&amount=${amt}`
     : chain === "eth-base" ? `ethereum:${address}@8453?value=${units}`
     : `ethereum:${chain === "usdc-base" ? USDC.base : USDC.eth}@${chain === "usdc-base" ? 8453 : 1}/transfer?address=${address}&uint256=${units}`;
-  return json({ id, app, chain, coin, network: methods(env).find((m) => m.id === chain).network, address, amount: amt, tag, usd: price, uri, expires_in: 6 * 3600 });
+  return { id, app, chain, coin, network: methods(env).find((m) => m.id === chain).network, address, amount: amt, tag, usd: price, uri, expires_in: 6 * 3600 };
 }
 
 async function getOrder(id, env) {
@@ -496,6 +504,7 @@ async function checkOrders(env, onlyId) {
         if (used) continue;                                         // a payment can only unlock one order
         await env.DB.prepare("UPDATE orders SET status='paid', txid=?, paid_ts=? WHERE id=?").bind(tx.txid, Date.now(), o.id).run();
         paid++;
+        if (String(o.app).startsWith("ad-")) await adPaid(env, o).catch((e) => console.error("adPaid", e));
         await telegram(env, `💰 Paid! ${o.app} — $${o.usd} in ${COIN[chain]} (${fmt(want, DEC[chain])})\nOrder ${o.id}\n${EXPLORER[chain]}${tx.txid}`);
       } else if (tx && o.status === "waiting") {
         await env.DB.prepare("UPDATE orders SET status='seen', txid=? WHERE id=?").bind(tx.txid, o.id).run();

@@ -12,15 +12,17 @@ Reach Omarchy and Arch Linux users: developers, creators, and power users who ch
 
 Every placement is labelled **Sponsored** or **Ad**. Ads never affect Top Charts or organic ranking.
 
-## Rates
+## Rates and booking
 
-Flat monthly pricing per slot. Contact us for current rates and availability: open an issue titled **"Advertising inquiry"** or email the maintainers listed on the org page.
+Request a quote at **https://omarchystore.com/advertise/** — pick a placement and dates, add your ad, and you get a private campaign page.
+We reply there with a quote; you pay in crypto (USDC, ETH, SOL, BTC or XRP) from the same page, and the payment is confirmed on the
+public blockchain automatically. Artwork is copied to our own server, so live ads never load anything from yours.
 
 ## What we accept
 
 Developer tools, hardware, hosting, VPNs and privacy tools, Linux-friendly software and services, courses, and conferences.
 
-We don't accept crypto token promotions, gambling, malware or "PC cleaner" type software, or misleading claims.
+We don't accept token promotions, gambling, malware or "PC cleaner" type software, or misleading claims.
 
 ## Privacy
 

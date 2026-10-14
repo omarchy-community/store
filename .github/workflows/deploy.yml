@@ -2,13 +2,13 @@ name: Build & deploy store
 
 # Rebuilds the catalog (fresh stars, versions, screenshots) and publishes to GitHub Pages:
 #   - on every push to main
-#   - every Monday 06:00 UTC (keeps Top Charts current)
+#   - every day 06:00 UTC = 2 AM Eastern (new themes, Omarchy repo apps, stars, versions)
 #   - manually from the Actions tab
 on:
   push:
     branches: [main]
   schedule:
-    - cron: "0 6 * * 1"
+    - cron: "0 6 * * *"
   workflow_dispatch:
 
 permissions:

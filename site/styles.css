@@ -15,6 +15,12 @@
   top: 0;
   z-index: 9999;
 }
+/* Standard (web-app window) installs: same bar, no window buttons; keep the title centred. */
+.web-titlebar { -webkit-app-region: no-drag; }
+.web-titlebar .tb-side { flex: 1 1 0; display: flex; }
+.web-titlebar .tb-right { justify-content: flex-end; }
+.electron-titlebar .security-badge { cursor: help; }
+html.has-titlebar .app { height: calc(100vh - 38px); }
 .electron-titlebar .title {
   font-weight: 600;
   font-size: 13px;

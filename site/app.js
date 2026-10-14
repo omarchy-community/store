@@ -154,6 +154,7 @@
     S.catalog.themes = S.catalog.themes || [];
     S.catalog.themes.forEach((t) => { S.themeById[t.id] = t; });
     renderNav();
+    renderTitlebar();
     renderModeBadge();
     renderMigrationBanner();
     route();
@@ -306,6 +307,30 @@
       }
       location.reload();
     } catch (e) { toast(e.message); btn.disabled = false; btn.textContent = "Update"; }
+  }
+
+  // Every desktop install shows the same top bar: "Omarchy Store vX" + the Protected badge.
+  // The Electron build draws its own (with window buttons); the standard install opens as an
+  // Omarchy web-app window with no title bar, so we draw it here.
+  const PROTECTED_TIP = "Protected: the store only installs from the official Arch repositories, the AUR and verified developer releases (SHA-256 checked before install), and its helper only accepts commands from this window.";
+  function renderTitlebar() {
+    if (!S.desktop) return;
+    let tb = $(".electron-titlebar");
+    if (!tb) {
+      tb = document.createElement("div");
+      tb.className = "electron-titlebar web-titlebar";
+      tb.innerHTML = `<div class="tb-side"></div>
+        <div class="title">Omarchy Store <span class="version"></span></div>
+        <div class="tb-side tb-right"><div class="security-badge" id="security-badge">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          <span>Protected</span></div></div>`;
+      document.body.insertBefore(tb, document.body.firstChild);
+    }
+    document.documentElement.classList.add("has-titlebar");
+    const ver = tb.querySelector(".version");
+    if (ver && S.status?.version && !ver.textContent) ver.textContent = "v" + S.status.version;
+    const badge = tb.querySelector(".security-badge");
+    if (badge && !badge.title) badge.title = PROTECTED_TIP;
   }
 
   function renderModeBadge() {
@@ -1935,7 +1960,7 @@
       ["Category", `<span style="color:var(--accent)">${ico(cat?.icon)}</span>`, esc(cat?.name)],
       ["Developer", `<span style="font-size:16px">${esc(a.developer || "—")}</span>`, "Verified"],
       ["Works with", "Omarchy", "Hyprland"],
-      ["Age", "4+", "Rating"],
+      ["Age", esc(a.age || "4+"), "Rating"],
     ] : [
       ["GitHub Stars", a.stars != null ? k(a.stars) : "—", a.stars != null ? `#${a.rank} in store` : "Closed source"],
       [p.repo === "aur" ? "AUR Votes" : "Source", p.repo === "aur" ? k(p.votes) : (a.install.method === "omarchy" ? "Omarchy" : "Arch"), p.repo === "aur" ? "Community" : (p.repo || "Official")],

@@ -1,0 +1,29 @@
+{
+ "id": "ksnip",
+ "name": "ksnip",
+ "category": "graphics",
+ "github": "ksnip/ksnip",
+ "flathub": null,
+ "license": "GPL-3.0",
+ "install": {
+  "method": "pacman",
+  "packages": [
+   "ksnip"
+  ]
+ },
+ "detect": [
+  "ksnip"
+ ],
+ "kind": "gui",
+ "open": "ksnip",
+ "tags": [
+  "screenshot",
+  "annotation"
+ ],
+ "summary": "Screenshot tool with annotations: arrows, text, blur, numbers and shapes",
+ "description": "ksnip takes screenshots of a region, window or screen (Wayland via the desktop portal) and opens them in an annotation editor with arrows, rectangles, text, numbering, blur and pixelate tools. Save, copy or upload the result, and edit existing images too.",
+ "developer": "ksnip project",
+ "icon": "https://raw.githubusercontent.com/PapirusDevelopmentTeam/papirus-icon-theme/master/Papirus/64x64/apps/ksnip.svg",
+ "homepage": "https://github.com/ksnip/ksnip",
+ "source": "nightly-sourcing"
+}

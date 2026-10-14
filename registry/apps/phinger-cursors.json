@@ -1,0 +1,28 @@
+{
+ "id": "phinger-cursors",
+ "name": "phinger cursors",
+ "category": "utilities",
+ "github": "phisch/phinger-cursors",
+ "flathub": null,
+ "license": "CC-BY-SA-4.0",
+ "install": {
+  "method": "aur",
+  "packages": [
+   "phinger-cursors"
+  ]
+ },
+ "detect": [
+  "phinger-cursors"
+ ],
+ "kind": "gui",
+ "tags": [
+  "cursor-theme",
+  "cursors"
+ ],
+ "summary": "Clean, over-engineered cursor theme in light and dark variants with multiple sizes",
+ "description": "phinger cursors is a carefully drawn cursor theme with light and dark variants in several sizes and matching animated states. After installing, select phinger-cursors-light or phinger-cursors-dark as your cursor theme.",
+ "developer": "Philipp Schaffrath",
+ "icon": null,
+ "homepage": "https://github.com/phisch/phinger-cursors",
+ "source": "nightly-sourcing"
+}

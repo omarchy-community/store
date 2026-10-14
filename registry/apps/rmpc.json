@@ -1,0 +1,30 @@
+{
+ "id": "rmpc",
+ "name": "rmpc",
+ "category": "video-audio",
+ "github": "mierak/rmpc",
+ "flathub": null,
+ "license": "BSD-3-Clause",
+ "install": {
+  "method": "pacman",
+  "packages": [
+   "rmpc"
+  ]
+ },
+ "detect": [
+  "rmpc"
+ ],
+ "kind": "terminal",
+ "open": "rmpc",
+ "tags": [
+  "music",
+  "mpd",
+  "tui"
+ ],
+ "summary": "Modern terminal MPD client with album art and a configurable layout",
+ "description": "rmpc is a terminal client for the Music Player Daemon (MPD). It shows album art right in the terminal, has a queue, library and playlist browser, and the layout, theme and key bindings are fully configurable. Requires a running MPD server.",
+ "developer": "mierak",
+ "icon": null,
+ "homepage": "https://rmpc.mierak.dev",
+ "source": "nightly-sourcing"
+}

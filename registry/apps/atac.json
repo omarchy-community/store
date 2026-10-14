@@ -1,0 +1,30 @@
+{
+ "id": "atac",
+ "name": "ATAC",
+ "category": "developer-tools",
+ "github": "Julien-cpsn/ATAC",
+ "flathub": null,
+ "license": "MIT",
+ "install": {
+  "method": "pacman",
+  "packages": [
+   "atac"
+  ]
+ },
+ "detect": [
+  "atac"
+ ],
+ "kind": "terminal",
+ "open": "atac",
+ "tags": [
+  "api",
+  "http",
+  "tui"
+ ],
+ "summary": "Postman-like API client in your terminal, no account needed",
+ "description": "ATAC (Arguably a Terminal API Client) lets you build and send HTTP requests from a terminal UI: collections, params, auth, headers, body and scripting, with results shown with syntax highlighting. Collections are plain files you can keep in git. Works offline with no account.",
+ "developer": "Julien Cordier",
+ "icon": null,
+ "homepage": "https://atac.julien-cpsn.com/",
+ "source": "nightly-sourcing"
+}

@@ -1,0 +1,31 @@
+{
+ "id": "dsnote",
+ "name": "Speech Note",
+ "category": "productivity",
+ "github": "mkiol/dsnote",
+ "flathub": null,
+ "license": "MPL-2.0",
+ "install": {
+  "method": "aur",
+  "packages": [
+   "dsnote"
+  ]
+ },
+ "detect": [
+  "dsnote"
+ ],
+ "kind": "gui",
+ "open": "dsnote",
+ "tags": [
+  "speech-to-text",
+  "text-to-speech",
+  "translation",
+  "offline"
+ ],
+ "summary": "Offline speech-to-text, text-to-speech and translation note app",
+ "description": "Speech Note turns speech into text and text into speech entirely on your machine, with no internet needed. Dictate notes, transcribe audio files, read text aloud with many voices, translate between languages, and even type dictated text into other apps. Models for many languages download inside the app.",
+ "developer": "Michal Kosciesza",
+ "icon": null,
+ "homepage": "https://github.com/mkiol/dsnote",
+ "source": "nightly-sourcing"
+}

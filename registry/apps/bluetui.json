@@ -1,0 +1,29 @@
+{
+ "id": "bluetui",
+ "name": "bluetui",
+ "category": "utilities",
+ "github": "pythops/bluetui",
+ "flathub": null,
+ "license": "GPL-3.0",
+ "install": {
+  "method": "pacman",
+  "packages": [
+   "bluetui"
+  ]
+ },
+ "detect": [
+  "bluetui"
+ ],
+ "kind": "terminal",
+ "open": "bluetui",
+ "tags": [
+  "bluetooth",
+  "tui"
+ ],
+ "summary": "Terminal UI for managing Bluetooth devices on Linux",
+ "description": "bluetui is a keyboard-driven terminal UI for Bluetooth: scan, pair, trust, connect and disconnect devices and toggle adapters, using BlueZ over D-Bus.",
+ "developer": "pythops",
+ "icon": null,
+ "homepage": "https://github.com/pythops/bluetui",
+ "source": "nightly-sourcing"
+}

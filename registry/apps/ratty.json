@@ -1,0 +1,29 @@
+{
+ "id": "ratty",
+ "name": "Ratty",
+ "category": "terminal",
+ "github": "orhun/ratty",
+ "flathub": null,
+ "license": "MIT",
+ "install": {
+  "method": "pacman",
+  "packages": [
+   "ratty"
+  ]
+ },
+ "detect": [
+  "ratty"
+ ],
+ "kind": "gui",
+ "open": "ratty",
+ "tags": [
+  "terminal-emulator",
+  "gpu"
+ ],
+ "summary": "GPU-rendered terminal emulator with inline 3D graphics and smooth animations",
+ "description": "Ratty is a GPU-rendered terminal emulator built with Ratatui and Bevy. It renders text on the GPU, can show inline 3D graphics and shader effects, and supports splits, multiple windows, OSC 8 links, images and ligatures.",
+ "developer": "Orhun Parmaksız",
+ "icon": null,
+ "homepage": "https://ratty-term.org/",
+ "source": "nightly-sourcing"
+}

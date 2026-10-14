@@ -1,0 +1,30 @@
+{
+ "id": "htop",
+ "name": "htop",
+ "category": "utilities",
+ "github": "htop-dev/htop",
+ "flathub": null,
+ "license": "GPL-2.0",
+ "install": {
+  "method": "pacman",
+  "packages": [
+   "htop"
+  ]
+ },
+ "detect": [
+  "htop"
+ ],
+ "kind": "terminal",
+ "open": "htop",
+ "tags": [
+  "monitor",
+  "processes",
+  "tui"
+ ],
+ "summary": "Interactive process viewer: see CPU, memory and processes and kill or renice them",
+ "description": "htop is the classic interactive process viewer. Scroll through processes, sort and filter them, see CPU, memory and swap meters, view a process tree and send signals, all from a text interface. Launch it with htop.",
+ "developer": "htop dev team",
+ "icon": "https://raw.githubusercontent.com/PapirusDevelopmentTeam/papirus-icon-theme/master/Papirus/64x64/apps/htop.svg",
+ "homepage": "https://htop.dev/",
+ "source": "nightly-sourcing"
+}

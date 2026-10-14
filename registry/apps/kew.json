@@ -1,0 +1,29 @@
+{
+ "id": "kew",
+ "name": "kew",
+ "category": "video-audio",
+ "github": "ravachol/kew",
+ "flathub": null,
+ "license": "GPL-2.0",
+ "install": {
+  "method": "pacman",
+  "packages": [
+   "kew"
+  ]
+ },
+ "detect": [
+  "kew"
+ ],
+ "kind": "terminal",
+ "open": "kew",
+ "tags": [
+  "music",
+  "tui"
+ ],
+ "summary": "Fast terminal music player: play a folder or search your library in seconds",
+ "description": "kew plays music straight from your folders in the terminal. Type part of a name to play an album, artist or song, shuffle your whole library, see cover art and a visualiser, and manage playlists. It is gapless and supports MP3, FLAC, Opus, Vorbis, AAC and WAV.",
+ "developer": "ravachol",
+ "icon": null,
+ "homepage": "https://kewplayer.com",
+ "source": "nightly-sourcing"
+}

@@ -1,0 +1,29 @@
+{
+ "id": "waypaper",
+ "name": "Waypaper",
+ "category": "utilities",
+ "github": "anufrievroman/waypaper",
+ "flathub": null,
+ "license": "GPL-3.0",
+ "install": {
+  "method": "aur",
+  "packages": [
+   "waypaper"
+  ]
+ },
+ "detect": [
+  "waypaper"
+ ],
+ "kind": "gui",
+ "open": "waypaper",
+ "tags": [
+  "wallpaper",
+  "hyprland"
+ ],
+ "summary": "Graphical wallpaper picker for Wayland that drives swww, hyprpaper, swaybg and more",
+ "description": "Waypaper is a GTK wallpaper manager for Wayland and Xorg. Browse folders of images in a grid, pick one per monitor, choose fill mode and colour, and it hands the image to your wallpaper backend (swaybg, swww, hyprpaper, mpvpaper, wallutils or feh). It can restore your wallpaper at login.",
+ "developer": "Roman Anufriev",
+ "icon": null,
+ "homepage": "https://anufrievroman.gitbook.io/waypaper",
+ "source": "nightly-sourcing"
+}

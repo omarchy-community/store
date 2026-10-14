@@ -1,0 +1,29 @@
+{
+ "id": "superfile",
+ "name": "superfile",
+ "category": "utilities",
+ "github": "yorukot/superfile",
+ "flathub": null,
+ "license": "MIT",
+ "install": {
+  "method": "pacman",
+  "packages": [
+   "superfile"
+  ]
+ },
+ "detect": [
+  "superfile"
+ ],
+ "kind": "terminal",
+ "open": "spf",
+ "tags": [
+  "file-manager",
+  "tui"
+ ],
+ "summary": "Modern terminal file manager with panels, previews, tabs and plugins",
+ "description": "superfile is a terminal file manager with a modern look: multiple file panels, a sidebar of pinned folders and disks, file previews, tabs, metadata view and built-in compress/extract. It supports themes and plugins, and can be driven entirely from the keyboard. Launch it with spf.",
+ "developer": "Yorukot",
+ "icon": null,
+ "homepage": "https://superfile.dev",
+ "source": "nightly-sourcing"
+}

@@ -1,0 +1,29 @@
+{
+ "id": "tig",
+ "name": "tig",
+ "category": "developer-tools",
+ "github": "jonas/tig",
+ "flathub": null,
+ "license": "GPL-2.0",
+ "install": {
+  "method": "pacman",
+  "packages": [
+   "tig"
+  ]
+ },
+ "detect": [
+  "tig"
+ ],
+ "kind": "terminal",
+ "open": "tig",
+ "tags": [
+  "git",
+  "tui"
+ ],
+ "summary": "Text-mode interface for git: browse history, diffs, blame and stage changes",
+ "description": "tig is a text-mode interface for git. Browse commits, diffs, branches, blame and stashes with ncurses views, and stage or unstage hunks from the status view. It also works as a pager for git output.",
+ "developer": "Jonas Fonseca",
+ "icon": null,
+ "homepage": "https://jonas.github.io/tig/",
+ "source": "nightly-sourcing"
+}

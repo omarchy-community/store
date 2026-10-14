@@ -1,0 +1,30 @@
+{
+ "id": "arch-update",
+ "name": "Arch-Update",
+ "category": "utilities",
+ "github": "Antiz96/arch-update",
+ "flathub": null,
+ "license": "GPL-3.0",
+ "install": {
+  "method": "aur",
+  "packages": [
+   "arch-update"
+  ]
+ },
+ "detect": [
+  "arch-update"
+ ],
+ "kind": "terminal",
+ "open": "arch-update",
+ "tags": [
+  "updates",
+  "pacman",
+  "aur"
+ ],
+ "summary": "Update notifier and applier for Arch that handles the pre- and post-update chores",
+ "description": "Arch-Update checks for official, AUR and Flatpak updates and shows them in a systray icon or notification. When you apply them it shows the Arch news first, lists the packages, then handles pacnew files, orphaned packages, cache cleaning and reboot hints.",
+ "developer": "Robin Candau",
+ "icon": null,
+ "homepage": "https://github.com/Antiz96/arch-update",
+ "source": "nightly-sourcing"
+}

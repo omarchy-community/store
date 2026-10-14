@@ -1,0 +1,28 @@
+{
+ "id": "adw-gtk-theme",
+ "name": "adw-gtk3",
+ "category": "utilities",
+ "github": "lassekongo83/adw-gtk3",
+ "flathub": null,
+ "license": "LGPL-2.1",
+ "install": {
+  "method": "pacman",
+  "packages": [
+   "adw-gtk-theme"
+  ]
+ },
+ "detect": [
+  "adw-gtk-theme"
+ ],
+ "kind": "gui",
+ "tags": [
+  "gtk-theme",
+  "theme"
+ ],
+ "summary": "The libadwaita look ported to GTK 3, so older apps match modern GNOME-style apps",
+ "description": "adw-gtk3 is a GTK 3 theme that mirrors the libadwaita style used by modern GTK 4 apps, in light and dark variants. Install it and select adw-gtk3 or adw-gtk3-dark as your GTK theme so older apps match the rest of your desktop.",
+ "developer": "lassekongo83",
+ "icon": null,
+ "homepage": "https://github.com/lassekongo83/adw-gtk3",
+ "source": "nightly-sourcing"
+}

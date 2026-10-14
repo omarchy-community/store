@@ -1,0 +1,29 @@
+{
+ "id": "morewaita-icon-theme",
+ "name": "MoreWaita",
+ "category": "utilities",
+ "github": "somepaulo/MoreWaita",
+ "flathub": null,
+ "license": "GPL-3.0",
+ "install": {
+  "method": "aur",
+  "packages": [
+   "morewaita-icon-theme"
+  ]
+ },
+ "detect": [
+  "morewaita-icon-theme"
+ ],
+ "kind": "gui",
+ "tags": [
+  "icon-theme",
+  "icons",
+  "adwaita"
+ ],
+ "summary": "Adwaita-styled icon theme with extra icons for popular apps",
+ "description": "MoreWaita extends the Adwaita icon theme with Adwaita-style icons for many popular apps that GNOME does not cover. It sits on top of Adwaita, so everything else stays the same; set MoreWaita as your icon theme after installing.",
+ "developer": "somepaulo",
+ "icon": null,
+ "homepage": "https://github.com/somepaulo/MoreWaita",
+ "source": "nightly-sourcing"
+}

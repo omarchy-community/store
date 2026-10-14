@@ -1,0 +1,30 @@
+{
+ "id": "impala",
+ "name": "impala",
+ "category": "utilities",
+ "github": "pythops/impala",
+ "flathub": null,
+ "license": "GPL-3.0",
+ "install": {
+  "method": "pacman",
+  "packages": [
+   "impala"
+  ]
+ },
+ "detect": [
+  "impala"
+ ],
+ "kind": "terminal",
+ "open": "impala",
+ "tags": [
+  "wifi",
+  "network",
+  "tui"
+ ],
+ "summary": "Terminal UI for managing Wi-Fi on Linux with iwd",
+ "description": "impala is a terminal UI for Wi-Fi: scan networks, connect and disconnect, manage known networks and adapters, and run an access point. It talks to iwd, the Wi-Fi daemon Omarchy uses.",
+ "developer": "pythops",
+ "icon": null,
+ "homepage": "https://github.com/pythops/impala",
+ "source": "nightly-sourcing"
+}

@@ -1,0 +1,30 @@
+{
+ "id": "trippy",
+ "name": "Trippy",
+ "category": "utilities",
+ "github": "fujiapple852/trippy",
+ "flathub": null,
+ "license": "Apache-2.0",
+ "install": {
+  "method": "pacman",
+  "packages": [
+   "trippy"
+  ]
+ },
+ "detect": [
+  "trippy"
+ ],
+ "kind": "terminal",
+ "open": "trip",
+ "tags": [
+  "network",
+  "traceroute",
+  "tui"
+ ],
+ "summary": "Network diagnostic tool combining traceroute and ping in a live terminal UI",
+ "description": "Trippy combines traceroute and ping into one live terminal UI. It traces over ICMP, UDP or TCP, shows per-hop loss, latency and jitter with history charts, can look up ASN and GeoIP data, and exports results as JSON or CSV. Run it with trip.",
+ "developer": "FujiApple",
+ "icon": null,
+ "homepage": "https://trippy.rs",
+ "source": "nightly-sourcing"
+}

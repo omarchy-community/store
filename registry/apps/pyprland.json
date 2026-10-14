@@ -1,0 +1,29 @@
+{
+ "id": "pyprland",
+ "name": "Pyprland",
+ "category": "utilities",
+ "github": "hyprland-community/pyprland",
+ "flathub": null,
+ "license": "MIT",
+ "install": {
+  "method": "aur",
+  "packages": [
+   "pyprland"
+  ]
+ },
+ "detect": [
+  "pyprland"
+ ],
+ "kind": "terminal",
+ "tags": [
+  "hyprland",
+  "scratchpad",
+  "plugins"
+ ],
+ "summary": "Scratchpads, monitor layouts, menus and other extensions for Hyprland",
+ "description": "Pyprland adds plugins to Hyprland: drop-down scratchpads for terminals and apps, a monitor layout helper, magnify, expose, shortcut menus, workspace followers and more. Configure it in a TOML file and control it with the pypr command.",
+ "developer": "hyprland-community",
+ "icon": "https://avatars.githubusercontent.com/u/120158726?v=4",
+ "homepage": "https://github.com/hyprland-community/pyprland",
+ "source": "nightly-sourcing"
+}

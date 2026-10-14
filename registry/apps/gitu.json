@@ -1,0 +1,29 @@
+{
+ "id": "gitu",
+ "name": "gitu",
+ "category": "developer-tools",
+ "github": "altsem/gitu",
+ "flathub": null,
+ "license": "MIT",
+ "install": {
+  "method": "pacman",
+  "packages": [
+   "gitu"
+  ]
+ },
+ "detect": [
+  "gitu"
+ ],
+ "kind": "terminal",
+ "open": "gitu",
+ "tags": [
+  "git",
+  "tui"
+ ],
+ "summary": "Terminal git client inspired by Magit: stage, commit, rebase and push with single keys",
+ "description": "gitu is a terminal git client in the style of Emacs' Magit. Expand files and hunks, stage or unstage with one key, then commit, fetch, pull, push, rebase, stash and log from pop-up menus.",
+ "developer": "altsem",
+ "icon": null,
+ "homepage": "https://github.com/altsem/gitu",
+ "source": "nightly-sourcing"
+}

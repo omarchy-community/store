@@ -1,0 +1,31 @@
+{
+ "id": "termscp",
+ "name": "termscp",
+ "category": "utilities",
+ "github": "veeso/termscp",
+ "flathub": null,
+ "license": "MIT",
+ "install": {
+  "method": "pacman",
+  "packages": [
+   "termscp"
+  ]
+ },
+ "detect": [
+  "termscp"
+ ],
+ "kind": "terminal",
+ "open": "termscp",
+ "tags": [
+  "sftp",
+  "ftp",
+  "file-transfer",
+  "tui"
+ ],
+ "summary": "Terminal file transfer and explorer for SFTP, SCP, FTP, S3, WebDAV and more",
+ "description": "termscp is a terminal UI for moving files between your machine and remote servers over SFTP, SCP, FTP, Kube, S3, SMB and WebDAV. It has a two-pane explorer, bookmarks, a text editor and themes.",
+ "developer": "Christian Visintin",
+ "icon": null,
+ "homepage": "https://termscp.rs",
+ "source": "nightly-sourcing"
+}

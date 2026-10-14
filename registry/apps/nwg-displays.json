@@ -1,0 +1,30 @@
+{
+ "id": "nwg-displays",
+ "name": "nwg-displays",
+ "category": "utilities",
+ "github": "nwg-piotr/nwg-displays",
+ "flathub": null,
+ "license": "MIT",
+ "install": {
+  "method": "pacman",
+  "packages": [
+   "nwg-displays"
+  ]
+ },
+ "detect": [
+  "nwg-displays"
+ ],
+ "kind": "gui",
+ "open": "nwg-displays",
+ "tags": [
+  "monitors",
+  "display",
+  "hyprland"
+ ],
+ "summary": "Graphical monitor layout tool for Hyprland: arrange, scale and rotate displays",
+ "description": "nwg-displays is a GUI for arranging your monitors on Hyprland, sway and Niri. Drag displays into position, set resolution, refresh rate, scale, rotation and mirroring, then it writes the monitor configuration to a file your compositor includes.",
+ "developer": "Piotr Miller",
+ "icon": "https://raw.githubusercontent.com/PapirusDevelopmentTeam/papirus-icon-theme/master/Papirus/64x64/apps/nwg-displays.svg",
+ "homepage": "https://github.com/nwg-piotr/nwg-displays",
+ "source": "nightly-sourcing"
+}

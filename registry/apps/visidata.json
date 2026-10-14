@@ -1,0 +1,30 @@
+{
+ "id": "visidata",
+ "name": "VisiData",
+ "category": "productivity",
+ "github": "saulpw/visidata",
+ "flathub": null,
+ "license": "GPL-3.0",
+ "install": {
+  "method": "pacman",
+  "packages": [
+   "visidata"
+  ]
+ },
+ "detect": [
+  "visidata"
+ ],
+ "kind": "terminal",
+ "open": "vd",
+ "tags": [
+  "data",
+  "csv",
+  "tui"
+ ],
+ "summary": "Terminal spreadsheet multitool for exploring and arranging tabular data",
+ "description": "VisiData opens CSV, TSV, JSON, SQLite, Excel and many other formats in a fast terminal spreadsheet. Sort, filter, pivot, plot and transform data with keyboard commands, and save the result or the command log. Launch it with vd.",
+ "developer": "Saul Pwanson",
+ "icon": null,
+ "homepage": "https://www.visidata.org",
+ "source": "nightly-sourcing"
+}

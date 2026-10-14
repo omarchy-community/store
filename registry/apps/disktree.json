@@ -1,0 +1,22 @@
+{
+  "id": "disktree",
+  "name": "Disktree",
+  "category": "utilities",
+  "github": "tobi/disktree",
+  "install": {
+    "method": "pacman",
+    "packages": [
+      "disktree-bin"
+    ]
+  },
+  "detect": [
+    "disktree-bin"
+  ],
+  "kind": "gui",
+  "summary": "Disk space treemap for Omarchy: see what fills a disk by kind, mark what should go, and remove it",
+  "homepage": "https://github.com/tobi/disktree",
+  "tags": [
+    "omarchy-repo"
+  ],
+  "source": "omarchy-repo"
+}

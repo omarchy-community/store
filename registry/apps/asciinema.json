@@ -1,0 +1,29 @@
+{
+ "id": "asciinema",
+ "name": "asciinema",
+ "category": "developer-tools",
+ "github": "asciinema/asciinema",
+ "flathub": null,
+ "license": "GPL-3.0",
+ "install": {
+  "method": "pacman",
+  "packages": [
+   "asciinema"
+  ]
+ },
+ "detect": [
+  "asciinema"
+ ],
+ "kind": "terminal",
+ "open": "asciinema",
+ "tags": [
+  "recording",
+  "terminal"
+ ],
+ "summary": "Record, stream and replay terminal sessions as text, not video",
+ "description": "asciinema records what happens in your terminal into a lightweight text-based file you can replay, share or embed. Recordings stay copy-pasteable, and you can also live-stream a session. This is the Rust rewrite with recording, playback and streaming built in.",
+ "developer": "asciinema",
+ "icon": "https://avatars.githubusercontent.com/u/6506055?v=4",
+ "homepage": "https://asciinema.org",
+ "source": "nightly-sourcing"
+}

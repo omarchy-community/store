@@ -1,0 +1,28 @@
+{
+ "id": "papirus-icon-theme",
+ "name": "Papirus Icon Theme",
+ "category": "utilities",
+ "github": "PapirusDevelopmentTeam/papirus-icon-theme",
+ "flathub": null,
+ "license": "GPL-3.0",
+ "install": {
+  "method": "pacman",
+  "packages": [
+   "papirus-icon-theme"
+  ]
+ },
+ "detect": [
+  "papirus-icon-theme"
+ ],
+ "kind": "gui",
+ "tags": [
+  "icon-theme",
+  "icons"
+ ],
+ "summary": "Large, pixel-perfect icon theme in Papirus, Papirus Dark and Papirus Light variants",
+ "description": "Papirus is one of the most complete icon themes for Linux, with sharp icons for thousands of apps, folders, devices and MIME types. It ships Papirus, Papirus-Dark, Papirus-Light and ePapirus variants, plus hardcoded-icon fixes. Set it as your icon theme after installing.",
+ "developer": "Papirus Development Team",
+ "icon": "https://avatars.githubusercontent.com/u/19689649?v=4",
+ "homepage": "https://git.io/papirus-icon-theme",
+ "source": "nightly-sourcing"
+}

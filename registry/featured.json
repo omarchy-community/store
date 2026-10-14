@@ -9,7 +9,7 @@
     {"app": "obs-studio", "eyebrow": "CREATOR PICK",      "headline": "Stream and record like a pro",  "gradient": ["#0e0e14", "#449dab"]}
   ],
   "collections": [
-    {"title": "Essentials for Omarchy",       "apps": ["omarchy-browser", "omarchy-store", "jettison", "telegram", "rabbit-ears", "signal", "firefox", "obsidian", "localsend", "btop", "yazi", "lazygit", "1password", "spotify"]},
+    {"title": "Essentials for Omarchy",       "apps": ["omarchy-browser", "omarchy-store", "legal-dock", "jettison", "telegram", "rabbit-ears", "signal", "firefox", "obsidian", "localsend", "btop", "yazi", "lazygit", "1password", "spotify"]},
     {"title": "Run AI on your own machine",   "apps": ["ollama", "lmstudio", "upscayl", "cursor", "zed"]},
     {"title": "Ditch Windows for good",       "apps": ["steam", "heroic", "lutris", "bottles", "retroarch", "prismlauncher"]},
     {"title": "Creative studio",              "apps": ["krita", "blender", "gimp", "inkscape", "kdenlive", "audacity", "obs-studio"]}

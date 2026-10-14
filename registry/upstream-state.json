@@ -1,0 +1,2876 @@
+{
+ "_comment": "Newest upstream release tag seen per app. Written by scripts/daily_updates.py; do not edit by hand.",
+ "apps": {
+  "act": {
+   "published": "2026-06-01T03:22:22Z",
+   "seen": "2026-10-14",
+   "tag": "v0.2.89"
+  },
+  "actionlint": {
+   "published": "2026-03-30T17:49:21Z",
+   "seen": "2026-10-14",
+   "tag": "v1.7.12"
+  },
+  "activitywatch": {
+   "published": "2026-10-10T19:18:45Z",
+   "seen": "2026-10-14",
+   "tag": "v0.14.1"
+  },
+  "adw-gtk-theme": {
+   "published": "2026-04-13T01:00:29Z",
+   "seen": "2026-10-14",
+   "tag": "v6.5"
+  },
+  "aegisub": {
+   "published": "2026-10-05T11:41:06Z",
+   "seen": "2026-10-14",
+   "tag": "v3.5.0"
+  },
+  "aether": {
+   "published": "2026-10-04T16:17:24Z",
+   "seen": "2026-10-14",
+   "tag": "v4.32.0"
+  },
+  "age": {
+   "published": "2026-08-29T17:55:36Z",
+   "seen": "2026-10-14",
+   "tag": "v1.3.2"
+  },
+  "aichat": {
+   "published": "2025-07-06T23:48:31Z",
+   "seen": "2026-10-14",
+   "tag": "v0.30.0"
+  },
+  "alacritty": {
+   "published": "2026-04-06T19:24:18Z",
+   "seen": "2026-10-14",
+   "tag": "v0.17.0"
+  },
+  "alvr": {
+   "published": "2025-07-14T18:23:54Z",
+   "seen": "2026-10-14",
+   "tag": "v20.14.1"
+  },
+  "angry-ip-scanner": {
+   "published": "2026-08-31T19:50:34Z",
+   "seen": "2026-10-14",
+   "tag": "3.10.0"
+  },
+  "ani-cli": {
+   "published": "2026-09-11T19:02:48Z",
+   "seen": "2026-10-14",
+   "tag": "v5.1"
+  },
+  "anki": {
+   "published": "2026-09-23T15:24:13Z",
+   "seen": "2026-10-14",
+   "tag": "26.09.3"
+  },
+  "antimicrox": {
+   "published": "2026-05-24T20:31:46Z",
+   "seen": "2026-10-14",
+   "tag": "3.6.1"
+  },
+  "anytype": {
+   "published": "2026-10-03T15:38:31Z",
+   "seen": "2026-10-14",
+   "tag": "v0.57.4"
+  },
+  "apache-jmeter": {
+   "published": "2024-01-09T08:29:40Z",
+   "seen": "2026-10-14",
+   "tag": "rel/v5.6.3"
+  },
+  "appimagelauncher": {
+   "published": "2025-10-28T22:35:32Z",
+   "seen": "2026-10-14",
+   "tag": "v3.0.0-beta-3"
+  },
+  "arch-update": {
+   "published": "2026-10-05T10:22:03Z",
+   "seen": "2026-10-14",
+   "tag": "v4.4.3"
+  },
+  "ardour": {
+   "published": "",
+   "seen": "2026-10-14",
+   "tag": "sae-rc1"
+  },
+  "arduino-cli": {
+   "published": "2026-06-05T10:26:57Z",
+   "seen": "2026-10-14",
+   "tag": "v1.5.1"
+  },
+  "asciinema": {
+   "published": "2026-06-16T14:38:15Z",
+   "seen": "2026-10-14",
+   "tag": "v3.2.1"
+  },
+  "atac": {
+   "published": "2026-10-11T22:09:57Z",
+   "seen": "2026-10-14",
+   "tag": "v0.24.0"
+  },
+  "atlauncher": {
+   "published": "2026-09-19T08:03:21Z",
+   "seen": "2026-10-14",
+   "tag": "v3.4.41.3"
+  },
+  "atuin": {
+   "published": "2026-09-22T00:11:47Z",
+   "seen": "2026-10-14",
+   "tag": "v18.23.0"
+  },
+  "audacity": {
+   "published": "2026-09-30T11:59:48Z",
+   "seen": "2026-10-14",
+   "tag": "Audacity-4.0.1"
+  },
+  "augustus": {
+   "published": "2023-12-28T13:18:10Z",
+   "seen": "2026-10-14",
+   "tag": "v4.0.0"
+  },
+  "autojump": {
+   "published": "",
+   "seen": "2026-10-14",
+   "tag": "release-v22.5.3"
+  },
+  "aws-cli": {
+   "published": "",
+   "seen": "2026-10-14",
+   "tag": "2.38.1"
+  },
+  "azahar": {
+   "published": "2026-10-08T23:12:19Z",
+   "seen": "2026-10-14",
+   "tag": "2126.2"
+  },
+  "azure-cli": {
+   "published": "2026-10-05T23:39:45Z",
+   "seen": "2026-10-14",
+   "tag": "azure-cli-2.91.0"
+  },
+  "bambu-studio": {
+   "published": "2026-08-21T06:31:50Z",
+   "seen": "2026-10-14",
+   "tag": "v02.08.02.61"
+  },
+  "bandwhich": {
+   "published": "2024-10-08T09:41:25Z",
+   "seen": "2026-10-14",
+   "tag": "v0.23.1"
+  },
+  "basecamp-cli": {
+   "published": "2026-10-13T04:52:01Z",
+   "seen": "2026-10-14",
+   "tag": "v0.13.2"
+  },
+  "bat": {
+   "published": "2025-12-02T20:48:10Z",
+   "seen": "2026-10-14",
+   "tag": "v0.26.1"
+  },
+  "beekeeper-studio": {
+   "published": "2026-10-07T22:22:01Z",
+   "seen": "2026-10-14",
+   "tag": "v6.1.6"
+  },
+  "bespokesynth": {
+   "published": "2024-12-22T19:24:42Z",
+   "seen": "2026-10-14",
+   "tag": "v1.3.0"
+  },
+  "bettercap": {
+   "published": "2026-05-11T09:46:36Z",
+   "seen": "2026-10-14",
+   "tag": "v2.41.7"
+  },
+  "binsider": {
+   "published": "2026-02-01T10:35:35Z",
+   "seen": "2026-10-14",
+   "tag": "v0.3.2"
+  },
+  "binwalk": {
+   "published": "2024-10-31T14:54:21Z",
+   "seen": "2026-10-14",
+   "tag": "v3.1.0"
+  },
+  "birdtray": {
+   "published": "2023-09-04T07:41:22Z",
+   "seen": "2026-10-14",
+   "tag": "v1.11.4"
+  },
+  "bitwarden": {
+   "published": "2026-10-14T00:36:19Z",
+   "seen": "2026-10-14",
+   "tag": "web-v2026.10.0"
+  },
+  "blanket": {
+   "published": "2025-07-27T19:21:42Z",
+   "seen": "2026-10-14",
+   "tag": "0.8.0"
+  },
+  "blender": {
+   "published": "",
+   "seen": "2026-10-14",
+   "tag": "v5.2.2"
+  },
+  "blockbench": {
+   "published": "2026-10-08T21:26:54Z",
+   "seen": "2026-10-14",
+   "tag": "v5.2.2"
+  },
+  "bluetui": {
+   "published": "2026-10-07T18:35:29Z",
+   "seen": "2026-10-14",
+   "tag": "v0.8.2"
+  },
+  "boinc-manager": {
+   "published": "2026-06-12T07:49:21Z",
+   "seen": "2026-10-14",
+   "tag": "server_release/1.6/1.6.2"
+  },
+  "bore": {
+   "published": "2025-06-09T20:13:37Z",
+   "seen": "2026-10-14",
+   "tag": "v0.6.0"
+  },
+  "bottles": {
+   "published": "2026-09-07T18:13:02Z",
+   "seen": "2026-10-14",
+   "tag": "67.4"
+  },
+  "bottom": {
+   "published": "2026-08-27T08:24:00Z",
+   "seen": "2026-10-14",
+   "tag": "0.14.9"
+  },
+  "boxbuddy": {
+   "published": "2026-10-02T15:34:59Z",
+   "seen": "2026-10-14",
+   "tag": "2.6.2"
+  },
+  "bpytop": {
+   "published": "",
+   "seen": "2026-10-14",
+   "tag": "v1.0.68"
+  },
+  "brave": {
+   "published": "2026-10-14T05:35:25Z",
+   "seen": "2026-10-14",
+   "tag": "v1.97.57"
+  },
+  "brogue-ce": {
+   "published": "2026-02-12T22:34:53Z",
+   "seen": "2026-10-14",
+   "tag": "v1.15.1"
+  },
+  "broot": {
+   "published": "2026-10-03T13:01:05Z",
+   "seen": "2026-10-14",
+   "tag": "v1.61.0"
+  },
+  "bruno": {
+   "published": "2026-09-30T13:52:52Z",
+   "seen": "2026-10-14",
+   "tag": "v4.2.1"
+  },
+  "btop": {
+   "published": "2026-05-01T16:05:51Z",
+   "seen": "2026-10-14",
+   "tag": "v1.4.7"
+  },
+  "bun": {
+   "published": "2026-10-10T05:24:54Z",
+   "seen": "2026-10-14",
+   "tag": "bun-v1.4.3"
+  },
+  "buzz": {
+   "published": "2026-10-09T20:52:44Z",
+   "seen": "2026-10-14",
+   "tag": "desktop-v0.5.28"
+  },
+  "c-music-player": {
+   "published": "2024-10-26T11:46:11Z",
+   "seen": "2026-10-14",
+   "tag": "v2.12.0"
+  },
+  "caddy": {
+   "published": "2026-10-03T05:58:33Z",
+   "seen": "2026-10-14",
+   "tag": "v2.11.7"
+  },
+  "calibre": {
+   "published": "2026-10-09T03:05:13Z",
+   "seen": "2026-10-14",
+   "tag": "v9.16.0"
+  },
+  "cameractrls": {
+   "published": "",
+   "seen": "2026-10-14",
+   "tag": "v0.6.10"
+  },
+  "cataclysm-dark-days-ahead": {
+   "published": "2026-09-20T10:46:58Z",
+   "seen": "2026-10-14",
+   "tag": "0.I-1"
+  },
+  "cava": {
+   "published": "2026-06-13T17:53:33Z",
+   "seen": "2026-10-14",
+   "tag": "1.0.0"
+  },
+  "celluloid": {
+   "published": "2026-03-29T03:26:43Z",
+   "seen": "2026-10-14",
+   "tag": "v0.30"
+  },
+  "cheat": {
+   "published": "2026-02-16T00:52:04Z",
+   "seen": "2026-10-14",
+   "tag": "5.1.0"
+  },
+  "cherry-studio": {
+   "published": "2026-10-11T06:59:37Z",
+   "seen": "2026-10-14",
+   "tag": "v2.1.6"
+  },
+  "cinny": {
+   "published": "2026-09-15T16:00:26Z",
+   "seen": "2026-10-14",
+   "tag": "v4.12.7"
+  },
+  "clapgrep": {
+   "published": "2026-09-02T16:55:56Z",
+   "seen": "2026-10-14",
+   "tag": "v26.09"
+  },
+  "claude-code": {
+   "published": "2026-10-14T18:24:25Z",
+   "seen": "2026-10-14",
+   "tag": "v2.1.300"
+  },
+  "clementine": {
+   "published": "2026-10-14T03:01:31Z",
+   "seen": "2026-10-14",
+   "tag": "1.4.2-51-g10d6c97df"
+  },
+  "cliamp": {
+   "published": "2026-09-28T18:43:15Z",
+   "seen": "2026-10-14",
+   "tag": "v2.3.0"
+  },
+  "cloc": {
+   "published": "2026-07-04T19:26:14Z",
+   "seen": "2026-10-14",
+   "tag": "v2.10"
+  },
+  "cloudflared": {
+   "published": "2026-10-05T17:43:45Z",
+   "seen": "2026-10-14",
+   "tag": "2026.10.0"
+  },
+  "cobang": {
+   "published": "2026-10-12T08:43:31Z",
+   "seen": "2026-10-14",
+   "tag": "v2.11.0"
+  },
+  "cockatrice": {
+   "published": "2026-10-10T08:27:30Z",
+   "seen": "2026-10-14",
+   "tag": "2026-10-10-Release-3.1.1"
+  },
+  "codex-cli": {
+   "published": "2026-10-09T19:44:51Z",
+   "seen": "2026-10-14",
+   "tag": "rust-v0.162.1"
+  },
+  "contour-terminal-emulator": {
+   "published": "2026-08-17T18:29:18Z",
+   "seen": "2026-10-14",
+   "tag": "v0.7.0.8982"
+  },
+  "converseen": {
+   "published": "2026-10-05T16:46:49Z",
+   "seen": "2026-10-14",
+   "tag": "v0.15.2.9"
+  },
+  "cool-retro-term": {
+   "published": "2026-05-31T10:12:54Z",
+   "seen": "2026-10-14",
+   "tag": "2.0.0-beta2"
+  },
+  "copyq": {
+   "published": "2026-10-06T16:46:23Z",
+   "seen": "2026-10-14",
+   "tag": "v17.0.0"
+  },
+  "croc": {
+   "published": "2026-09-26T21:53:50Z",
+   "seen": "2026-10-14",
+   "tag": "v11.5.4"
+  },
+  "cryptomator": {
+   "published": "2026-06-29T12:24:45Z",
+   "seen": "2026-10-14",
+   "tag": "1.19.3"
+  },
+  "csvlens": {
+   "published": "2026-01-08T17:49:26Z",
+   "seen": "2026-10-14",
+   "tag": "v0.15.1"
+  },
+  "cua-driver": {
+   "published": "2026-10-14T00:49:57Z",
+   "seen": "2026-10-14",
+   "tag": "cua-spaces-v0.8.0"
+  },
+  "cutter": {
+   "published": "2026-06-30T18:37:00Z",
+   "seen": "2026-10-14",
+   "tag": "v2.5.0"
+  },
+  "czkawka": {
+   "published": "2026-09-09T19:48:14Z",
+   "seen": "2026-10-14",
+   "tag": "12.0.2"
+  },
+  "db-browser-for-sqlite": {
+   "published": "2024-10-16T08:42:55Z",
+   "seen": "2026-10-14",
+   "tag": "v3.13.1"
+  },
+  "dbeaver-community": {
+   "published": "2026-10-04T19:05:32Z",
+   "seen": "2026-10-14",
+   "tag": "26.2.2"
+  },
+  "dbxcli": {
+   "published": "2026-09-25T19:53:01Z",
+   "seen": "2026-10-14",
+   "tag": "v3.7.4"
+  },
+  "delta-chat": {
+   "published": "2026-09-27T08:34:08Z",
+   "seen": "2026-10-14",
+   "tag": "v2.62.0"
+  },
+  "deskflow": {
+   "published": "2026-10-01T12:23:16Z",
+   "seen": "2026-10-14",
+   "tag": "v1.27.0"
+  },
+  "devilutionx": {
+   "published": "2025-10-30T17:00:17Z",
+   "seen": "2026-10-14",
+   "tag": "1.5.5"
+  },
+  "diff-so-fancy": {
+   "published": "2026-10-03T20:45:10Z",
+   "seen": "2026-10-14",
+   "tag": "v1.4.14"
+  },
+  "dino": {
+   "published": "2025-11-15T20:30:11Z",
+   "seen": "2026-10-14",
+   "tag": "v0.5.1"
+  },
+  "discordchatexporter": {
+   "published": "2026-08-27T17:17:35Z",
+   "seen": "2026-10-14",
+   "tag": "2.48"
+  },
+  "disktree": {
+   "published": "2026-10-04T19:33:34Z",
+   "seen": "2026-10-14",
+   "tag": "v0.11.0"
+  },
+  "distroshelf": {
+   "published": "2026-08-04T16:50:15Z",
+   "seen": "2026-10-14",
+   "tag": "v1.5.2"
+  },
+  "dive": {
+   "published": "2025-03-29T15:29:08Z",
+   "seen": "2026-10-14",
+   "tag": "v0.13.1"
+  },
+  "doggo": {
+   "published": "2026-10-12T05:36:42Z",
+   "seen": "2026-10-14",
+   "tag": "v1.4.1"
+  },
+  "dosbox-staging": {
+   "published": "2026-08-27T08:30:47Z",
+   "seen": "2026-10-14",
+   "tag": "v0.83.0"
+  },
+  "drawpile": {
+   "published": "2025-11-19T14:31:06Z",
+   "seen": "2026-10-14",
+   "tag": "2.3.0"
+  },
+  "dsnote": {
+   "published": "2026-06-28T18:20:00Z",
+   "seen": "2026-10-14",
+   "tag": "v4.9.0"
+  },
+  "dua": {
+   "published": "2026-10-13T19:33:41Z",
+   "seen": "2026-10-14",
+   "tag": "dua-core-v4.2.0"
+  },
+  "duf": {
+   "published": "2025-09-08T20:51:28Z",
+   "seen": "2026-10-14",
+   "tag": "v0.9.1"
+  },
+  "dust": {
+   "published": "2026-09-16T21:40:04Z",
+   "seen": "2026-10-14",
+   "tag": "v1.2.6"
+  },
+  "easy-effects": {
+   "published": "",
+   "seen": "2026-10-14",
+   "tag": "v8.3.0"
+  },
+  "electronmail": {
+   "published": "2026-09-29T08:41:13Z",
+   "seen": "2026-10-14",
+   "tag": "v5.3.10"
+  },
+  "element": {
+   "published": "2026-10-13T12:26:31Z",
+   "seen": "2026-10-14",
+   "tag": "v1.12.31"
+  },
+  "elsewhen": {
+   "published": "2026-09-18T02:57:58Z",
+   "seen": "2026-10-14",
+   "tag": "v1.0.0"
+  },
+  "emote": {
+   "published": "2023-06-20T18:56:18Z",
+   "seen": "2026-10-14",
+   "tag": "v4.0.1"
+  },
+  "enclose": {
+   "published": "2026-10-13T12:58:49Z",
+   "seen": "2026-10-14",
+   "tag": "v0.0.6"
+  },
+  "endless-sky": {
+   "published": "2026-06-27T20:37:33Z",
+   "seen": "2026-10-14",
+   "tag": "v0.11.2"
+  },
+  "espanso": {
+   "published": "2026-09-02T17:17:57Z",
+   "seen": "2026-10-14",
+   "tag": "v2.4.1"
+  },
+  "eza": {
+   "published": "2026-07-09T10:21:04Z",
+   "seen": "2026-10-14",
+   "tag": "v0.23.5"
+  },
+  "f3d": {
+   "published": "2026-04-05T15:40:52Z",
+   "seen": "2026-10-14",
+   "tag": "v3.5.0"
+  },
+  "fastfetch": {
+   "published": "2026-10-14T08:39:27Z",
+   "seen": "2026-10-14",
+   "tag": "2.70.0"
+  },
+  "faugus": {
+   "published": "2026-10-08T21:04:07Z",
+   "seen": "2026-10-14",
+   "tag": "2.4.4"
+  },
+  "fd": {
+   "published": "2026-08-26T07:59:09Z",
+   "seen": "2026-10-14",
+   "tag": "v10.5.0"
+  },
+  "fedora-media-writer": {
+   "published": "2026-07-13T13:18:04Z",
+   "seen": "2026-10-14",
+   "tag": "5.3.2"
+  },
+  "feishin": {
+   "published": "2026-09-15T08:42:26Z",
+   "seen": "2026-10-14",
+   "tag": "v1.17.0"
+  },
+  "ferdium": {
+   "published": "2026-09-07T16:23:40Z",
+   "seen": "2026-10-14",
+   "tag": "v7.2.3"
+  },
+  "firefox": {
+   "published": "",
+   "seen": "2026-10-14",
+   "tag": "last-mozilla-central"
+  },
+  "firejail": {
+   "published": "2026-03-14T12:41:33Z",
+   "seen": "2026-10-14",
+   "tag": "0.9.80"
+  },
+  "fkill": {
+   "published": "2025-11-09T09:58:46Z",
+   "seen": "2026-10-14",
+   "tag": "v9.0.0"
+  },
+  "flacon": {
+   "published": "2026-07-26T13:49:37Z",
+   "seen": "2026-10-14",
+   "tag": "v13.0.2"
+  },
+  "flameshot": {
+   "published": "2026-06-19T01:20:33Z",
+   "seen": "2026-10-14",
+   "tag": "v14.0.0"
+  },
+  "flea": {
+   "published": "2026-10-13T04:16:27Z",
+   "seen": "2026-10-14",
+   "tag": "v0.3.10"
+  },
+  "floorp": {
+   "published": "2026-10-09T01:06:32Z",
+   "seen": "2026-10-14",
+   "tag": "v12.20.1"
+  },
+  "fluffychat-matrix-messenger": {
+   "published": "2026-10-02T15:50:02Z",
+   "seen": "2026-10-14",
+   "tag": "v2.10.0"
+  },
+  "fluxer": {
+   "published": "2026-10-14T18:59:39Z",
+   "seen": "2026-10-14",
+   "tag": "fluxer-docs@2026.1014.185229"
+  },
+  "fnm": {
+   "published": "2026-03-06T15:23:47Z",
+   "seen": "2026-10-14",
+   "tag": "v1.39.0"
+  },
+  "foliate": {
+   "published": "2025-04-01T07:09:41Z",
+   "seen": "2026-10-14",
+   "tag": "3.3.0"
+  },
+  "fooyin": {
+   "published": "2026-09-24T19:51:26Z",
+   "seen": "2026-10-14",
+   "tag": "v0.13.1"
+  },
+  "fq": {
+   "published": "2026-08-25T17:54:58Z",
+   "seen": "2026-10-14",
+   "tag": "v0.18.0"
+  },
+  "fre-ac": {
+   "published": "2023-03-05T20:51:08Z",
+   "seen": "2026-10-14",
+   "tag": "v1.1.7"
+  },
+  "freecad": {
+   "published": "2026-09-28T13:58:35Z",
+   "seen": "2026-10-14",
+   "tag": "1.1.4"
+  },
+  "freeorion": {
+   "published": "2026-02-26T10:36:24Z",
+   "seen": "2026-10-14",
+   "tag": "v0.5.1.2"
+  },
+  "freetube": {
+   "published": "",
+   "seen": "2026-10-14",
+   "tag": "v0.25.3-beta"
+  },
+  "furnace": {
+   "published": "2025-06-12T09:02:15Z",
+   "seen": "2026-10-14",
+   "tag": "v0.6.8.3"
+  },
+  "fx": {
+   "published": "2026-10-05T16:01:34Z",
+   "seen": "2026-10-14",
+   "tag": "40.0.0"
+  },
+  "fzf": {
+   "published": "2026-10-11T02:39:32Z",
+   "seen": "2026-10-14",
+   "tag": "v0.74.5"
+  },
+  "galaxy-buds-client": {
+   "published": "2026-06-07T13:40:56Z",
+   "seen": "2026-10-14",
+   "tag": "5.2.1"
+  },
+  "gamemode": {
+   "published": "2024-08-19T11:00:44Z",
+   "seen": "2026-10-14",
+   "tag": "1.8.2"
+  },
+  "gdu": {
+   "published": "2026-10-05T10:24:34Z",
+   "seen": "2026-10-14",
+   "tag": "v5.38.0"
+  },
+  "gemini-cli": {
+   "published": "2026-10-13T20:44:46Z",
+   "seen": "2026-10-14",
+   "tag": "v0.64.0"
+  },
+  "genact": {
+   "published": "2026-10-01T21:28:04Z",
+   "seen": "2026-10-14",
+   "tag": "v1.6.0"
+  },
+  "ghidra": {
+   "published": "2026-09-21T17:38:59Z",
+   "seen": "2026-10-14",
+   "tag": "Ghidra_12.1.4_build"
+  },
+  "ghost": {
+   "published": "2026-10-12T16:28:16Z",
+   "seen": "2026-10-14",
+   "tag": "v0.6.1"
+  },
+  "ghostty": {
+   "published": "",
+   "seen": "2026-10-14",
+   "tag": "v1.3.1"
+  },
+  "ghostty-nautilus": {
+   "published": "",
+   "seen": "2026-10-14",
+   "tag": "v1.3.1"
+  },
+  "gimagereader": {
+   "published": "2025-08-04T21:36:51Z",
+   "seen": "2026-10-14",
+   "tag": "v3.4.3"
+  },
+  "gimp": {
+   "published": "",
+   "seen": "2026-10-14",
+   "tag": "soc-2012-unified-transform-before-gsoc"
+  },
+  "git-absorb": {
+   "published": "2026-02-14T03:44:54Z",
+   "seen": "2026-10-14",
+   "tag": "0.9.0"
+  },
+  "git-bug": {
+   "published": "2026-09-22T15:14:19Z",
+   "seen": "2026-10-14",
+   "tag": "v0.11.0"
+  },
+  "git-cliff": {
+   "published": "2026-09-18T21:22:51Z",
+   "seen": "2026-10-14",
+   "tag": "v2.14.2"
+  },
+  "git-cola": {
+   "published": "2026-07-12T08:06:18Z",
+   "seen": "2026-10-14",
+   "tag": "v4.19.0"
+  },
+  "git-credential-manager": {
+   "published": "2026-10-06T12:18:47Z",
+   "seen": "2026-10-14",
+   "tag": "v3.0.1"
+  },
+  "git-extras": {
+   "published": "2026-05-10T02:29:23Z",
+   "seen": "2026-10-14",
+   "tag": "7.5.0"
+  },
+  "github-cli": {
+   "published": "2026-09-30T02:40:02Z",
+   "seen": "2026-10-14",
+   "tag": "v2.102.0"
+  },
+  "github-copilot-cli": {
+   "published": "2026-10-13T18:37:05Z",
+   "seen": "2026-10-14",
+   "tag": "v1.0.97"
+  },
+  "gitleaks": {
+   "published": "2026-03-21T02:17:58Z",
+   "seen": "2026-10-14",
+   "tag": "v8.30.1"
+  },
+  "gitlogue": {
+   "published": "2026-10-03T15:12:29Z",
+   "seen": "2026-10-14",
+   "tag": "v0.12.0"
+  },
+  "gitu": {
+   "published": "2026-07-11T18:31:29Z",
+   "seen": "2026-10-14",
+   "tag": "v0.43.0"
+  },
+  "gitui": {
+   "published": "2026-03-24T23:26:28Z",
+   "seen": "2026-10-14",
+   "tag": "v0.28.1"
+  },
+  "glow": {
+   "published": "2026-08-11T18:09:45Z",
+   "seen": "2026-10-14",
+   "tag": "v3.0.0"
+  },
+  "gobuster": {
+   "published": "2025-09-04T08:22:47Z",
+   "seen": "2026-10-14",
+   "tag": "v3.8.2"
+  },
+  "gocryptfs": {
+   "published": "2025-08-10T19:08:32Z",
+   "seen": "2026-10-14",
+   "tag": "v2.6.1"
+  },
+  "godot-engine": {
+   "published": "2026-08-18T16:12:28Z",
+   "seen": "2026-10-14",
+   "tag": "4.7.2-stable"
+  },
+  "goldendict-ng": {
+   "published": "2026-08-05T07:39:17Z",
+   "seen": "2026-10-14",
+   "tag": "v26.8.0"
+  },
+  "gopass": {
+   "published": "2026-10-10T09:01:05Z",
+   "seen": "2026-10-14",
+   "tag": "v1.17.4"
+  },
+  "goverlay": {
+   "published": "2026-10-10T16:55:05Z",
+   "seen": "2026-10-14",
+   "tag": "1.9.4"
+  },
+  "goxel": {
+   "published": "2024-07-28T05:22:54Z",
+   "seen": "2026-10-14",
+   "tag": "v0.15.1"
+  },
+  "gping": {
+   "published": "2026-08-31T20:13:19Z",
+   "seen": "2026-10-14",
+   "tag": "gping-v1.21.0"
+  },
+  "gpu-viewer": {
+   "published": "2026-09-08T20:30:35Z",
+   "seen": "2026-10-14",
+   "tag": "v4.02"
+  },
+  "gpxsee": {
+   "published": "2026-10-10T10:41:31Z",
+   "seen": "2026-10-14",
+   "tag": "16.17"
+  },
+  "gqrx": {
+   "published": "2025-05-27T22:42:58Z",
+   "seen": "2026-10-14",
+   "tag": "v2.17.7"
+  },
+  "gramps": {
+   "published": "2026-04-09T17:22:23Z",
+   "seen": "2026-10-14",
+   "tag": "v6.0.8"
+  },
+  "grex": {
+   "published": "2025-11-14T12:22:19Z",
+   "seen": "2026-10-14",
+   "tag": "v1.4.6"
+  },
+  "gron": {
+   "published": "2022-04-13T14:09:29Z",
+   "seen": "2026-10-14",
+   "tag": "v0.7.1"
+  },
+  "gtkhash": {
+   "published": "2022-09-21T20:05:03Z",
+   "seen": "2026-10-14",
+   "tag": "v1.5"
+  },
+  "gtkwave": {
+   "published": "",
+   "seen": "2026-10-14",
+   "tag": "v3.3.116"
+  },
+  "gtop": {
+   "published": "2023-08-11T17:15:14Z",
+   "seen": "2026-10-14",
+   "tag": "v1.1.5"
+  },
+  "gum": {
+   "published": "2026-09-24T08:33:33Z",
+   "seen": "2026-10-14",
+   "tag": "v2.0.2"
+  },
+  "halloy": {
+   "published": "2026-10-01T10:34:10Z",
+   "seen": "2026-10-14",
+   "tag": "2026.9"
+  },
+  "hamster": {
+   "published": "2023-11-19T19:40:06Z",
+   "seen": "2026-10-14",
+   "tag": "v3.0.3"
+  },
+  "handbrake": {
+   "published": "2026-06-07T19:08:25Z",
+   "seen": "2026-10-14",
+   "tag": "1.11.2"
+  },
+  "helix": {
+   "published": "2025-07-18T15:13:19Z",
+   "seen": "2026-10-14",
+   "tag": "25.07.1"
+  },
+  "helm": {
+   "published": "2026-09-09T23:51:48Z",
+   "seen": "2026-10-14",
+   "tag": "v4.3.0"
+  },
+  "herdr": {
+   "published": "2026-10-14T16:07:28Z",
+   "seen": "2026-10-14",
+   "tag": "v0.9.5"
+  },
+  "hermes-desktop": {
+   "published": "2026-10-14T03:21:46Z",
+   "seen": "2026-10-14",
+   "tag": "v0.22.0"
+  },
+  "heroic": {
+   "published": "2026-09-16T15:23:42Z",
+   "seen": "2026-10-14",
+   "tag": "v2.22.3"
+  },
+  "hexyl": {
+   "published": "2026-02-14T12:56:31Z",
+   "seen": "2026-10-14",
+   "tag": "v0.17.0"
+  },
+  "hey-cli": {
+   "published": "2026-10-11T19:56:05Z",
+   "seen": "2026-10-14",
+   "tag": "v1.8.1"
+  },
+  "himalaya": {
+   "published": "2026-10-02T11:26:58Z",
+   "seen": "2026-10-14",
+   "tag": "v2.2.1"
+  },
+  "hmcl-minecraft-launcher": {
+   "published": "2026-09-17T04:30:46Z",
+   "seen": "2026-10-14",
+   "tag": "v3.16.4"
+  },
+  "hotspot": {
+   "published": "2026-02-27T18:45:12Z",
+   "seen": "2026-10-14",
+   "tag": "v1.6.0"
+  },
+  "howdy": {
+   "published": "2020-09-02T15:57:23Z",
+   "seen": "2026-10-14",
+   "tag": "v2.6.1"
+  },
+  "hstr": {
+   "published": "2026-02-06T20:49:32Z",
+   "seen": "2026-10-14",
+   "tag": "v3.2"
+  },
+  "htmlq": {
+   "published": "2022-01-03T21:40:36Z",
+   "seen": "2026-10-14",
+   "tag": "v0.4.0"
+  },
+  "htop": {
+   "published": "2026-08-16T16:07:11Z",
+   "seen": "2026-10-14",
+   "tag": "3.5.3"
+  },
+  "httpie": {
+   "published": "2024-11-01T17:33:07Z",
+   "seen": "2026-10-14",
+   "tag": "3.2.4"
+  },
+  "hurl": {
+   "published": "2026-04-29T09:12:39Z",
+   "seen": "2026-10-14",
+   "tag": "8.0.1"
+  },
+  "hydrus": {
+   "published": "2026-09-30T21:30:38Z",
+   "seen": "2026-10-14",
+   "tag": "v689"
+  },
+  "hyperfine": {
+   "published": "2026-10-07T21:13:36Z",
+   "seen": "2026-10-14",
+   "tag": "v2.0.0"
+  },
+  "hyprland-preview-share-picker": {
+   "published": "2025-04-29T07:02:56Z",
+   "seen": "2026-10-14",
+   "tag": "v0.2.1"
+  },
+  "hyprshade": {
+   "published": "2026-06-07T16:58:45Z",
+   "seen": "2026-10-14",
+   "tag": "5.0.0"
+  },
+  "icdiff": {
+   "published": "",
+   "seen": "2026-10-14",
+   "tag": "release-2.0.10"
+  },
+  "imhex": {
+   "published": "2025-12-21T18:57:18Z",
+   "seen": "2026-10-14",
+   "tag": "v1.38.1"
+  },
+  "impala": {
+   "published": "2026-08-27T17:10:15Z",
+   "seen": "2026-10-14",
+   "tag": "v0.9.0"
+  },
+  "insomnia": {
+   "published": "2026-10-09T07:35:39Z",
+   "seen": "2026-10-14",
+   "tag": "core@13.3.1"
+  },
+  "iperf3": {
+   "published": "2026-09-29T19:17:54Z",
+   "seen": "2026-10-14",
+   "tag": "3.22"
+  },
+  "jacktrip": {
+   "published": "2026-08-30T22:35:18Z",
+   "seen": "2026-10-14",
+   "tag": "v3.0.1"
+  },
+  "jadx": {
+   "published": "2026-07-10T19:07:35Z",
+   "seen": "2026-10-14",
+   "tag": "v1.5.6"
+  },
+  "jamesdsp": {
+   "published": "2023-12-09T23:28:06Z",
+   "seen": "2026-10-14",
+   "tag": "2.7.0"
+  },
+  "jc": {
+   "published": "2026-09-19T23:02:54Z",
+   "seen": "2026-10-14",
+   "tag": "v1.26.0"
+  },
+  "jellyfin-desktop": {
+   "published": "2025-03-20T03:58:07Z",
+   "seen": "2026-10-14",
+   "tag": "v1.12.0"
+  },
+  "jellyfin-mpv-shim": {
+   "published": "2026-10-05T04:07:17Z",
+   "seen": "2026-10-14",
+   "tag": "v3.1.0"
+  },
+  "jettison": {
+   "published": "2026-10-14T04:30:46Z",
+   "seen": "2026-10-14",
+   "tag": "v2.0.0"
+  },
+  "jitsi-meet": {
+   "published": "2026-08-04T21:25:47Z",
+   "seen": "2026-10-14",
+   "tag": "v2026.8.0"
+  },
+  "jless": {
+   "published": "2023-07-17T02:51:34Z",
+   "seen": "2026-10-14",
+   "tag": "v0.9.0"
+  },
+  "jnv": {
+   "published": "2026-04-01T12:58:13Z",
+   "seen": "2026-10-14",
+   "tag": "v0.7.1"
+  },
+  "joplin": {
+   "published": "2026-09-25T21:31:12Z",
+   "seen": "2026-10-14",
+   "tag": "v3.7.21"
+  },
+  "jujutsu-jj": {
+   "published": "2026-10-07T21:28:17Z",
+   "seen": "2026-10-14",
+   "tag": "v0.46.0"
+  },
+  "julius": {
+   "published": "2025-07-31T17:46:57Z",
+   "seen": "2026-10-14",
+   "tag": "v1.8.0"
+  },
+  "jupyterlab": {
+   "published": "2026-09-21T15:39:48Z",
+   "seen": "2026-10-14",
+   "tag": "v4.6.4"
+  },
+  "just": {
+   "published": "2026-08-03T20:31:31Z",
+   "seen": "2026-10-14",
+   "tag": "1.58.0"
+  },
+  "k9s": {
+   "published": "2026-06-06T14:13:12Z",
+   "seen": "2026-10-14",
+   "tag": "v0.51.0"
+  },
+  "kanata": {
+   "published": "2026-07-05T06:39:27Z",
+   "seen": "2026-10-14",
+   "tag": "v1.12.0"
+  },
+  "kdenlive": {
+   "published": "",
+   "seen": "2026-10-14",
+   "tag": "v26.08.2"
+  },
+  "kdiskmark": {
+   "published": "2026-06-12T15:28:26Z",
+   "seen": "2026-10-14",
+   "tag": "3.3.0"
+  },
+  "keepassxc": {
+   "published": "2026-03-10T01:16:42Z",
+   "seen": "2026-10-14",
+   "tag": "2.7.12"
+  },
+  "keeweb": {
+   "published": "2021-07-18T14:53:06Z",
+   "seen": "2026-10-14",
+   "tag": "v1.18.7"
+  },
+  "kew": {
+   "published": "2026-10-13T12:21:39Z",
+   "seen": "2026-10-14",
+   "tag": "v4.4.1"
+  },
+  "keyd": {
+   "published": "2025-12-19T21:04:17Z",
+   "seen": "2026-10-14",
+   "tag": "v2.6.0"
+  },
+  "kitty": {
+   "published": "2026-10-01T02:57:33Z",
+   "seen": "2026-10-14",
+   "tag": "v0.49.2"
+  },
+  "kiwix": {
+   "published": "2026-01-04T06:19:38Z",
+   "seen": "2026-10-14",
+   "tag": "2.5.1"
+  },
+  "klayout": {
+   "published": "2026-08-26T17:09:27Z",
+   "seen": "2026-10-14",
+   "tag": "v0.30.12"
+  },
+  "kodi": {
+   "published": "2025-10-31T17:21:33Z",
+   "seen": "2026-10-14",
+   "tag": "21.3-Omega"
+  },
+  "kooha": {
+   "published": "2026-06-05T06:50:47Z",
+   "seen": "2026-10-14",
+   "tag": "v2.3.2"
+  },
+  "kopia": {
+   "published": "2026-06-16T01:27:33Z",
+   "seen": "2026-10-14",
+   "tag": "v0.23.1"
+  },
+  "koreader": {
+   "published": "2026-08-01T11:10:30Z",
+   "seen": "2026-10-14",
+   "tag": "v2026.07.1"
+  },
+  "kotatogram": {
+   "published": "2021-12-31T17:08:55Z",
+   "seen": "2026-10-14",
+   "tag": "k1.4.8"
+  },
+  "krita": {
+   "published": "",
+   "seen": "2026-10-14",
+   "tag": "v42.0-beta2"
+  },
+  "ksnip": {
+   "published": "2023-03-15T09:43:53Z",
+   "seen": "2026-10-14",
+   "tag": "v1.10.1"
+  },
+  "kubectx": {
+   "published": "2026-03-27T03:13:19Z",
+   "seen": "2026-10-14",
+   "tag": "v0.11.0"
+  },
+  "lact": {
+   "published": "2026-08-29T15:30:29Z",
+   "seen": "2026-10-14",
+   "tag": "v0.10.1"
+  },
+  "lan-mouse": {
+   "published": "2026-06-12T13:41:27Z",
+   "seen": "2026-10-14",
+   "tag": "v0.11.0"
+  },
+  "lapce": {
+   "published": "2026-01-21T21:44:37Z",
+   "seen": "2026-10-14",
+   "tag": "v0.4.6"
+  },
+  "lazydocker": {
+   "published": "2026-04-19T02:54:16Z",
+   "seen": "2026-10-14",
+   "tag": "v0.25.2"
+  },
+  "lazygit": {
+   "published": "2026-10-11T09:26:26Z",
+   "seen": "2026-10-14",
+   "tag": "v0.66.1"
+  },
+  "learn-omarchy": {
+   "published": "2026-10-01T03:28:31Z",
+   "seen": "2026-10-14",
+   "tag": "v0.2.5"
+  },
+  "legal-dock": {
+   "published": "2026-10-14T16:14:49Z",
+   "seen": "2026-10-14",
+   "tag": "v1.1.1"
+  },
+  "legendary": {
+   "published": "2026-09-08T21:07:05Z",
+   "seen": "2026-10-14",
+   "tag": "0.21.1"
+  },
+  "leocad": {
+   "published": "2026-09-20T00:26:48Z",
+   "seen": "2026-10-14",
+   "tag": "v26.09"
+  },
+  "lf": {
+   "published": "2026-07-31T07:16:17Z",
+   "seen": "2026-10-14",
+   "tag": "r42"
+  },
+  "librecad": {
+   "published": "2026-05-02T03:06:33Z",
+   "seen": "2026-10-14",
+   "tag": "v2.2.1.5"
+  },
+  "libresprite": {
+   "published": "2026-10-02T06:55:09Z",
+   "seen": "2026-10-14",
+   "tag": "v1.3"
+  },
+  "lifeboat": {
+   "published": "2026-10-11T16:53:25Z",
+   "seen": "2026-10-14",
+   "tag": "v1.1.0"
+  },
+  "linux-wifi-hotspot": {
+   "published": "2026-09-06T08:51:50Z",
+   "seen": "2026-10-14",
+   "tag": "v5.0.0"
+  },
+  "llama-cpp": {
+   "published": "2026-10-05T16:56:22Z",
+   "seen": "2026-10-14",
+   "tag": "v0.6.0"
+  },
+  "llmfit": {
+   "published": "2026-10-08T18:04:05Z",
+   "seen": "2026-10-14",
+   "tag": "v1.1.17"
+  },
+  "localsend": {
+   "published": "2026-08-21T14:02:01Z",
+   "seen": "2026-10-14",
+   "tag": "v1.18.2"
+  },
+  "logiops": {
+   "published": "2024-09-28T00:50:19Z",
+   "seen": "2026-10-14",
+   "tag": "v0.3.5"
+  },
+  "logisim-evolution": {
+   "published": "2026-09-12T05:36:54Z",
+   "seen": "2026-10-14",
+   "tag": "v5.0.0"
+  },
+  "logseq": {
+   "published": "2026-10-07T14:18:57Z",
+   "seen": "2026-10-14",
+   "tag": "2.0.2"
+  },
+  "losslesscut": {
+   "published": "2026-06-04T08:14:49Z",
+   "seen": "2026-10-14",
+   "tag": "v3.69.0"
+  },
+  "love": {
+   "published": "2023-12-03T13:39:06Z",
+   "seen": "2026-10-14",
+   "tag": "11.5"
+  },
+  "lsd": {
+   "published": "2025-10-12T08:31:53Z",
+   "seen": "2026-10-14",
+   "tag": "v1.2.0"
+  },
+  "luanti": {
+   "published": "2026-08-20T17:45:51Z",
+   "seen": "2026-10-14",
+   "tag": "5.17.0"
+  },
+  "lutris": {
+   "published": "2026-02-25T01:10:06Z",
+   "seen": "2026-10-14",
+   "tag": "v0.5.22"
+  },
+  "magic-wormhole": {
+   "published": "",
+   "seen": "2026-10-14",
+   "tag": "0.24.0"
+  },
+  "mailspring": {
+   "published": "2026-10-02T14:37:36Z",
+   "seen": "2026-10-14",
+   "tag": "1.26.0"
+  },
+  "makima": {
+   "published": "2026-01-31T14:00:03Z",
+   "seen": "2026-10-14",
+   "tag": "v0.10.3"
+  },
+  "mame": {
+   "published": "2026-07-30T22:38:59Z",
+   "seen": "2026-10-14",
+   "tag": "mame0289"
+  },
+  "mangohud": {
+   "published": "2026-05-27T14:19:51Z",
+   "seen": "2026-10-14",
+   "tag": "v0.8.4"
+  },
+  "marquee-socials": {
+   "published": "2026-10-13T03:18:06Z",
+   "seen": "2026-10-14",
+   "tag": "v1.2.2"
+  },
+  "masscan": {
+   "published": "2021-01-31T09:19:32Z",
+   "seen": "2026-10-14",
+   "tag": "1.3.2"
+  },
+  "mcfly": {
+   "published": "2025-12-24T21:10:19Z",
+   "seen": "2026-10-14",
+   "tag": "v0.9.4"
+  },
+  "mdbook": {
+   "published": "2026-07-06T15:28:05Z",
+   "seen": "2026-10-14",
+   "tag": "v0.5.4"
+  },
+  "mdp": {
+   "published": "",
+   "seen": "2026-10-14",
+   "tag": "1.0.19"
+  },
+  "media-downloader": {
+   "published": "2026-09-09T07:34:43Z",
+   "seen": "2026-10-14",
+   "tag": "5.6.6"
+  },
+  "mediainfo": {
+   "published": "2026-10-06T06:55:03Z",
+   "seen": "2026-10-14",
+   "tag": "v26.10"
+  },
+  "mediathekview": {
+   "published": "",
+   "seen": "2026-10-14",
+   "tag": "Version_12"
+  },
+  "melonds": {
+   "published": "2025-11-18T10:14:11Z",
+   "seen": "2026-10-14",
+   "tag": "1.1"
+  },
+  "microsoft-edit": {
+   "published": "2026-04-28T16:03:19Z",
+   "seen": "2026-10-14",
+   "tag": "v2.0.0"
+  },
+  "miller": {
+   "published": "2026-09-25T21:19:32Z",
+   "seen": "2026-10-14",
+   "tag": "v6.22.0"
+  },
+  "minder": {
+   "published": "2026-04-19T19:20:53Z",
+   "seen": "2026-10-14",
+   "tag": "2.0.9"
+  },
+  "mindustry": {
+   "published": "2026-10-08T00:20:39Z",
+   "seen": "2026-10-14",
+   "tag": "v160.7"
+  },
+  "minikube": {
+   "published": "2026-09-02T21:09:46Z",
+   "seen": "2026-10-14",
+   "tag": "v1.39.0"
+  },
+  "miniserve": {
+   "published": "2026-04-08T12:11:43Z",
+   "seen": "2026-10-14",
+   "tag": "v0.35.0"
+  },
+  "mise": {
+   "published": "2026-10-14T10:11:55Z",
+   "seen": "2026-10-14",
+   "tag": "v2026.10.10"
+  },
+  "mitmproxy": {
+   "published": "2026-05-12T13:02:17Z",
+   "seen": "2026-10-14",
+   "tag": "v12.2.3"
+  },
+  "mixxx-dj-software": {
+   "published": "2026-03-27T17:45:39Z",
+   "seen": "2026-10-14",
+   "tag": "2.5.6"
+  },
+  "mobile-verification-toolkit": {
+   "published": "2026-10-12T09:13:55Z",
+   "seen": "2026-10-14",
+   "tag": "v2026.10.12"
+  },
+  "monolith": {
+   "published": "2026-10-12T16:06:30Z",
+   "seen": "2026-10-14",
+   "tag": "v2.11.5"
+  },
+  "moonlight": {
+   "published": "2026-10-04T00:44:48Z",
+   "seen": "2026-10-14",
+   "tag": "v6.2.0"
+  },
+  "morewaita-icon-theme": {
+   "published": "2026-10-05T17:45:55Z",
+   "seen": "2026-10-14",
+   "tag": "v50.1"
+  },
+  "motrix": {
+   "published": "2023-05-03T07:13:13Z",
+   "seen": "2026-10-14",
+   "tag": "v1.8.19"
+  },
+  "mpc-qt": {
+   "published": "2026-07-09T12:39:13Z",
+   "seen": "2026-10-14",
+   "tag": "v26.07"
+  },
+  "mpv": {
+   "published": "2025-12-21T19:17:10Z",
+   "seen": "2026-10-14",
+   "tag": "v0.41.0"
+  },
+  "mumble": {
+   "published": "2026-10-11T11:52:37Z",
+   "seen": "2026-10-14",
+   "tag": "v1.5.939"
+  },
+  "musescore": {
+   "published": "2026-09-08T13:45:04Z",
+   "seen": "2026-10-14",
+   "tag": "v4.7.5"
+  },
+  "musicbrainz-picard": {
+   "published": "2026-10-11T14:56:56Z",
+   "seen": "2026-10-14",
+   "tag": "release-3.0.2"
+  },
+  "musikcube": {
+   "published": "2025-09-21T07:16:59Z",
+   "seen": "2026-10-14",
+   "tag": "3.0.5"
+  },
+  "natron": {
+   "published": "2022-11-26T00:48:14Z",
+   "seen": "2026-10-14",
+   "tag": "v2.5.0"
+  },
+  "nautilus-open-any-terminal": {
+   "published": "2026-07-27T21:54:31Z",
+   "seen": "2026-10-14",
+   "tag": "0.8.3"
+  },
+  "navi": {
+   "published": "2025-01-29T23:18:52Z",
+   "seen": "2026-10-14",
+   "tag": "v2.24.0"
+  },
+  "ncspot": {
+   "published": "2026-10-01T18:33:55Z",
+   "seen": "2026-10-14",
+   "tag": "v1.5.0"
+  },
+  "neovide": {
+   "published": "2026-04-14T19:42:12Z",
+   "seen": "2026-10-14",
+   "tag": "0.16.2"
+  },
+  "neovim": {
+   "published": "2026-10-09T15:43:25Z",
+   "seen": "2026-10-14",
+   "tag": "v0.12.6"
+  },
+  "netbeans": {
+   "published": "2026-08-05T12:16:52Z",
+   "seen": "2026-10-14",
+   "tag": "31"
+  },
+  "nextcloud-desktop-client": {
+   "published": "2026-10-12T12:05:56Z",
+   "seen": "2026-10-14",
+   "tag": "v35.0.0"
+  },
+  "nikto": {
+   "published": "2026-07-31T16:17:55Z",
+   "seen": "2026-10-14",
+   "tag": "2.6.1"
+  },
+  "nnn": {
+   "published": "2026-08-15T14:12:16Z",
+   "seen": "2026-10-14",
+   "tag": "v5.3"
+  },
+  "noisetorch": {
+   "published": "2022-06-17T10:29:48Z",
+   "seen": "2026-10-14",
+   "tag": "v0.12.2"
+  },
+  "nomacs-image-lounge": {
+   "published": "2026-10-01T13:03:05Z",
+   "seen": "2026-10-14",
+   "tag": "3.22.4"
+  },
+  "npm-check-updates": {
+   "published": "2026-10-10T22:01:14Z",
+   "seen": "2026-10-14",
+   "tag": "v23.1.1"
+  },
+  "nvm": {
+   "published": "2026-09-21T02:26:02Z",
+   "seen": "2026-10-14",
+   "tag": "v0.40.8"
+  },
+  "nvtop": {
+   "published": "2026-02-08T17:57:16Z",
+   "seen": "2026-10-14",
+   "tag": "3.3.2"
+  },
+  "nwg-displays": {
+   "published": "2026-08-24T19:52:27Z",
+   "seen": "2026-10-14",
+   "tag": "v0.4.4"
+  },
+  "obs-studio": {
+   "published": "2026-08-14T22:43:31Z",
+   "seen": "2026-10-14",
+   "tag": "32.2.2"
+  },
+  "obsidian": {
+   "published": "2026-10-05T17:03:28Z",
+   "seen": "2026-10-14",
+   "tag": "v1.14.4"
+  },
+  "ocrmypdf": {
+   "published": "2026-09-28T18:55:23Z",
+   "seen": "2026-10-14",
+   "tag": "v17.13.0"
+  },
+  "oculante": {
+   "published": "2026-10-05T06:57:16Z",
+   "seen": "2026-10-14",
+   "tag": "0.9.6"
+  },
+  "oh-my-posh": {
+   "published": "2026-10-12T05:51:08Z",
+   "seen": "2026-10-14",
+   "tag": "v31.8.0"
+  },
+  "oha": {
+   "published": "2026-08-23T09:08:48Z",
+   "seen": "2026-10-14",
+   "tag": "v1.16.0"
+  },
+  "ollama": {
+   "published": "2026-10-12T19:00:12Z",
+   "seen": "2026-10-14",
+   "tag": "v0.40.4"
+  },
+  "omacalc": {
+   "published": "2026-10-14T09:52:50Z",
+   "seen": "2026-10-14",
+   "tag": "v0.3.1"
+  },
+  "omacut": {
+   "published": "2026-10-14T09:45:28Z",
+   "seen": "2026-10-14",
+   "tag": "v0.7.0"
+  },
+  "omapresent": {
+   "published": "2026-08-31T04:42:59Z",
+   "seen": "2026-10-14",
+   "tag": "v0.1.3"
+  },
+  "omarchy-audio-tuner": {
+   "published": "",
+   "seen": "2026-10-14",
+   "tag": "v0.1.0"
+  },
+  "omarchy-billboard-generator": {
+   "published": "2026-09-11T22:07:57Z",
+   "seen": "2026-10-14",
+   "tag": "v0.2.0"
+  },
+  "omarchy-browser": {
+   "published": "2026-10-13T02:18:19Z",
+   "seen": "2026-10-14",
+   "tag": "v2.0.1"
+  },
+  "omarchy-chromium": {
+   "published": "2026-05-05T23:23:24Z",
+   "seen": "2026-10-14",
+   "tag": "v148.0.7778.96-21"
+  },
+  "omarchy-emacs": {
+   "published": "",
+   "seen": "2026-10-14",
+   "tag": "v1.10.1"
+  },
+  "omarchy-herdr": {
+   "published": "",
+   "seen": "2026-10-14",
+   "tag": "v0.8.0"
+  },
+  "omarchy-nvim": {
+   "published": "2026-09-08T20:10:51Z",
+   "seen": "2026-10-14",
+   "tag": "v16.0.1"
+  },
+  "omarchy-store": {
+   "published": "2026-10-14T13:31:24Z",
+   "seen": "2026-10-14",
+   "tag": "v1.8.14"
+  },
+  "omarchy-task-manager": {
+   "published": "2026-09-25T10:19:08Z",
+   "seen": "2026-10-14",
+   "tag": "v0.1.1"
+  },
+  "omareel": {
+   "published": "2026-10-10T23:26:12Z",
+   "seen": "2026-10-14",
+   "tag": "v0.2.0"
+  },
+  "omasnap": {
+   "published": "2026-09-20T20:19:54Z",
+   "seen": "2026-10-14",
+   "tag": "v1.21.0"
+  },
+  "omaspeak": {
+   "published": "2026-09-24T21:06:44Z",
+   "seen": "2026-10-14",
+   "tag": "v0.1.0"
+  },
+  "omawake": {
+   "published": "2026-09-24T21:20:29Z",
+   "seen": "2026-10-14",
+   "tag": "v0.1.1"
+  },
+  "omawrite": {
+   "published": "2026-10-02T19:38:42Z",
+   "seen": "2026-10-14",
+   "tag": "v0.6.0"
+  },
+  "omazed": {
+   "published": "2026-09-21T15:06:18Z",
+   "seen": "2026-10-14",
+   "tag": "v2.2.0"
+  },
+  "once": {
+   "published": "2026-10-07T23:38:59Z",
+   "seen": "2026-10-14",
+   "tag": "v0.3.4"
+  },
+  "onedrive-client": {
+   "published": "2026-06-30T03:56:32Z",
+   "seen": "2026-10-14",
+   "tag": "v2.5.11"
+  },
+  "onefetch": {
+   "published": "2026-10-06T21:12:39Z",
+   "seen": "2026-10-14",
+   "tag": "3.0.0"
+  },
+  "onionshare": {
+   "published": "2026-07-28T10:50:21Z",
+   "seen": "2026-10-14",
+   "tag": "v2.6.5"
+  },
+  "openai-codex": {
+   "published": "2026-10-09T19:44:51Z",
+   "seen": "2026-10-14",
+   "tag": "rust-v0.162.1"
+  },
+  "openarena": {
+   "published": "2026-10-14T07:33:49Z",
+   "seen": "2026-10-14",
+   "tag": "2026-10-14"
+  },
+  "openboard": {
+   "published": "2026-03-30T09:09:04Z",
+   "seen": "2026-10-14",
+   "tag": "v1.7.7"
+  },
+  "openclaw": {
+   "published": "2026-10-13T13:49:25Z",
+   "seen": "2026-10-14",
+   "tag": "v2026.10.3"
+  },
+  "opencode": {
+   "published": "2026-10-11T01:39:22Z",
+   "seen": "2026-10-14",
+   "tag": "v1.19.0"
+  },
+  "openra": {
+   "published": "2025-03-30T17:36:43Z",
+   "seen": "2026-10-14",
+   "tag": "release-20250330"
+  },
+  "openrct2": {
+   "published": "2026-10-10T12:32:52Z",
+   "seen": "2026-10-14",
+   "tag": "v0.5.6"
+  },
+  "openscad": {
+   "published": "2021-02-07T00:14:34Z",
+   "seen": "2026-10-14",
+   "tag": "openscad-2021.01"
+  },
+  "opensnitch": {
+   "published": "2025-12-15T00:54:11Z",
+   "seen": "2026-10-14",
+   "tag": "v1.8.0"
+  },
+  "opentabletdriver": {
+   "published": "2026-04-25T18:58:23Z",
+   "seen": "2026-10-14",
+   "tag": "v0.6.7"
+  },
+  "opentofu": {
+   "published": "2026-10-01T17:15:15Z",
+   "seen": "2026-10-14",
+   "tag": "v1.13.1"
+  },
+  "openttd": {
+   "published": "2026-04-04T19:56:48Z",
+   "seen": "2026-10-14",
+   "tag": "15.3"
+  },
+  "orcaslicer": {
+   "published": "2026-07-07T03:33:49Z",
+   "seen": "2026-10-14",
+   "tag": "v2.4.2"
+  },
+  "osv-scanner": {
+   "published": "2026-10-12T01:32:07Z",
+   "seen": "2026-10-14",
+   "tag": "v2.7.0"
+  },
+  "oversteer": {
+   "published": "",
+   "seen": "2026-10-14",
+   "tag": "v0.8.3"
+  },
+  "owe": {
+   "published": "2026-10-07T18:15:19Z",
+   "seen": "2026-10-14",
+   "tag": "v0.2.10"
+  },
+  "oxipng": {
+   "published": "2026-09-02T19:50:49Z",
+   "seen": "2026-10-14",
+   "tag": "v10.2.1"
+  },
+  "papirus-icon-theme": {
+   "published": "2026-08-01T14:42:53Z",
+   "seen": "2026-10-14",
+   "tag": "20260801"
+  },
+  "parabolic": {
+   "published": "2026-05-24T19:23:15Z",
+   "seen": "2026-10-14",
+   "tag": "2026.5.0"
+  },
+  "paru": {
+   "published": "2025-07-08T08:44:24Z",
+   "seen": "2026-10-14",
+   "tag": "v2.1.0"
+  },
+  "pastel": {
+   "published": "2026-02-14T13:02:18Z",
+   "seen": "2026-10-14",
+   "tag": "v0.12.0"
+  },
+  "pcsx2": {
+   "published": "2026-09-04T23:04:48Z",
+   "seen": "2026-10-14",
+   "tag": "v2.8.2"
+  },
+  "pdf-arranger": {
+   "published": "2026-05-23T03:47:07Z",
+   "seen": "2026-10-14",
+   "tag": "1.14.0"
+  },
+  "pear-desktop-youtube-music": {
+   "published": "2026-06-28T15:43:30Z",
+   "seen": "2026-10-14",
+   "tag": "v3.12.0"
+  },
+  "peazip": {
+   "published": "2026-09-26T07:51:15Z",
+   "seen": "2026-10-14",
+   "tag": "11.3.0"
+  },
+  "peco": {
+   "published": "2026-02-24T02:48:42Z",
+   "seen": "2026-10-14",
+   "tag": "v0.6.0"
+  },
+  "pencil": {
+   "published": "2023-01-01T03:03:19Z",
+   "seen": "2026-10-14",
+   "tag": "v3.1.1"
+  },
+  "phinger-cursors": {
+   "published": "2026-10-09T12:18:01Z",
+   "seen": "2026-10-14",
+   "tag": "v2.2"
+  },
+  "pi-coding-agent": {
+   "published": "2026-10-12T23:03:53Z",
+   "seen": "2026-10-14",
+   "tag": "v1.2.0"
+  },
+  "pinta": {
+   "published": "2026-04-02T17:27:39Z",
+   "seen": "2026-10-14",
+   "tag": "3.1.2"
+  },
+  "pioneer": {
+   "published": "2026-09-07T07:52:03Z",
+   "seen": "2026-10-14",
+   "tag": "20260907"
+  },
+  "piper": {
+   "published": "",
+   "seen": "2026-10-14",
+   "tag": "0.8"
+  },
+  "pixi": {
+   "published": "2026-10-14T11:47:50Z",
+   "seen": "2026-10-14",
+   "tag": "v0.82.0"
+  },
+  "planify": {
+   "published": "2026-09-10T18:06:35Z",
+   "seen": "2026-10-14",
+   "tag": "v4.20.0"
+  },
+  "podman": {
+   "published": "2026-10-12T20:59:46Z",
+   "seen": "2026-10-14",
+   "tag": "v6.1.4"
+  },
+  "podman-compose": {
+   "published": "2026-06-03T21:34:15Z",
+   "seen": "2026-10-14",
+   "tag": "v1.6.0"
+  },
+  "podman-desktop": {
+   "published": "2026-10-13T17:14:23Z",
+   "seen": "2026-10-14",
+   "tag": "v1.30.5"
+  },
+  "polychromatic": {
+   "published": "2026-08-08T15:13:15Z",
+   "seen": "2026-10-14",
+   "tag": "v0.9.8"
+  },
+  "portal-for-teams": {
+   "published": "2026-10-03T08:26:58Z",
+   "seen": "2026-10-14",
+   "tag": "v2.24.0"
+  },
+  "portfolio-performance": {
+   "published": "2026-10-11T05:53:48Z",
+   "seen": "2026-10-14",
+   "tag": "0.89.0"
+  },
+  "powershell": {
+   "published": "2026-10-13T20:37:33Z",
+   "seen": "2026-10-14",
+   "tag": "v7.6.7"
+  },
+  "ppsspp": {
+   "published": "2026-05-16T12:35:08Z",
+   "seen": "2026-10-14",
+   "tag": "v1.20.4"
+  },
+  "pre-commit": {
+   "published": "2026-10-13T15:35:39Z",
+   "seen": "2026-10-14",
+   "tag": "v4.7.0"
+  },
+  "presenterm": {
+   "published": "2026-02-20T01:51:07Z",
+   "seen": "2026-10-14",
+   "tag": "v0.16.1"
+  },
+  "prismlauncher": {
+   "published": "2026-09-28T22:55:19Z",
+   "seen": "2026-10-14",
+   "tag": "11.1.1"
+  },
+  "procs": {
+   "published": "2026-06-25T10:12:30Z",
+   "seen": "2026-10-14",
+   "tag": "v0.14.12"
+  },
+  "progress": {
+   "published": "",
+   "seen": "2026-10-14",
+   "tag": "v0.17"
+  },
+  "projectm": {
+   "published": "2026-10-06T09:01:03Z",
+   "seen": "2026-10-14",
+   "tag": "v4.1.8"
+  },
+  "proton-mail": {
+   "published": "2026-06-08T08:16:07Z",
+   "seen": "2026-10-14",
+   "tag": "proton-authenticator@1.1.6"
+  },
+  "proton-mail-bridge": {
+   "published": "2026-09-29T13:55:21Z",
+   "seen": "2026-10-14",
+   "tag": "v3.27.1"
+  },
+  "protonplus": {
+   "published": "2026-09-10T13:22:05Z",
+   "seen": "2026-10-14",
+   "tag": "v0.6.8"
+  },
+  "protontricks": {
+   "published": "",
+   "seen": "2026-10-14",
+   "tag": "1.15.0"
+  },
+  "protonup-qt": {
+   "published": "2026-10-11T19:13:36Z",
+   "seen": "2026-10-14",
+   "tag": "v2.16.0"
+  },
+  "pueue": {
+   "published": "2026-03-02T12:24:48Z",
+   "seen": "2026-10-14",
+   "tag": "v4.0.4"
+  },
+  "pulsar": {
+   "published": "2026-05-20T22:47:11Z",
+   "seen": "2026-10-14",
+   "tag": "v1.132.1"
+  },
+  "pulseeffects": {
+   "published": "",
+   "seen": "2026-10-14",
+   "tag": "v8.3.0"
+  },
+  "pulumi": {
+   "published": "2026-10-14T14:04:06Z",
+   "seen": "2026-10-14",
+   "tag": "v3.269.0"
+  },
+  "pwvucontrol": {
+   "published": "2026-07-08T18:02:00Z",
+   "seen": "2026-10-14",
+   "tag": "0.5.3"
+  },
+  "pyenv": {
+   "published": "2026-10-14T14:09:47Z",
+   "seen": "2026-10-14",
+   "tag": "v2.8.10"
+  },
+  "pyprland": {
+   "published": "2026-10-03T10:19:14Z",
+   "seen": "2026-10-14",
+   "tag": "3.4.5"
+  },
+  "qalculate-gtk-ui": {
+   "published": "2026-10-05T14:47:03Z",
+   "seen": "2026-10-14",
+   "tag": "v5.13.0"
+  },
+  "qbittorrent": {
+   "published": "2026-09-28T19:02:55Z",
+   "seen": "2026-10-14",
+   "tag": "release-5.2.4"
+  },
+  "qdirstat": {
+   "published": "2026-01-18T18:39:29Z",
+   "seen": "2026-10-14",
+   "tag": "2.0"
+  },
+  "qgis-desktop": {
+   "published": "2026-09-25T12:27:57Z",
+   "seen": "2026-10-14",
+   "tag": "final-3_44_15"
+  },
+  "qmk-hid": {
+   "published": "",
+   "seen": "2026-10-14",
+   "tag": "v0.1.13"
+  },
+  "qmplay2": {
+   "published": "2026-08-02T11:24:01Z",
+   "seen": "2026-10-14",
+   "tag": "26.08.02"
+  },
+  "qownnotes": {
+   "published": "2026-10-13T19:14:59Z",
+   "seen": "2026-10-14",
+   "tag": "v26.10.6"
+  },
+  "qucs-s": {
+   "published": "2026-04-26T13:20:34Z",
+   "seen": "2026-10-14",
+   "tag": "26.1.1"
+  },
+  "quickemu": {
+   "published": "2026-02-10T13:30:37Z",
+   "seen": "2026-10-14",
+   "tag": "4.9.9"
+  },
+  "qview": {
+   "published": "2025-07-26T22:28:33Z",
+   "seen": "2026-10-14",
+   "tag": "7.1"
+  },
+  "qwen-code": {
+   "published": "2026-10-11T11:42:33Z",
+   "seen": "2026-10-14",
+   "tag": "sdk-typescript-v0.1.19"
+  },
+  "rabbit-ears": {
+   "published": "2026-10-14T17:23:06Z",
+   "seen": "2026-10-14",
+   "tag": "v1.4.2"
+  },
+  "rainfrog": {
+   "published": "2026-09-24T16:09:51Z",
+   "seen": "2026-10-14",
+   "tag": "v0.4.6"
+  },
+  "raspberry-pi-imager": {
+   "published": "2026-10-08T16:36:14Z",
+   "seen": "2026-10-14",
+   "tag": "v2.0.12"
+  },
+  "ratty": {
+   "published": "2026-10-11T12:34:30Z",
+   "seen": "2026-10-14",
+   "tag": "v0.6.0"
+  },
+  "rawmakase": {
+   "published": "2026-10-14T14:39:22Z",
+   "seen": "2026-10-14",
+   "tag": "v0.3.1"
+  },
+  "rclone": {
+   "published": "2026-10-09T11:03:19Z",
+   "seen": "2026-10-14",
+   "tag": "v1.75.2"
+  },
+  "readest": {
+   "published": "2026-10-13T22:34:40Z",
+   "seen": "2026-10-14",
+   "tag": "v0.12.16"
+  },
+  "renderdoc": {
+   "published": "2026-08-31T15:56:15Z",
+   "seen": "2026-10-14",
+   "tag": "v1.46"
+  },
+  "restic": {
+   "published": "2026-07-05T08:13:33Z",
+   "seen": "2026-10-14",
+   "tag": "v0.19.1"
+  },
+  "retext": {
+   "published": "2025-01-09T18:55:56Z",
+   "seen": "2026-10-14",
+   "tag": "8.1.0"
+  },
+  "retroarch": {
+   "published": "2025-11-20T03:12:17Z",
+   "seen": "2026-10-14",
+   "tag": "v1.22.2"
+  },
+  "rio": {
+   "published": "2026-09-17T20:54:58Z",
+   "seen": "2026-10-14",
+   "tag": "v0.5.28"
+  },
+  "ripgrep": {
+   "published": "2026-07-15T16:26:10Z",
+   "seen": "2026-10-14",
+   "tag": "15.2.0"
+  },
+  "ripgrep-all": {
+   "published": "2025-11-09T20:25:38Z",
+   "seen": "2026-10-14",
+   "tag": "v0.10.10"
+  },
+  "rmpc": {
+   "published": "2026-02-01T12:35:21Z",
+   "seen": "2026-10-14",
+   "tag": "v0.11.0"
+  },
+  "rnote": {
+   "published": "2026-05-01T11:07:16Z",
+   "seen": "2026-10-14",
+   "tag": "v0.14.2"
+  },
+  "rss-guard": {
+   "published": "2026-08-20T09:01:09Z",
+   "seen": "2026-10-14",
+   "tag": "5.2.5"
+  },
+  "ruff": {
+   "published": "2026-10-09T19:48:30Z",
+   "seen": "2026-10-14",
+   "tag": "0.17.0"
+  },
+  "runelite": {
+   "published": "",
+   "seen": "2026-10-14",
+   "tag": "runelite-parent-1.13.2"
+  },
+  "rustdesk": {
+   "published": "2026-09-30T16:11:03Z",
+   "seen": "2026-10-14",
+   "tag": "1.5.0"
+  },
+  "rustlings": {
+   "published": "2025-08-21T22:07:22Z",
+   "seen": "2026-10-14",
+   "tag": "v6.5.0"
+  },
+  "rustnet": {
+   "published": "2026-10-06T18:40:17Z",
+   "seen": "2026-10-14",
+   "tag": "v1.7.0"
+  },
+  "rustscan": {
+   "published": "2025-02-23T15:03:50Z",
+   "seen": "2026-10-14",
+   "tag": "2.4.1"
+  },
+  "rustup": {
+   "published": "",
+   "seen": "2026-10-14",
+   "tag": "1.29.1"
+  },
+  "s-tui": {
+   "published": "2026-08-19T07:23:35Z",
+   "seen": "2026-10-14",
+   "tag": "v1.5.0"
+  },
+  "safe-eyes": {
+   "published": "2026-09-05T16:50:29Z",
+   "seen": "2026-10-14",
+   "tag": "v3.5.1"
+  },
+  "sasm": {
+   "published": "2026-02-08T18:16:39Z",
+   "seen": "2026-10-14",
+   "tag": "v3.16.0"
+  },
+  "sc-im": {
+   "published": "2025-05-21T15:37:58Z",
+   "seen": "2026-10-14",
+   "tag": "v0.8.5"
+  },
+  "schist": {
+   "published": "2026-09-21T22:50:15Z",
+   "seen": "2026-10-14",
+   "tag": "v0.15.0"
+  },
+  "scrcpy": {
+   "published": "2026-10-08T06:44:27Z",
+   "seen": "2026-10-14",
+   "tag": "v5.0.1"
+  },
+  "screenfetch": {
+   "published": "2024-12-03T07:27:54Z",
+   "seen": "2026-10-14",
+   "tag": "v3.9.9"
+  },
+  "sd": {
+   "published": "2026-02-25T19:27:05Z",
+   "seen": "2026-10-14",
+   "tag": "v1.1.0"
+  },
+  "shattered-pixel-dungeon": {
+   "published": "2026-10-07T16:13:50Z",
+   "seen": "2026-10-14",
+   "tag": "v4.0.2"
+  },
+  "shfmt": {
+   "published": "2026-09-06T15:02:21Z",
+   "seen": "2026-10-14",
+   "tag": "v3.14.1"
+  },
+  "shotcut": {
+   "published": "2026-09-28T00:29:29Z",
+   "seen": "2026-10-14",
+   "tag": "v26.9.27"
+  },
+  "sigil": {
+   "published": "2026-07-18T13:10:57Z",
+   "seen": "2026-10-14",
+   "tag": "2.8.1"
+  },
+  "signal": {
+   "published": "2026-10-07T19:27:43Z",
+   "seen": "2026-10-14",
+   "tag": "v8.30.0"
+  },
+  "simplenote": {
+   "published": "2026-07-01T07:51:39Z",
+   "seen": "2026-10-14",
+   "tag": "v2.27.1"
+  },
+  "sirikali": {
+   "published": "2026-03-06T12:25:58Z",
+   "seen": "2026-10-14",
+   "tag": "1.8.6"
+  },
+  "siyuan": {
+   "published": "2026-10-14T03:24:20Z",
+   "seen": "2026-10-14",
+   "tag": "v3.8.7"
+  },
+  "skim": {
+   "published": "2026-10-04T17:20:39Z",
+   "seen": "2026-10-14",
+   "tag": "v5.7.4"
+  },
+  "smplayer": {
+   "published": "2026-08-30T07:16:23Z",
+   "seen": "2026-10-14",
+   "tag": "v26.8.29"
+  },
+  "snes9x": {
+   "published": "2024-07-09T20:09:50Z",
+   "seen": "2026-10-14",
+   "tag": "1.63"
+  },
+  "sniffnet": {
+   "published": "2026-07-22T07:54:30Z",
+   "seen": "2026-10-14",
+   "tag": "v1.5.1"
+  },
+  "solaar": {
+   "published": "2026-06-28T14:03:10Z",
+   "seen": "2026-10-14",
+   "tag": "1.1.20"
+  },
+  "songrec": {
+   "published": "2026-08-18T04:47:41Z",
+   "seen": "2026-10-14",
+   "tag": "0.7.5"
+  },
+  "sops": {
+   "published": "2026-07-23T05:27:57Z",
+   "seen": "2026-10-14",
+   "tag": "v3.13.3"
+  },
+  "spicetify": {
+   "published": "2026-10-03T05:18:05Z",
+   "seen": "2026-10-14",
+   "tag": "v2.45.3"
+  },
+  "spotify-player": {
+   "published": "2026-09-09T01:52:39Z",
+   "seen": "2026-10-14",
+   "tag": "v0.25.1"
+  },
+  "ssh-audit": {
+   "published": "2026-07-04T21:32:58Z",
+   "seen": "2026-10-14",
+   "tag": "v3.9.0"
+  },
+  "sshfs": {
+   "published": "2026-05-29T23:44:48Z",
+   "seen": "2026-10-14",
+   "tag": "sshfs-3.7.6"
+  },
+  "sshuttle": {
+   "published": "2026-09-28T06:08:18Z",
+   "seen": "2026-10-14",
+   "tag": "v2.0.0"
+  },
+  "sshx": {
+   "published": "2025-02-12T20:40:31Z",
+   "seen": "2026-10-14",
+   "tag": "v0.4.1"
+  },
+  "standard-notes": {
+   "published": "2026-09-17T03:18:07Z",
+   "seen": "2026-10-14",
+   "tag": "@standardnotes/desktop@3.202.7"
+  },
+  "stellarium": {
+   "published": "2026-09-28T15:22:29Z",
+   "seen": "2026-10-14",
+   "tag": "v26.3"
+  },
+  "strata": {
+   "published": "2026-10-12T20:15:04Z",
+   "seen": "2026-10-14",
+   "tag": "v1.0.0"
+  },
+  "strawberry-music-player": {
+   "published": "2026-10-02T23:13:52Z",
+   "seen": "2026-10-14",
+   "tag": "1.2.31"
+  },
+  "sunshine": {
+   "published": "2026-09-15T01:17:17Z",
+   "seen": "2026-10-14",
+   "tag": "v2026.914.233613"
+  },
+  "super-productivity": {
+   "published": "2026-10-11T11:45:19Z",
+   "seen": "2026-10-14",
+   "tag": "v19.2.0"
+  },
+  "superfile": {
+   "published": "2026-06-07T17:54:13Z",
+   "seen": "2026-10-14",
+   "tag": "v1.6.0"
+  },
+  "supertux": {
+   "published": "2026-03-15T06:04:25Z",
+   "seen": "2026-10-14",
+   "tag": "v0.7.0"
+  },
+  "syncthing": {
+   "published": "2026-10-06T06:08:27Z",
+   "seen": "2026-10-14",
+   "tag": "v2.1.6"
+  },
+  "synfig-studio": {
+   "published": "2026-03-16T08:26:12Z",
+   "seen": "2026-10-14",
+   "tag": "v1.5.5"
+  },
+  "tabby": {
+   "published": "2026-10-07T06:43:54Z",
+   "seen": "2026-10-14",
+   "tag": "v1.0.238"
+  },
+  "tailscale": {
+   "published": "2026-10-07T22:09:57Z",
+   "seen": "2026-10-14",
+   "tag": "v1.104.1"
+  },
+  "tailspin": {
+   "published": "2026-07-14T07:01:16Z",
+   "seen": "2026-10-14",
+   "tag": "7.0.0"
+  },
+  "tealdeer": {
+   "published": "2026-08-24T15:27:55Z",
+   "seen": "2026-10-14",
+   "tag": "v1.9.0"
+  },
+  "teeworlds": {
+   "published": "2020-04-19T21:44:41Z",
+   "seen": "2026-10-14",
+   "tag": "0.7.5"
+  },
+  "telegram": {
+   "published": "2026-10-10T13:03:14Z",
+   "seen": "2026-10-14",
+   "tag": "v7.3.1"
+  },
+  "television": {
+   "published": "2026-06-14T21:15:17Z",
+   "seen": "2026-10-14",
+   "tag": "0.15.9"
+  },
+  "tensaku": {
+   "published": "2026-09-05T20:55:05Z",
+   "seen": "2026-10-14",
+   "tag": "v0.29.0"
+  },
+  "termscp": {
+   "published": "2026-09-03T12:26:50Z",
+   "seen": "2026-10-14",
+   "tag": "v1.2.0"
+  },
+  "terraform": {
+   "published": "2026-10-14T09:31:54Z",
+   "seen": "2026-10-14",
+   "tag": "v1.16.6"
+  },
+  "tesseract-ocr": {
+   "published": "2026-07-24T18:33:22Z",
+   "seen": "2026-10-14",
+   "tag": "5.5.3"
+  },
+  "testssl-sh": {
+   "published": "2026-07-12T18:50:39Z",
+   "seen": "2026-10-14",
+   "tag": "v3.2.4"
+  },
+  "thonny": {
+   "published": "2026-04-25T15:26:12Z",
+   "seen": "2026-10-14",
+   "tag": "v5.0.0"
+  },
+  "thorium": {
+   "published": "2026-10-11T14:52:21Z",
+   "seen": "2026-10-14",
+   "tag": "M156.0.8078.28"
+  },
+  "tidal-hi-fi": {
+   "published": "2026-08-18T10:48:19Z",
+   "seen": "2026-10-14",
+   "tag": "8.1.3"
+  },
+  "tig": {
+   "published": "2026-06-13T17:56:46Z",
+   "seen": "2026-10-14",
+   "tag": "tig-2.6.1"
+  },
+  "tigervnc-viewer": {
+   "published": "2026-03-26T20:49:14Z",
+   "seen": "2026-10-14",
+   "tag": "v1.16.2"
+  },
+  "tiled": {
+   "published": "2026-05-27T15:17:56Z",
+   "seen": "2026-10-14",
+   "tag": "v1.12.2"
+  },
+  "timeshift": {
+   "published": "2026-09-21T18:09:45Z",
+   "seen": "2026-10-14",
+   "tag": "master.lmde7"
+  },
+  "tlp-ui": {
+   "published": "",
+   "seen": "2026-10-14",
+   "tag": "tlpui-1.10.1"
+  },
+  "tmate": {
+   "published": "2019-11-16T22:14:17Z",
+   "seen": "2026-10-14",
+   "tag": "2.4.0"
+  },
+  "tmux": {
+   "published": "2026-09-09T12:55:58Z",
+   "seen": "2026-10-14",
+   "tag": "3.8"
+  },
+  "tmuxinator": {
+   "published": "2026-10-10T13:12:57Z",
+   "seen": "2026-10-14",
+   "tag": "v3.4.2"
+  },
+  "tobi-try": {
+   "published": "2026-03-07T17:49:57Z",
+   "seen": "2026-10-14",
+   "tag": "v1.9.0"
+  },
+  "todo-txt": {
+   "published": "2026-09-01T17:37:16Z",
+   "seen": "2026-10-14",
+   "tag": "v2.14.0"
+  },
+  "tokei": {
+   "published": "2026-09-06T17:29:00Z",
+   "seen": "2026-10-14",
+   "tag": "v15.0.0"
+  },
+  "transmission-remote": {
+   "published": "2026-03-13T12:20:22Z",
+   "seen": "2026-10-14",
+   "tag": "1.7.1"
+  },
+  "trash-cli": {
+   "published": "2026-09-29T20:32:57Z",
+   "seen": "2026-10-14",
+   "tag": "0.26.9.29"
+  },
+  "trippy": {
+   "published": "2025-05-05T12:35:13Z",
+   "seen": "2026-10-14",
+   "tag": "0.13.0"
+  },
+  "trivy": {
+   "published": "2026-10-14T11:45:44Z",
+   "seen": "2026-10-14",
+   "tag": "v0.76.0"
+  },
+  "ttfx": {
+   "published": "2026-09-27T21:42:35Z",
+   "seen": "2026-10-14",
+   "tag": "v0.5.0"
+  },
+  "typos": {
+   "published": "2026-10-06T21:06:35Z",
+   "seen": "2026-10-14",
+   "tag": "v1.51.1"
+  },
+  "ufw-docker": {
+   "published": "2025-11-23T14:13:34Z",
+   "seen": "2026-10-14",
+   "tag": "251123"
+  },
+  "umu-launcher": {
+   "published": "2026-07-25T00:25:27Z",
+   "seen": "2026-10-14",
+   "tag": "1.4.4"
+  },
+  "ungoogled-chromium": {
+   "published": "2026-10-08T17:55:23Z",
+   "seen": "2026-10-14",
+   "tag": "155.0.8059.39-1"
+  },
+  "unison": {
+   "published": "2026-05-01T00:33:56Z",
+   "seen": "2026-10-14",
+   "tag": "v2.54.0"
+  },
+  "universal-android-debloater": {
+   "published": "2026-01-12T13:30:46Z",
+   "seen": "2026-10-14",
+   "tag": "v1.2.0"
+  },
+  "upscayl": {
+   "published": "2024-12-25T13:44:34Z",
+   "seen": "2026-10-14",
+   "tag": "v2.15.0"
+  },
+  "uv": {
+   "published": "2026-10-14T05:15:30Z",
+   "seen": "2026-10-14",
+   "tag": "0.13.1"
+  },
+  "vcmi": {
+   "published": "2026-08-15T12:02:44Z",
+   "seen": "2026-10-14",
+   "tag": "1.7.5"
+  },
+  "vegeta": {
+   "published": "2025-10-31T11:34:10Z",
+   "seen": "2026-10-14",
+   "tag": "v12.13.0"
+  },
+  "vesktop": {
+   "published": "2026-08-18T03:00:52Z",
+   "seen": "2026-10-14",
+   "tag": "v1.6.7"
+  },
+  "vhs": {
+   "published": "2026-09-24T09:30:55Z",
+   "seen": "2026-10-14",
+   "tag": "v0.12.1"
+  },
+  "vicinae": {
+   "published": "2026-09-30T12:48:11Z",
+   "seen": "2026-10-14",
+   "tag": "v0.29.1"
+  },
+  "video-downloader": {
+   "published": "2026-03-29T14:37:40Z",
+   "seen": "2026-10-14",
+   "tag": "v0.12.31"
+  },
+  "vim": {
+   "published": "",
+   "seen": "2026-10-14",
+   "tag": "v9.2.1189"
+  },
+  "virtual-machine-manager": {
+   "published": "2025-08-26T01:08:43Z",
+   "seen": "2026-10-14",
+   "tag": "v5.1.0"
+  },
+  "vis": {
+   "published": "2024-05-01T21:16:11Z",
+   "seen": "2026-10-14",
+   "tag": "v0.9"
+  },
+  "visidata": {
+   "published": "2026-07-01T05:09:42Z",
+   "seen": "2026-10-14",
+   "tag": "v3.4"
+  },
+  "vlc": {
+   "published": "",
+   "seen": "2026-10-14",
+   "tag": "svn-trunk"
+  },
+  "vorta": {
+   "published": "2026-09-07T15:26:38Z",
+   "seen": "2026-10-14",
+   "tag": "v0.11.6"
+  },
+  "vscode": {
+   "published": "2026-10-14T14:32:33Z",
+   "seen": "2026-10-14",
+   "tag": "1.141.2"
+  },
+  "vscodium": {
+   "published": "2026-10-13T17:03:30Z",
+   "seen": "2026-10-14",
+   "tag": "1.140.06880"
+  },
+  "warpinator": {
+   "published": "2026-09-21T17:57:46Z",
+   "seen": "2026-10-14",
+   "tag": "master.mint22"
+  },
+  "warzone-2100": {
+   "published": "2026-04-07T15:47:54Z",
+   "seen": "2026-10-14",
+   "tag": "4.7.0"
+  },
+  "watchexec": {
+   "published": "2026-10-06T17:04:04Z",
+   "seen": "2026-10-14",
+   "tag": "v2.8.0"
+  },
+  "waterfox": {
+   "published": "2026-10-13T14:35:24Z",
+   "seen": "2026-10-14",
+   "tag": "6.7.6"
+  },
+  "wayfreeze": {
+   "published": "",
+   "seen": "2026-10-14",
+   "tag": "0.2.1"
+  },
+  "waypaper": {
+   "published": "2026-08-30T00:07:19Z",
+   "seen": "2026-10-14",
+   "tag": "2.9"
+  },
+  "webcamoid": {
+   "published": "2026-07-06T17:07:20Z",
+   "seen": "2026-10-14",
+   "tag": "9.4.0"
+  },
+  "websocat": {
+   "published": "2025-12-27T04:28:42Z",
+   "seen": "2026-10-14",
+   "tag": "v1.14.1"
+  },
+  "webtorrent": {
+   "published": "2020-08-29T00:28:38Z",
+   "seen": "2026-10-14",
+   "tag": "v0.24.0"
+  },
+  "wezterm": {
+   "published": "2024-02-03T18:32:26Z",
+   "seen": "2026-10-14",
+   "tag": "20240203-110809-5046fc22"
+  },
+  "whisper-cpp": {
+   "published": "2026-10-06T17:39:17Z",
+   "seen": "2026-10-14",
+   "tag": "v1.9.5"
+  },
+  "widelands": {
+   "published": "2026-02-22T08:51:31Z",
+   "seen": "2026-10-14",
+   "tag": "v1.3.1"
+  },
+  "wivrn-server": {
+   "published": "2026-09-12T11:32:58Z",
+   "seen": "2026-10-14",
+   "tag": "v26.9"
+  },
+  "wrangler": {
+   "published": "2026-10-14T05:57:43Z",
+   "seen": "2026-10-14",
+   "tag": "@cloudflare/remote-bindings@0.0.47"
+  },
+  "xan": {
+   "published": "2026-09-11T14:42:33Z",
+   "seen": "2026-10-14",
+   "tag": "0.61.0"
+  },
+  "xca": {
+   "published": "2025-03-28T20:45:59Z",
+   "seen": "2026-10-14",
+   "tag": "RELEASE.2.9.0"
+  },
+  "xh": {
+   "published": "2026-07-26T14:22:45Z",
+   "seen": "2026-10-14",
+   "tag": "v0.26.2"
+  },
+  "xournalplusplus": {
+   "published": "2026-09-26T06:23:53Z",
+   "seen": "2026-10-14",
+   "tag": "v1.3.8"
+  },
+  "xplr": {
+   "published": "2026-09-15T11:48:22Z",
+   "seen": "2026-10-14",
+   "tag": "v1.1.2"
+  },
+  "yadm": {
+   "published": "",
+   "seen": "2026-10-14",
+   "tag": "3.5.0"
+  },
+  "yara": {
+   "published": "2026-07-28T07:12:15Z",
+   "seen": "2026-10-14",
+   "tag": "v4.5.8"
+  },
+  "yazi": {
+   "published": "2026-09-01T08:52:30Z",
+   "seen": "2026-10-14",
+   "tag": "v26.9.1"
+  },
+  "yt-dlp": {
+   "published": "2026-08-19T23:48:43Z",
+   "seen": "2026-10-14",
+   "tag": "2026.08.19"
+  },
+  "zap": {
+   "published": "2025-12-15T14:41:51Z",
+   "seen": "2026-10-14",
+   "tag": "v2.17.0"
+  },
+  "zapzap": {
+   "published": "2026-10-09T19:29:11Z",
+   "seen": "2026-10-14",
+   "tag": "7.5"
+  },
+  "zathura": {
+   "published": "",
+   "seen": "2026-10-14",
+   "tag": "2026.10.4"
+  },
+  "zeal": {
+   "published": "2026-07-28T21:15:43Z",
+   "seen": "2026-10-14",
+   "tag": "v0.9.1"
+  },
+  "zed": {
+   "published": "2026-10-14T16:43:09Z",
+   "seen": "2026-10-14",
+   "tag": "v1.24.2"
+  },
+  "zellij": {
+   "published": "2026-08-28T09:21:44Z",
+   "seen": "2026-10-14",
+   "tag": "v0.45.1"
+  },
+  "zen": {
+   "published": "2026-10-09T19:11:05Z",
+   "seen": "2026-10-14",
+   "tag": "1.23.2b"
+  },
+  "zerobrane-studio": {
+   "published": "",
+   "seen": "2026-10-14",
+   "tag": "2.01"
+  },
+  "zettlr": {
+   "published": "2026-09-18T17:20:22Z",
+   "seen": "2026-10-14",
+   "tag": "v4.8.0"
+  },
+  "zola": {
+   "published": "2026-09-12T22:06:53Z",
+   "seen": "2026-10-14",
+   "tag": "v0.23.6"
+  },
+  "zotero": {
+   "published": "",
+   "seen": "2026-10-14",
+   "tag": "10.0.6"
+  },
+  "zoxide": {
+   "published": "2026-07-04T12:41:16Z",
+   "seen": "2026-10-14",
+   "tag": "v0.10.0"
+  },
+  "zsh-autosuggestions": {
+   "published": "",
+   "seen": "2026-10-14",
+   "tag": "v0.7.1"
+  },
+  "zsh-syntax-highlighting": {
+   "published": "",
+   "seen": "2026-10-14",
+   "tag": "0.8.0"
+  }
+ },
+ "updated": "2026-10-14T19:23:54Z"
+}

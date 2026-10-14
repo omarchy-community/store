@@ -1,0 +1,96 @@
+name: Daily app updates
+
+# Keeps listings current without anyone remembering to do it.
+#
+# Each kind of app gets its version from a different place, so this job only does the parts
+# that nothing else covers:
+#   - pacman / AUR apps: build.py reads the real package version from the Arch databases and
+#     the AUR on every build, so the deploy at the end of this job refreshes all 860.
+#   - our own release-pinned apps: first_party_updates.py re-pins version, URL and SHA-256
+#     from the latest GitHub release, and refuses a missing asset or a checksum mismatch.
+#   - everything with a GitHub repo: daily_updates.py records the newest release tag seen and
+#     reports what moved since yesterday, flagging the releases whose notes describe a visual
+#     change so screenshots are refreshed only when they are genuinely out of date.
+#
+# Runs before the 4-hourly deploys so a version bump lands in the very next build.
+
+on:
+  schedule:
+    - cron: "20 5 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: daily-updates
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0          # add-dates for New Apps come from git history
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Re-pin our own release apps to their latest GitHub release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python3 scripts/first_party_updates.py --write | tee /tmp/first-party.txt
+
+      - name: Watch every GitHub upstream for new releases
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python3 scripts/daily_updates.py --write | tee /tmp/upstream.txt
+          python3 scripts/daily_updates.py --json > /tmp/upstream.json || true
+
+      - name: Validate before committing anything
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python3 scripts/build.py --check
+
+      - name: Commit whatever changed
+        id: commit
+        run: |
+          git config user.name  "omarchy-store-bot"
+          git config user.email "info@omarchystore.com"
+          git add registry/apps registry/upstream-state.json
+          if git diff --cached --quiet; then
+            echo "nothing changed today"
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          {
+            echo "Daily update: new upstream versions"
+            echo
+            sed -n '1,40p' /tmp/first-party.txt
+            echo
+            sed -n '1,60p' /tmp/upstream.txt
+          } > /tmp/msg.txt
+          git commit -q -F /tmp/msg.txt
+          git push
+          echo "changed=true" >> "$GITHUB_OUTPUT"
+
+      - name: Publish the refreshed catalogue
+        if: steps.commit.outputs.changed == 'true'
+        run: gh workflow run "Build & deploy store" --ref main
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Keep the report as an artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: daily-update-report
+          path: |
+            /tmp/first-party.txt
+            /tmp/upstream.txt
+            /tmp/upstream.json
+          if-no-files-found: ignore
+          retention-days: 30

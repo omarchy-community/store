@@ -12,6 +12,11 @@
   const REPO = "https://github.com/omarchy-community/store";
   const API = "https://omarchy-store-api.omarchystore.workers.dev";
   const INSTALLER = `curl -fsSL ${SITE}install.sh | bash`;
+  // Mirrors SECURITY.md + scripts/build.py's RELEASE_RE: a "release" app only counts as a
+  // verified-developer download when it's pinned to a GitHub release under our own accounts
+  // with a checked SHA-256 — same rule get.sh enforces before it will install anything.
+  const VERIFIED_RELEASE_RE = /^https:\/\/github\.com\/(nemoclawai-tech|omarchy-community)\/[A-Za-z0-9_.-]+\/releases\/download\/[A-Za-z0-9_.+-]+\/[A-Za-z0-9_.+-]+\.pkg\.tar\.zst$/;
+  const isVerifiedDev = (a) => a.install?.method === "release" && VERIFIED_RELEASE_RE.test(a.install.url || "") && /^[0-9a-f]{64}$/.test(a.install.sha256 || "");
 
   const S = { catalog: null, byId: {}, themeById: {}, desktop: false, installed: new Set(), busy: new Set(), chartCat: "all",
     themeFilter: "featured", themeQ: "", themesHave: new Set(), themeNow: "",
@@ -2549,6 +2554,8 @@
     const related = S.catalog.apps.filter((x) => x.category === a.category && x.id !== a.id).slice(0, 6);
     const ghUrl = a.github ? `https://github.com/${a.github}` : null;
     const stale = a.archived || p.out_of_date;
+    const verifiedDev = isVerifiedDev(a);
+    const verifiedPill = `<span class="pv ok">${ico("verified")}Verified</span>`;
     const strip = a.install.method === "store" ? [
       ["Price", "Free", "Open source (MIT)"],
       ["Top Charts", "#1", "in the store"],
@@ -2560,14 +2567,14 @@
       ["Price", esc(a.featured.price), esc(a.featured.price_note || a.featured.launch_offer || "")],
       ["Award", '<span style="color:#ffd60a">★</span>', esc(a.featured.badge)],
       ["Category", `<span style="color:var(--accent)">${ico(cat?.icon)}</span>`, esc(cat?.name)],
-      ["Developer", `<span style="font-size:16px">${esc(a.developer || "—")}</span>`, "Verified"],
+      ["Developer", `<span style="font-size:16px">${esc(a.developer || "—")}</span>`, verifiedDev ? verifiedPill : ""],
       ["Works with", "Omarchy", "Hyprland"],
       ["Age", esc(a.age || "4+"), "Rating"],
     ] : [
       ["GitHub Stars", a.stars != null ? k(a.stars) : "—", a.stars != null ? `#${a.rank} in store` : "Closed source"],
       [p.repo === "aur" ? "AUR Votes" : "Source", p.repo === "aur" ? k(p.votes) : (a.install.method === "omarchy" ? "Omarchy" : "Arch"), p.repo === "aur" ? "Community" : (p.repo || "Official")],
       ["Category", `<span style="color:var(--accent)">${ico(cat?.icon)}</span>`, esc(cat?.name)],
-      ["Developer", `<span style="font-size:16px">${esc(a.developer || "—")}</span>`, a.github ? esc(a.github.split("/")[0]) : ""],
+      ["Developer", `<span style="font-size:16px">${esc(a.developer || "—")}</span>`, verifiedDev ? verifiedPill : (a.github ? esc(a.github.split("/")[0]) : "")],
       ["Size", p.size ? mb(p.size) : "—", "Installed"],
       ["Age", esc(a.age ? a.age.replace("Early Childhood", "3+").replace("Everyone", "4+").replace("Teen", "13+").replace("Mature", "17+") : "—"), "Rating"],
     ];
@@ -2582,6 +2589,7 @@
           <h1>${esc(a.name)}${a.archived ? `<span class="archived">Archived</span>` : ""}</h1>
           <div class="sub">${esc(a.summary)}</div>
           <a class="dev" href="${ghUrl || a.homepage ? safeUrl(ghUrl || a.homepage) : "#"}" target="_blank" rel="noopener">${esc(a.developer)}</a>
+          ${verifiedDev ? `<span class="pv ok" style="margin-left:8px" title="Downloads directly from ${esc(a.developer)}'s GitHub releases under ${esc(a.github || "")}, SHA-256 checked before install">${ico("verified")}Verified</span>` : ""}
           <div class="actions">
             ${getBtn(a, true)}${appRm(a)}
             ${ghUrl ? `<a class="icon-btn" href="${esc(ghUrl)}" target="_blank" rel="noopener" title="View on GitHub">${ico("github")}</a>` : ""}

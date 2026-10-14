@@ -51,7 +51,7 @@ THEME_NOW = os.path.expanduser("~/.local/state/omarchy/current/theme.name")
 RELEASE_RE = re.compile(r"^https://github\.com/(nemoclawai-tech|omarchy-community)/[A-Za-z0-9_.-]+/releases/download/[A-Za-z0-9_.+-]+/[A-Za-z0-9_.+-]+\.pkg\.tar\.zst$")
 SHA_RE = re.compile(r"^[0-9a-f]{64}$")
 CACHE_DIR = os.path.expanduser("~/.cache/omarchy-store")
-VERSION = "1.8.5"   # desktop app version; the catalog's desktop_version tells us when a newer one is out
+VERSION = "1.8.6"   # desktop app version; the catalog's desktop_version tells us when a newer one is out
 
 TOKEN = secrets.token_urlsafe(24)
 # Write token to a file so install.sh can use it for pre-install
@@ -606,6 +606,19 @@ def run_open(app):
 UPD = {"at": 0, "data": None}
 UPD_LOCK = threading.Lock()
 PLUGINS_HOME = os.path.expanduser("~/.config/omarchy/plugins")
+CATALOG_CHECK = {"at": 0}
+
+
+def maybe_check_self_update():
+    """Let 'Check now' also notice a newer Omarchy Store itself, instead of waiting for the
+    hourly background check. Throttled so repeated clicks don't hammer the network."""
+    if time.time() - CATALOG_CHECK["at"] < 120:
+        return
+    CATALOG_CHECK["at"] = time.time()
+    try:
+        update_catalog(quiet=True)
+    except Exception:
+        pass
 
 
 def _vercmp(a, b):
@@ -1016,6 +1029,8 @@ class Handler(SimpleHTTPRequestHandler):
                                     "drives": usb_drives(), "path": iso_path(iso) if iso else None})
         if path == "/api/updates":
             force = "refresh=1" in (self.path.split("?") + [""])[1]
+            if force:
+                maybe_check_self_update()
             data = check_updates(force=force)
             with JOBS_LOCK:
                 running = [k[7:] for k, j in JOBS.items() if k.startswith("update:") and j["state"] == "running"]

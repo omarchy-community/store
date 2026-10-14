@@ -45,9 +45,14 @@ tag_ruleset='{
   "target": "tag",
   "enforcement": "active",
   "bypass_actors": [{"actor_id": 5, "actor_type": "RepositoryRole", "bypass_mode": "always"}],
-  "conditions": {"ref_name": {"include": ["~ALL"], "exclude": []}},
+  "conditions": {"ref_name": {"include": ["~ALL"], "exclude": ["refs/tags/v*"]}},
   "rules": [{"type": "creation"}, {"type": "update"}, {"type": "deletion"}, {"type": "non_fast_forward"}]
 }'
+# refs/tags/v* is excluded on purpose: the "Release desktop app" GitHub Action cuts a v<VERSION>
+# tag automatically whenever desktop/omarchy-store's VERSION changes on main. Since main itself
+# is already owner-only (PR + CODEOWNERS review above), letting that CI step tag a release isn't
+# a new hole — it just stops the Action from being blocked by its own ref-creation lock (as it
+# was for v1.8.4/v1.8.5: "Cannot create ref due to creations being restricted").
 
 upsert_ruleset(){ # repo name json
   local repo=$1 name=$2 json=$3 id

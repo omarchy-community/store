@@ -2139,13 +2139,13 @@
 
   // ---------------------------------------------------------------- Donate
   const COINS = [
-    { id: "btc", name: "Bitcoin", sym: "BTC", net: "Bitcoin network", addr: "", uri: (a) => `bitcoin:${a}`, color: "#f7931a",
+    { id: "btc", name: "Bitcoin", sym: "BTC", net: "Bitcoin network", addr: "bc1q0r9gmldnalw9f3937208jz66526wgllp8xjklm", uri: (a) => `bitcoin:${a}`, color: "#f7931a",
       glyph: '<circle cx="16" cy="16" r="16" fill="#f7931a"/><path fill="#fff" d="M22.6 14c.3-2-1.2-3.1-3.3-3.8l.7-2.7-1.6-.4-.7 2.6-1.3-.3.7-2.7-1.7-.4-.6 2.7-1-.3-2.3-.5-.4 1.7s1.2.3 1.2.3c.7.2.8.6.8 1l-.8 3.1.2.1-.2-.1-1.1 4.4c-.1.2-.3.5-.8.4l-1.2-.3-.8 1.9 2.2.5 1.2.3-.7 2.8 1.7.4.7-2.7 1.3.3-.7 2.7 1.7.4.7-2.8c2.8.5 5 .3 5.9-2.3.7-2.1 0-3.3-1.5-4.1 1.1-.3 1.9-1 2.1-2.5zm-3.8 5.3c-.5 2.1-4 1-5.2.7l.9-3.7c1.2.3 4.8.9 4.3 3zm.5-5.4c-.5 1.9-3.4.9-4.3.7l.8-3.4c1 .2 4 .7 3.5 2.7z"/>' },
-    { id: "evm", name: "Ethereum & Base", sym: "ETH · USDC", net: "Ethereum or Base", addr: "", uri: (a) => `ethereum:${a}`, color: "#627eea",
+    { id: "evm", name: "Ethereum & Base", sym: "ETH · USDC", net: "Ethereum or Base", addr: "0x75a50d6A248dA0E4FC0D9439e4F99000dd3E47DC", uri: (a) => `ethereum:${a}`, color: "#627eea",
       glyph: '<circle cx="16" cy="16" r="16" fill="#627eea"/><path fill="#fff" fill-opacity=".6" d="M16.5 4v8.9l7.5 3.3z"/><path fill="#fff" d="M16.5 4 9 16.2l7.5-3.3z"/><path fill="#fff" fill-opacity=".6" d="M16.5 22v6L24 17.6z"/><path fill="#fff" d="M16.5 28v-6L9 17.6z"/><path fill="#fff" fill-opacity=".2" d="m16.5 20.6 7.5-4.4-7.5-3.3z"/><path fill="#fff" fill-opacity=".6" d="m9 16.2 7.5 4.4v-7.7z"/>' },
-    { id: "sol", name: "Solana", sym: "SOL · USDC", net: "Solana", addr: "", uri: (a) => `solana:${a}`, color: "#9945ff",
+    { id: "sol", name: "Solana", sym: "SOL · USDC", net: "Solana", addr: "7UzaFpPezTCTRN6AeKM5z16ACd1dkQE1NrqPtZr4i1Zb", uri: (a) => `solana:${a}`, color: "#9945ff",
       glyph: '<defs><linearGradient id="solg" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#9945ff"/><stop offset="1" stop-color="#14f195"/></linearGradient></defs><circle cx="16" cy="16" r="16" fill="#111"/><path fill="url(#solg)" d="M10.3 19.6a.6.6 0 0 1 .4-.2h12.6c.3 0 .4.3.2.5l-2.5 2.5a.6.6 0 0 1-.4.2H8c-.3 0-.4-.3-.2-.5zm0-9.4a.6.6 0 0 1 .4-.2h12.6c.3 0 .4.3.2.5L21 13a.6.6 0 0 1-.4.2H8c-.3 0-.4-.3-.2-.5zm11.4 4.7a.6.6 0 0 0-.4-.2H8.7c-.3 0-.4.3-.2.5l2.5 2.5c.1.1.3.2.4.2h12.6c.3 0 .4-.3.2-.5z"/>' },
-    { id: "xrp", name: "XRP", sym: "XRP", net: "XRP Ledger", addr: "", uri: null, color: "#23292f",
+    { id: "xrp", name: "XRP", sym: "XRP", net: "XRP Ledger", addr: "r9fY1YK1LCVh8um2bs7b9DueNCWDB4Yq33", uri: null, color: "#23292f",
       glyph: '<circle cx="16" cy="16" r="16" fill="#23292f"/><path fill="#fff" d="M23 8h2.9l-6 5.9a5.6 5.6 0 0 1-7.8 0L6.1 8H9l4.6 4.5a3.5 3.5 0 0 0 4.8 0zM9 24H6.1l6-6a5.6 5.6 0 0 1 7.8 0l6 6H23l-4.6-4.5a3.5 3.5 0 0 0-4.8 0z"/>' },
   ];
   const coinIcon = (c, s = 40) => `<svg viewBox="0 0 32 32" width="${s}" height="${s}" aria-hidden="true">${c.glyph}</svg>`;

@@ -8,6 +8,7 @@ Usage:
 Stdlib only. Set GITHUB_TOKEN to avoid GitHub's 60 req/hour anonymous limit.
 """
 import json, os, re, subprocess, sys, time, urllib.error, urllib.request, urllib.parse
+from collections import Counter
 from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime, timezone, date
 
@@ -410,6 +411,38 @@ def mirror_icon(app_id, url):
     return f"icons/{app_id}{ext}"
 
 
+def added_dates():
+    """When each app first appeared in the registry, read from git history.
+
+    One `git log` pass rather than 886 of them. Lines come newest-first, so the LAST date
+    written for an id is its first appearance.
+
+    A day on which a huge number of apps appear is a bulk import (the repo's first commit
+    seeded 851), not discovery, so those are marked bulk=True and excluded from "New Apps" —
+    otherwise the shelf would show the entire catalogue as new.
+    """
+    try:
+        out = subprocess.run(
+            ["git", "log", "--diff-filter=A", "--name-only", "--pretty=format:D|%ad", "--date=short",
+             "--", os.path.join("registry", "apps")],
+            cwd=ROOT, capture_output=True, text=True, timeout=120, check=True).stdout
+    except Exception as ex:
+        print(f"  warn: add-dates unavailable ({ex}); New Apps will be empty", file=sys.stderr)
+        return {}, set()
+    day, first = None, {}
+    for ln in out.splitlines():
+        ln = ln.strip()
+        if ln.startswith("D|"):
+            day = ln[2:]
+        elif ln.endswith(".json") and day:
+            first[os.path.basename(ln)[:-5]] = day
+    counts = Counter(first.values())
+    bulk = {d for d, n in counts.items() if n >= 100}
+    if bulk:
+        print(f"  add-dates: {len(first)} apps; bulk-import days excluded from New Apps: {sorted(bulk)}")
+    return first, bulk
+
+
 def artwork_hashes():
     import hashlib
     base = os.path.join(ROOT, "site", "featured"); out = {}
@@ -437,6 +470,7 @@ def build(apps, cats, feat, ads):
     for i in range(0, len(left), 100):
         aurd.update(aur(left[i:i + 100]))
 
+    addedd, bulkdays = added_dates()
     out = []
     for k, a in apps.items():
         g, f, pk = ghd.get(k) or {}, fhd.get(k) or {}, ard.get(main_pkg[k]) or aurd.get(main_pkg[k]) or {}
@@ -453,6 +487,9 @@ def build(apps, cats, feat, ads):
             "stars": g.get("stars"), "forks": g.get("forks"), "archived": g.get("archived"),
             "last_commit": g.get("pushed_at"), "release": g.get("release"), "released_at": g.get("released_at"),
             "package": {"name": main_pkg[k], **pk} if pk else {"name": main_pkg[k]},
+            "added": addedd.get(k),
+            # True = arrived in a bulk seed, so it is not a genuine "new app" for the shelf.
+            "added_bulk": addedd.get(k) in bulkdays,
         })
     print("Mirroring icons…")
     with ThreadPoolExecutor(8) as ex:

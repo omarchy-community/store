@@ -92,6 +92,8 @@
     megaphone: '<path d="M3 10v4a1 1 0 0 0 1 1h3l6 4V5L7 9H4a1 1 0 0 0-1 1z"/><path d="M17 8.5a5 5 0 0 1 0 7"/><path d="M19.5 6a8.5 8.5 0 0 1 0 12"/>',
     mail: '<rect x="3" y="5" width="18" height="14" rx="3"/><path d="m4 7 8 6 8-6"/>',
     discover: '<path d="M12 2l2.4 6.9H22l-6 4.6 2.3 7.1L12 16.2 5.7 20.6 8 13.5 2 8.9h7.6z"/>',
+    // New Apps: a four-point sparkle with two small companions.
+    sparkle: '<path d="M11 3l1.6 4.4L17 9l-4.4 1.6L11 15l-1.6-4.4L5 9l4.4-1.6z"/><path d="M18 13.5l.7 1.8 1.8.7-1.8.7-.7 1.8-.7-1.8-1.8-.7 1.8-.7z"/><path d="M6.5 16l.5 1.3 1.3.5-1.3.5L6.5 20 6 18.3 4.7 17.8 6 17.3z"/>',
     charts: '<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>',
     grid: '<rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/>',
     installed: '<path d="M12 3v12m0 0-4-4m4 4 4-4M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/>',
@@ -231,6 +233,7 @@
     $("#nav").innerHTML = `
       <a href="/" data-r="">${ico("discover")}Discover</a>
       <a href="/charts/" data-r="charts">${ico("charts")}Top Charts</a>
+      <a href="/new/" data-r="new">${ico("sparkle")}New Apps${newApps().length ? `<span class="nav-count">${newApps().length}</span>` : ""}</a>
       <a href="/categories/" data-r="categories">${ico("grid")}Categories</a>
       ${S.catalog.themes.length ? `<a class="d-hide" href="/themes/" data-r="themes">${ico("palette")}Themes</a>` : ""}
       <a class="d-hide" href="/plugins/" data-r="plugins">${ico("puzzle")}Plugins</a>
@@ -1283,6 +1286,16 @@
         <div class="changelog">${entry(first, true)}${rest.length ? `<div class="cl-older">${rest.map((c) => entry(c, false)).join("")}</div>` : ""}</div>
       </section>`;
   }
+  // The version you would actually install. Release-pinned apps carry it in install.version;
+  // repo apps get it from the resolved package. Shown next to the app name because nothing on
+  // the page previously told you WHICH version Get would give you.
+  function appVersion(a) {
+    const v = a.install && a.install.method === "release"
+      ? a.install.version
+      : (a.package && a.package.version) || (a.install && a.install.version);
+    return v ? String(v).replace(/^v/i, "") : "";
+  }
+
   // Feature-card icons: prefer the richer FICON drawing, else fall back to the shared ICONS
   // set. Without the fallback a name that exists in ICONS (star, search, shield…) renders as
   // an EMPTY <svg> — a silent blank tile, which is how three of them shipped unnoticed.
@@ -1421,6 +1434,42 @@
     </div>`;
   }
 
+  // "New Apps": everything that has entered the catalogue recently, newest first.
+  //
+  // `added` is the date an app's registry file first appeared in git, computed at build time.
+  // `added_bulk` marks apps that arrived in a bulk seed (the first commit brought in 851), so
+  // they are excluded here — otherwise the whole catalogue would read as new forever.
+  const NEW_DAYS = 30;
+  function isNewApp(a) {
+    if (!a.added || a.added_bulk) return false;
+    const days = (Date.now() - new Date(a.added + "T12:00:00").getTime()) / 86400000;
+    return days <= NEW_DAYS;
+  }
+  function newApps() {
+    return S.catalog.apps.filter(isNewApp).sort((x, y) =>
+      y.added.localeCompare(x.added) || (y.stars || 0) - (x.stars || 0));
+  }
+  function pageNewApps() {
+    const list = newApps();
+    if (!list.length) return `<div class="page"><h1 class="page-title">New Apps</h1>
+      <p class="page-sub">Fresh listings land here as we add them. Nothing in the last ${NEW_DAYS} days yet.</p>
+      ${footer()}</div>`;
+    const days = [...new Set(list.map((a) => a.added))];
+    const label = (d) => {
+      const n = Math.round((Date.now() - new Date(d + "T12:00:00").getTime()) / 86400000);
+      const nice = new Date(d + "T12:00:00").toLocaleDateString(undefined, { month: "long", day: "numeric" });
+      return n <= 0 ? `Today · ${nice}` : n === 1 ? `Yesterday · ${nice}` : nice;
+    };
+    return `<div class="page">
+      <h1 class="page-title">New Apps</h1>
+      <p class="page-sub">Added in the last ${NEW_DAYS} days · newest first</p>
+      ${days.map((d) => `<section class="shelf">
+        <div class="shelf-head"><h2>${esc(label(d))}</h2><span class="muted small">${list.filter((a) => a.added === d).length} added</span></div>
+        <div class="grid">${list.filter((a) => a.added === d).map((a) => lockup(a)).join("")}</div>
+      </section>`).join("")}
+      ${footer()}
+    </div>`;
+  }
   function pageCategory(id) {
     const c = S.catalog.categories.find((c) => c.id === id);
     if (!c) return notFound();
@@ -2637,7 +2686,7 @@
       <div class="detail-head">
         ${iconImg(a, 128)}
         <div style="min-width:0">
-          <h1>${esc(a.name)}${a.archived ? `<span class="archived">Archived</span>` : ""}</h1>
+          <h1>${esc(a.name)}${appVersion(a) ? `<span class="ver-badge" title="The version you'll get">v${esc(appVersion(a))}</span>` : ""}${a.archived ? `<span class="archived">Archived</span>` : ""}</h1>
           <div class="sub">${esc(a.summary)}</div>
           <a class="dev" href="${ghUrl || a.homepage ? safeUrl(ghUrl || a.homepage) : "#"}" target="_blank" rel="noopener">${esc(a.developer)}</a>
           ${verifiedDev ? `<span class="pv ok" style="margin-left:8px" title="Downloads directly from ${esc(a.developer)}'s GitHub releases under ${esc(a.github || "")}, SHA-256 checked before install">${ico("verified")}Verified</span>` : ""}
@@ -2894,6 +2943,7 @@
     if (!p) html = pageDiscover(), nav = "";
     else if (p === "charts") html = pageCharts();
     else if (p === "categories") html = pageCategories();
+    else if (p === "new") html = pageNewApps();
     else if (p === "themes") html = pageThemes();
     else if (p === "theme") html = pageTheme(arg), nav = "themes";
     else if (p === "plugins") html = pagePlugins();

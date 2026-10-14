@@ -1600,3 +1600,9 @@ html[data-look="glass"] .brand .wordmark img { filter: drop-shadow(0 1px 2px rgb
 .p-spec-line { margin: 12px 0 0; padding: 12px 14px; border-radius: 12px; background: rgba(255,255,255,.05); box-shadow: inset 0 0 0 1px var(--line); font-size: 13.5px; }
 .p-artrules { margin-top: 16px; padding: 20px; }
 .p-artrules h3 { margin: 0 0 6px; }
+
+/* Version the user would actually install, beside the app name on its detail page. */
+.detail-head h1 .ver-badge{display:inline-block;margin-left:10px;padding:3px 9px;border-radius:999px;
+  font-size:.4em;font-weight:600;letter-spacing:.02em;vertical-align:middle;white-space:nowrap;
+  color:var(--muted);background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12)}
+@media (max-width:560px){.detail-head h1 .ver-badge{font-size:.46em;margin-left:8px}}

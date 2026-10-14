@@ -1,17 +1,116 @@
 {
   "_comment": "Editorial picks shown in the Today / Discover banners. Edit freely — order matters.",
   "hero": [
-    {"app": "omarchy-browser", "eyebrow": "OMARCHY BROWSER 2.0", "headline": "The browser built for Omarchy.", "gradient": ["#0f0d1c", "#b48cff", "#9ece6a"]},
-    {"app": "telegram",   "eyebrow": "FEATURED APP",      "headline": "Fast, private messaging on your desktop", "gradient": ["#2aabee", "#0b3d63"]},
-    {"app": "blender",    "eyebrow": "APP OF THE WEEK",   "headline": "Build worlds in 3D",            "gradient": ["#f5792a", "#6b2d0f"]},
-    {"app": "ollama",     "eyebrow": "MEET THE DEVELOPER", "headline": "Your own AI, fully offline",    "gradient": ["#1f2335", "#7aa2f7"]},
-    {"app": "heroic",     "eyebrow": "GAME ON",           "headline": "Your Epic & GOG library on Linux", "gradient": ["#2b1a4a", "#bb9af7"]},
-    {"app": "obs-studio", "eyebrow": "CREATOR PICK",      "headline": "Stream and record like a pro",  "gradient": ["#0e0e14", "#449dab"]}
+    {
+      "app": "omarchy-browser",
+      "eyebrow": "OMARCHY BROWSER 2.0",
+      "headline": "The browser built for Omarchy.",
+      "gradient": [
+        "#0f0d1c",
+        "#b48cff",
+        "#9ece6a"
+      ]
+    },
+    {
+      "app": "telegram",
+      "eyebrow": "FEATURED APP",
+      "headline": "Fast, private messaging on your desktop",
+      "gradient": [
+        "#2aabee",
+        "#0b3d63"
+      ]
+    },
+    {
+      "app": "blender",
+      "eyebrow": "APP OF THE WEEK",
+      "headline": "Build worlds in 3D",
+      "gradient": [
+        "#f5792a",
+        "#6b2d0f"
+      ]
+    },
+    {
+      "app": "ollama",
+      "eyebrow": "MEET THE DEVELOPER",
+      "headline": "Your own AI, fully offline",
+      "gradient": [
+        "#1f2335",
+        "#7aa2f7"
+      ]
+    },
+    {
+      "app": "heroic",
+      "eyebrow": "GAME ON",
+      "headline": "Your Epic & GOG library on Linux",
+      "gradient": [
+        "#2b1a4a",
+        "#bb9af7"
+      ]
+    },
+    {
+      "app": "obs-studio",
+      "eyebrow": "CREATOR PICK",
+      "headline": "Stream and record like a pro",
+      "gradient": [
+        "#0e0e14",
+        "#449dab"
+      ]
+    }
   ],
   "collections": [
-    {"title": "Essentials for Omarchy",       "apps": ["omarchy-browser", "omarchy-store", "legal-dock", "jettison", "telegram", "rabbit-ears", "signal", "firefox", "obsidian", "localsend", "btop", "yazi", "lazygit", "1password", "spotify"]},
-    {"title": "Run AI on your own machine",   "apps": ["ollama", "lmstudio", "upscayl", "cursor", "zed"]},
-    {"title": "Ditch Windows for good",       "apps": ["steam", "heroic", "lutris", "bottles", "retroarch", "prismlauncher"]},
-    {"title": "Creative studio",              "apps": ["krita", "blender", "gimp", "inkscape", "kdenlive", "audacity", "obs-studio"]}
+    {
+      "title": "Essentials for Omarchy",
+      "apps": [
+        "omarchy-browser",
+        "omarchy-store",
+        "legal-dock",
+        "snapdock",
+        "jettison",
+        "telegram",
+        "rabbit-ears",
+        "signal",
+        "firefox",
+        "obsidian",
+        "localsend",
+        "btop",
+        "yazi",
+        "lazygit",
+        "1password",
+        "spotify"
+      ]
+    },
+    {
+      "title": "Run AI on your own machine",
+      "apps": [
+        "ollama",
+        "lmstudio",
+        "upscayl",
+        "cursor",
+        "zed"
+      ]
+    },
+    {
+      "title": "Ditch Windows for good",
+      "apps": [
+        "steam",
+        "heroic",
+        "lutris",
+        "bottles",
+        "retroarch",
+        "prismlauncher"
+      ]
+    },
+    {
+      "title": "Creative studio",
+      "apps": [
+        "krita",
+        "blender",
+        "gimp",
+        "inkscape",
+        "kdenlive",
+        "audacity",
+        "obs-studio"
+      ]
+    }
   ]
 }

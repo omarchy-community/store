@@ -2025,29 +2025,42 @@
         closeSheet(); toast(j.updated ? "Thanks — your review was updated" : "Thanks — your review is live"); loadReviews(id, true);
       });
     } else if (f.matches("#dev-form")) {
-      e.preventDefault();
-      const v = (n) => (f.elements[n]?.value || "").trim();
-      const paid = f.elements.wants_paid.checked;
-      submitForm(f, "/developers", {
-        name: v("name"), email: v("email"), website: v("website"), github: v("github"),
-        app_name: v("app_name"), app_desc: v("app_desc"), app_url: v("app_url"),
-        wants_paid: paid, price_usd: paid ? Number(v("price_usd")) : null,
-        payout: paid ? { btc: v("p_btc"), base: v("p_evm"), sol: v("p_sol"), xrp: v("p_xrp") } : {},
-        agree: f.elements.agree.checked,
-      }, (j) => {
-        f.outerHTML = `<div class="dev-done">${ico("ok")}<div><h3>Thanks — you're on the list!</h3><p>Application #${j.id} is waiting for approval. We'll email <b>${esc(v("email"))}</b>, usually within 1–2 days.</p></div></div>`;
-      });
-    }
+          e.preventDefault();
+          const v = (n) => (f.elements[n]?.value || "").trim();
+          const paid = f.elements.wants_paid.checked;
+          submitForm(f, "/developers", {
+            company: v("company"),
+            name: v("name"),
+            email: v("email"),
+            website: v("website"),
+            github: v("github"),
+            repo_url: v("repo_url"),
+            app_name: v("app_name"),
+            app_desc: v("app_desc"),
+            app_url: v("app_url"),
+            wants_paid: paid,
+            price_usd: paid ? Number(v("price_usd")) : null,
+            p_evm: v("p_evm"),
+            p_sol: v("p_sol"),
+            p_btc: v("p_btc"),
+            p_xrp: v("p_xrp"),
+            agree: f.elements.agree.checked,
+          }, (j) => {
+            f.outerHTML = `<div class="dev-done">${ico("ok")}<div><h3>Thanks — you're on the list!</h3><p>Application #${j.id} is waiting for approval. We'll email <b>${esc(v("email"))}</b>, usually within 1–2 days.</p></div></div>`;
+          });
+        }
   });
   function devFormHtml() {
     return `<form id="dev-form" class="dev-form">
       <h2>Developer sign-up</h2>
       <p class="muted small">Every developer is approved by a person before their apps go live.</p>
       <div class="fgrid">
+        <label>Company name<input name="company" required maxlength="80"></label>
         <label>Your name<input name="name" required maxlength="80"></label>
         <label>Email<input name="email" type="email" required maxlength="120"></label>
         <label>Website <span class="muted">(optional)</span><input name="website" type="url" placeholder="https://" maxlength="200"></label>
         <label>GitHub username <span class="muted">(optional)</span><input name="github" maxlength="100"></label>
+        <label class="wide">GitHub repo URL<input name="repo_url" type="url" placeholder="https://github.com/owner/repo" required maxlength="200"></label>
         <label class="wide">App name<input name="app_name" required maxlength="80"></label>
         <label class="wide">What does it do?<textarea name="app_desc" required minlength="20" maxlength="3000" rows="4"></textarea></label>
         <label class="wide">Link to the app or its source <span class="muted">(optional)</span><input name="app_url" type="url" placeholder="https://" maxlength="300"></label>

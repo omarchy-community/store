@@ -168,3 +168,19 @@
   width: 20px;
   height: 20px;
 }
+
+/* ---- Checkout summary (purchase confirmation modal) ---- */
+.pay-sum { text-align: left; background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.08); border-radius: 12px; padding: 14px 16px; margin: 0 0 16px; }
+.pay-row { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; color: #c0caf5; font-size: 16px; }
+.pay-row + .pay-row { margin-top: 8px; }
+.pay-row.sub { font-size: 13px; color: #9aa5ce; }
+.pay-row b { font-weight: 700; }
+.pay-note { font-size: 12.5px !important; color: #9aa5ce !important; margin: 0 0 18px !important; line-height: 1.5; }
+.pay-actions { display: flex; gap: 10px; }
+.pay-actions .download-btn { margin-bottom: 0; }
+.pay-actions .cancel-btn { flex: 0 0 auto; }
+.wallet-modal.busy .wallet-modal-content h2 { color: #7aa2f7; }
+
+/* ---- The price button that replaces GET on a paid app ---- */
+.get.buy { background: linear-gradient(135deg, #bb9af7 0%, #7aa2f7 100%); color: #fff; font-variant-numeric: tabular-nums; }
+.get.buy:hover { filter: brightness(1.08); }

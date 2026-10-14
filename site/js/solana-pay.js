@@ -1,292 +1,318 @@
 /**
- * Omarchy Store - Solana Pay Integration
- * 
- * Supports: Phantom, Solflare, Backpack, and any Solana wallet
- * Payment: USDC (SPL token) with automatic 90/10 split
+ * Omarchy Store — Solana Pay checkout
+ *
+ * Buyers pay in USDC on Solana. One atomic transaction carries BOTH transfers,
+ * so the developer's 90% and the store's 10% either both land or neither does.
+ *
+ * Only dependency: @solana/web3.js (window.solanaWeb3).
+ * The SPL token instructions are built by hand below, because the @solana/spl-token
+ * UMD bundle is large, frequently broken on CDNs, and we only need two instructions.
+ *
+ * The store never holds keys and never takes custody: the buyer's wallet signs and
+ * the funds go straight to the developer's and the store's public addresses.
  */
+(function () {
+  "use strict";
 
-// Solana constants
-const SOLANA_NETWORK = 'mainnet-beta';  // Change to 'devnet' for testing
-const USDC_MINT = 'EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v';  // Mainnet USDC
-const USDC_DECIMALS = 6;
-const STORE_WALLET = '13XS2jdwJKZbvj8KcuJwgKcysea5y5nrQe8N5maKoaUU';  // Omarchy Store wallet
+  // ---------------------------------------------------------------- constants
+  var RPC = "https://api.mainnet-beta.solana.com";
+  var USDC_MINT = "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v"; // mainnet USDC
+  var USDC_DECIMALS = 6;
+  var STORE_WALLET = "13XS2jdwJKZbvj8KcuJwgKcysea5y5nrQe8N5maKoaUU"; // public address
+  var TOKEN_PROGRAM = "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA";
+  var ASSOC_TOKEN_PROGRAM = "ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL";
+  var SYSVAR_RENT = "SysvarRent111111111111111111111111111111111";
+  var STORE_CUT = 0.10; // 10% — the developer keeps 90%
 
-// Detect available wallets
-function getAvailableWallets() {
-  const wallets = [];
-  
-  if (window.phantom?.solana?.isPhantom) {
-    wallets.push({
-      name: 'Phantom',
-      icon: 'https://phantom.app/img/logo.png',
-      provider: window.phantom.solana
+  var LS_KEY = "omarchy_purchases";
+
+  // ---------------------------------------------------------------- utilities
+  function esc(s) {
+    return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
     });
   }
-  
-  if (window.solflare?.isSolflare) {
-    wallets.push({
-      name: 'Solflare',
-      icon: 'https://solflare.com/favicon.ico',
-      provider: window.solflare
+
+  function web3() {
+    if (!window.solanaWeb3) throw new Error("Solana library didn't load. Check your connection and reload the page.");
+    return window.solanaWeb3;
+  }
+
+  /** USD -> integer USDC base units, rounded to the cent so floats never drift. */
+  function toBaseUnits(usd) {
+    return Math.round(Number(usd) * Math.pow(10, USDC_DECIMALS));
+  }
+
+  function fmtUSD(n) {
+    return "$" + (Math.round(Number(n) * 100) / 100).toFixed(2);
+  }
+
+  /** little-endian u64 as 8 bytes (amounts here are far below 2^53, so Number is safe). */
+  function u64le(n) {
+    var b = new Uint8Array(8);
+    for (var i = 0; i < 8; i++) { b[i] = n & 0xff; n = Math.floor(n / 256); }
+    return b;
+  }
+
+  // ------------------------------------------------- SPL token, built by hand
+  /** Associated Token Account address for (owner, mint). */
+  async function ata(ownerPk, mintPk) {
+    var W = web3();
+    var res = await W.PublicKey.findProgramAddress(
+      [ownerPk.toBuffer(), new W.PublicKey(TOKEN_PROGRAM).toBuffer(), mintPk.toBuffer()],
+      new W.PublicKey(ASSOC_TOKEN_PROGRAM)
+    );
+    return res[0];
+  }
+
+  /** SPL Token `Transfer` (instruction 3). */
+  function transferIx(fromAta, toAta, ownerPk, amount) {
+    var W = web3();
+    var data = new Uint8Array(9);
+    data[0] = 3;
+    data.set(u64le(amount), 1);
+    return new W.TransactionInstruction({
+      programId: new W.PublicKey(TOKEN_PROGRAM),
+      keys: [
+        { pubkey: fromAta, isSigner: false, isWritable: true },
+        { pubkey: toAta, isSigner: false, isWritable: true },
+        { pubkey: ownerPk, isSigner: true, isWritable: false },
+      ],
+      data: data,
     });
   }
-  
-  if (window.backpack?.isBackpack) {
-    wallets.push({
-      name: 'Backpack',
-      icon: 'https://backpack.app/favicon.ico',
-      provider: window.backpack
+
+  /** Create an Associated Token Account, paid for by `payer`. */
+  function createAtaIx(payerPk, ataPk, ownerPk, mintPk) {
+    var W = web3();
+    return new W.TransactionInstruction({
+      programId: new W.PublicKey(ASSOC_TOKEN_PROGRAM),
+      keys: [
+        { pubkey: payerPk, isSigner: true, isWritable: true },
+        { pubkey: ataPk, isSigner: false, isWritable: true },
+        { pubkey: ownerPk, isSigner: false, isWritable: false },
+        { pubkey: mintPk, isSigner: false, isWritable: false },
+        { pubkey: W.SystemProgram.programId, isSigner: false, isWritable: false },
+        { pubkey: new W.PublicKey(TOKEN_PROGRAM), isSigner: false, isWritable: false },
+        { pubkey: new W.PublicKey(SYSVAR_RENT), isSigner: false, isWritable: false },
+      ],
+      data: new Uint8Array(0),
     });
   }
-  
-  // Generic injected wallet
-  if (window.solana && !wallets.length) {
-    wallets.push({
-      name: 'Solana Wallet',
-      icon: null,
-      provider: window.solana
+
+  // ------------------------------------------------------------------ wallets
+  function availableWallets() {
+    var out = [];
+    if (window.phantom && window.phantom.solana && window.phantom.solana.isPhantom)
+      out.push({ name: "Phantom", provider: window.phantom.solana });
+    if (window.solflare && window.solflare.isSolflare)
+      out.push({ name: "Solflare", provider: window.solflare });
+    if (window.backpack && window.backpack.isBackpack)
+      out.push({ name: "Backpack", provider: window.backpack });
+    if (!out.length && window.solana) out.push({ name: "Solana wallet", provider: window.solana });
+    return out;
+  }
+
+  // -------------------------------------------------------------------- modal
+  function modal(cls, inner) {
+    var el = document.createElement("div");
+    el.className = "wallet-modal " + (cls || "");
+    el.innerHTML = '<div class="wallet-modal-content" role="dialog" aria-modal="true">' + inner + "</div>";
+    function close() { el.remove(); document.removeEventListener("keydown", onKey); }
+    function onKey(e) { if (e.key === "Escape") close(); }
+    el.addEventListener("click", function (e) {
+      if (e.target === el || (e.target.closest && e.target.closest("[data-wm-close]"))) close();
+    });
+    document.addEventListener("keydown", onKey);
+    document.body.appendChild(el);
+    el.close = close;
+    return el;
+  }
+
+  function installWalletModal() {
+    modal("", [
+      "<h2>You need a Solana wallet</h2>",
+      "<p>Paid apps are bought with USDC on Solana. Install one of these free wallets, add a little USDC, then come back and press Buy.</p>",
+      '<div class="wallet-options">',
+      '<a class="wallet-option" href="https://phantom.app/" target="_blank" rel="noopener"><span>Phantom</span><small>Most popular</small></a>',
+      '<a class="wallet-option" href="https://solflare.com/" target="_blank" rel="noopener"><span>Solflare</span></a>',
+      '<a class="wallet-option" href="https://backpack.app/" target="_blank" rel="noopener"><span>Backpack</span></a>',
+      "</div>",
+      '<button class="cancel-btn" data-wm-close>Close</button>',
+    ].join(""));
+  }
+
+  function pickWallet(wallets) {
+    return new Promise(function (resolve) {
+      var m = modal("", [
+        "<h2>Choose your wallet</h2>",
+        '<div class="wallet-options">',
+        wallets.map(function (w, i) {
+          return '<button class="wallet-option" data-i="' + i + '"><span>' + esc(w.name) + "</span></button>";
+        }).join(""),
+        "</div>",
+        '<button class="cancel-btn" data-wm-close>Cancel</button>',
+      ].join(""));
+      m.querySelectorAll("[data-i]").forEach(function (b) {
+        b.onclick = function () { var i = +b.dataset.i; m.close(); resolve(wallets[i]); };
+      });
+      m.addEventListener("click", function (e) {
+        if (e.target === m || (e.target.closest && e.target.closest("[data-wm-close]"))) resolve(null);
+      });
     });
   }
-  
-  return wallets;
-}
 
-// Connect to wallet
-async function connectWallet(provider) {
-  try {
-    const resp = await provider.connect();
-    return resp.publicKey.toString();
-  } catch (err) {
-    console.error('Wallet connection failed:', err);
-    throw new Error('Failed to connect wallet');
-  }
-}
-
-// Create split payment transaction
-async function createSplitPaymentTransaction(buyerPubkey, developerWallet, amountUSDC) {
-  // Import Solana web3.js from CDN (loaded separately)
-  const { Connection, PublicKey, Transaction, SystemProgram } = solanaWeb3;
-  const { createTransferInstruction, getAssociatedTokenAddress, TOKEN_PROGRAM_ID } = splToken;
-  
-  const connection = new Connection(`https://api.${SOLANA_NETWORK}.solana.com`);
-  
-  const buyer = new PublicKey(buyerPubkey);
-  const developer = new PublicKey(developerWallet);
-  const store = new PublicKey(STORE_WALLET);
-  const usdcMint = new PublicKey(USDC_MINT);
-  
-  // Calculate split (USDC has 6 decimals)
-  const totalLamports = Math.floor(amountUSDC * Math.pow(10, USDC_DECIMALS));
-  const devShare = Math.floor(totalLamports * 0.90);   // 90% to developer
-  const storeShare = totalLamports - devShare;          // 10% to store
-  
-  // Get associated token accounts
-  const buyerATA = await getAssociatedTokenAddress(usdcMint, buyer);
-  const devATA = await getAssociatedTokenAddress(usdcMint, developer);
-  const storeATA = await getAssociatedTokenAddress(usdcMint, store);
-  
-  // Build transaction with TWO transfers in ONE atomic tx
-  const tx = new Transaction();
-  
-  // Transfer 90% to developer
-  tx.add(createTransferInstruction(
-    buyerATA,
-    devATA,
-    buyer,
-    devShare,
-    [],
-    TOKEN_PROGRAM_ID
-  ));
-  
-  // Transfer 10% to store
-  tx.add(createTransferInstruction(
-    buyerATA,
-    storeATA,
-    buyer,
-    storeShare,
-    [],
-    TOKEN_PROGRAM_ID
-  ));
-  
-  // Get recent blockhash
-  const { blockhash } = await connection.getLatestBlockhash();
-  tx.recentBlockhash = blockhash;
-  tx.feePayer = buyer;
-  
-  return tx;
-}
-
-// Main payment function
-async function purchaseApp(appId, price, developerWallet) {
-  // Check for wallets
-  const wallets = getAvailableWallets();
-  
-  if (wallets.length === 0) {
-    // No wallet found - show install options
-    showWalletInstallModal();
-    return;
-  }
-  
-  // If multiple wallets, let user choose
-  let selectedWallet;
-  if (wallets.length === 1) {
-    selectedWallet = wallets[0];
-  } else {
-    selectedWallet = await showWalletSelectModal(wallets);
-    if (!selectedWallet) return;  // User cancelled
-  }
-  
-  try {
-    // Connect wallet
-    const buyerPubkey = await connectWallet(selectedWallet.provider);
-    
-    // Create transaction
-    const tx = await createSplitPaymentTransaction(buyerPubkey, developerWallet, price);
-    
-    // Sign with wallet
-    const signedTx = await selectedWallet.provider.signTransaction(tx);
-    
-    // Send transaction
-    const connection = new solanaWeb3.Connection(`https://api.${SOLANA_NETWORK}.solana.com`);
-    const signature = await connection.sendRawTransaction(signedTx.serialize());
-    
-    // Wait for confirmation
-    await connection.confirmTransaction(signature, 'confirmed');
-    
-    // Record purchase
-    await recordPurchase(appId, signature, buyerPubkey);
-    
-    // Show success and download
-    showPurchaseSuccess(appId, signature);
-    
-  } catch (err) {
-    console.error('Purchase failed:', err);
-    showPurchaseError(err.message);
-  }
-}
-
-// Show wallet installation options
-function showWalletInstallModal() {
-  const modal = document.createElement('div');
-  modal.className = 'wallet-modal';
-  modal.innerHTML = `
-    <div class="wallet-modal-content">
-      <h2>Install a Solana Wallet</h2>
-      <p>To purchase apps, you need a Solana wallet with USDC.</p>
-      <div class="wallet-options">
-        <a href="https://phantom.app/" target="_blank" class="wallet-option">
-          <img src="https://phantom.app/img/logo.png" alt="Phantom">
-          <span>Phantom</span>
-          <small>Most popular</small>
-        </a>
-        <a href="https://solflare.com/" target="_blank" class="wallet-option">
-          <img src="https://solflare.com/favicon.ico" alt="Solflare">
-          <span>Solflare</span>
-        </a>
-        <a href="https://backpack.app/" target="_blank" class="wallet-option">
-          <img src="https://backpack.app/favicon.ico" alt="Backpack">
-          <span>Backpack</span>
-        </a>
-      </div>
-      <button onclick="this.closest('.wallet-modal').remove()">Close</button>
-    </div>
-  `;
-  document.body.appendChild(modal);
-}
-
-// Show wallet selection modal
-function showWalletSelectModal(wallets) {
-  return new Promise((resolve) => {
-    const modal = document.createElement('div');
-    modal.className = 'wallet-modal';
-    modal.innerHTML = `
-      <div class="wallet-modal-content">
-        <h2>Select Wallet</h2>
-        <div class="wallet-options">
-          ${wallets.map((w, i) => `
-            <button class="wallet-option" data-index="${i}">
-              ${w.icon ? `<img src="${w.icon}" alt="${w.name}">` : ''}
-              <span>${w.name}</span>
-            </button>
-          `).join('')}
-        </div>
-        <button class="cancel-btn" onclick="this.closest('.wallet-modal').remove()">Cancel</button>
-      </div>
-    `;
-    
-    modal.querySelectorAll('.wallet-option').forEach(btn => {
-      btn.onclick = () => {
-        const index = parseInt(btn.dataset.index);
-        modal.remove();
-        resolve(wallets[index]);
-      };
+  function confirmModal(app, price, devWallet) {
+    var dev = Math.round(price * (1 - STORE_CUT) * 100) / 100;
+    var store = Math.round(price * STORE_CUT * 100) / 100;
+    return new Promise(function (resolve) {
+      var m = modal("", [
+        "<h2>Buy " + esc(app.name) + "</h2>",
+        '<div class="pay-sum">',
+        '<div class="pay-row"><span>Price</span><b>' + esc(fmtUSD(price)) + " USDC</b></div>",
+        '<div class="pay-row sub"><span>' + esc(app.developer || "Developer") + " (90%)</span><span>" + esc(fmtUSD(dev)) + "</span></div>",
+        '<div class="pay-row sub"><span>Omarchy Store (10%)</span><span>' + esc(fmtUSD(store)) + "</span></div>",
+        "</div>",
+        "<p class=\"pay-note\">One transaction on Solana, signed by you in your own wallet. Network fee is about $0.0003. Blockchain payments can't be reversed.</p>",
+        '<div class="pay-actions"><button class="cancel-btn" data-wm-close>Cancel</button><button class="download-btn" data-go>Pay ' + esc(fmtUSD(price)) + " USDC</button></div>",
+      ].join(""));
+      m.querySelector("[data-go]").onclick = function () { m.close(); resolve(true); };
+      m.addEventListener("click", function (e) {
+        if (e.target === m || (e.target.closest && e.target.closest("[data-wm-close]"))) resolve(false);
+      });
     });
-    
-    modal.querySelector('.cancel-btn').onclick = () => {
-      modal.remove();
-      resolve(null);
-    };
-    
-    document.body.appendChild(modal);
-  });
-}
+  }
 
-// Record purchase to backend
-async function recordPurchase(appId, signature, buyer) {
-  // For now, just store in localStorage
-  // TODO: Backend verification
-  const purchases = JSON.parse(localStorage.getItem('omarchy_purchases') || '{}');
-  purchases[appId] = {
-    signature,
-    buyer,
-    timestamp: Date.now()
+  function busyModal(text) {
+    return modal("busy", "<h2>" + esc(text) + "</h2><p class=\"pay-note\">Approve the transaction in your wallet. Don't close this tab.</p>");
+  }
+
+  function successModal(app, sig) {
+    modal("success", [
+      "<h2>&#10003; " + esc(app.name) + " is yours</h2>",
+      "<p>Payment confirmed on Solana. You can install it now — press <b>GET</b> on the app page.</p>",
+      '<p class="signature"><a href="https://solscan.io/tx/' + encodeURIComponent(sig) + '" target="_blank" rel="noopener">View the transaction</a></p>',
+      '<button class="download-btn" data-wm-close>Done</button>',
+    ].join(""));
+  }
+
+  function errorModal(msg) {
+    modal("error", [
+      "<h2>Payment not completed</h2>",
+      "<p>" + esc(msg) + "</p>",
+      "<p class=\"pay-note\">Nothing was charged. You can safely try again.</p>",
+      '<button class="cancel-btn" data-wm-close>Close</button>',
+    ].join(""));
+  }
+
+  // ------------------------------------------------------------- purchase log
+  function purchases() {
+    try { return JSON.parse(localStorage.getItem(LS_KEY) || "{}"); } catch (e) { return {}; }
+  }
+  function hasPurchased(appId) { return !!purchases()[appId]; }
+  function recordPurchase(appId, sig, buyer) {
+    var p = purchases();
+    p[appId] = { signature: sig, buyer: buyer, at: Date.now() };
+    try { localStorage.setItem(LS_KEY, JSON.stringify(p)); } catch (e) {}
+  }
+
+  // ------------------------------------------------------------------ the buy
+  async function buy(app) {
+    var price = Number(app.price_usd);
+    var devWallet = app.developer_wallet;
+
+    if (!(price > 0)) return errorModal("This app doesn't have a price set yet.");
+    // Never charge without somewhere to send the developer's 90%.
+    if (!devWallet) {
+      return errorModal(
+        "This app isn't ready to sell yet — the developer hasn't given us a payout wallet. " +
+        "Nothing was charged. Please check back shortly."
+      );
+    }
+
+    var W;
+    try { W = web3(); } catch (e) { return errorModal(e.message); }
+
+    var devPk;
+    try { devPk = new W.PublicKey(devWallet); } catch (e) {
+      return errorModal("The developer's payout address is invalid, so we won't take a payment.");
+    }
+
+    var wallets = availableWallets();
+    if (!wallets.length) return installWalletModal();
+
+    var chosen = wallets.length === 1 ? wallets[0] : await pickWallet(wallets);
+    if (!chosen) return;
+
+    if (!(await confirmModal(app, price, devWallet))) return;
+
+    var busy = busyModal("Waiting for your wallet…");
+    try {
+      var res = await chosen.provider.connect();
+      var buyerPk = new W.PublicKey((res && res.publicKey ? res.publicKey : chosen.provider.publicKey).toString());
+
+      var conn = new W.Connection(RPC, "confirmed");
+      var mintPk = new W.PublicKey(USDC_MINT);
+      var storePk = new W.PublicKey(STORE_WALLET);
+
+      var buyerAta = await ata(buyerPk, mintPk);
+      var devAta = await ata(devPk, mintPk);
+      var storeAta = await ata(storePk, mintPk);
+
+      // Make sure the buyer actually holds enough USDC before asking them to sign.
+      var total = toBaseUnits(price);
+      var bal = null;
+      try {
+        var r = await conn.getTokenAccountBalance(buyerAta);
+        bal = r && r.value ? Number(r.value.amount) : 0;
+      } catch (e) { bal = 0; }
+      if (bal < total) {
+        busy.close();
+        return errorModal(
+          "Your wallet holds " + fmtUSD((bal || 0) / 1e6) + " USDC but this costs " + fmtUSD(price) +
+          ". Top up USDC on Solana and try again."
+        );
+      }
+
+      var devShare = Math.floor(total * (1 - STORE_CUT));
+      var storeShare = total - devShare; // remainder, so the two always add up exactly
+
+      var tx = new W.Transaction();
+      // Create the recipients' USDC accounts if they don't exist yet (buyer pays the small rent).
+      var infos = await conn.getMultipleAccountsInfo([devAta, storeAta]);
+      if (!infos[0]) tx.add(createAtaIx(buyerPk, devAta, devPk, mintPk));
+      if (!infos[1]) tx.add(createAtaIx(buyerPk, storeAta, storePk, mintPk));
+      // Both transfers in ONE transaction: atomic, so the split can't half-fail.
+      tx.add(transferIx(buyerAta, devAta, buyerPk, devShare));
+      tx.add(transferIx(buyerAta, storeAta, buyerPk, storeShare));
+
+      var bh = await conn.getLatestBlockhash("confirmed");
+      tx.recentBlockhash = bh.blockhash;
+      tx.feePayer = buyerPk;
+
+      var signed = await chosen.provider.signTransaction(tx);
+      var sig = await conn.sendRawTransaction(signed.serialize());
+      await conn.confirmTransaction(
+        { signature: sig, blockhash: bh.blockhash, lastValidBlockHeight: bh.lastValidBlockHeight },
+        "confirmed"
+      );
+
+      recordPurchase(app.id, sig, buyerPk.toString());
+      busy.close();
+      successModal(app, sig);
+      document.dispatchEvent(new CustomEvent("omarchy:purchased", { detail: { id: app.id, signature: sig } }));
+    } catch (err) {
+      busy.close();
+      var m = (err && err.message) || "Something went wrong.";
+      if (/User rejected|rejected the request|declined/i.test(m)) m = "You cancelled the payment in your wallet.";
+      errorModal(m);
+    }
+  }
+
+  window.OmarchyPay = {
+    buy: buy,
+    hasPurchased: hasPurchased,
+    availableWallets: availableWallets,
+    STORE_CUT: STORE_CUT,
   };
-  localStorage.setItem('omarchy_purchases', JSON.stringify(purchases));
-}
-
-// Check if user has purchased an app
-function hasPurchased(appId) {
-  const purchases = JSON.parse(localStorage.getItem('omarchy_purchases') || '{}');
-  return !!purchases[appId];
-}
-
-// Show purchase success
-function showPurchaseSuccess(appId, signature) {
-  const modal = document.createElement('div');
-  modal.className = 'wallet-modal success';
-  modal.innerHTML = `
-    <div class="wallet-modal-content">
-      <h2>✓ Purchase Complete!</h2>
-      <p>Your payment has been confirmed on the blockchain.</p>
-      <p class="signature">
-        <a href="https://solscan.io/tx/${signature}" target="_blank">View transaction</a>
-      </p>
-      <button onclick="location.href='/download/${appId}'" class="download-btn">Download App</button>
-      <button onclick="this.closest('.wallet-modal').remove()">Close</button>
-    </div>
-  `;
-  document.body.appendChild(modal);
-}
-
-// Show purchase error
-function showPurchaseError(message) {
-  const modal = document.createElement('div');
-  modal.className = 'wallet-modal error';
-  modal.innerHTML = `
-    <div class="wallet-modal-content">
-      <h2>Payment Failed</h2>
-      <p>${message}</p>
-      <p>No funds were transferred. Please try again.</p>
-      <button onclick="this.closest('.wallet-modal').remove()">Close</button>
-    </div>
-  `;
-  document.body.appendChild(modal);
-}
-
-// Export for use
-window.OmarchyPay = {
-  getAvailableWallets,
-  connectWallet,
-  purchaseApp,
-  hasPurchased
-};
+})();

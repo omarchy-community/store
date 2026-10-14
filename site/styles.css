@@ -574,7 +574,17 @@ kbd { display: inline-grid; place-items: center; min-width: 30px; height: 28px; 
 .palette button:hover i { transform: scale(1.07); }
 .chips { display: flex; flex-wrap: wrap; gap: 8px; }
 .chips span { padding: 5px 12px; border-radius: 999px; background: var(--card); color: var(--text-2); font-size: 13px; }
-@media (max-width: 720px) { .theme-hero { grid-auto-columns: 88%; } .themes-row { grid-auto-columns: 78%; } }
+@media (max-width: 720px) { .theme-hero { grid-auto-columns: 88%; } }
+
+/* Theme page "What's inside": browsable wallpaper gallery */
+.wall-row { grid-auto-columns: min(420px, 62%); }
+.wall-card { margin: 0; min-width: 0; border-radius: 14px; overflow: hidden; background: var(--card); }
+.wall-card img { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; display: block; cursor: zoom-in; transition: transform .35s; }
+.wall-card:hover img { transform: scale(1.03); }
+.wall-card figcaption { padding: 9px 12px 11px; font-size: 13px; font-weight: 600; color: var(--text-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.shelf-head .muted.small { font-weight: 600; }
+@media (max-width: 720px) { .wall-row { grid-auto-columns: 72%; } }
+@media (max-width: 480px) { .wall-row { grid-auto-columns: 82%; } .wall-card figcaption { font-size: 12px; padding: 8px 10px 10px; } }
 
 /* ---------- Updates (desktop app) ---------- */
 .nav-count { margin-left: auto; min-width: 20px; height: 20px; padding: 0 6px; border-radius: 999px; background: #ff453a; color: #fff; font-size: 11px; font-weight: 800; display: inline-grid; place-items: center; }
@@ -1267,25 +1277,36 @@ html[data-look="glass"] .brand .wordmark img { filter: drop-shadow(0 1px 2px rgb
 .cc-chains { display: flex; gap: 4px; margin-top: 5px; flex-wrap: wrap; }
 .cc-chains span { padding: 2px 8px; border-radius: 999px; background: var(--pill); color: var(--text-2); font-size: 11px; font-weight: 600; }
 .cc-type { padding: 2px 8px; border-radius: 999px; background: linear-gradient(135deg, rgba(158,206,106,.2), rgba(48,209,88,.2)); color: var(--good); font-size: 11px; font-weight: 700; }
-@media (max-width: 720px) { .crypto-row { grid-auto-columns: 78%; } }
+/* (removed: superseded by the two-up phone shelf rules below) */
 
+/* Phone shelves. Big tiles (hero, spotlight) stay one at a time and scale out.
+   The small square tiles (themes, plugins, screensavers, crypto) sit NEXT TO
+   each other, two per screen with a sliver of the third to show you can swipe. */
 @media (max-width: 720px) {
-  .scroller { gap: 14px; padding-bottom: 4px; }
+  .scroller { gap: 12px; padding-bottom: 4px; }
   .scroller > * { scroll-snap-align: start; min-width: 0; }
   .rows3 { grid-auto-columns: 88%; }
-  .crypto-row { grid-auto-columns: 85%; }
-  .themes-row { grid-auto-columns: 88%; }
-  .plug-row { grid-auto-columns: 88%; }
   .rv-cards { grid-auto-columns: 88%; }
+  .themes-row,
+  .plug-row,
+  .crypto-row { grid-auto-columns: 46%; }
+  .plug-row .plug-card { width: 100%; }
 }
 
 @media (max-width: 480px) {
-  .scroller { gap: 12px; padding-bottom: 4px; }
+  .scroller { gap: 10px; padding-bottom: 4px; }
   .rows3 { grid-auto-columns: 94%; }
-  .crypto-row { grid-auto-columns: 92%; }
-  .themes-row { grid-auto-columns: 94%; }
-  .plug-row { grid-auto-columns: 94%; }
   .rv-cards { grid-auto-columns: 94%; }
+  .themes-row,
+  .plug-row,
+  .crypto-row { grid-auto-columns: 47%; }
+  .plug-row .plug-card { width: 100%; }
+  /* tighter type so two tiles side by side still read cleanly */
+  .tc-meta, .cc-meta { padding: 10px 11px 12px; gap: 8px; }
+  .tc-meta .name, .cc-meta .name { font-size: 14px; }
+  .tc-meta .sub, .cc-meta .sub { font-size: 11px; }
+  .cc-img img { width: 62px; height: 62px; border-radius: 16px; }
+  .cc-chains span { font-size: 10px; padding: 2px 6px; }
 }
 
 /* Wallet detail page header */
@@ -1316,7 +1337,7 @@ html[data-look="glass"] .brand .wordmark img { filter: drop-shadow(0 1px 2px rgb
 .report-btn-ghost { background: var(--pill); color: var(--text-2); border: 0; border-radius: 999px; padding: 10px 24px; font-weight: 600; cursor: pointer; }
 .report-btn-ghost:hover { background: rgba(255,69,58,.18); color: #ff6961; }
 
-@media (max-width: 720px) { .crypto-row { grid-auto-columns: 78%; } }
+/* (removed: superseded by the two-up phone shelf rules below) */
 
 /* Crypto wallets use the Top Charts row format: logo, name, what it is, GET */
 .wallet-lockup .icon { width: 64px; height: 64px; background: #fff; object-fit: cover; }

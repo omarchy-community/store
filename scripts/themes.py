@@ -227,6 +227,43 @@ def mirror(slug, url):
     return f"theme-previews/{slug}{ext}"
 
 
+def mirror_gallery(slug, items):
+    """Mirror a theme's wallpaper gallery into site/theme-previews/<slug>-gallery/.
+
+    Each entry comes in as {"url": <raw github image>, "title": ...} and goes out as
+    {"src": "theme-previews/<slug>-gallery/NN.webp", "title": ...}. We re-encode to a
+    1600x900 webp so a 15-wallpaper gallery costs ~1.5 MB instead of ~40 MB of 4K JPEGs.
+    Anything that fails to download or convert is dropped, so a dead link can never
+    break the build or leave a broken image on the page.
+    """
+    import shutil, subprocess
+    if not items:
+        return []
+    out_dir = os.path.join(IMG_DIR, f"{slug}-gallery")
+    os.makedirs(out_dir, exist_ok=True)
+    exe = ["magick"] if shutil.which("magick") else ["convert"]
+    out = []
+    for i, it in enumerate(items):
+        url = it.get("url")
+        if not url or not RAW_IMG_RE.match(url):
+            continue
+        data = fetch(url, binary=True)
+        if not data or not any(data.startswith(s) for s in IMG_SIGS):
+            print(f"  warn: gallery image {i} for {slug} did not download", file=sys.stderr)
+            continue
+        name = f"{i:02d}.webp"
+        dst = os.path.join(out_dir, name)
+        try:
+            subprocess.run(exe + ["-", "-resize", "1600x900^", "-gravity", "center",
+                                  "-extent", "1600x900", "-quality", "86", dst],
+                           input=data, capture_output=True, timeout=60, check=True)
+        except Exception as e:
+            print(f"  warn: gallery image {i} for {slug} did not convert: {e}", file=sys.stderr)
+            continue
+        out.append({"src": f"theme-previews/{slug}-gallery/{name}", "title": it.get("title") or f"Wallpaper {i + 1}"})
+    return out
+
+
 def vividness(path):
     """How colourful a preview picture looks (Hasler & Suesstrunk 'colorfulness', ~0-120). Uses ImageMagick
     (installed on GitHub's build machines and Omarchy) to shrink the picture to 48x48 raw RGB pixels."""
@@ -275,6 +312,27 @@ def collect(mirror_images=True):
         {"name": "Omarchy Store", "repo": "nemoclawai-tech/omarchy-store-theme", "author": "Omarchy Development Labs",
          "description": "The official Omarchy Store theme: deep violet nights, store green and aurora teal, with 15 original 4K wallpapers (Silk, Sweep, Fold, Aurora, Mystify, Ridges, Topography, Constellations, Dusk and more) and the store bag on the lock screen",
          "img": "https://raw.githubusercontent.com/nemoclawai-tech/omarchy-store-theme/master/preview.png",
+         # Browsable gallery on the theme page: every wallpaper the theme ships with.
+         # These are SOURCE urls; mirror_gallery() downloads and converts them into
+         # site/theme-previews/<slug>-gallery/ at build time, because that folder is
+         # generated on each deploy (it is in .gitignore) so committed files would vanish.
+         "gallery": [
+             {"url": "https://raw.githubusercontent.com/nemoclawai-tech/omarchy-store-theme/master/backgrounds/00-silk.jpg", "title": "Silk"},
+             {"url": "https://raw.githubusercontent.com/nemoclawai-tech/omarchy-store-theme/master/backgrounds/01-sweep-violet.jpg", "title": "Sweep · Violet"},
+             {"url": "https://raw.githubusercontent.com/nemoclawai-tech/omarchy-store-theme/master/backgrounds/02-silk-ocean.jpg", "title": "Silk · Ocean"},
+             {"url": "https://raw.githubusercontent.com/nemoclawai-tech/omarchy-store-theme/master/backgrounds/03-sweep-sunset.jpg", "title": "Sweep · Sunset"},
+             {"url": "https://raw.githubusercontent.com/nemoclawai-tech/omarchy-store-theme/master/backgrounds/04-fold.jpg", "title": "Fold"},
+             {"url": "https://raw.githubusercontent.com/nemoclawai-tech/omarchy-store-theme/master/backgrounds/05-silk-sunset.jpg", "title": "Silk · Sunset"},
+             {"url": "https://raw.githubusercontent.com/nemoclawai-tech/omarchy-store-theme/master/backgrounds/06-sweep-ocean.jpg", "title": "Sweep · Ocean"},
+             {"url": "https://raw.githubusercontent.com/nemoclawai-tech/omarchy-store-theme/master/backgrounds/07-sweep-mint.jpg", "title": "Sweep · Mint"},
+             {"url": "https://raw.githubusercontent.com/nemoclawai-tech/omarchy-store-theme/master/backgrounds/08-aurora.jpg", "title": "Aurora"},
+             {"url": "https://raw.githubusercontent.com/nemoclawai-tech/omarchy-store-theme/master/backgrounds/09-mystify.jpg", "title": "Mystify"},
+             {"url": "https://raw.githubusercontent.com/nemoclawai-tech/omarchy-store-theme/master/backgrounds/10-flow.jpg", "title": "Flow"},
+             {"url": "https://raw.githubusercontent.com/nemoclawai-tech/omarchy-store-theme/master/backgrounds/11-topo.jpg", "title": "Topography"},
+             {"url": "https://raw.githubusercontent.com/nemoclawai-tech/omarchy-store-theme/master/backgrounds/12-stars.jpg", "title": "Constellations"},
+             {"url": "https://raw.githubusercontent.com/nemoclawai-tech/omarchy-store-theme/master/backgrounds/13-dusk.jpg", "title": "Dusk"},
+             {"url": "https://raw.githubusercontent.com/nemoclawai-tech/omarchy-store-theme/master/backgrounds/14-brand.jpg", "title": "Store Bag"},
+         ],
          "via": "omarchystore.com", "source_url": "https://omarchystore.com/", "apps": []},
     ]
     extra.extend(manual_themes)
@@ -292,7 +350,8 @@ def collect(mirror_images=True):
         ids.add(slug)
         themes.append({"slug": slug, "name": x["name"], "author": x.get("author") or x["repo"].split("/")[0],
                        "thumb": x.get("img"), "preview_src": x.get("img"), "repo": x["repo"], "apps": x.get("apps") or [],
-                       "description": x.get("description") or "", "via": x["via"], "source": x["source_url"]})
+                       "description": x.get("description") or "", "via": x["via"], "source": x["source_url"],
+                       "gallery": x.get("gallery") or []})
     repos = sorted({t["repo"] for t in themes if t["repo"]})
     g = github(repos)
     built = set(builtins())
@@ -328,14 +387,23 @@ def collect(mirror_images=True):
             "stars": v.get("stargazerCount"), "updated": v.get("pushedAt"), "archived": v.get("isArchived"),
             "source_url": t.get("source") or f"{SRC}/themes/{t['slug']}",
             "via": t["via"],
+            "gallery": t.get("gallery") or [],
             "_thumb": t["thumb"], "_preview": t["preview_src"],
         })
     if mirror_images:
         print("Mirroring theme previews…")
         with ThreadPoolExecutor(4) as ex:
             paths = list(ex.map(lambda t: mirror(t["id"], t["_preview"] or t["_thumb"]), out))
+        # Wallpaper galleries live in the same generated folder, so they have to be
+        # mirrored here too — committing them is pointless, .gitignore drops them.
+        for t in out:
+            if t.get("gallery"):
+                print(f"Mirroring {len(t['gallery'])} gallery images for {t['id']}…")
+                t["gallery"] = mirror_gallery(t["id"], t["gallery"])
     else:
         paths = [t["_preview"] for t in out]
+        for t in out:
+            t["gallery"] = []   # un-mirrored source urls must never reach the catalog
     for t, p in zip(out, paths):
         t["image"] = p
         del t["_thumb"], t["_preview"]

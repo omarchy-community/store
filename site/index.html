@@ -118,7 +118,11 @@ if (window.electronAPI) {
 </div>
 <div id="sheet" class="sheet" hidden></div>
 <div id="toast" class="toast" hidden></div>
+<link rel="stylesheet" href="/css/solana-pay.css">
 <script src="/app.js"></script>
 <script src="/js/qr-scanner.js"></script>
+<!-- Paid apps: Solana checkout. web3.js is only needed when someone buys, so load it lazily. -->
+<script src="https://unpkg.com/@solana/web3.js@1.95.3/lib/index.iife.min.js" defer crossorigin="anonymous"></script>
+<script src="/js/solana-pay.js" defer></script>
 </body>
 </html>

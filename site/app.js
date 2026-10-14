@@ -370,6 +370,10 @@
     const cls = "get" + (big ? " big" : "");
     if (a.available === false) return `<button class="${cls} soon" data-soon="${a.id}" title="Launching soon">SOON</button>`;
     if (S.busy.has(a.id)) return `<button class="${cls} busy" data-get="${a.id}"><span class="ring"></span></button>`;
+    // Paid app you don't own yet: the button sells it. Once bought (or already installed)
+    // it falls through to the normal GET / OPEN behaviour below.
+    if (isPaid(a) && !ownsApp(a) && !(S.desktop && isInstalled(a)))
+      return `<button class="${cls} buy" data-buy="${a.id}" title="Buy with USDC on Solana">${esc(priceLabel(a))}</button>`;
     if (S.desktop && a.install.method === "store") {   // the store's own listing: update it in place, or show it's current
       const st = S.status || {}, want = st.store_update;
       return st.restart_needed || (want && want !== st.version)
@@ -382,6 +386,13 @@
       : `<button class="${cls} installed" data-open="${a.id}">OPEN</button>`;
     return `<button class="${cls}" data-get="${a.id}">GET</button>`;
   }
+
+  // ---------- Paid apps ----------
+  // An app is for sale when it carries a price. We only let the Buy button charge
+  // when there is also a developer_wallet to send the 90% to (see solana-pay.js).
+  const isPaid = (a) => Number(a?.price_usd) > 0;
+  const priceLabel = (a) => "$" + (Math.round(Number(a.price_usd) * 100) / 100).toFixed(2);
+  const ownsApp = (a) => { try { return !!window.OmarchyPay?.hasPurchased(a.id); } catch (e) { return false; } };
 
   // Small "Remove" button shown next to OPEN on detail pages and in Installed (desktop app only).
   const rmBtn = (kind, id, label = "Remove") => `<button class="rm-btn" data-rm="${kind}:${esc(id)}" title="${label}">${ico("trash")}<span>${label}</span></button>`;
@@ -650,6 +661,11 @@
         <div><div class="k">Updated</div><div class="v" style="font-size:16px">${ago(t.updated)}</div><div class="s">On GitHub</div></div>
         <div><div class="k">Price</div><div class="v">Free</div><div class="s">Open source</div></div>
       </div>
+      ${t.gallery?.length ? `<section class="shelf"><div class="shelf-head"><h2>What's inside</h2><span class="muted small">${t.gallery.length} wallpapers · swipe</span></div>
+        <div class="scroller wall-row">${t.gallery.map((w, i) => `<figure class="wall-card">
+          <img src="${esc(asset(w.src))}" alt="${esc(w.title || "Wallpaper " + (i + 1))} wallpaper from the ${esc(t.name)} theme" loading="lazy" data-zoom>
+          <figcaption>${esc(w.title || "Wallpaper " + (i + 1))}</figcaption>
+        </figure>`).join("")}</div></section>` : ""}
       ${t.palette?.length ? `<section class="shelf"><div class="shelf-head"><h2>Color palette</h2></div>
         <div class="palette">${t.palette.map((c) => `<button data-copy="${esc(c)}" title="Copy ${esc(c)}"><i style="background:${esc(c)}"></i><span>${esc(c)}</span></button>`).join("")}</div></section>` : ""}
       ${t.apps?.length ? `<section class="shelf"><div class="shelf-head"><h2>What it recolors</h2></div>
@@ -2809,6 +2825,9 @@
 
   // Renamed apps: old links keep working.
   const APP_MOVED = { "omarchy-backup": "lifeboat" };
+  // After a successful purchase, re-render so the Buy button turns into GET.
+  document.addEventListener("omarchy:purchased", () => { try { route(); } catch (e) {} });
+
   function route() {
     const h = currentPath();
     const [p, arg] = h.split(/\/(.*)/s);
@@ -3052,7 +3071,7 @@
   }
 
   document.addEventListener("click", (e) => {
-    const t = e.target.closest("[data-gal],[data-gal-to],[data-lb],[data-usb-confirm],[data-usb-dl],[data-usb-refresh],[data-usb-pick],[data-usb-write],[data-ignite-os],[data-bundle-toggle],[data-bundle-app],[data-upd],[data-upd-plug],[data-upd-all],[data-upd-store-only],[data-upd-refresh],[data-restart],[data-get],[data-soon],[data-accept],[data-open],[data-copy],[data-close],[data-share],[data-chart],[data-zoom],[data-theme-get],[data-theme-use],[data-tfilter],[data-plug-get],[data-pfilter],[data-plug-more],[data-plug-search],[data-sfilter],[data-saver-more],[data-cchain],[data-crypto-get],[data-self-update],[data-self-later],[data-rm],[data-rm-yes],[data-share-theme],#more,.sheet");
+    const t = e.target.closest("[data-gal],[data-gal-to],[data-lb],[data-usb-confirm],[data-usb-dl],[data-usb-refresh],[data-usb-pick],[data-usb-write],[data-ignite-os],[data-bundle-toggle],[data-bundle-app],[data-upd],[data-upd-plug],[data-upd-all],[data-upd-store-only],[data-upd-refresh],[data-restart],[data-get],[data-buy],[data-soon],[data-accept],[data-open],[data-copy],[data-close],[data-share],[data-chart],[data-zoom],[data-theme-get],[data-theme-use],[data-tfilter],[data-plug-get],[data-pfilter],[data-plug-more],[data-plug-search],[data-sfilter],[data-saver-more],[data-cchain],[data-crypto-get],[data-self-update],[data-self-later],[data-rm],[data-rm-yes],[data-share-theme],#more,.sheet");
     if (!t) return;
     if (t.matches("[data-usb-dl]")) {
       post("/api/usb/download", {}).then(async (r) => { if (!r.ok) toast((await r.json().catch(() => ({}))).error || "Download failed"); loadUsb(); });
@@ -3149,6 +3168,13 @@
       S.themeFilter = t.dataset.tfilter; rerender();
     } else if (t.matches("[data-share-theme]")) {
       copy(SITE + "theme/" + t.dataset.shareTheme + "/");
+    } else if (t.matches("[data-buy]")) {
+      // Paid app: run the Solana checkout, then re-render so the button becomes GET.
+      const a = S.byId[t.dataset.buy];
+      if (a) {
+        if (!window.OmarchyPay) { toast("Checkout is still loading — try again in a second"); return; }
+        window.OmarchyPay.buy(a);
+      }
     } else if (t.matches("[data-get]")) {
       e.preventDefault(); e.stopPropagation();
       const a = S.byId[t.dataset.get];

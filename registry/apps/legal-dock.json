@@ -9,10 +9,10 @@
     "packages": [
       "legal-dock"
     ],
-    "version": "1.0.1",
-    "url": "https://github.com/nemoclawai-tech/legal-dock-releases/releases/download/v1.0.1/legal-dock-1.0.1-1-any.pkg.tar.zst",
-    "sha256": "eb6089053c17fc65373411b68d5eed65df0c37dc002bd6328b147c109bee86ec",
-    "size": 142790
+    "version": "1.1.1",
+    "url": "https://github.com/nemoclawai-tech/legal-dock-releases/releases/download/v1.1.1/legal-dock-1.1.1-1-any.pkg.tar.zst",
+    "sha256": "f48aeb36fcbd0abc774d2b90d37e32ba06f97d473a61a8bf8ee071f36172f2fb",
+    "size": 1439789
   },
   "detect": [
     "legal-dock"
@@ -133,6 +133,17 @@
     ]
   },
   "changelog": [
+    {
+      "version": "1.1.1",
+      "date": "2026-10-14",
+      "title": "Purple Space special edition",
+      "items": [
+        "Three Purple Space wallpapers: the store background, a dark corner-logo version and a centred-logo version",
+        "A matching dock skin for the Classic, Mac and Rubik styles",
+        "New legal-dock theme command for switching the look",
+        "Includes the new logo"
+      ]
+    },
     {
       "version": "1.0.1",
       "date": "2026-10-14",

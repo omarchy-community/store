@@ -38,9 +38,11 @@ STATE = os.path.join(ROOT, "registry", "upstream-state.json")
 
 # A release that changes what the app LOOKS like makes the listing's screenshots wrong.
 ART_WORDS = re.compile(
-    r"\b(redesign(ed)?|rewritten|rewrite|rebuilt|new (ui|interface|look|design|theme|layout|screen)"
-    r"|ui (overhaul|refresh|update)|revamp(ed)?|restyl(e|ed)|theming|dark mode|light mode"
-    r"|new icons?|overhaul(ed)?|facelift|material you|appearance)\b", re.I)
+    r"\b(redesign(ed)?|rewritten|rewrite|rebuilt|new (ui|interface|look|design|theme|layout|screen"
+    r"|icons?|logo|wallpapers?|skins?|colou?rs?)"
+    r"|ui (overhaul|refresh|update)|revamp(ed)?|restyl(e|ed)|themes?|theming|skins?|wallpapers?"
+    r"|dark mode|light mode|colou?r scheme|overhaul(ed)?|facelift|material you|appearance"
+    r"|special edition|logo)\b", re.I)
 # A release that is clearly internal only - never worth re-shooting.
 QUIET_WORDS = re.compile(
     r"\b(bug ?fix(es)?|hotfix|patch|security|dependenc(y|ies)|bump|chore|typo|ci|build|"

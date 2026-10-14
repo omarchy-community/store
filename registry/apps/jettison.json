@@ -7,20 +7,32 @@
   "packages": [
    "jettison"
   ],
-  "version": "1.0.0",
-  "url": "https://github.com/nemoclawai-tech/jettison/releases/download/v1.0.0/jettison-1.0.0-1-any.pkg.tar.zst",
-  "sha256": "b6fea11ec94e6ecf8b59bd7713b7e1443625f7eadbd706e7b5613b5fd045bc51"
+  "version": "2.0.0",
+  "url": "https://github.com/nemoclawai-tech/jettison/releases/download/v2.0.0/jettison-2.0.0-1-any.pkg.tar.zst",
+  "sha256": "29649bebd652ba3d89d37ead36c7fc1d4c1245eabd1b386b37e8c9f233cd7abc"
  },
  "detect": [
   "jettison"
  ],
  "kind": "gui",
- "summary": "Throw the Omarchy Store overboard: remove it and everything it brought, cleanly and completely",
+ "summary": "The universal uninstaller for Omarchy. Every app, every source — gone cleanly, with nothing left behind. And everything can be undone.",
  "homepage": "https://github.com/nemoclawai-tech/jettison",
  "tags": [
   "uninstall",
-  "remove",
+  "uninstaller",
+  "remove apps",
+  "add remove programs",
   "cleanup",
+  "leftovers",
+  "junk cleaner",
+  "disk space",
+  "flatpak",
+  "appimage",
+  "aur",
+  "pacman",
+  "web apps",
+  "themes",
+  "undo",
   "omarchy store",
   "omarchy"
  ],
@@ -30,12 +42,14 @@
  "github": "nemoclawai-tech/jettison",
  "developer": "Omarchy Development Labs",
  "featured": {
-  "badge": "New Release",
+  "badge": "New: Jettison 2",
   "eyebrow": "OMARCHY DEVELOPMENT LABS · FREE",
-  "headline": "Throw the Omarchy Store overboard.",
-  "tagline": "Jettison removes the Omarchy Store and everything it brought — the app, the desktop window, launcher entries, hooks, state and caches — even when the store itself is broken. Optionally takes SnapDock, Lifeboat, Omarchy Browser, the screensaver and theme with it and puts your desktop back to Omarchy's defaults.",
+  "headline": "Uninstall anything. Leave nothing behind.",
+  "tagline": "Jettison is the universal uninstaller for Omarchy. Arch packages, AUR, Flatpak, AppImages, web apps, terminal apps and themes — all in one list, all removed properly. It hunts down the leftovers other uninstallers miss, never lets you break your system, and can undo anything.",
+  "new_line": "New in 2.0: every app from every source · Leftover hunter · Undo anything · Tidy up",
   "price": "Free",
   "launch_offer": "Free · Open source",
+  "price_note": "Free · Open source (MIT)",
   "gradient": [
    "#ff7a45",
    "#e5306b",
@@ -45,46 +59,73 @@
   "billboard": "featured/jettison/billboard.webp",
   "og": "featured/jettison/og.png",
   "order": 3,
-  "price_note": "Free · Open source (MIT)",
   "chips": [
-   "One click",
-   "Works when the store is broken",
-   "Shows what it found first",
-   "Dry run",
-   "Password in a terminal",
-   "Removes itself too"
+   "Every app, every source",
+   "Leftover hunter",
+   "Undo anything",
+   "Can't break Omarchy",
+   "Tidy up",
+   "Batch uninstall"
   ],
   "features": [
    {
-    "icon": "power",
-    "hero": true,
-    "title": "Works even when the store is broken",
-    "body": "Jettison doesn't need the store to be running, updated or even complete. Blank window, failed update, half-installed — it still finds every piece and removes it."
-   },
-   {
-    "icon": "window",
-    "title": "Shows you what it found first",
-    "body": "A scan lists every component on your computer — app, desktop window, system package, launcher entries, hooks, state — and marks what will be removed before you press anything."
-   },
-   {
     "icon": "desktops",
-    "title": "Your desktop back to default",
-    "body": "Flip one switch to also remove SnapDock (it puts your dock, keys and title bars back first), Lifeboat, Omarchy Browser, the screensaver and the theme. Tokyo Night comes back if the store theme was in use."
+    "hero": true,
+    "new": true,
+    "title": "Every app. Every source. One list.",
+    "body": "Arch packages, AUR apps, Flatpaks, AppImages, Omarchy web apps, terminal apps, themes, apps with their own installers and stray launcher entries — Jettison finds them all automatically, with icons, versions, sizes and install dates. Search everything, sort by size, filter by source."
    },
    {
-    "icon": "backup",
-    "title": "Your own files are never touched",
-    "body": "Apps you installed through the store stay installed. Lifeboat backups on your Drive stay. Nothing in your home folder that isn't the store's own is removed."
+    "icon": "doctor",
+    "new": true,
+    "title": "Leftover hunter",
+    "body": "Uninstalling an app usually leaves its settings, data and caches scattered around your home folder. Jettison tracks them down — in ~/.config, ~/.local/share, ~/.cache, Flatpak data and autostart — shows their sizes, and clears them in one click."
    },
    {
     "icon": "update",
-    "title": "Dry run",
-    "body": "See every step it would take, in a terminal, without changing a thing."
+    "new": true,
+    "title": "Undo anything",
+    "body": "Nothing goes into oblivion. Files land in the real Trash and Recently removed puts them back with one click — apps are reinstalled from the exact place they came from."
+   },
+   {
+    "icon": "power",
+    "new": true,
+    "title": "Can't break Omarchy",
+    "body": "Everything Omarchy needs to start — Hyprland, the kernel, the login screen, sound, network — is Protected and can't be selected. If another app still needs something, Jettison tells you before anything happens."
+   },
+   {
+    "icon": "window",
+    "new": true,
+    "title": "Know exactly what goes",
+    "body": "Every app gets its own page: what will be removed, which dependencies leave with it, how much space you get back, and the settings it keeps. No surprises."
+   },
+   {
+    "icon": "grid",
+    "new": true,
+    "title": "Batch uninstall",
+    "body": "Tick as many apps as you like and remove them all at once. One password, typed in a terminal you can see — Jettison never handles it. Apps in your home folder don't need a password at all."
+   },
+   {
+    "icon": "backup",
+    "new": true,
+    "title": "Tidy up",
+    "body": "Reclaim space Omarchy collects over time: unused dependencies, old package downloads (one copy stays so you can roll back), AUR build files, broken launcher entries and leftovers of apps you removed long ago."
+   },
+   {
+    "icon": "minimize",
+    "new": true,
+    "title": "Uninstall an open window",
+    "body": "Not sure what an app is called? Click the target button, pick its window, and Jettison takes you straight to the app that owns it."
+   },
+   {
+    "icon": "resize",
+    "title": "Dry run everything",
+    "body": "See every step Jettison would take, in a terminal, without changing a thing."
    },
    {
     "icon": "infinity",
-    "title": "Leaves nothing behind",
-    "body": "Jettison can remove itself when it's done. Get the store back any time with one command."
+    "title": "Still removes a broken Omarchy Store",
+    "body": "The original Jettison store remover is built in: it takes the Omarchy Store off cleanly even when it won't open, is stuck on a blank window or half-installed."
    }
   ],
   "steps": [
@@ -93,38 +134,89 @@
     "body": "Press GET in the Omarchy Store app, or run the one-line command above. Type your password when asked."
    },
    {
-    "title": "Review the scan",
-    "body": "Open Jettison (Super + Space, type Jettison). It lists everything the store left on your computer. Flip the switches for the apps you also want gone."
+    "title": "Pick an app",
+    "body": "Open Jettison (Super + Space, type Jettison). Every app on your computer is already listed — search, or pick a source on the left."
    },
    {
-    "title": "Press Jettison",
-    "body": "A terminal opens, asks for your password and shows every step. When it's done, the store is gone."
+    "title": "Press Uninstall",
+    "body": "Check what goes, press Uninstall, then choose which leftovers to clear. Changed your mind? Recently removed → Undo."
+   }
+  ],
+  "shortcuts": [
+   {
+    "keys": [
+     "Ctrl",
+     "F"
+    ],
+    "does": "Search every app on this computer"
+   },
+   {
+    "keys": [
+     "Delete"
+    ],
+    "does": "Uninstall the apps you ticked"
+   },
+   {
+    "keys": [
+     "Ctrl",
+     "R"
+    ],
+    "does": "Scan again"
    }
   ],
   "faq": [
    {
-    "q": "The store won't open at all — can Jettison still remove it?",
-    "a": "Yes. That is exactly what it's for. Jettison never talks to the store; it finds the files and packages itself."
+    "q": "What can Jettison uninstall?",
+    "a": "Arch packages, AUR apps, Flatpaks (yours or system-wide), AppImages, Omarchy web apps, terminal apps, Omarchy themes, apps with their own installers like SnapDock, stray launcher entries — and the Omarchy Store itself."
    },
    {
-    "q": "Will I lose the apps I installed through the store?",
-    "a": "No. Apps you installed through the store (Firefox, Telegram, Steam…) stay installed. Only the store's own parts go, plus SnapDock, Lifeboat, Omarchy Browser, the screensaver and theme if you turn that switch on."
+    "q": "Can it break my computer?",
+    "a": "No. Everything Omarchy needs to start is Protected and can't be selected, and Jettison checks every removal with pacman first. If another app still needs something, or something essential would go with it, it stops and tells you why."
    },
    {
-    "q": "Why does it ask for my password?",
-    "a": "Removing system packages needs it. It's typed in a terminal you can see, never into Jettison itself."
+    "q": "What are leftovers?",
+    "a": "The settings, saved data and caches an app keeps in your home folder. Most uninstallers leave them behind. Jettison finds them by the app's own names and shows you each folder and its size before you clear it."
    },
    {
-    "q": "Can I get the store back later?",
-    "a": "Any time: curl -fsSL https://omarchystore.com/install.sh | bash"
+    "q": "I removed something by mistake. Can I get it back?",
+    "a": "Yes. Open Recently removed and press Undo. Files come back from Trash and apps are reinstalled from the same place they came from — as long as you haven't emptied the Trash."
+   },
+   {
+    "q": "Why does it sometimes ask for my password?",
+    "a": "Removing system packages and system-wide Flatpaks needs it. It's typed in a terminal you can see, never into Jettison. Web apps, AppImages, terminal apps and themes are removed without a password."
+   },
+   {
+    "q": "I had Jettison 1. What happened to the store remover?",
+    "a": "It's all still there, under Tools → Omarchy Store remover, and the old jettison --scan / --run commands still work. Removing Jettison itself afterwards is now off by default."
+   },
+   {
+    "q": "Is there a command line?",
+    "a": "Yes: jettison list, jettison remove NAME, jettison leftovers NAME, jettison tidy, jettison history and jettison undo."
    },
    {
     "q": "Is there a warranty?",
-    "a": "No. Jettison is free, open-source software provided as is. It removes only the Omarchy Store's own files and packages, and optionally the apps listed. The authors and the Omarchy Store accept no liability. MIT licence."
+    "a": "No. Jettison is free, open-source software provided as is. It only removes what you select, keeps Omarchy's essentials protected and sends home-folder files to Trash so they can be restored. The authors and the Omarchy Store accept no liability. MIT licence."
    }
   ]
  },
  "changelog": [
+  {
+   "version": "2.0.0",
+   "date": "2026-10-14",
+   "title": "The universal uninstaller",
+   "note": "Jettison now uninstalls anything on Omarchy — not just the Omarchy Store.",
+   "items": [
+    "Every app from every source in one list: Arch packages, AUR, Flatpak, AppImages, web apps, terminal apps, themes, self-installed apps and launcher entries",
+    "Leftover hunter: finds and clears the settings, data and caches apps leave behind",
+    "Undo anything from Recently removed — files come back from Trash, apps are reinstalled",
+    "Omarchy's essentials are Protected; every removal is checked with pacman first",
+    "App pages show what goes, which dependencies leave with it and the space you get back",
+    "Batch uninstall with one password, uninstall an open window, dry run",
+    "Tidy up: unused dependencies, old package downloads, AUR build files, broken launchers, old leftovers",
+    "New command line: list, remove, leftovers, windows, tidy, history, undo",
+    "The Omarchy Store remover is kept whole under Tools; removing Jettison itself is now off by default"
+   ]
+  },
   {
    "version": "1.0.0",
    "date": "2026-10-13",
@@ -138,10 +230,14 @@
    ]
   }
  ],
- "description": "Jettison removes the Omarchy Store and everything it brought to your computer — cleanly, completely, in one click. It works even when the store itself is broken, stuck on a blank window, or half-installed, because nothing in Jettison depends on the store running.\n\nWHAT IT FINDS AND REMOVES\n• The Omarchy Store app: helper, site files and the omarchy-store command\n• The desktop app (Electron / AppImage), its settings and caches\n• The omarchy-store system package, if it was installed with pacman\n• Launcher entries, icons and the post-update hook the store added to Omarchy\n• State, tokens, logs and the downloaded catalog\n\nOPTIONALLY, WITH ONE SWITCH\n• SnapDock — puts your dock, keys and title bars back first\n• Lifeboat — your backups on Google Drive are kept\n• Omarchy Browser — your profile stays in your home folder\n• The Omarchy Store screensaver and theme — Tokyo Night comes back if the store theme was in use\n• Jettison itself, so nothing is left behind\n\nWHAT IT NEVER TOUCHES\nApps you installed through the store stay installed. Nothing in your home folder that isn't the store's own is removed.\n\nHOW IT WORKS\nOpen Jettison and it scans your computer, showing every component with a Will be removed / Kept / Not installed label. Press Jettison the Omarchy Store: a terminal opens, asks for your password, and shows every step. Try Dry run first to see the steps without changing anything.\n\nCOMMAND LINE\njettison --scan · jettison --dry-run · jettison --run [--all] [--self]\n\nGet the store back any time: curl -fsSL https://omarchystore.com/install.sh | bash\n\nDeveloped by Omarchy Development Labs. Free and open source (MIT).\n\nDISCLAIMER\nJettison is provided as is, without warranty. It removes only the Omarchy Store's own files and packages, and optionally the apps listed above. The authors and the Omarchy Store accept no liability for data loss or damage. MIT licence.",
+ "description": "Jettison is the universal uninstaller for Omarchy. Every app on your computer — wherever it came from — in one list, removed properly, with nothing left behind. And everything can be undone.\n\nNEW IN 2.0\n• Every source in one list: Arch packages, AUR, Flatpak, AppImages, Omarchy web apps, terminal apps, themes, self-installed apps and launcher entries\n• Leftover hunter: clears the settings, data and caches apps leave in your home folder\n• Undo anything: files go to Trash, apps are reinstalled from where they came from\n• Tidy up: unused dependencies, old package downloads, AUR build files, broken launchers\n• Uninstall an open window, batch uninstall, dry run\n\nKNOWS EXACTLY WHAT GOES\nEvery app has its own page showing what will be removed, which dependencies leave with it, the space you get back and the settings it keeps.\n\nCAN'T BREAK OMARCHY\nEverything Omarchy needs to start — Hyprland, the kernel, the login screen, sound, network — is Protected. Jettison checks every removal with pacman first and stops if another app still needs something.\n\nYOUR PASSWORD STAYS YOURS\nSystem packages are removed in a terminal you can see; Jettison never handles your password. Web apps, AppImages, terminal apps and themes need no password at all.\n\nSTILL REMOVES A BROKEN OMARCHY STORE\nThe original Jettison store remover is built in under Tools — it works even when the store won't open.\n\nCOMMAND LINE\njettison list · jettison remove NAME · jettison leftovers NAME · jettison tidy · jettison history · jettison undo\n\nDeveloped by Omarchy Development Labs. Free and open source (MIT).\n\nDISCLAIMER\nJettison is provided as is, without warranty. It only removes what you select, keeps Omarchy's essentials protected, and moves home-folder files to Trash so they can be restored. The authors and the Omarchy Store accept no liability for data loss or damage. MIT licence.",
  "screenshots": [
-  "featured/jettison/main.webp",
-  "featured/jettison/all.webp",
-  "featured/jettison/confirm.webp"
+  "featured/jettison/shot1.webp",
+  "featured/jettison/shot2.webp",
+  "featured/jettison/shot3.webp",
+  "featured/jettison/shot4.webp",
+  "featured/jettison/shot5.webp",
+  "featured/jettison/shot6.webp",
+  "featured/jettison/shot7.webp"
  ]
 }

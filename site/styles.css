@@ -287,8 +287,8 @@ main { overflow-y: auto; overflow-x: hidden; outline: none; scroll-behavior: smo
 
 /* Artist ad — modelled on a Spotify artist header */
 .artist-ad { margin-top: 28px; border-radius: 14px; overflow: hidden; background: #121212; color: #fff; box-shadow: var(--shadow); }
-/* Slim full-width strip: art is 1920x560 (~3.4:1), height capped so the sponsor never dominates the page. */
-.aa-hero { position: relative; display: block; width: 100%; height: auto; min-height: 120px; max-height: 300px; aspect-ratio: 1920/560; overflow: hidden; background: #0b0b0b; }
+/* Slim full-width strip: art is 1920x560 (~3.4:1). The tile ALWAYS matches the art exactly (no min/max height), so the whole face and logo are visible at every width. */
+.aa-hero { position: relative; display: block; width: 100%; height: auto; min-height: 0; max-height: none; aspect-ratio: 1920/560; overflow: hidden; background: #0b0b0b; }
 .aa-hero img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; transition: transform .6s; }
 .aa-hero .aa-name { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 .aa-hero:hover img { transform: scale(1.03); }
@@ -316,8 +316,8 @@ main { overflow-y: auto; overflow-x: hidden; outline: none; scroll-behavior: smo
 /* Responsive fix for Billy Legal ad on half-page/small screens */
 @media (max-width: 720px) {
   .artist-ad { margin-top: 22px; border-radius: 12px; }
-  .aa-hero { max-height: 220px; min-height: 110px; }
-  .aa-hero img { object-position: right center; }
+  .aa-hero { height: auto; min-height: 0; max-height: none; }
+  .aa-hero img { object-position: center; }
   .aa-name { font-size: clamp(32px, 10vw, 64px); bottom: 10px; left: 12px; }
   .aa-bar { gap: 12px; padding: 7px 12px; }
   .aa-play { width: 34px; height: 34px; }
@@ -327,7 +327,7 @@ main { overflow-y: auto; overflow-x: hidden; outline: none; scroll-behavior: smo
 
 @media (max-width: 480px) {
   .artist-ad { margin-top: 16px; border-radius: 10px; }
-  .aa-hero { max-height: 180px; min-height: 110px; }
+  .aa-hero { height: auto; min-height: 0; max-height: none; }
   .aa-name { font-size: clamp(28px, 12vw, 48px); bottom: 8px; left: 10px; }
   .aa-bar { gap: 10px; padding: 6px 10px; }
   .aa-play { width: 32px; height: 32px; }
@@ -531,7 +531,7 @@ kbd { display: inline-grid; place-items: center; min-width: 30px; height: 28px; 
   .ad-banner.house .ab-hint { text-align: left; }
   .aa-bar { gap: 16px; }
   .aa-cta { display: none; }
-  .aa-hero { height: clamp(110px, 30vw, 200px); }
+  .aa-hero { height: auto; min-height: 0; max-height: none; }
   .hero-card h3 { font-size: 24px; }
 }
 
@@ -1051,7 +1051,7 @@ svg .fill { fill: currentColor; stroke: none; }
 
 /* Billy Legal / artist ad: never wider than the phone (min-height + aspect-ratio forced it to 418px) */
 .artist-ad { max-width: 100%; }
-@media (max-width: 720px) { .aa-hero { height: 44vw; min-height: 140px; } .artist-ad { margin-top: 22px; } }
+@media (max-width: 720px) { .aa-hero { height: auto; min-height: 0; max-height: none; } .artist-ad { margin-top: 22px; } }
 
 /* sidebar: row of brand-coloured social icons right under Categories */
 #nav .nav-socials { display: flex; gap: 5px; padding: 8px 10px 4px; flex-wrap: nowrap; }

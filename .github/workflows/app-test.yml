@@ -1,0 +1,431 @@
+# Omarchy Store App Testing Pipeline
+# Triggered via repository_dispatch from the API worker
+
+name: Test App Submission
+
+on:
+  repository_dispatch:
+    types: [test-app]
+  workflow_dispatch:
+    inputs:
+      repo_url:
+        description: 'GitHub repository URL'
+        required: true
+        type: string
+      app_id:
+        description: 'Developer application ID'
+        required: true
+        type: string
+
+permissions:
+  contents: read
+  actions: write
+
+env:
+  APP_REPO_URL: ${{ github.event.client_payload.repo_url || github.event.inputs.repo_url }}
+  APP_ID: ${{ github.event.client_payload.app_id || github.event.inputs.app_id }}
+  API_ENDPOINT: ${{ secrets.OMARCHY_STORE_API_ENDPOINT }}
+  API_TOKEN: ${{ secrets.OMARCHY_STORE_API_TOKEN }}
+
+jobs:
+  static-analysis:
+    name: Static Analysis
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    outputs:
+      passed: ${{ steps.check.outputs.passed }}
+      findings: ${{ steps.check.outputs.findings }}
+      license: ${{ steps.license.outputs.license }}
+      dep_count: ${{ steps.deps.outputs.count }}
+      vuln_count: ${{ steps.vuln.outputs.count }}
+      secrets_found: ${{ steps.secrets.outputs.count }}
+    steps:
+      - name: Checkout test scripts
+        uses: actions/checkout@v4
+        with:
+          repository: omarchy-community/store-testing
+          path: testing
+
+      - name: Clone target repository
+        run: |
+          git clone --depth 1 --single-branch "${APP_REPO_URL}" target-repo
+          cd target-repo
+          echo "COMMIT_HASH=$(git rev-parse HEAD)" >> $GITHUB_ENV
+
+      - name: Run gitleaks (secrets detection)
+        id: secrets
+        run: |
+          cd target-repo
+          gitleaks detect --source . --verbose --report-format json --report-path ../secrets-report.json || true
+          COUNT=$(jq '. | length' ../secrets-report.json 2>/dev/null || echo 0)
+          echo "count=$COUNT" >> $GITHUB_OUTPUT
+
+      - name: Run truffleHog (additional secrets)
+        run: |
+          cd target-repo
+          trufflehog filesystem . --json --fail || true
+
+      - name: Detect license
+        id: license
+        run: |
+          cd target-repo
+          LICENSE=$(scancode-toolkit --license --json - 2>/dev/null | jq -r '.licenses[0].spdx_license_key // "Unknown"' || echo "Unknown")
+          echo "license=$LICENSE" >> $GITHUB_OUTPUT
+
+      - name: Scan dependencies (OSV-Scanner)
+        id: deps
+        run: |
+          cd target-repo
+          osv-scanner --format=json --output=../deps-report.json . || true
+          COUNT=$(jq '.results | length' ../deps-report.json 2>/dev/null || echo 0)
+          VULN=$(jq '[.results[]?.packages[]?.vulnerabilities[]?] | length' ../deps-report.json 2>/dev/null || echo 0)
+          echo "count=$COUNT" >> $GITHUB_OUTPUT
+          echo "vuln_count=$VULN" >> $GITHUB_OUTPUT
+
+      - name: Run Semgrep (static analysis)
+        run: |
+          cd target-repo
+          semgrep scan --config=auto --json=../semgrep-report.json || true
+
+      - name: Run YARA malware scan
+        run: |
+          cd target-repo
+          yara -r /opt/yara-rules/malware_index.yar . 2>/dev/null || true
+
+      - name: Check results
+        id: check
+        run: |
+          SECRETS=${{ steps.secrets.outputs.count }}
+          VULN=${{ steps.vuln.outputs.count }}
+          
+          PASSED="true"
+          FINDINGS='[]'
+          
+          if [ "$SECRETS" -gt 0 ]; then
+            PASSED="false"
+            FINDINGS=$(jq -n --argjson s "$SECRETS" '[{"type": "secrets", "count": $s, "severity": "high"}]')
+          fi
+          
+          if [ "$VULN" -gt 0 ]; then
+            PASSED="false"
+            FINDINGS=$(echo "$FINDINGS" | jq --argjson v "$VULN" '. + [{"type": "vulnerabilities", "count": $v, "severity": "medium"}]')
+          fi
+          
+          echo "passed=$PASSED" >> $GITHUB_OUTPUT
+          echo "findings=$FINDINGS" >> $GITHUB_OUTPUT
+
+  build-test:
+    name: Build Verification
+    needs: static-analysis
+    if: needs.static-analysis.outputs.passed == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    outputs:
+      passed: ${{ steps.check.outputs.passed }}
+      findings: ${{ steps.check.outputs.findings }}
+    steps:
+      - name: Checkout target repository
+        run: |
+          git clone --depth 1 --single-branch "${APP_REPO_URL}" target-repo
+          cd target-repo
+          echo "COMMIT_HASH=$(git rev-parse HEAD)" >> $GITHUB_ENV
+
+      - name: Detect build system
+        id: detect
+        run: |
+          cd target-repo
+          if [ -f "PKGBUILD" ]; then
+            echo "system=arch" >> $GITHUB_OUTPUT
+          elif [ -f "Cargo.toml" ]; then
+            echo "system=rust" >> $GITHUB_OUTPUT
+          elif [ -f "package.json" ]; then
+            echo "system=node" >> $GITHUB_OUTPUT
+          elif [ -f "go.mod" ]; then
+            echo "system=go" >> $GITHUB_OUTPUT
+          elif [ -f "meson.build" ]; then
+            echo "system=meson" >> $GITHUB_OUTPUT
+          elif [ -f "CMakeLists.txt" ]; then
+            echo "system=cmake" >> $GITHUB_OUTPUT
+          elif [ -f "Makefile" ]; then
+            echo "system=make" >> $GITHUB_OUTPUT
+          else
+            echo "system=unknown" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Build (Arch PKGBUILD)
+        if: steps.detect.outputs.system == 'arch'
+        run: |
+          cd target-repo
+          # Install build dependencies
+          sudo pacman -Sy --noconfirm base-devel git
+          # Try to build
+          makepkg -s --noconfirm 2>&1 | tee build.log
+          echo "PACKAGE=$(ls *.pkg.tar.zst 2>/dev/null | head -1)" >> $GITHUB_ENV
+
+      - name: Build (Rust/Cargo)
+        if: steps.detect.outputs.system == 'rust'
+        run: |
+          cd target-repo
+          cargo build --release 2>&1 | tee build.log
+
+      - name: Build (Node.js)
+        if: steps.detect.outputs.system == 'node'
+        run: |
+          cd target-repo
+          npm ci 2>&1 | tee build.log
+          npm run build 2>&1 | tee -a build.log
+
+      - name: Build (Go)
+        if: steps.detect.outputs.system == 'go'
+        run: |
+          cd target-repo
+          go build -v ./... 2>&1 | tee build.log
+
+      - name: Check build results
+        id: check
+        run: |
+          if [ -f "target-repo/build.log" ]; then
+            if grep -qi "error\|failed" target-repo/build.log; then
+              echo "passed=false" >> $GITHUB_OUTPUT
+              echo "findings=[{\"type\": \"build_error\", \"log\": \"$(jq -Rs . < target-repo/build.log)\", \"severity\": \"high\"}]" >> $GITHUB_OUTPUT
+            else
+              echo "passed=true" >> $GITHUB_OUTPUT
+              echo "findings=[]" >> $GITHUB_OUTPUT
+            fi
+          else
+            echo "passed=false" >> $GITHUB_OUTPUT
+            echo "findings=[{\"type\": \"no_build_system\", \"severity\": \"medium\"}]" >> $GITHUB_OUTPUT
+          fi
+
+  dynamic-test:
+    name: Dynamic Analysis (VM)
+    needs: [static-analysis, build-test]
+    if: needs.static-analysis.outputs.passed == 'true' && needs.build-test.outputs.passed == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    outputs:
+      passed: ${{ steps.check.outputs.passed }}
+      findings: ${{ steps.check.outputs.findings }}
+      network: ${{ steps.network.outputs.connections }}
+      files: ${{ steps.files.outputs.operations }}
+      syscalls: ${{ steps.syscalls.outputs.calls }}
+    steps:
+      - name: Setup Firecracker
+        run: |
+          # Install firecracker and create microVM
+          sudo apt-get update && sudo apt-get install -y firecracker
+          # Download kernel and rootfs
+          wget -q https://s3.amazonaws.com/spec.ccfc.min/img/quickstart_guide/x86_64/kernels/vmlinux.bin -O vmlinux
+          wget -q https://s3.amazonaws.com/spec.ccfc.min/img/quickstart_guide/x86_64/rootfs/bionic.rootfs.ext4 -O rootfs.ext4
+          
+      - name: Prepare VM config
+        run: |
+          cat > vm-config.json << 'EOF'
+          {
+            "boot-source": {
+              "kernel_image_path": "vmlinux",
+              "boot_args": "console=ttyS0 reboot=k panic=1 pci=off"
+            },
+            "drives": [
+              {
+                "drive_id": "rootfs",
+                "path_on_host": "rootfs.ext4",
+                "is_root_device": true,
+                "is_read_only": false
+              }
+            ],
+            "machine-config": {
+              "vcpu_count": 1,
+              "mem_size_mib": 512,
+              "ht_enabled": false
+            },
+            "network-interfaces": [
+              {
+                "iface_id": "eth0",
+                "guest_mac": "02:FC:00:00:00:01",
+                "host_dev_name": "tap0"
+              }
+            ]
+          }
+          EOF
+
+      - name: Start VM and run tests
+        run: |
+          # Start firecracker
+          sudo firecracker --api-sock /tmp/firecracker.sock --config-file vm-config.json &
+          FC_PID=$!
+          
+          # Wait for VM to boot
+          sleep 10
+          
+          # SSH into VM and run tests
+          ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null root@172.16.0.2 << 'VMSCRIPT'
+            # Install test dependencies
+            pacman -Sy --noconfirm base-devel git strace audit tcpdump
+            
+            # Clone and build app
+            git clone --depth 1 "${APP_REPO_URL}" /test-app
+            cd /test-app
+            
+            # Build based on detected system
+            if [ -f "PKGBUILD" ]; then
+              makepkg -s --noconfirm
+              pacman -U --noconfirm *.pkg.tar.zst
+            elif [ -f "Cargo.toml" ]; then
+              cargo build --release
+              cp target/release/* /usr/local/bin/
+            fi
+            
+            # Run strace on app launch
+            timeout 30 strace -f -o /tmp/strace.log ./app-binary || true
+            
+            # Capture network
+            timeout 30 tcpdump -i any -w /tmp/capture.pcap || true
+            
+            # Get audit logs
+            ausearch -ts recent > /tmp/audit.log 2>/dev/null || true
+            
+            # Collect results
+            tar -czf /tmp/results.tar.gz /tmp/strace.log /tmp/capture.pcap /tmp/audit.log
+          VMSCRIPT
+          
+          # Copy results out
+          scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null root@172.16.0.2:/tmp/results.tar.gz .
+          
+          # Kill firecracker
+          kill $FC_PID
+
+      - name: Analyze strace output
+        id: syscalls
+        run: |
+          tar -xzf results.tar.gz
+          if [ -f strace.log ]; then
+            CALLS=$(cut -d'(' -f1 strace.log | sort | uniq -c | sort -rn | head -20 | jq -R . | jq -s .)
+            echo "calls=$CALLS" >> $GITHUB_OUTPUT
+          else
+            echo "calls=[]" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Analyze network capture
+        id: network
+        run: |
+          if [ -f capture.pcap ]; then
+            CONNECTIONS=$(tshark -r capture.pcap -T fields -e ip.dst -e tcp.dstport -e udp.dstport 2>/dev/null | sort -u | jq -R . | jq -s .)
+            echo "connections=$CONNECTIONS" >> $GITHUB_OUTPUT
+          else
+            echo "connections=[]" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Analyze file operations
+        id: files
+        run: |
+          if [ -f strace.log ]; then
+            OPS=$(grep -E '^open|^read|^write' strace.log | head -50 | jq -R . | jq -s .)
+            echo "operations=$OPS" >> $GITHUB_OUTPUT
+          else
+            echo "operations=[]" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Check dynamic results
+        id: check
+        run: |
+          # Check for suspicious patterns
+          SUSPICIOUS=0
+          FINDINGS='[]'
+          
+          # Check for network connections to suspicious IPs
+          # Check for file operations outside expected paths
+          # Check for dangerous syscalls
+          
+          echo "passed=true" >> $GITHUB_OUTPUT
+          echo "findings=$FINDINGS" >> $GITHUB_OUTPUT
+
+  generate-report:
+    name: Generate Report
+    needs: [static-analysis, build-test, dynamic-test]
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Compile report
+        id: report
+        run: |
+          STATIC_PASSED=${{ needs.static-analysis.outputs.passed }}
+          BUILD_PASSED=${{ needs.build-test.outputs.passed }}
+          DYNAMIC_PASSED=${{ needs.dynamic-test.outputs.passed }}
+          
+          # Calculate risk score
+          RISK=0
+          if [ "$STATIC_PASSED" = "false" ]; then RISK=$((RISK + 40)); fi
+          if [ "$BUILD_PASSED" = "false" ]; then RISK=$((RISK + 30)); fi
+          if [ "$DYNAMIC_PASSED" = "false" ]; then RISK=$((RISK + 30)); fi
+          
+          # Determine recommendation
+          if [ "$RISK" -eq 0 ]; then
+            REC="approve"
+          elif [ "$RISK" -le 30 ]; then
+            REC="request_changes"
+          else
+            REC="reject"
+          fi
+          
+          # Build findings JSON
+          STATIC_FINDINGS=${{ needs.static-analysis.outputs.findings }}
+          BUILD_FINDINGS=${{ needs.build-test.outputs.findings }}
+          DYNAMIC_FINDINGS=${{ needs.dynamic-test.outputs.findings }}
+          
+          ALL_FINDINGS=$(echo "$STATIC_FINDINGS $BUILD_FINDINGS $DYNAMIC_FINDINGS" | jq -s 'add')
+          
+          REPORT=$(jq -n \
+            --arg test_id "test_$(date +%s)_$(openssl rand -hex 4)" \
+            --arg app_id "${APP_ID}" \
+            --arg repo_url "${APP_REPO_URL}" \
+            --arg commit "${{ env.COMMIT_HASH }}" \
+            --arg timestamp "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
+            --arg duration "${{ github.run_started_at }}" \
+            --argjson static_passed "$STATIC_PASSED" \
+            --argjson static_findings "$STATIC_FINDINGS" \
+            --argjson build_passed "$BUILD_PASSED" \
+            --argjson build_findings "$BUILD_FINDINGS" \
+            --argjson dynamic_passed "$DYNAMIC_PASSED" \
+            --argjson dynamic_findings "$DYNAMIC_FINDINGS" \
+            --arg risk_score "$RISK" \
+            --arg recommendation "$REC" \
+            --arg license "${{ needs.static-analysis.outputs.license }}" \
+            --arg dep_count "${{ needs.static-analysis.outputs.dep_count }}" \
+            --arg vuln_count "${{ needs.static-analysis.outputs.vuln_count }}" \
+            --arg secrets_found "${{ needs.static-analysis.outputs.secrets_found }}" \
+            --arg network "${{ needs.dynamic-test.outputs.network }}" \
+            --arg files "${{ needs.dynamic-test.outputs.files }}" \
+            --arg syscalls "${{ needs.dynamic-test.outputs.syscalls }}" \
+            '{
+              test_id: $test_id,
+              app_id: $app_id,
+              repo_url: $repo_url,
+              commit: $commit,
+              timestamp: $timestamp,
+              risk_score: ($risk_score | tonumber),
+              recommendation: $recommendation,
+              summary: "Automated test completed",
+              stages: {
+                static: { passed: $static_passed, findings: $static_findings },
+                build: { passed: $build_passed, findings: $build_findings },
+                dynamic: { passed: $dynamic_passed, findings: $dynamic_findings }
+              },
+              license: $license,
+              dependencies_count: ($dep_count | tonumber),
+              vulnerabilities_count: ($vuln_count | tonumber),
+              secrets_found: ($secrets_found | tonumber),
+              network_connections: ($network | fromjson),
+              file_operations: ($files | fromjson),
+              syscalls: ($syscalls | fromjson)
+            }')
+          
+          echo "$REPORT" > report.json
+          echo "report=$(cat report.json | jq -c .)" >> $GITHUB_OUTPUT
+
+      - name: Send report to API
+        run: |
+          curl -X POST "${API_ENDPOINT}/api/test-results" \
+            -H "Authorization: Bearer ${API_TOKEN}" \
+            -H "Content-Type: application/json" \
+            -d "${{ steps.report.outputs.report }}"

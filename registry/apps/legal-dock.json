@@ -9,10 +9,10 @@
     "packages": [
       "legal-dock"
     ],
-    "version": "1.0.0",
-    "url": "https://github.com/nemoclawai-tech/legal-dock-releases/releases/download/v1.0.0/legal-dock-1.0.0-1-any.pkg.tar.zst",
-    "sha256": "211f278dba742eeb8f68ac400d1ec8f33cd1292c964f98fdd15055de7f4ae5bc",
-    "size": 142464
+    "version": "1.0.1",
+    "url": "https://github.com/nemoclawai-tech/legal-dock-releases/releases/download/v1.0.1/legal-dock-1.0.1-1-any.pkg.tar.zst",
+    "sha256": "eb6089053c17fc65373411b68d5eed65df0c37dc002bd6328b147c109bee86ec",
+    "size": 142790
   },
   "detect": [
     "legal-dock"
@@ -132,6 +132,19 @@
     ]
   },
   "changelog": [
+    {
+      "version": "1.0.1",
+      "date": "2026-10-14",
+      "title": "Dock plate, skins and minimize",
+      "items": [
+        "Solid dock plate now fits the icons, with no extra space above them",
+        "New dock skins to match your theme",
+        "Size and Zoom controls reworked",
+        "Minimize support improved",
+        "Private/incognito window on right-click now covers Chrome, Chromium, Brave, Edge, Vivaldi, Helium, Firefox, Zen and LibreWolf",
+        "Removing the package now restarts the classic dock for you"
+      ]
+    },
     {
       "version": "1.0.0",
       "date": "2026-10-14",

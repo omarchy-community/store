@@ -1434,7 +1434,7 @@
   }
 
   // ---------- updates (desktop app) ----------
-  S.upd = null; S.updLoading = false;
+  S.upd = null; S.updLoading = false; S.updOnlyBusy = false;
   async function loadUpdates(force) {
     if (!S.desktop || S.updLoading) return;
     S.updLoading = true; if (force && currentPath() === "updates") rerender();
@@ -1456,6 +1456,11 @@
     const running = new Set(u?.running || []);
     const sysList = u?.sys_list || [], aurList = u?.aur_list || [];
     const others = sysList.length + aurList.length;
+    // "Store apps" that can update on their own (release/aur/plugin). Ones tied to pacman's own
+    // repo (via "system") can't be updated in isolation — Arch only allows that as part of a full
+    // Omarchy OS update — so they're excluded from the "Only Update Store Apps" bulk action.
+    const storeOnly = apps.filter((x) => x.via !== "system");
+    const storeOnlyBusy = storeOnly.some((x) => running.has(x.a.id)) || S.updOnlyBusy;
     const when = u?.checked ? new Date(u.checked * 1000).toLocaleTimeString([], { hour: "numeric", minute: "2-digit" }) : "";
     const storeBanner = S.status?.restart_needed
       ? `<div class="upd-store"><div><b>A new version of Omarchy Store is ready</b><span>Version ${esc(S.status.store_update || "")} has been downloaded.</span></div><button class="btn" data-self-update>Restart store</button></div>` : "";
@@ -1465,7 +1470,8 @@
         <p class="page-sub">${S.updLoading && !u ? "Checking for updates…" : u ? `Last checked ${esc(when)} · Omarchy Store ${esc(S.status?.version || "")}` : ""}</p></div>
         <div class="upd-actions">
           <button class="btn ghost" data-upd-refresh ${S.updLoading ? "disabled" : ""}>${S.updLoading ? '<span class="ring"></span> Checking' : "Check now"}</button>
-          ${u && (apps.length || others) ? `<button class="btn" data-upd-all ${running.has("__all__") ? "disabled" : ""}>${running.has("__all__") ? "Updating…" : "Update All"}</button>` : ""}
+          ${u && storeOnly.length ? `<button class="btn ghost" data-upd-store-only ${storeOnlyBusy ? "disabled" : ""}>${storeOnlyBusy ? '<span class="ring"></span> Updating…' : "Only Update Store Apps"}</button>` : ""}
+          ${u && others ? `<button class="btn" data-upd-all ${running.has("__all__") ? "disabled" : ""}>${running.has("__all__") ? "Updating…" : "Update Omarchy OS"}</button>` : ""}
         </div>
       </div>
       ${storeBanner}
@@ -1478,23 +1484,23 @@
             <a href="${a.plugin ? "/plugins/" : `/app/${a.id}/`}">${a.plugin ? `<img class="upd-plug-ico" src="${esc(a.icon)}" alt="" width="56" height="56" loading="lazy">` : iconImg(a, 56)}</a>
             <div class="upd-meta"><a href="${a.plugin ? "/plugins/" : `/app/${a.id}/`}" class="name">${esc(a.name)}</a>
               <span class="ver">${esc(installed.split("-")[0])} → <b>${esc(latest.split("-")[0])}</b></span>
-              ${via === "system" ? `<span class="note">Updates with your system (Update All)</span>` : via === "plugin" ? `<span class="note">Plugin · no password needed</span>` : ""}</div>
-            <button class="get ${running.has(a.id) ? "busy" : ""}" ${a.plugin ? `data-upd-plug="${esc(a.id)}"` : `data-upd="${a.id}"`} ${running.has(a.id) ? "disabled" : ""}>${running.has(a.id) ? '<span class="ring"></span>' : "UPDATE"}</button>
+              ${via === "system" ? `<span class="note">Updates with Omarchy OS, below</span>` : via === "plugin" ? `<span class="note">Plugin · no password needed</span>` : ""}</div>
+            ${via === "system" ? "" : `<button class="get ${running.has(a.id) ? "busy" : ""}" ${a.plugin ? `data-upd-plug="${esc(a.id)}"` : `data-upd="${a.id}"`} ${running.has(a.id) ? "disabled" : ""}>${running.has(a.id) ? '<span class="ring"></span>' : "UPDATE"}</button>`}
           </div>`).join("")}</div>` : ""}
-      ${others ? `<h2 class="upd-sec">System <span>${others}</span></h2>
-        <p class="small muted" style="margin:-4px 0 10px">Packages outside the Store's own apps: pieces of Omarchy itself (the OS, kernel, desktop and built-in tools) and any AUR apps you installed yourself. These all update together with <b>Update All</b>, which runs Omarchy's own updater (<code>omarchy-update</code>) and takes a safety snapshot first — Arch doesn't allow updating one system package on its own.</p>
+      ${others ? `<h2 class="upd-sec">Omarchy OS Updates <span>${others}</span></h2>
+        <p class="small muted" style="margin:-4px 0 10px">Pieces of Omarchy itself — the OS, kernel, desktop and built-in tools — plus any AUR apps you installed yourself. Arch doesn't allow updating one of these alone, so <b>Update Omarchy OS</b> updates all of them together and takes a safety snapshot first.</p>
         <div class="upd-list">${[...sysList.map((p) => ({ ...p, kind: "Omarchy / system package" })), ...aurList.map((p) => ({ ...p, kind: "AUR package" }))].map((p) => `
           <div class="upd-row">
             <span class="upd-sys-ico">${ico("grid")}</span>
             <div class="upd-meta"><span class="name">${esc(p.name)}</span>
               <span class="ver">${esc(p.installed)} → <b>${esc(p.latest)}</b></span>
-              <span class="note">${esc(p.kind)} · updates with Update All</span></div>
+              <span class="note">${esc(p.kind)}</span></div>
           </div>`).join("")}</div>
         <div class="upd-list" style="margin-top:10px"><div class="upd-row">
           <span class="upd-sys-ico">${ico("refresh")}</span>
-          <div class="upd-meta"><span class="name">Update everything above</span>
-            <span class="note">Opens a terminal and runs Omarchy's updater for all ${others} package${others === 1 ? "" : "s"} listed.</span></div>
-          <button class="get ${running.has("__all__") ? "busy" : ""}" data-upd-all ${running.has("__all__") ? "disabled" : ""}>${running.has("__all__") ? '<span class="ring"></span>' : "UPDATE"}</button>
+          <div class="upd-meta"><span class="name">Update Omarchy OS</span>
+            <span class="note">Opens a terminal and updates all ${others} package${others === 1 ? "" : "s"} listed above.</span></div>
+          <button class="get ${running.has("__all__") ? "busy" : ""}" data-upd-all ${running.has("__all__") ? "disabled" : ""}>${running.has("__all__") ? '<span class="ring"></span>' : "Update Omarchy OS"}</button>
         </div></div>` : ""}
       <p class="small muted" style="margin-top:28px">Updates open a terminal window so you can see what's happening and type your password. Omarchy Store checks for new apps and for a newer version of itself every hour.</p>
     </div>`;
@@ -1505,6 +1511,28 @@
     if (!r.ok) return toast(j.error || "Update failed");
     toast(label + " — follow the terminal window");
     loadUpdates(false);
+    const t0 = Date.now();
+    const tick = setInterval(async () => {
+      await loadUpdates(false);
+      if (!(S.upd?.running || []).length || Date.now() - t0 > 30 * 60e3) { clearInterval(tick); refreshInstalled(); }
+    }, 8000);
+  }
+  async function doUpdateStoreOnly() {
+    // Updates every store app that can update on its own (release/aur/plugin), one at a time,
+    // and leaves anything tied to the Omarchy OS update alone.
+    const u = S.upd, apps = (u?.apps || []).map((x) => ({ ...x, a: x.via === "plugin" ? { id: x.id, name: x.name, icon: x.icon, plugin: 1 } : S.byId[x.id] })).filter((x) => x.a);
+    const targets = apps.filter((x) => x.via !== "system");
+    if (!targets.length) return;
+    S.updOnlyBusy = true; rerender();
+    toast(`Updating ${targets.length} store app${targets.length === 1 ? "" : "s"} — follow the terminal window(s)`);
+    for (const t of targets) {
+      try {
+        if (t.a.plugin) await post("/api/plugin/update", { id: t.a.id });
+        else await post("/api/update", { id: t.a.id });
+      } catch {}
+      await loadUpdates(false);
+    }
+    S.updOnlyBusy = false;
     const t0 = Date.now();
     const tick = setInterval(async () => {
       await loadUpdates(false);
@@ -2472,7 +2500,7 @@
   }
 
   document.addEventListener("click", (e) => {
-    const t = e.target.closest("[data-gal],[data-gal-to],[data-lb],[data-usb-confirm],[data-usb-dl],[data-usb-refresh],[data-usb-pick],[data-usb-write],[data-ignite-os],[data-bundle-toggle],[data-bundle-app],[data-upd],[data-upd-plug],[data-upd-all],[data-upd-refresh],[data-restart],[data-get],[data-soon],[data-accept],[data-open],[data-copy],[data-close],[data-share],[data-chart],[data-zoom],[data-theme-get],[data-theme-use],[data-tfilter],[data-plug-get],[data-pfilter],[data-plug-more],[data-plug-search],[data-sfilter],[data-saver-more],[data-cchain],[data-crypto-get],[data-self-update],[data-self-later],[data-rm],[data-rm-yes],[data-share-theme],#more,.sheet");
+    const t = e.target.closest("[data-gal],[data-gal-to],[data-lb],[data-usb-confirm],[data-usb-dl],[data-usb-refresh],[data-usb-pick],[data-usb-write],[data-ignite-os],[data-bundle-toggle],[data-bundle-app],[data-upd],[data-upd-plug],[data-upd-all],[data-upd-store-only],[data-upd-refresh],[data-restart],[data-get],[data-soon],[data-accept],[data-open],[data-copy],[data-close],[data-share],[data-chart],[data-zoom],[data-theme-get],[data-theme-use],[data-tfilter],[data-plug-get],[data-pfilter],[data-plug-more],[data-plug-search],[data-sfilter],[data-saver-more],[data-cchain],[data-crypto-get],[data-self-update],[data-self-later],[data-rm],[data-rm-yes],[data-share-theme],#more,.sheet");
     if (!t) return;
     if (t.matches("[data-usb-dl]")) {
       post("/api/usb/download", {}).then(async (r) => { if (!r.ok) toast((await r.json().catch(() => ({}))).error || "Download failed"); loadUsb(); });
@@ -2513,7 +2541,9 @@
       e.preventDefault(); e.stopPropagation();
       post("/api/plugin/update", { id: t.dataset.updPlug }).then(() => { toast("Updating plugin…"); setTimeout(() => loadUpdates(true), 4000); setTimeout(() => loadUpdates(true), 15000); });
     } else if (t.matches("[data-upd-all]")) {
-      doUpdate("/api/update-all", {}, "Updating everything");
+      doUpdate("/api/update-all", {}, "Updating Omarchy OS");
+    } else if (t.matches("[data-upd-store-only]")) {
+      doUpdateStoreOnly();
     } else if (t.matches("[data-upd-refresh]")) {
       loadUpdates(true);
     } else if (t.matches("[data-restart]")) {

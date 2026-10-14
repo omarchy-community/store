@@ -1942,12 +1942,33 @@
   }
 
   // ---------------------------------------------------------------- Advertisers
+  // Every slot carries the EXACT artwork spec. Advertisers supply finished artwork at these
+  // sizes — we do not redraw or re-crop it. Artwork at the wrong aspect has to be either
+  // letterboxed (black bars) or cropped (cutting someone's logo off), and both look bad.
   const SLOTS = [
-    { id: "banner", name: "Discover billboard", where: "A wide banner between shelves on the store's front page — the first thing people see.", best: "Brand launches, products, services" },
-    { id: "sponsored-app", name: "Sponsored listing", where: "Your app at the top of its category and in search results, with a small Ad badge.", best: "Apps already in the store" },
-    { id: "search", name: "Search banner", where: "A compact banner under search results, shown when people are looking for something.", best: "Tools and services people search for" },
-    { id: "artist", name: "Artist spotlight", where: "A full-width music feature with your artwork, play and follow buttons.", best: "Musicians, labels, podcasts" },
+    { id: "banner", name: "Discover billboard", where: "A wide banner between shelves on the store's front page — the first thing people see.", best: "Brand launches, products, services",
+      w: 2400, h: 900, safe: "Keep logos and text inside the middle 80% — the edges are trimmed on narrow screens." },
+    { id: "sponsored-app", name: "Sponsored listing", where: "Your app at the top of its category and in search results, with a small Ad badge.", best: "Apps already in the store",
+      w: 512, h: 512, safe: "Square app icon. No rounded corners or drop shadows — the store adds those." },
+    { id: "search", name: "Search banner", where: "A compact banner under search results, shown when people are looking for something.", best: "Tools and services people search for",
+      w: 1600, h: 400, safe: "Short headline only. Anything smaller than 24px at this size is unreadable on a phone." },
+    { id: "artist", name: "Artist spotlight", where: "A full-width music feature with your artwork, play and follow buttons.", best: "Musicians, labels, podcasts",
+      w: 1920, h: 560, safe: "Put the face or focal point left of centre; the right third carries your logo." },
   ];
+  const ART_RULES = [
+    "PNG, JPG or WebP. Under 2 MB.",
+    "Exact pixel size please — we don't resize, stretch or crop artwork.",
+    "No watermarks, and no AI-generator sparkle marks.",
+    "Supply it at 2x if you have it (e.g. 3840×1120); we'll downscale cleanly.",
+  ];
+  const slotSpec = (s) => !s.w ? "" : `<div class="p-spec">
+      <div class="p-spec-dim"><b>${s.w} × ${s.h}</b><span>pixels${s.w === s.h ? " (square)" : ` · ${ratio(s.w, s.h)}`}</span></div>
+      <p class="small muted">${esc(s.safe)}</p>
+    </div>`;
+  function ratio(w, h) {           // smallest whole-number aspect, e.g. 1920×560 -> 24:7
+    const g = (a, b) => (b ? g(b, a % b) : a), d = g(w, h);
+    return `${w / d}:${h / d}`;
+  }
   const BUDGETS = ["Not sure yet", "Under $250", "$250–$1,000", "$1,000–$5,000", "$5,000+"];
   function slotMock(id) {
     const shelf = `<div class="sm-shelf"><i></i><i></i><i></i><i></i></div>`;
@@ -1992,7 +2013,11 @@
       </div>
 
       <section class="shelf"><div class="shelf-head"><h2>Placements</h2><span class="muted small">Pick one to start</span></div>
-        <div class="p-slots">${SLOTS.map((s) => `<button type="button" class="p-slot" data-p-slot="${s.id}">${slotMock(s.id)}<b>${s.name}</b><p>${s.where}</p><span class="muted small">Best for: ${s.best}</span><span class="p-go">Choose →</span></button>`).join("")}</div></section>
+        <div class="p-slots">${SLOTS.map((s) => `<button type="button" class="p-slot" data-p-slot="${s.id}">${slotMock(s.id)}<b>${s.name}</b><p>${s.where}</p><span class="muted small">Best for: ${s.best}</span>${slotSpec(s)}<span class="p-go">Choose →</span></button>`).join("")}</div>
+        <div class="p-card p-artrules"><h3>Artwork we need from you</h3>
+          <p class="muted small">Send finished artwork at the exact size for your slot. We place it as supplied — we don't redraw, stretch or crop it, so a wrong-sized file either gets bars down the sides or has part of your logo cut off.</p>
+          <ul class="usb-list">${ART_RULES.map((r) => `<li>${esc(r)}</li>`).join("")}</ul>
+        </div></section>
 
       ${links.length ? `<section class="shelf"><div class="shelf-head"><h2>Your campaigns</h2><span class="muted small">Saved in this browser</span></div>
         <div class="p-mine">${links.map((l) => `<a class="p-mine-row" href="${esc(l.url)}">${ico("megaphone")}<b>${esc(l.name)}</b><span class="muted small">Requested ${fmtDate(l.ts)}</span><span class="p-go">Open status →</span></a>`).join("")}</div></section>` : ""}
@@ -2002,6 +2027,8 @@
           <form id="ad-form" class="p-form" novalidate>
             <div class="p-step-h"><h3>1 · Placement and dates</h3></div>
             <div class="p-choice four">${SLOTS.map((s) => `<label class="p-opt ${s.id === d.slot ? "on" : ""}"><input type="radio" name="slot" value="${s.id}" ${s.id === d.slot ? "checked" : ""}><b>${s.name}</b></label>`).join("")}</div>
+            ${(() => { const s = SLOTS.find((x) => x.id === d.slot); return s && s.w
+              ? `<p class="p-spec-line">Artwork for <b>${esc(s.name)}</b>: <b>${s.w} × ${s.h}</b> pixels${s.w === s.h ? "" : ` (${ratio(s.w, s.h)})`}, PNG/JPG/WebP, under 2 MB. ${esc(s.safe)}</p>` : ""; })()}
             <div class="fgrid">
               <label class="wide p-app-pick" hidden>App to sponsor <input name="app" list="p-apps" placeholder="Start typing an app name…" autocomplete="off"><datalist id="p-apps">${S.catalog.apps.slice(0, 2000).map((a) => `<option value="${esc(a.id)}">${esc(a.name)}</option>`).join("")}</datalist></label>
               ${pField("Start date", `<input name="starts" type="date">`)}
@@ -3019,18 +3046,57 @@
     const n = Math.round(sc.scrollLeft / (w + 20));
     document.querySelectorAll(".g-dots i").forEach((d, i) => d.classList.toggle("on", i === n));
   }, true);
-  let lbIndex = 0;
+  // The lightbox used to navigate galImgs(), i.e. ONLY the #shots screenshot scroller. Open a
+  // theme page's wallpaper and that list was empty, so no arrows were drawn and the viewer was
+  // a dead end — you had to close it, scroll, and click the next one. It now works on whatever
+  // group of zoomable images you clicked inside, and cycles on its own if you leave it alone.
+  let lbIndex = 0, lbList = [], lbTimer = null, lbHold = false;
+  const LB_DELAY = 5000;
+
+  function lbGroup(img) {
+    // Nearest ancestor holding more than one zoomable image — the row/scroller it belongs to.
+    for (let el = img.parentElement; el && el !== document.body; el = el.parentElement) {
+      const found = [...el.querySelectorAll("img[data-zoom]")];
+      if (found.length > 1) return found;
+    }
+    return [img];
+  }
+  function lbRender() {
+    const im = $("#lb-img"); if (!im) return;
+    im.src = lbList[lbIndex].src;
+    im.alt = lbList[lbIndex].alt || "";
+    const c = $("#lb-count"); if (c) c.textContent = `${lbIndex + 1} / ${lbList.length}`;
+  }
+  function lbAuto(on) {
+    clearInterval(lbTimer); lbTimer = null;
+    if (on && lbList.length > 1) lbTimer = setInterval(() => { if (!lbHold) lbStep(1); }, LB_DELAY);
+  }
   function openLightbox(img) {
-    lbIndex = +img.dataset.shot || 0;
-    const imgs = galImgs(), many = imgs.length > 1;
-    showSheet(`<img id="lb-img" src="${esc(imgs[lbIndex]?.src || img.src)}" alt="">
-      ${many ? `<button class="lb-nav lb-prev" data-lb="-1" aria-label="Previous">‹</button><button class="lb-nav lb-next" data-lb="1" aria-label="Next">›</button>
-      <div class="lb-count" id="lb-count">${lbIndex + 1} / ${imgs.length}</div>` : ""}`, "lightbox");
+    lbList = lbGroup(img);
+    lbIndex = Math.max(0, lbList.indexOf(img));
+    const many = lbList.length > 1;
+    showSheet(`<img id="lb-img" src="${esc(img.src)}" alt="${esc(img.alt || "")}">
+      ${many ? `<button class="lb-nav lb-prev" data-lb="-1" aria-label="Previous image">‹</button><button class="lb-nav lb-next" data-lb="1" aria-label="Next image">›</button>
+      <div class="lb-count" id="lb-count">${lbIndex + 1} / ${lbList.length}</div>` : ""}`, "lightbox");
+    lbRender();
+    // Pause the auto-cycle while the pointer is over the image, so it can be studied.
+    const sheet = $(".sheet.lightbox");
+    if (sheet && many) {
+      sheet.addEventListener("mouseenter", () => { lbHold = true; }, true);
+      sheet.addEventListener("mouseleave", () => { lbHold = false; }, true);
+      let x0 = null;
+      sheet.addEventListener("touchstart", (e) => { x0 = e.touches[0].clientX; lbHold = true; }, { passive: true });
+      sheet.addEventListener("touchend", (e) => {
+        if (x0 != null) { const dx = e.changedTouches[0].clientX - x0; if (Math.abs(dx) > 40) lbStep(dx < 0 ? 1 : -1); }
+        x0 = null; setTimeout(() => { lbHold = false; }, 2000);
+      }, { passive: true });
+    }
+    lbAuto(many);
   }
   function lbStep(d) {
-    const imgs = galImgs(); if (!imgs.length || !$("#lb-img")) return;
-    lbIndex = (lbIndex + d + imgs.length) % imgs.length;
-    $("#lb-img").src = imgs[lbIndex].src; if ($("#lb-count")) $("#lb-count").textContent = `${lbIndex + 1} / ${imgs.length}`;
+    if (!lbList.length || !$("#lb-img")) return;
+    lbIndex = (lbIndex + d + lbList.length) % lbList.length;
+    lbRender();
   }
   document.addEventListener("keydown", (e) => {
     if (!$(".sheet.lightbox:not([hidden])")) return;
@@ -3043,7 +3109,10 @@
     s.className = "sheet " + cls;
     s.innerHTML = html; s.hidden = false;
   }
-  const closeSheet = () => { $("#sheet").hidden = true; $("#sheet").innerHTML = ""; };
+  const closeSheet = () => {
+    lbAuto(false); lbList = []; lbHold = false;   // never leave the lightbox cycling in the background
+    $("#sheet").hidden = true; $("#sheet").innerHTML = "";
+  };
 
   function webGet(a) {
     const cmd = cmdFor(a);
@@ -3238,7 +3307,10 @@
       openLightbox(t);
     } else if (t.id === "more") {
       $("#desc").classList.remove("clamp"); t.remove();
-    } else if (t.matches(".sheet") && (e.target === t || t.classList.contains("lightbox"))) {
+    } else if (t.matches(".sheet") && (e.target === t
+               || (t.classList.contains("lightbox") && !e.target.closest("#lb-img,.lb-nav,.lb-count")))) {
+      // Backdrop click closes. Clicking the photo itself must NOT close it now that the
+      // lightbox is a navigable gallery — you'd dismiss it while reaching for the arrows.
       closeSheet();
     }
   });

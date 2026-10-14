@@ -1590,3 +1590,13 @@ html[data-look="glass"] .brand .wordmark img { filter: drop-shadow(0 1px 2px rgb
 .side-donate svg { grid-row: 1 / 3; width: 22px; height: 22px; fill: #fff; stroke: none; animation: p-beat 2.6s ease-in-out infinite; }
 .side-donate span { font-weight: 800; font-size: 14px; line-height: 1.1; } .side-donate small { font-size: 11.5px; opacity: .85; line-height: 1.2; }
 @media (prefers-reduced-motion: reduce) { .side-donate svg { animation: none; } }
+
+/* ---- Ad slot artwork specs (advertise page) ---- */
+.p-spec { margin: 10px 0 2px; padding: 10px 12px; border-radius: 12px; background: rgba(255,255,255,.05); box-shadow: inset 0 0 0 1px var(--line); }
+.p-spec-dim { display: flex; align-items: baseline; gap: 8px; }
+.p-spec-dim b { font-size: 17px; font-variant-numeric: tabular-nums; }
+.p-spec-dim span { color: var(--text-2); font-size: 12.5px; }
+.p-spec p { margin: 6px 0 0; }
+.p-spec-line { margin: 12px 0 0; padding: 12px 14px; border-radius: 12px; background: rgba(255,255,255,.05); box-shadow: inset 0 0 0 1px var(--line); font-size: 13.5px; }
+.p-artrules { margin-top: 16px; padding: 20px; }
+.p-artrules h3 { margin: 0 0 6px; }

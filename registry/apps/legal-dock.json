@@ -1,0 +1,37 @@
+{
+  "id": "legal-dock",
+  "name": "Legal Dock",
+  "category": "utilities",
+  "github": "5ive7/legal-dock",
+  "license": "MIT",
+  "install": {
+    "method": "release",
+    "packages": [
+      "legal-dock"
+    ],
+    "version": "1.0.0",
+    "url": "https://github.com/nemoclawai-tech/legal-dock-releases/releases/download/v1.0.0/legal-dock-1.0.0-1-any.pkg.tar.zst",
+    "sha256": "211f278dba742eeb8f68ac400d1ec8f33cd1292c964f98fdd15055de7f4ae5bc"
+  },
+  "detect": [
+    "legal-dock"
+  ],
+  "kind": "gui",
+  "summary": "A classic or Mac-style dock for Hyprland and Omarchy with a real minimize button, magnifying icons, and lock/hide/transparency controls",
+  "homepage": "https://github.com/5ive7/legal-dock",
+  "tags": [
+    "dock",
+    "hyprland",
+    "taskbar",
+    "mac-style",
+    "minimize",
+    "ricing"
+  ],
+  "source": "5ive7",
+  "cli": false,
+  "icon": "featured/legal-dock/icon.png",
+  "developer": "5ive7 Development Labs",
+  "price_usd": 1.97,
+  "description": "Legal Dock is a classic or Mac-style dock for Hyprland and Omarchy with two styles you can switch between with one click: Classic (the nwg-dock-hyprland dock) or Mac (a magnifying, macOS-style dock built with Quickshell, with running apps, a right-click menu, and middle-click to pin).\n\nIt adds a menu with Small/Medium/Large icon sizes, a lock for icon order, auto-hide, full-width and transparent modes, an app drawer button, and a confirm-before-reboot button.\n\nMac touches include a Rubik's Cube launcher that scrambles as you open windows, a New Incognito Window option on right-click for most browsers, launch-bounce animation, and Mac-style window animations (spring-open, shrink-and-fade close, minimize-to-dock).\n\nHyprland has no native minimize; Legal Dock adds a real one that parks windows on a hidden workspace and restores them from the dock.\n\nDeveloped by 5ive7 Development Labs. MIT licensed.",
+  "notes": "Packaged and mirrored by the Omarchy Store after review (license, package contents, no install hooks or outbound network calls). Source: https://github.com/5ive7/legal-dock"
+}

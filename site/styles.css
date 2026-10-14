@@ -1281,3 +1281,5 @@ html[data-look="glass"] .brand .wordmark img { filter: drop-shadow(0 1px 2px rgb
 .wallet-lockup .icon { width: 64px; height: 64px; background: #fff; object-fit: cover; }
 .wallet-lockup .wl-on { color: var(--good); font-weight: 700; }
 .wallet-grid { margin-top: 6px; }
+/* Cards with a real preview picture show only the picture (the icon tile is the fallback if the picture fails to load) */
+.pc-img > img + .pl-ini { display: none; }

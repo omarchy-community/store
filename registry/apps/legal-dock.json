@@ -32,6 +32,7 @@
   "cli": false,
   "icon": "featured/legal-dock/icon.png",
   "developer": "5ive7 Development Labs",
+  "developer_wallet": "7UzaFpPezTCTRN6AeKM5z16ACd1dkQE1NrqPtZr4i1Zb",
   "price_usd": 1.97,
   "description": "Legal Dock is a classic or Mac-style dock for Hyprland and Omarchy with two styles you can switch between with one click: Classic (the nwg-dock-hyprland dock) or Mac (a magnifying, macOS-style dock built with Quickshell, with running apps, a right-click menu, and middle-click to pin).\n\nIt adds a menu with Small/Medium/Large icon sizes, a lock for icon order, auto-hide, full-width and transparent modes, an app drawer button, and a confirm-before-reboot button.\n\nMac touches include a Rubik's Cube launcher that scrambles as you open windows, a New Incognito Window option on right-click for most browsers, launch-bounce animation, and Mac-style window animations (spring-open, shrink-and-fade close, minimize-to-dock).\n\nHyprland has no native minimize; Legal Dock adds a real one that parks windows on a hidden workspace and restores them from the dock.\n\nDeveloped by 5ive7 Development Labs. MIT licensed.",
   "notes": "Packaged and mirrored by the Omarchy Store after review (license, package contents, no install hooks or outbound network calls). Source: https://github.com/5ive7/legal-dock",

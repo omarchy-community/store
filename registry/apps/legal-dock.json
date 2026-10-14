@@ -90,6 +90,11 @@
         "icon": "palette",
         "title": "Mac touches",
         "body": "Launch bounce, New Incognito Window on browser icons, a Rubik's Cube launcher that scrambles as you open windows, and optional Mac-style window animations."
+      },
+      {
+        "icon": "pin",
+        "title": "Pins and colours that stick",
+        "body": "Pin apps with a middle-click and lock their order. Your colours live in your own style.css, which updates never overwrite."
       }
     ],
     "steps": [
@@ -99,11 +104,11 @@
       },
       {
         "title": "Start it at login",
-        "body": "Add `legal-dock start` to your Hyprland autostart (Omarchy: ~/.config/hypr/autostart.lua)."
+        "body": "Add “legal-dock start” to your Hyprland autostart (on Omarchy: ~/.config/hypr/autostart.lua)."
       },
       {
         "title": "Pick your style",
-        "body": "Open Legal Dock from the launcher (Super + Space) or run `legal-dock menu`, then choose Classic or Mac."
+        "body": "Open Legal Dock from the launcher (Super + Space) or run “legal-dock menu”, then choose Classic or Mac."
       }
     ],
     "faq": [

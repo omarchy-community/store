@@ -51,7 +51,73 @@ THEME_NOW = os.path.expanduser("~/.local/state/omarchy/current/theme.name")
 RELEASE_RE = re.compile(r"^https://github\.com/(nemoclawai-tech|omarchy-community)/[A-Za-z0-9_.-]+/releases/download/[A-Za-z0-9_.+-]+/[A-Za-z0-9_.+-]+\.pkg\.tar\.zst$")
 SHA_RE = re.compile(r"^[0-9a-f]{64}$")
 CACHE_DIR = os.path.expanduser("~/.cache/omarchy-store")
-VERSION = "1.8.7"   # desktop app version; the catalog's desktop_version tells us when a newer one is out
+VERSION = "1.8.8"   # desktop app version; the catalog's desktop_version tells us when a newer one is out
+
+# ------------------------------------------------------- read-only installs ----
+# AppImage and pacman installs run from a folder the user can't write to. Before 1.8.8 that made
+# the update check crash on its first file write (silently): those users never saw an update and
+# could never install one. Now updates go to a writable overlay copy, and on start the helper
+# hands over to the overlay copy whenever it is newer, whichever launcher started it.
+OVERLAY = os.path.expanduser("~/.local/share/omarchy-store-overlay")
+
+
+def _writable(d):
+    try:
+        os.makedirs(d, exist_ok=True)
+        probe = os.path.join(d, ".write-test")
+        open(probe, "w").close()
+        os.remove(probe)
+        return True
+    except Exception:
+        return False
+
+
+def _file_version(f):
+    try:
+        m = re.search(r'^VERSION = "([^"]+)"', open(f, encoding="utf-8").read(), re.M)
+        return m.group(1) if m else ""
+    except Exception:
+        return ""
+
+
+def _vkey(v):
+    return [int(x) if x.isdigit() else 0 for x in re.split(r"[.\-]", v or "0")]
+
+
+def prepare_home():
+    """Called first thing in main(). Hand over to a newer overlay helper, or move our writable
+    home to the overlay when the install folder is read-only."""
+    global APP_DIR, SITE_DIR
+    if os.path.realpath(APP_DIR) == os.path.realpath(OVERLAY):
+        return
+    ov = _file_version(os.path.join(OVERLAY, "omarchy-store"))
+    if ov and _vkey(ov) > _vkey(VERSION) and os.environ.get("OMARCHY_STORE_NO_HANDOFF") != "1":
+        os.environ["OMARCHY_STORE_HOME"] = OVERLAY
+        os.execv(sys.executable, [sys.executable, os.path.join(OVERLAY, "omarchy-store")] + sys.argv[1:])
+    if _writable(SITE_DIR):
+        return
+    try:
+        os.makedirs(OVERLAY, exist_ok=True)
+        if not os.path.isdir(os.path.join(OVERLAY, "site")):
+            # Copy contents only: a read-only install's permission bits would make the overlay read-only too.
+            shutil.copytree(SITE_DIR, os.path.join(OVERLAY, "site"), copy_function=shutil.copyfile)
+        helper_dst = os.path.join(OVERLAY, "omarchy-store")
+        if _vkey(_file_version(helper_dst)) < _vkey(VERSION):
+            shutil.copyfile(os.path.abspath(__file__), helper_dst)
+        un_src, un_dst = os.path.join(APP_DIR, "uninstall.sh"), os.path.join(OVERLAY, "uninstall.sh")
+        if os.path.exists(un_src) and not os.path.exists(un_dst):
+            shutil.copyfile(un_src, un_dst)
+        for root, dirs, files in os.walk(OVERLAY):
+            os.chmod(root, 0o755)
+            for f in files:
+                p = os.path.join(root, f)
+                os.chmod(p, 0o755 if f in ("omarchy-store", "uninstall.sh") and root == OVERLAY else 0o644)
+        if not _writable(os.path.join(OVERLAY, "site")):
+            return
+        APP_DIR, SITE_DIR = OVERLAY, os.path.join(OVERLAY, "site")
+        os.environ["OMARCHY_STORE_HOME"] = OVERLAY
+    except Exception:
+        pass
 
 TOKEN = secrets.token_urlsafe(24)
 # Write token to a file so install.sh can use it for pre-install
@@ -622,8 +688,24 @@ def maybe_check_self_update():
 
 
 def _vercmp(a, b):
+    """Compare two version strings. Prefers Arch's own `vercmp` (handles epoch/pkgrel exactly),
+    but NEVER silently reports "equal" if that fails — a missing/broken `vercmp` must not be able
+    to make a real update invisible. Falls back to a plain numeric/alpha segment compare."""
     try:
-        return int(subprocess.run(["vercmp", a, b], capture_output=True, text=True, timeout=5).stdout.strip() or 0)
+        out = subprocess.run(["vercmp", a, b], capture_output=True, text=True, timeout=5).stdout.strip()
+        if out.lstrip("-").isdigit():
+            return int(out)
+    except Exception:
+        pass
+    try:
+        key = lambda v: [int(p) if p.isdigit() else p for p in re.split(r"(\d+)", v) if p != ""]
+        ka, kb = key(a), key(b)
+        for x, y in zip(ka, kb):
+            if type(x) != type(y):
+                x, y = str(x), str(y)
+            if x != y:
+                return 1 if x > y else -1
+        return (len(ka) > len(kb)) - (len(ka) < len(kb))
     except Exception:
         return 0
 
@@ -924,7 +1006,7 @@ def write_usb(iso, device):
 
 
 # ---------------------------------------------------------------- self-update ----
-SELF = {"available": None, "installed_new": False}
+SELF = {"available": None, "installed_new": False, "last_check": 0, "last_ok": None, "last_error": None, "seen_desktop_version": None}
 SELF_FILES = ["omarchy-store", "uninstall.sh", "site/index.html", "site/app.js", "site/styles.css"]
 
 
@@ -1020,7 +1102,10 @@ class Handler(SimpleHTTPRequestHandler):
                                     "removable": [i for i in inst if can_uninstall(cat[i])],
                                     "themes_installed": installed_themes(), "theme_current": current_theme(),
                                     "version": VERSION, "store_update": SELF["available"],
-                                    "restart_needed": SELF["installed_new"]})
+                                    "restart_needed": SELF["installed_new"],
+                                    "update_check": {"home": APP_DIR, "home_writable": _writable(SITE_DIR),
+                                                     "last_check": SELF["last_check"], "ok": SELF["last_ok"],
+                                                     "error": SELF["last_error"], "seen": SELF["seen_desktop_version"]}})
         if path == "/api/usb":
             iso = latest_iso()
             with USB_LOCK:
@@ -1359,6 +1444,14 @@ def update_catalog(quiet=False):
             data = r.read()
         cat = json.loads(data)
         assert isinstance(cat.get("apps"), list) and cat["apps"]
+        # Check for a newer desktop app FIRST — before recipe validation and before touching the disk.
+        # A catalog entry this version doesn't understand, or a failed icon/catalog write (read-only
+        # install, full disk…), must never be able to hide the update that fixes it.
+        want = str(cat.get("desktop_version") or "")
+        SELF["last_check"] = time.time()
+        SELF["seen_desktop_version"] = want
+        if want and _vercmp(want, VERSION) > 0 and not SELF["installed_new"]:
+            SELF["available"] = want
         # Validate every recipe *before* accepting the new catalog.
         for a in cat["apps"]:
             if (a.get("install") or {}).get("method") != "store":   # the store's own listing has no recipe
@@ -1401,21 +1494,24 @@ def update_catalog(quiet=False):
         tmp = os.path.join(SITE_DIR, ".catalog.json.tmp")
         open(tmp, "wb").write(data)
         os.replace(tmp, os.path.join(SITE_DIR, "catalog.json"))
-        # Newer desktop app published? Note it: the page shows an Update button (bottom right), and
+        # Newer desktop app published? (Detected above.) The page shows an Update button (bottom right);
         # nothing is swapped until the user clicks it. `omarchy-store --update` (terminal) installs it straight away.
-        want = str(cat.get("desktop_version") or "")
-        if want and _vercmp(want, VERSION) > 0 and not SELF["installed_new"]:
-            SELF["available"] = want
+        SELF["last_ok"] = True
+        SELF["last_error"] = None
+        if SELF["available"] and not SELF["installed_new"]:
             if not quiet:
                 try:
-                    self_update(want)
-                    print(f"✓ desktop app updated to {want} (restart the store to use it)")
+                    self_update(SELF["available"])
+                    print(f"✓ desktop app updated to {SELF['available']} (restart the store to use it)")
                 except Exception as e:
                     print(f"✗ desktop app update failed: {e}")
         if not quiet:
             print(f"✓ catalog updated: {len(cat['apps'])} apps")
         return True
     except Exception as e:
+        SELF["last_check"] = time.time()
+        SELF["last_ok"] = False
+        SELF["last_error"] = f"{type(e).__name__}: {e}"
         if not quiet:
             print(f"✗ update failed: {e}")
         return False
@@ -1482,6 +1578,7 @@ def open_window(port):
 
 def main():
     args = sys.argv[1:]
+    prepare_home()
     if "--serve" in args:
         return serve()
     if "--update" in args:

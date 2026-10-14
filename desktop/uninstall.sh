@@ -51,7 +51,7 @@ rm -rf "$HOME/.local/share/omarchy/webapps/omarchy-store" "$HOME/.local/share/ap
 command -v omarchy-webapp-remove >/dev/null 2>&1 && omarchy-webapp-remove "Omarchy Store" >/dev/null 2>&1 || true
 
 # 4. State, cache and the app itself (including an Electron build's own copy of the store files).
-rm -rf "$HOME/.local/state/omarchy-store" "$HOME/.cache/omarchy-store" "$DEST"
+rm -rf "$HOME/.local/state/omarchy-store" "$HOME/.cache/omarchy-store" "$DEST" "$HOME/.local/share/omarchy-store-overlay"
 if [ -n "${OMARCHY_STORE_HOME:-}" ] && [ "$OMARCHY_STORE_HOME" != "$DEST" ] && [ -d "$OMARCHY_STORE_HOME" ]; then
   case "$OMARCHY_STORE_HOME" in
     "$HOME"/*) rm -rf "$OMARCHY_STORE_HOME/site" "$OMARCHY_STORE_HOME/omarchy-store" "$OMARCHY_STORE_HOME/uninstall.sh" 2>/dev/null ;;

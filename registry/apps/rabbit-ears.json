@@ -11,8 +11,8 @@
     ],
     "version": "1.4.2",
     "url": "https://github.com/nemoclawai-tech/rabbit-ears/releases/download/v1.4.2/rabbit-ears-1.4.2-1-any.pkg.tar.zst",
-    "sha256": "d4e28abd5a51eeb6198adb48ff8c42622e7cc66a18fe9fe69ffa6d3c4d8ce413",
-    "size": 263598
+    "sha256": "0f0704bf3973d7326f679816fc198382fb80d8ec8f446cef1ca84699375dacfd",
+    "size": 260588
   },
   "detect": [
     "rabbit-ears"

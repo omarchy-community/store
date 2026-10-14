@@ -1473,6 +1473,9 @@
   // Developer pages: clicking a developer's name used to leave the store for GitHub. It now
   // opens their page here, listing everything they have in the store, with the outbound links
   // (GitHub, website) offered from there instead.
+  // Hostname for a link's tooltip. The existing `host` helper is scoped inside another
+  // function, so this is its own small version rather than widening that one.
+  const hostOf = (u) => { try { return new URL(u).host.replace(/^www\./, ""); } catch { return String(u || ""); } };
   function devSlug(name) {
     return String(name || "").toLowerCase().trim()
       .replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "") || "unknown";
@@ -1505,7 +1508,10 @@
       ...themes.map((t) => (t.repo || "").split("/")[0]),
       ...themes.map((t) => ((String(t.source_url || "").match(/github\.com\/([^/]+)/) || [])[1]) || ""),
     ].filter(Boolean))];
-    const sites = [...new Set(list.map((a) => a.homepage).filter(Boolean))];
+    // Many apps list their GitHub repo as "homepage". The GitHub mark already covers that, so
+    // a globe pointing back at github.com is a duplicate link pretending to be a website.
+    const sites = [...new Set(list.map((a) => a.homepage).filter(Boolean))]
+      .filter((u) => !/^https?:\/\/(www\.)?github\.com\//i.test(u));
     const stars = list.reduce((n, a) => n + (a.stars || 0), 0) + themes.reduce((n, t) => n + (t.stars || 0), 0);
     const cats = [...new Set(list.map((a) => a.category).filter(Boolean))];
     const catName = (id) => (S.catalog.categories.find((c) => c.id === id) || {}).name || id;
@@ -1520,8 +1526,8 @@
           <h1>${esc(name)}</h1>
           <div class="sub">${made} in the store${cats.length ? ` · ${cats.slice(0, 3).map((c) => esc(catName(c))).join(", ")}` : ""}</div>
           <div class="dev-links">
-            ${owners.map((o) => `<a class="btn ghost" href="https://github.com/${esc(o)}" target="_blank" rel="noopener">${ico("github")} github.com/${esc(o)}</a>`).join("")}
-            ${sites.slice(0, 1).map((u) => `<a class="btn ghost" href="${safeUrl(u)}" target="_blank" rel="noopener">${ico("globe")} Website</a>`).join("")}
+            ${owners.map((o) => `<a class="dev-ico" href="https://github.com/${esc(o)}" target="_blank" rel="noopener" title="${esc(o)} on GitHub" aria-label="${esc(o)} on GitHub">${ico("github")}</a>`).join("")}
+            ${sites.slice(0, 1).map((u) => `<a class="dev-ico" href="${safeUrl(u)}" target="_blank" rel="noopener" title="${esc(hostOf(u))}" aria-label="Website">${ico("globe")}</a>`).join("")}
           </div>
         </div>
       </div>

@@ -1623,3 +1623,10 @@ a.dev{cursor:pointer}
   font-size:40px;font-weight:700;color:var(--muted);background:var(--card);
   border:1px solid rgba(255,255,255,.1)}
 @media (max-width:560px){.dev-avatar{width:64px;height:64px;font-size:28px;border-radius:16px}}
+
+/* Creator's outbound links: the mark only, no spelled-out repo path. */
+.dev-ico{display:inline-grid;place-items:center;width:38px;height:38px;border-radius:11px;
+  color:var(--muted);background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);
+  transition:color .15s,background .15s,border-color .15s}
+.dev-ico:hover{color:var(--text);background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.22)}
+.dev-ico svg{width:19px;height:19px}

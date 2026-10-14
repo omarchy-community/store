@@ -1247,6 +1247,25 @@ html[data-look="glass"] .brand .wordmark img { filter: drop-shadow(0 1px 2px rgb
 .cc-type { padding: 2px 8px; border-radius: 999px; background: linear-gradient(135deg, rgba(158,206,106,.2), rgba(48,209,88,.2)); color: var(--good); font-size: 11px; font-weight: 700; }
 @media (max-width: 720px) { .crypto-row { grid-auto-columns: 78%; } }
 
+@media (max-width: 720px) {
+  .scroller { gap: 14px; padding-bottom: 4px; }
+  .scroller > * { scroll-snap-align: start; min-width: 0; }
+  .rows3 { grid-auto-columns: 88%; }
+  .crypto-row { grid-auto-columns: 85%; }
+  .themes-row { grid-auto-columns: 88%; }
+  .plug-row { grid-auto-columns: 88%; }
+  .rv-cards { grid-auto-columns: 88%; }
+}
+
+@media (max-width: 480px) {
+  .scroller { gap: 12px; padding-bottom: 4px; }
+  .rows3 { grid-auto-columns: 94%; }
+  .crypto-row { grid-auto-columns: 92%; }
+  .themes-row { grid-auto-columns: 94%; }
+  .plug-row { grid-auto-columns: 94%; }
+  .rv-cards { grid-auto-columns: 94%; }
+}
+
 /* Wallet detail page header */
 .detail-head { position: relative; }
 .detail-head .ch-icons { display: grid; grid-template-columns: repeat(9, 40px); gap: 8px; margin-top: 16px; opacity: .5; }

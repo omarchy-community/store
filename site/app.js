@@ -632,7 +632,7 @@
       <section class="shelf"><div class="shelf-head"><h2>Information</h2></div>
         <div class="info-grid">
           <div><div class="k">Creator</div><div class="v">${esc(t.author || "—")}</div></div>
-          ${gh ? `<div><div class="k">Source code</div><a class="v" href="${esc(gh)}" target="_blank" rel="noopener">github.com/${esc(t.repo)}</a></div>` : ""}
+          ${gh ? `<div><div class="k">Source code</div><a class="v" href="${esc(gh)}" target="_blank" rel="noopener" style="word-break: break-all;">github.com/${esc(t.repo)}</a></div>` : ""}
           <div><div class="k">Listed on</div><a class="v" href="${safeUrl(t.source_url)}" target="_blank" rel="noopener">${esc(themeVia(t, src))}</a></div>
           ${canInstallTheme(t) ? `<div><div class="k">Install command</div><div class="v"><code class="small">${esc(themeCmd(t))}</code></div></div>` : ""}
         </div>
@@ -1027,7 +1027,7 @@
           <div><div class="k">Official website</div><a class="v" href="${safeUrl(w.website)}" target="_blank" rel="noopener">${esc(host(w.website))}</a></div>
           <div><div class="k">Chrome Web Store</div><a class="v" href="${esc(cwsUrl(w))}" target="_blank" rel="noopener">Official listing</a></div>
           ${w.firefox_url ? `<div><div class="k">Firefox</div><a class="v" href="${safeUrl(w.firefox_url)}" target="_blank" rel="noopener">Firefox Add-ons</a></div>` : ""}
-          <div><div class="k">Extension ID</div><div class="v"><code class="small">${esc(w.chrome_store_id)}</code></div></div>
+          <div><div class="k">Extension ID</div><div class="v"><code class="small" style="word-break: break-all;">${esc(w.chrome_store_id)}</code></div></div>
         </div></section>
       ${more.length ? `<section class="shelf"><div class="shelf-head"><h2>More wallets</h2><a href="/crypto/">See All</a></div>
         <div class="scroller rows3">${more.map(walletLockup).join("")}</div></section>` : ""}
@@ -1906,7 +1906,7 @@
           ${a.last_commit ? `<div><div class="k">Last code change</div><div class="v">${ago(a.last_commit)}</div></div>` : ""}
           <div><div class="k">Runs in</div><div class="v">${a.kind === "terminal" ? "Terminal" : "Desktop window"}</div></div>
           ${a.homepage ? `<div><div class="k">Website</div><a class="v" href="${safeUrl(a.homepage)}" target="_blank" rel="noopener">${esc(a.homepage.replace(/^https?:\/\/(www\.)?/, "").replace(/\/$/, ""))}</a></div>` : ""}
-          ${ghUrl ? `<div><div class="k">Source code</div><a class="v" href="${esc(ghUrl)}" target="_blank" rel="noopener">github.com/${esc(a.github)}</a></div>` : ""}
+          ${ghUrl ? `<div><div class="k">Source code</div><a class="v" href="${esc(ghUrl)}" target="_blank" rel="noopener" style="word-break: break-all;">github.com/${esc(a.github)}</a></div>` : ""}
           <div><div class="k">Install command</div><div class="v"><code class="small">${esc(cmdFor(a))}</code></div></div>
         </div>
         <div class="trust ${stale ? "warn" : ""}"><span class="trust-icon">${ico(stale ? "warn" : "shield")}</span><div><b>${stale

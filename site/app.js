@@ -1254,6 +1254,9 @@
 
   // ---------- Featured spotlight (billboard on Discover) ----------
   const FICON = {
+    clock: '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+    weather: '<circle cx="8" cy="9" r="3.5"/><path d="M8 2v1.5M8 14.5V16M1 9h1.5M13.5 9H15M3 4l1 1M12 4l-1 1"/><path d="M10 19h8.5a3.5 3.5 0 0 0 .5-7 5 5 0 0 0-9.4-1.3A3.2 3.2 0 0 0 10 19z"/>',
+    wallpaper: '<rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="9.5" r="1.5"/><path d="M21 16l-5-5-7 7M3 18l4-4 3 3"/>',
     dock: '<rect x="3" y="15" width="18" height="5" rx="2.5"/><rect x="5" y="4" width="14" height="8" rx="2"/>',
     grid: '<rect x="3" y="3" width="8" height="18" rx="2"/><rect x="13" y="3" width="8" height="8" rx="2"/><rect x="13" y="13" width="8" height="8" rx="2"/>',
     window: '<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M15 6.5h.01M18 6.5h.01"/>',

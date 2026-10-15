@@ -22,18 +22,17 @@
   "screenshots": [
     "featured/snapdock/hero.webp",
     "featured/snapdock/dock.webp",
-    "featured/snapdock/drag-to-snap.webp",
-    "featured/snapdock/snap-assist.webp",
-    "featured/snapdock/layouts.webp",
-    "featured/snapdock/backup.webp"
+    "featured/snapdock/radio.webp",
+    "featured/snapdock/launchpad.webp",
+    "featured/snapdock/layouts.webp"
   ],
-  "summary": "The next-generation dock for Omarchy: three-dimensional animated logos, snap layouts that truly tile, clock, weather, wallpapers, screensavers, Launchpad, Shortcuts and Task Manager",
-  "description": "New in 3.1: 1UP Radio with a live player, sticky notes you can pin to the desktop, a calculator button and a calendar button. SnapDock 3 is a next-generation dock. One signature look with real three-dimensional logos that move, snap layouts that truly tile, a clock and calendar, weather, wallpapers, screensavers, backup and a clean uninstall. Full list under What's New below.\n\nSnapDock gives Omarchy a beautiful dock and makes your desktop feel instantly familiar if you're coming from a Mac or Windows.\n\nONE SIGNATURE LOOK\nA floating glass shelf. Every button is a real three-dimensional logo that floats, tilts toward your mouse and bounces when it opens something. Icons grow under the mouse if you like; small, medium or large; auto-hide that slides away.\n\nEVERYTHING ONE CLICK AWAY\n- Click an app to open it, click again to minimize it, click a minimized app to bring it back.\n- Right-click any app: its windows, new window, minimize, maximize, snap layouts, move to another desktop, keep in dock, Close and Force quit.\n- Menus and cards close by themselves when you move the mouse away.\n- Point at an open app to see live previews of its windows.\n- Unlock the dock and drag icons wherever you want them.\n\nCLOCK, WEATHER, WALLPAPERS, SCREENSAVERS\nA watch face on the dock opens a calendar. The weather shows today's picture and temperature, the coming days on hover, the full forecast on click. Wallpapers lists your theme's backgrounds and your own pictures. Screensavers lets you tick the ones you like, and they take turns.\n\nLAUNCHPAD\nAll apps opens a full-screen grid of every app on your computer, like a Mac. Type to search, press Enter to open. Prefer Omarchy's own menu? Switch it in Settings.\n\nSHORTCUTS\nYouTube, Instagram, TikTok, X, Discord, Claude, Gemini, ChatGPT, Spotify, Netflix, Gmail and many more, each with its real logo and opening in its own window. Switch each one on or off.\n\nTASK MANAGER\nCtrl + Shift + Esc, just like Windows. See what each app is using, then End task or Force quit anything that's stuck.\n\nWINDOWS THAT SNAP - AND STAY PUT\nDrag a window to a screen edge or corner to snap it. Super + arrows snap and maximize; Super + Z and the title bar give you snap layouts for every window on the desktop. Everything is tiled, so windows never drift off the screen or hide behind each other. Drag a window to the desktop numbers at the top left to move it there.\n\nSCREENSHOTS AND SCREEN RECORDING\nClick the camera on the dock and pick an area, a window, the whole screen, or the whole screen after a short countdown. Right-click it for the whole screen straight away. Copied and saved in Pictures. Switch to Record to film the whole screen or an area, with sound; click the red dot on the camera to stop.\n\nAND MORE\nShow desktop, a screensaver button that locks your computer, Live TV with free public channels, a Trash on the dock, minimize and maximize buttons on every title bar (browsers too), and a Power button that asks before it restarts.\n\nSAFE BY DESIGN\nSnapDock never edits your own settings files. It adds one line to Hyprland's settings and takes it out again if you remove it. Back up your whole setup in one file. Try SnapDock keeps a copy of any other dock's settings before it stops it. Uninstall lists every file it removed.\n\nFree for a limited time, and early adopters get free updates for life.",
+  "summary": "The next-generation dock for Omarchy: real three-dimensional logos that move, snap layouts that truly tile, a clock and calendar, weather, 1UP Radio, sticky notes, a calculator, wallpapers, screensavers, backup and a clean uninstall",
+  "description": "SnapDock is the next-generation dock for Omarchy. One signature look with real three-dimensional logos that move, snap layouts that truly tile, a clock and calendar, weather, 1UP Radio, sticky notes, a calculator, wallpapers, screensavers, backup and a clean uninstall. Full list under What's New below.\n\nSnapDock gives Omarchy a beautiful dock and makes your desktop feel instantly familiar if you're coming from a Mac or Windows.\n\nONE SIGNATURE LOOK\nA floating glass shelf. Every button is a real three-dimensional logo that floats, tilts toward your mouse and bounces when it opens something. Icons grow under the mouse if you like; small, medium or large; auto-hide that slides away.\n\nEVERYTHING ONE CLICK AWAY\n- Click an app to open it, click again to minimize it, click a minimized app to bring it back.\n- Right-click any app: its windows, new window, minimize, maximize, snap layouts, move to another desktop, keep in dock, Close and Force quit.\n- Menus and cards close by themselves when you move the mouse away.\n- Point at an open app to see live previews of its windows.\n- Unlock the dock and drag icons wherever you want them.\n\nRADIO, NOTES AND A CALCULATOR\n1UP Radio sits right on the dock: its logo opens a compact player with what's playing now and what's up next, and little bars dance on the button while the music plays. Write a sticky note, give it a colour and pin it to the desktop as a small floating note you can drag anywhere. A Calculator button opens Omarchy's calculator in front of everything.\n\nCLOCK, WEATHER, WALLPAPERS, SCREENSAVERS\nA watch face on the dock opens a calendar, and there's a Calendar button next to it if you prefer a button. The weather shows today's picture and temperature, the coming days on hover, the full forecast on click. Wallpapers lists your theme's backgrounds and your own pictures. Screensavers lets you tick the ones you like, and they take turns.\n\nLAUNCHPAD\nAll apps opens a full-screen grid of every app on your computer, like a Mac. Type to search, press Enter to open. Prefer Omarchy's own menu? Switch it in Settings.\n\nSHORTCUTS\nYouTube, Instagram, TikTok, X, Discord, Claude, Gemini, ChatGPT, Spotify, Netflix, Gmail and many more, each with its real logo and opening in its own window. Switch each one on or off.\n\nTASK MANAGER\nCtrl + Shift + Esc, just like Windows. See what each app is using, then End task or Force quit anything that's stuck.\n\nWINDOWS THAT SNAP - AND STAY PUT\nDrag a window to a screen edge or corner to snap it. Super + arrows snap and maximize; Super + Z and the title bar give you snap layouts for every window on the desktop. Everything is tiled, so windows never drift off the screen or hide behind each other. Drag a window to the desktop numbers at the top left to move it there.\n\nSCREENSHOTS AND SCREEN RECORDING\nClick the camera on the dock and pick an area, a window, the whole screen, or the whole screen after a short countdown. Right-click it for the whole screen straight away. Copied and saved in Pictures. Switch to Record to film the whole screen or an area, with sound; click the red dot on the camera to stop.\n\nAND MORE\nShow desktop, a screensaver button that locks your computer, Live TV with free public channels, a Trash on the dock, minimize and maximize buttons on every title bar (browsers too), and a Power button that asks before it restarts.\n\nSAFE BY DESIGN\nSnapDock never edits your own settings files. It adds one line to Hyprland's settings and takes it out again if you remove it. Back up your whole setup in one file. Try SnapDock keeps a copy of any other dock's settings before it stops it. Uninstall lists every file it removed.\n\nFree for a limited time, and early adopters get free updates for life.",
   "featured": {
     "badge": "Editors' Choice",
     "eyebrow": "FEATURED APP",
     "headline": "Your dock. Next generation.",
-    "tagline": "SnapDock 3 is one signature dock: real three-dimensional logos that move, snap layouts that truly tile, a clock and calendar, weather, wallpapers and screensavers, a Launchpad, Shortcuts, a Task Manager - and a backup, a try-it and a clean uninstall. It never touches your own settings.",
+    "tagline": "SnapDock is one signature dock: real three-dimensional logos that float, tilt and bounce, snap layouts that truly tile, a clock and calendar, weather, 1UP Radio, sticky notes, a calculator, wallpapers and screensavers - with a backup, a try-it and a clean uninstall. It never touches your own settings.",
     "price": "Free",
     "launch_offer": "Free for a limited time · early adopters get free updates for life",
     "gradient": [
@@ -41,43 +40,61 @@
       "#2f47b8",
       "#1aa0c8"
     ],
-    "art": "featured/snapdock/dock.webp",
+    "art": "featured/snapdock/hero.webp",
     "og": "featured/snapdock/og.png",
     "features": [
       {
         "icon": "dock",
         "hero": true,
-        "new": true,
+        "new": null,
         "title": "Logos with depth that move",
         "body": "Every button on the dock is a real three-dimensional logo: it floats, tilts toward your mouse and bounces when it opens something. Chrome's globe spins, Telegram's plane drifts, the Power ring glows."
       },
       {
+        "icon": "play",
+        "new": true,
+        "title": "1UP Radio on the dock",
+        "body": "Its real logo opens a compact player: what's playing now, what's up next, play, pause, live and volume. The bars on the button dance while it plays, and the music carries on when the card closes."
+      },
+      {
+        "icon": "pin",
+        "new": true,
+        "title": "Sticky notes",
+        "body": "Write a note, give it a colour and pin it to the desktop as a small floating note you can drag anywhere. Notes are kept in your backups."
+      },
+      {
         "icon": "grid",
         "new": true,
+        "title": "Calculator and calendar buttons",
+        "body": "A Calculator button opens Omarchy's calculator, tiled and in front. A Calendar button sits next to the clock for people who like a button. Each can be switched off in Settings."
+      },
+      {
+        "icon": "grid",
+        "new": null,
         "title": "Snap layouts that truly tile",
         "body": "Drag a window to an edge, press Super and an arrow, or pick a layout: SnapDock rebuilds Hyprland's own layout, so windows can never drift off the screen or hide behind each other."
       },
       {
         "icon": "clock",
-        "new": true,
+        "new": null,
         "title": "Clock and calendar",
         "body": "A watch face on the dock with a bezel and glass. Hover it to pick a style, click it for the calendar."
       },
       {
         "icon": "weather",
-        "new": true,
+        "new": null,
         "title": "Weather",
         "body": "Today's picture and temperature on the dock. Hover for the coming days, click for the full forecast; search for any city."
       },
       {
         "icon": "wallpaper",
-        "new": true,
+        "new": null,
         "title": "Wallpapers and screensavers",
         "body": "Pick a background from your theme or your own pictures, run a slideshow, and tick the screensavers you like - they take turns."
       },
       {
         "icon": "backup",
-        "new": true,
+        "new": null,
         "title": "Back up, try it, uninstall",
         "body": "Keep your whole SnapDock setup in one file and bring it back anywhere. Try SnapDock finds another dock and stops it cleanly. Uninstall removes every SnapDock file and tells you what it removed."
       },
@@ -127,7 +144,7 @@
         "icon": "camera",
         "new": null,
         "title": "Screenshots and screen recording",
-        "body": "The camera on the dock takes an area, a window, the whole screen, or the whole screen in 3 seconds. Switch to Record to film the whole screen or an area, with the computer's sound and your microphone. Click the red dot to stop."
+        "body": "The camera on the dock takes an area, a window, the whole screen, or the whole screen after a short countdown. Switch to Record to film the whole screen or an area, with the computer's sound and your microphone. Click the red dot to stop."
       },
       {
         "icon": "window",
@@ -138,7 +155,7 @@
       {
         "icon": "backup",
         "title": "Never touches your files",
-        "body": "SnapDock 2 only adds one line to Hyprland's settings and removes it again if you uninstall. Upgrading from an older SnapDock puts back everything it changed.",
+        "body": "SnapDock only adds one line to Hyprland's settings and removes it again if you uninstall. Upgrading from an older SnapDock puts back everything it changed.",
         "new": null
       },
       {
@@ -150,7 +167,7 @@
       {
         "icon": "desktops",
         "title": "Move to another desktop",
-        "body": "Send a window to desktop 1–5 (the numbers at the top left): click ⧉ on its title bar and pick a number, or drag it to the top left corner and drop it on a numbered tile.",
+        "body": "Send a window to another desktop (the numbers at the top left): click ⧉ on its title bar and pick one, or drag it to the top left corner and drop it on a numbered tile.",
         "new": null
       },
       {
@@ -319,7 +336,7 @@
       },
       {
         "q": "Will it mess up my setup?",
-        "a": "No. SnapDock 2 never edits your own settings files. It adds one line to Hyprland's settings and keeps everything else in its own folders. Coming from an older SnapDock? It first puts back everything the old version changed."
+        "a": "No. SnapDock never edits your own settings files. It adds one line to Hyprland's settings and keeps everything else in its own folders. Coming from an older SnapDock? It first puts back everything the old version changed."
       },
       {
         "q": "Can I change how the dock looks?",
@@ -363,23 +380,23 @@
       "body": "SnapDock is free right now, but not forever: it becomes a paid app after launch. Get it while it's free and you're an early adopter: every future update is included at no cost, for life."
     },
     "chips": [
-      "NEW: Mac & Windows styles",
-      "NEW: Launchpad",
-      "NEW: Task Manager",
-      "NEW: Shortcuts",
-      "Better screenshots",
-      "Drag to snap",
-      "Never touches your files",
-      "33 languages"
+      "NEW: 1UP Radio",
+      "NEW: Sticky notes",
+      "NEW: Calculator & calendar",
+      "Logos with depth",
+      "Snap layouts that tile",
+      "Clock & weather",
+      "Wallpapers & screensavers",
+      "Backup & clean uninstall"
     ],
     "billboard": "featured/snapdock/billboard.webp",
     "install": {
       "file": "https://github.com/nemoclawai-tech/snapdock-releases/releases/download/v2.0.0/snapdock-2.0.0-install.sh",
       "file_name": "snapdock-install.sh",
-      "note": "Already have an older SnapDock, or a dock setup of your own? SnapDock 2 puts back whatever the old version changed and never edits your own files."
+      "note": "Already have an older SnapDock, or a dock setup of your own? SnapDock puts back whatever the old version changed and never edits your own files."
     },
     "price_note": "Limited time",
-    "new_line": "New in 3.1: 1UP Radio with a live player on the dock, sticky notes you can pin to the desktop, a calculator button and a calendar button — on top of the next-generation dock with three-dimensional animated logos, snap layouts that tile, clock, weather, wallpapers and screensavers.",
+    "new_line": "New: 1UP Radio with a live player on the dock, sticky notes you can pin to the desktop, a calculator button and a calendar button - on top of the next-generation dock with three-dimensional logos, snap layouts that tile, a clock, weather, wallpapers and screensavers.",
     "order": 1
   },
   "tags": [
@@ -607,13 +624,13 @@
   "reviews": 536,
   "license": "MIT",
   "chips": [
-    "NEW: Logos with depth",
-    "NEW: Snap layouts that tile",
-    "NEW: Clock & weather",
-    "NEW: Wallpapers & screensavers",
-    "NEW: Backup & clean uninstall",
-    "Launchpad",
-    "Task Manager",
-    "Speaks your language"
+    "NEW: 1UP Radio",
+    "NEW: Sticky notes",
+    "NEW: Calculator & calendar",
+    "Logos with depth",
+    "Snap layouts that tile",
+    "Clock & weather",
+    "Wallpapers & screensavers",
+    "Backup & clean uninstall"
   ]
 }

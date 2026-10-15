@@ -9,9 +9,9 @@
     "packages": [
       "snapdock"
     ],
-    "version": "2.0.7",
-    "url": "https://github.com/nemoclawai-tech/snapdock-releases/releases/download/v2.0.7/snapdock-2.0.7-1-any.pkg.tar.zst",
-    "sha256": "d61623a1a7e035ff4be5f96f282f6cf7439df7b57d10c55b500ae7a0952291ae"
+    "version": "3.0.0",
+    "url": "https://github.com/nemoclawai-tech/snapdock-releases/releases/download/v3.0.0/snapdock-3.0.0-1-any.pkg.tar.zst",
+    "sha256": "04f9cd3be67ee65d8c36b9b848c2248cc01f11a769ee8b267a821fc30ed52ccf"
   },
   "detect": [
     "snapdock"
@@ -27,13 +27,13 @@
     "featured/snapdock/layouts.webp",
     "featured/snapdock/backup.webp"
   ],
-  "summary": "A Mac or Windows style dock for Omarchy, with Launchpad, Shortcuts, Task Manager and Windows-style window snapping",
-  "description": "SnapDock 2 was rebuilt from scratch. Pick a Mac, Windows or SnapDock dock, open every app from a Mac-style Launchpad, end stuck apps in Task Manager. Full list under What's New below.\n\nSnapDock gives Omarchy a beautiful dock and makes your desktop feel instantly familiar if you're coming from a Mac or Windows.\n\nYOUR DOCK, YOUR STYLE\n- Mac: a floating glass shelf, icons that grow as your mouse passes, a dot under open apps.\n- Windows: a taskbar across the bottom with a Start button.\n- SnapDock: a glass pill with a soft shine.\nSwitch any time at the bottom of SnapDock Settings. Small, medium or large, and auto-hide that slides away like on a Mac.\n\nEVERYTHING ONE CLICK AWAY\n- Click an app to open it, click again to minimize it, click a minimized app to bring it back.\n- Right-click any app: its windows, new window, minimize, maximize, snap layouts, move to desktop 1-5, keep in dock, Close and Force quit.\n- Menus and SnapDock Settings close by themselves when you move the mouse away.\n- Point at an open app to see live previews of its windows.\n- Unlock the dock and drag icons wherever you want them.\n\nLAUNCHPAD\nAll apps opens a full-screen grid of every app on your computer, like a Mac. Type to search, press Enter to open. Prefer Omarchy's own menu? Switch it in Settings.\n\nSHORTCUTS\nYouTube, Instagram, TikTok, X, Discord, Claude, Gemini, ChatGPT, Spotify, Netflix, Gmail and many more, each opening in its own window. Switch each one on or off.\n\nTASK MANAGER\nCtrl + Shift + Esc, just like Windows. See what each app is using, then End task or Force quit anything that's stuck.\n\nWINDOWS THAT SNAP\nDrag a window to a screen edge or corner to snap it. Super + arrows snap and maximize; Super + Z and the title bar give you snap layouts. Drag a window to the desktop numbers at the top left to move it there.\n\nSCREENSHOTS AND SCREEN RECORDING\nClick the camera on the dock and pick an area, a window, the whole screen, or the whole screen in 3 seconds. Right-click it for the whole screen straight away. Copied and saved in Pictures. Switch to Record to film the whole screen or an area, with sound; click the red dot on the camera to stop.\n\nAND MORE\nShow desktop (Super + D), a screensaver button that locks your computer, Live TV with free public channels, a Trash on the dock, minimize and maximize buttons on every title bar (browsers too), and new glossy icons.\n\nSAFE BY DESIGN\nSnapDock 2 never edits your own settings files. It adds one line to Hyprland's settings and takes it out again if you remove it. Coming from an older SnapDock? Everything the old version changed is put back first.\n\nFree for a limited time, and early adopters get free updates for life.",
+  "summary": "The next-generation dock for Omarchy: three-dimensional animated logos, snap layouts that truly tile, clock, weather, wallpapers, screensavers, Launchpad, Shortcuts and Task Manager",
+  "description": "New in 3.0: a next-generation dock. One signature look with real three-dimensional logos that move, snap layouts that truly tile, a clock and calendar, weather, wallpapers, screensavers, backup and a clean uninstall. Full list under What's New below.\n\nSnapDock gives Omarchy a beautiful dock and makes your desktop feel instantly familiar if you're coming from a Mac or Windows.\n\nONE SIGNATURE LOOK\nA floating glass shelf. Every button is a real three-dimensional logo that floats, tilts toward your mouse and bounces when it opens something. Icons grow under the mouse if you like; small, medium or large; auto-hide that slides away.\n\nEVERYTHING ONE CLICK AWAY\n- Click an app to open it, click again to minimize it, click a minimized app to bring it back.\n- Right-click any app: its windows, new window, minimize, maximize, snap layouts, move to another desktop, keep in dock, Close and Force quit.\n- Menus and cards close by themselves when you move the mouse away.\n- Point at an open app to see live previews of its windows.\n- Unlock the dock and drag icons wherever you want them.\n\nCLOCK, WEATHER, WALLPAPERS, SCREENSAVERS\nA watch face on the dock opens a calendar. The weather shows today's picture and temperature, the coming days on hover, the full forecast on click. Wallpapers lists your theme's backgrounds and your own pictures. Screensavers lets you tick the ones you like, and they take turns.\n\nLAUNCHPAD\nAll apps opens a full-screen grid of every app on your computer, like a Mac. Type to search, press Enter to open. Prefer Omarchy's own menu? Switch it in Settings.\n\nSHORTCUTS\nYouTube, Instagram, TikTok, X, Discord, Claude, Gemini, ChatGPT, Spotify, Netflix, Gmail and many more, each with its real logo and opening in its own window. Switch each one on or off.\n\nTASK MANAGER\nCtrl + Shift + Esc, just like Windows. See what each app is using, then End task or Force quit anything that's stuck.\n\nWINDOWS THAT SNAP - AND STAY PUT\nDrag a window to a screen edge or corner to snap it. Super + arrows snap and maximize; Super + Z and the title bar give you snap layouts for every window on the desktop. Everything is tiled, so windows never drift off the screen or hide behind each other. Drag a window to the desktop numbers at the top left to move it there.\n\nSCREENSHOTS AND SCREEN RECORDING\nClick the camera on the dock and pick an area, a window, the whole screen, or the whole screen after a short countdown. Right-click it for the whole screen straight away. Copied and saved in Pictures. Switch to Record to film the whole screen or an area, with sound; click the red dot on the camera to stop.\n\nAND MORE\nShow desktop, a screensaver button that locks your computer, Live TV with free public channels, a Trash on the dock, minimize and maximize buttons on every title bar (browsers too), and a Power button that asks before it restarts.\n\nSAFE BY DESIGN\nSnapDock never edits your own settings files. It adds one line to Hyprland's settings and takes it out again if you remove it. Back up your whole setup in one file. Try SnapDock keeps a copy of any other dock's settings before it stops it. Uninstall lists every file it removed.\n\nFree for a limited time, and early adopters get free updates for life.",
   "featured": {
     "badge": "Editors' Choice",
     "eyebrow": "FEATURED APP",
-    "headline": "Your dock. Mac or Windows style.",
-    "tagline": "SnapDock 2 is rebuilt from scratch: a Mac, Windows or SnapDock dock, a Mac-style Launchpad, Shortcuts for your favourite sites, a Task Manager to end stuck apps, and Windows-style snapping. It never touches your own settings. Free for a limited time, and early adopters get free updates for life.",
+    "headline": "Your dock. Next generation.",
+    "tagline": "SnapDock 3 is one signature dock: real three-dimensional logos that move, snap layouts that truly tile, a clock and calendar, weather, wallpapers and screensavers, a Launchpad, Shortcuts, a Task Manager - and a backup, a try-it and a clean uninstall. It never touches your own settings.",
     "price": "Free",
     "launch_offer": "Free for a limited time · early adopters get free updates for life",
     "gradient": [
@@ -48,66 +48,98 @@
         "icon": "dock",
         "hero": true,
         "new": true,
-        "title": "Mac, Windows or SnapDock style",
-        "body": "Pick the dock you know: a floating Mac shelf whose icons grow under your mouse, a Windows taskbar with a Start button, or SnapDock's own glass pill. Switch any time at the bottom of SnapDock Settings."
+        "title": "Logos with depth that move",
+        "body": "Every button on the dock is a real three-dimensional logo: it floats, tilts toward your mouse and bounces when it opens something. Chrome's globe spins, Telegram's plane drifts, the Power ring glows."
       },
       {
         "icon": "grid",
         "new": true,
+        "title": "Snap layouts that truly tile",
+        "body": "Drag a window to an edge, press Super and an arrow, or pick a layout: SnapDock rebuilds Hyprland's own layout, so windows can never drift off the screen or hide behind each other."
+      },
+      {
+        "icon": "clock",
+        "new": true,
+        "title": "Clock and calendar",
+        "body": "A watch face on the dock with a bezel and glass. Hover it to pick a style, click it for the calendar."
+      },
+      {
+        "icon": "weather",
+        "new": true,
+        "title": "Weather",
+        "body": "Today's picture and temperature on the dock. Hover for the coming days, click for the full forecast; search for any city."
+      },
+      {
+        "icon": "wallpaper",
+        "new": true,
+        "title": "Wallpapers and screensavers",
+        "body": "Pick a background from your theme or your own pictures, run a slideshow, and tick the screensavers you like - they take turns."
+      },
+      {
+        "icon": "backup",
+        "new": true,
+        "title": "Back up, try it, uninstall",
+        "body": "Keep your whole SnapDock setup in one file and bring it back anywhere. Try SnapDock finds another dock and stops it cleanly. Uninstall removes every SnapDock file and tells you what it removed."
+      },
+      {
+        "icon": "grid",
+        "new": null,
         "title": "Launchpad",
         "body": "All apps opens a full-screen grid of every app, like a Mac. Type to search and press Enter to open. Right-click an app to keep it in the dock. Prefer Omarchy's menu? It's one switch."
       },
       {
         "icon": "doctor",
-        "new": true,
+        "new": null,
         "title": "Task Manager",
         "body": "Ctrl + Shift + Esc, just like Windows. See how much each app uses, then End task or Force quit anything that stopped responding."
       },
       {
         "icon": "pin",
-        "new": true,
+        "new": null,
         "title": "Shortcuts",
         "body": "YouTube, Instagram, TikTok, X, Discord, Claude, Gemini, ChatGPT, Spotify, Netflix, Gmail and many more, each opening in its own window. Turn each one on or off."
       },
       {
         "icon": "drag",
-        "new": true,
+        "new": null,
         "title": "Move your icons",
         "body": "Unlock the dock and drag icons wherever you want them, apps and shortcuts alike. Lock it again when you're done."
       },
       {
         "icon": "window",
-        "new": true,
+        "new": null,
         "title": "Close and Force quit",
         "body": "Right-click any open app to close it, or force quit it if it's frozen. Menus close by themselves when you move the mouse away."
       },
       {
         "icon": "assist",
-        "new": true,
+        "new": null,
         "title": "Window previews",
         "body": "Point at an open app on the dock to see live pictures of its windows. Click one to bring it forward, or close it from there."
       },
       {
         "icon": "power",
-        "new": true,
+        "new": null,
         "title": "Screensaver and lock",
         "body": "One click on the moon starts the screensaver and locks the computer, so it asks for your password when you come back."
       },
       {
         "icon": "camera",
-        "new": true,
+        "new": null,
         "title": "Screenshots and screen recording",
         "body": "The camera on the dock takes an area, a window, the whole screen, or the whole screen in 3 seconds. Switch to Record to film the whole screen or an area, with the computer's sound and your microphone. Click the red dot to stop."
       },
       {
         "icon": "window",
         "title": "Show desktop",
-        "body": "Super + D, or the button on the dock, sends every window down so you see your background. Press again and they all come back."
+        "body": "Super + D, or the button on the dock, sends every window down so you see your background. Press again and they all come back.",
+        "new": null
       },
       {
         "icon": "backup",
         "title": "Never touches your files",
-        "body": "SnapDock 2 only adds one line to Hyprland's settings and removes it again if you uninstall. Upgrading from an older SnapDock puts back everything it changed."
+        "body": "SnapDock 2 only adds one line to Hyprland's settings and removes it again if you uninstall. Upgrading from an older SnapDock puts back everything it changed.",
+        "new": null
       },
       {
         "icon": "minimize",
@@ -154,7 +186,7 @@
       {
         "icon": "language",
         "title": "Speaks your language",
-        "body": "33 languages, picked automatically from your computer's language. Choose another one any time: SnapDock → Language.",
+        "body": "Picked automatically from your computer's language, with English for anything not translated yet. Choose another one any time: SnapDock → Language.",
         "new": null
       }
     ],
@@ -169,7 +201,7 @@
       },
       {
         "title": "Make it yours",
-        "body": "Click the gear on the dock: pick Mac, Windows or SnapDock style at the bottom, the size, Shortcuts, and unlock the dock to move icons."
+        "body": "Click the gear on the dock: size, what sits on the dock (clock, weather, wallpapers, screensaver…), Shortcuts, and unlock the dock to move icons."
       }
     ],
     "shortcuts": [
@@ -290,8 +322,8 @@
         "a": "No. SnapDock 2 never edits your own settings files. It adds one line to Hyprland's settings and keeps everything else in its own folders. Coming from an older SnapDock? It first puts back everything the old version changed."
       },
       {
-        "q": "How do I switch between Mac and Windows style?",
-        "a": "Click the gear on the dock (SnapDock Settings). Dock style is at the bottom: Mac, Windows or SnapDock. It changes right away."
+        "q": "Can I change how the dock looks?",
+        "a": "SnapDock 3 has one signature look. Click the gear on the dock for the size, icons that grow under the mouse, auto-hide, and which buttons sit on the dock (clock, weather, wallpapers, screensaver, Trash and more)."
       },
       {
         "q": "How do I move the icons on the dock?",
@@ -319,7 +351,7 @@
       },
       {
         "q": "How do I remove it?",
-        "a": "Press Remove on SnapDock's page in the Omarchy Store. Or open a terminal and type snapdock uninstall. It takes out its one line and its own files, and your setup is exactly as it was."
+        "a": "Press Remove on SnapDock's page in the Omarchy Store, or click the gear on the dock and choose Uninstall SnapDock, or open a terminal and type snapdock uninstall. It takes out its one line and its own files, lists what it removed, and your setup is exactly as it was."
       },
       {
         "q": "Which Omarchy do I need?",
@@ -347,7 +379,7 @@
       "note": "Already have an older SnapDock, or a dock setup of your own? SnapDock 2 puts back whatever the old version changed and never edits your own files."
     },
     "price_note": "Limited time",
-    "new_line": "New in 2.0.7: press Super + Shift + R to record your whole screen, and again to stop.",
+    "new_line": "New in 3.0: a next-generation dock with three-dimensional animated logos, snap layouts that truly tile, a clock and calendar, weather, wallpapers, screensavers, backup and a clean uninstall.",
     "order": 1
   },
   "tags": [
@@ -372,6 +404,22 @@
     "workspaces"
   ],
   "changelog": [
+    {
+      "version": "3.0.0",
+      "date": "2026-10-14",
+      "title": "The next-generation dock",
+      "items": [
+        "One signature SnapDock look: a floating glass shelf where every button is a real three-dimensional logo that floats, tilts toward your mouse and bounces when it opens something. Chrome's globe spins, Telegram's plane drifts, the Power ring glows.",
+        "Snap layouts that actually tile: every snap, drag-to-edge and layout pick rebuilds Hyprland's own layout, so windows can never drift off the screen or hide behind each other. New windows always open tiled and in front.",
+        "A clock on the dock: a real watch face with a bezel and glass; hover it to pick a style, click it for the calendar.",
+        "Weather on the dock: today's picture and temperature, hover for the coming days, click for the full forecast with city search.",
+        "Wallpapers: every background of your theme plus your own pictures, one click to use, a slideshow if you like.",
+        "Screensavers: tick the ones you like and they take turns; preview any of them without locking.",
+        "Back up and restore your whole SnapDock setup in one file.",
+        "Try SnapDock: finds another dock on your computer, keeps a copy of its settings and stops it. Uninstall takes every SnapDock file off again and tells you what it removed.",
+        "The Mac and Windows icon sets are gone: one dock, one look."
+      ]
+    },
     {
       "version": "2.0.7",
       "date": "2026-10-14",
@@ -535,5 +583,15 @@
   ],
   "stars": 4.3,
   "reviews": 536,
-  "license": "MIT"
+  "license": "MIT",
+  "chips": [
+    "NEW: Logos with depth",
+    "NEW: Snap layouts that tile",
+    "NEW: Clock & weather",
+    "NEW: Wallpapers & screensavers",
+    "NEW: Backup & clean uninstall",
+    "Launchpad",
+    "Task Manager",
+    "Speaks your language"
+  ]
 }

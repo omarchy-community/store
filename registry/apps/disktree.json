@@ -18,5 +18,8 @@
   "tags": [
     "omarchy-repo"
   ],
-  "source": "omarchy-repo"
+  "source": "omarchy-repo",
+  "screenshots": [
+    "featured/disktree/billboard.webp"
+  ]
 }

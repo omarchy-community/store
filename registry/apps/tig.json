@@ -25,5 +25,8 @@
  "developer": "Jonas Fonseca",
  "icon": null,
  "homepage": "https://jonas.github.io/tig/",
- "source": "nightly-sourcing"
+ "source": "nightly-sourcing",
+ "screenshots": [
+  "featured/tig/billboard.webp"
+ ]
 }

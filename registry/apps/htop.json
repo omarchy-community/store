@@ -26,5 +26,8 @@
  "developer": "htop dev team",
  "icon": "https://raw.githubusercontent.com/PapirusDevelopmentTeam/papirus-icon-theme/master/Papirus/64x64/apps/htop.svg",
  "homepage": "https://htop.dev/",
- "source": "nightly-sourcing"
+ "source": "nightly-sourcing",
+ "screenshots": [
+  "featured/htop/billboard.webp"
+ ]
 }

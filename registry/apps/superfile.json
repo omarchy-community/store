@@ -25,5 +25,8 @@
  "developer": "Yorukot",
  "icon": null,
  "homepage": "https://superfile.dev",
- "source": "nightly-sourcing"
+ "source": "nightly-sourcing",
+ "screenshots": [
+  "featured/superfile/billboard.webp"
+ ]
 }

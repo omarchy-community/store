@@ -25,5 +25,8 @@
  "developer": "Roman Anufriev",
  "icon": null,
  "homepage": "https://anufrievroman.gitbook.io/waypaper",
- "source": "nightly-sourcing"
+ "source": "nightly-sourcing",
+ "screenshots": [
+  "featured/waypaper/billboard.webp"
+ ]
 }

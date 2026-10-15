@@ -26,5 +26,8 @@
  "developer": "Robin Candau",
  "icon": null,
  "homepage": "https://github.com/Antiz96/arch-update",
- "source": "nightly-sourcing"
+ "source": "nightly-sourcing",
+ "screenshots": [
+  "featured/arch-update/billboard.webp"
+ ]
 }

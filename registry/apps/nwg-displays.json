@@ -26,5 +26,8 @@
  "developer": "Piotr Miller",
  "icon": "https://raw.githubusercontent.com/PapirusDevelopmentTeam/papirus-icon-theme/master/Papirus/64x64/apps/nwg-displays.svg",
  "homepage": "https://github.com/nwg-piotr/nwg-displays",
- "source": "nightly-sourcing"
+ "source": "nightly-sourcing",
+ "screenshots": [
+  "featured/nwg-displays/billboard.webp"
+ ]
 }

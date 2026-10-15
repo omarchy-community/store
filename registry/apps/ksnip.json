@@ -25,5 +25,8 @@
  "developer": "ksnip project",
  "icon": "https://raw.githubusercontent.com/PapirusDevelopmentTeam/papirus-icon-theme/master/Papirus/64x64/apps/ksnip.svg",
  "homepage": "https://github.com/ksnip/ksnip",
- "source": "nightly-sourcing"
+ "source": "nightly-sourcing",
+ "screenshots": [
+  "featured/ksnip/billboard.webp"
+ ]
 }

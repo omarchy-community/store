@@ -51,7 +51,7 @@ THEME_NOW = os.path.expanduser("~/.local/state/omarchy/current/theme.name")
 RELEASE_RE = re.compile(r"^https://github\.com/(nemoclawai-tech|omarchy-community)/[A-Za-z0-9_.-]+/releases/download/[A-Za-z0-9_.+-]+/[A-Za-z0-9_.+-]+\.pkg\.tar\.zst$")
 SHA_RE = re.compile(r"^[0-9a-f]{64}$")
 CACHE_DIR = os.path.expanduser("~/.cache/omarchy-store")
-VERSION = "1.8.17"   # desktop app version; the catalog's desktop_version tells us when a newer one is out
+VERSION = "1.8.18"   # desktop app version; the catalog's desktop_version tells us when a newer one is out
 
 # ------------------------------------------------------- read-only installs ----
 # AppImage and pacman installs run from a folder the user can't write to. Before 1.8.8 that made
@@ -120,14 +120,23 @@ def prepare_home():
         pass
 
 TOKEN = secrets.token_urlsafe(24)
-# Write token to a file so install.sh can use it for pre-install
+# Write the token to a file so install.sh (and `omarchy-store` opening a window) can talk to the
+# running helper. ONLY the process that actually serves may write it: every invocation used to
+# overwrite the file at import, so the token on disk stopped matching the helper answering on the
+# port and callers got "bad token".
 TOKEN_FILE = os.path.join(STATE_DIR, "token")
-try:
-    os.makedirs(STATE_DIR, exist_ok=True)
-    with open(TOKEN_FILE, "w") as f:
-        f.write(TOKEN)
-except Exception:
-    pass
+
+
+def claim_token_file():
+    try:
+        os.makedirs(STATE_DIR, exist_ok=True)
+        with open(TOKEN_FILE, "w") as f:
+            f.write(TOKEN)
+        os.chmod(TOKEN_FILE, 0o600)      # it authorises installs: keep it to this user
+    except Exception:
+        pass
+
+
 JOBS = {}            # app id -> {"state": running|done|failed, "started": ts}
 JOBS_LOCK = threading.Lock()
 
@@ -1097,6 +1106,36 @@ def self_update(target_version):
     SELF["installed_new"] = True
 
 
+# The running process keeps the OLD code in memory until it restarts. Before 1.8.18 that restart
+# only ever happened when someone clicked Update, so a helper that stayed open for weeks kept
+# reporting its old version forever even though the new files were already on disk. The hourly
+# check now installs and restarts on its own; these two helpers make that safe.
+HTTPD = None            # set in serve(), so the background thread can free the port before exec
+
+
+def _busy():
+    """True while anything is installing/removing/updating, or an ISO is being written.
+    Never restart under a running job: that would kill it halfway."""
+    with JOBS_LOCK:
+        return any(j.get("state") in ("running", "removing") for j in JOBS.values())
+
+
+def restart_into_new_version():
+    """Re-exec on the freshly installed files. Same mechanism as the Update button's restart,
+    so the open window keeps working: we come back on the same port (see free_port)."""
+    try:
+        os.remove(PORT_FILE)
+    except OSError:
+        pass
+    if HTTPD is not None:
+        os.environ["OMARCHY_STORE_PORT"] = str(HTTPD.server_port)
+        try:
+            HTTPD.socket.close()        # free the port before exec (the fd would otherwise linger)
+        except Exception:
+            pass
+    os.execv(sys.executable, [sys.executable, os.path.join(APP_DIR, "omarchy-store"), "--serve"])
+
+
 MIGRATION_STATE = {"status": "idle", "progress": 0, "error": None, "done": False}
 
 
@@ -1554,16 +1593,19 @@ def update_catalog(quiet=False):
         tmp = os.path.join(SITE_DIR, ".catalog.json.tmp")
         open(tmp, "wb").write(data)
         os.replace(tmp, os.path.join(SITE_DIR, "catalog.json"))
-        # Newer desktop app published? (Detected above.) The page shows an Update button (bottom right);
-        # nothing is swapped until the user clicks it. `omarchy-store --update` (terminal) installs it straight away.
+        # Newer desktop app published? (Detected above.) Install it right away — in the background
+        # too, not just from the terminal. The page still shows the Update button for anyone who
+        # wants it now; `updater()` restarts onto the new version as soon as nothing is running.
         SELF["last_ok"] = True
         SELF["last_error"] = None
         if SELF["available"] and not SELF["installed_new"]:
-            if not quiet:
-                try:
-                    self_update(SELF["available"])
+            try:
+                self_update(SELF["available"])
+                if not quiet:
                     print(f"✓ desktop app updated to {SELF['available']} (restart the store to use it)")
-                except Exception as e:
+            except Exception as e:
+                SELF["last_error"] = f"self-update: {e}"
+                if not quiet:
                     print(f"✗ desktop app update failed: {e}")
         if not quiet:
             print(f"✓ catalog updated: {len(cat['apps'])} apps")
@@ -1580,6 +1622,13 @@ def update_catalog(quiet=False):
 def updater():
     while True:
         update_catalog(quiet=True)
+        # New version already on disk? Come back on it. Waiting for a click is what left users
+        # stuck on an old version for weeks. Never mid-install: we retry on the next pass.
+        if SELF["installed_new"] and not _busy():
+            try:
+                restart_into_new_version()
+            except Exception:
+                pass            # couldn't re-exec: keep serving, the Update button still works
         time.sleep(UPDATE_EVERY)
 
 
@@ -1590,6 +1639,42 @@ def alive(port):
             return json.load(r).get("desktop") is True
     except Exception:
         return False
+
+
+def running_version(port):
+    try:
+        with urllib.request.urlopen(f"http://127.0.0.1:{port}/api/status", timeout=3) as r:
+            return str(json.load(r).get("version") or "")
+    except Exception:
+        return ""
+
+
+def refresh_stale_helper(port):
+    """Opening the store must never show a helper that is still running last month's code.
+    A long-lived background helper keeps the old version in memory even after the new files
+    are on disk, so if disk is newer we ask it to restart onto them before the window opens."""
+    disk = _file_version(os.path.join(APP_DIR, "omarchy-store"))
+    live = running_version(port)
+    if not disk or not live or _vkey(disk) <= _vkey(live):
+        return port
+    try:
+        token = open(TOKEN_FILE).read().strip()
+        req = urllib.request.Request(
+            f"http://127.0.0.1:{port}/api/restart", data=b"{}", method="POST",
+            headers={"Origin": f"http://127.0.0.1:{port}", "X-Store-Token": token,
+                     "Content-Type": "application/json"})
+        urllib.request.urlopen(req, timeout=5).read()
+    except Exception:
+        return port                      # couldn't ask: open the old one rather than nothing
+    for _ in range(75):                  # it re-execs onto the same port
+        time.sleep(0.2)
+        try:
+            p = int(open(PORT_FILE).read())
+            if alive(p) and _vkey(running_version(p)) >= _vkey(disk):
+                return p
+        except Exception:
+            pass
+    return port
 
 
 def free_port():
@@ -1610,9 +1695,12 @@ def free_port():
 
 
 def serve():
+    global HTTPD
     os.makedirs(STATE_DIR, exist_ok=True)
+    claim_token_file()          # we are the helper: the token on disk is now ours
     port = free_port()
     httpd = ThreadingHTTPServer(("127.0.0.1", port), Handler)
+    HTTPD = httpd
     open(PORT_FILE, "w").write(str(port))
     threading.Thread(target=updater, daemon=True).start()
     signal.signal(signal.SIGTERM, lambda *a: sys.exit(0))
@@ -1664,6 +1752,8 @@ def main():
                 pass
         else:
             raise SystemExit("omarchy-store: helper failed to start (try: omarchy-store --serve)")
+    else:
+        port = refresh_stale_helper(port)
     open_window(port)
 
 

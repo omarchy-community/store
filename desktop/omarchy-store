@@ -51,7 +51,7 @@ THEME_NOW = os.path.expanduser("~/.local/state/omarchy/current/theme.name")
 RELEASE_RE = re.compile(r"^https://github\.com/(nemoclawai-tech|omarchy-community)/[A-Za-z0-9_.-]+/releases/download/[A-Za-z0-9_.+-]+/[A-Za-z0-9_.+-]+\.pkg\.tar\.zst$")
 SHA_RE = re.compile(r"^[0-9a-f]{64}$")
 CACHE_DIR = os.path.expanduser("~/.cache/omarchy-store")
-VERSION = "1.8.15"   # desktop app version; the catalog's desktop_version tells us when a newer one is out
+VERSION = "1.8.16"   # desktop app version; the catalog's desktop_version tells us when a newer one is out
 
 # ------------------------------------------------------- read-only installs ----
 # AppImage and pacman installs run from a folder the user can't write to. Before 1.8.8 that made

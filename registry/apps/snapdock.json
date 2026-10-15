@@ -9,9 +9,9 @@
     "packages": [
       "snapdock"
     ],
-    "version": "3.0.0",
-    "url": "https://github.com/nemoclawai-tech/snapdock-releases/releases/download/v3.0.0/snapdock-3.0.0-1-any.pkg.tar.zst",
-    "sha256": "04f9cd3be67ee65d8c36b9b848c2248cc01f11a769ee8b267a821fc30ed52ccf"
+    "version": "3.0.1",
+    "url": "https://github.com/nemoclawai-tech/snapdock-releases/releases/download/v3.0.1/snapdock-3.0.1-1-any.pkg.tar.zst",
+    "sha256": "f211a01077e639b7a4a7db437a9926a3af758f466694abd4eb7a302c90d14763"
   },
   "detect": [
     "snapdock"
@@ -379,7 +379,7 @@
       "note": "Already have an older SnapDock, or a dock setup of your own? SnapDock 2 puts back whatever the old version changed and never edits your own files."
     },
     "price_note": "Limited time",
-    "new_line": "New in 3.0: a next-generation dock with three-dimensional animated logos, snap layouts that truly tile, a clock and calendar, weather, wallpapers, screensavers, backup and a clean uninstall.",
+    "new_line": "New in 3.0.1: snap a window on its own to any half or corner, and new windows always open in front — on top of the next-generation dock with three-dimensional animated logos, clock and calendar, weather, wallpapers and screensavers.",
     "order": 1
   },
   "tags": [
@@ -404,6 +404,16 @@
     "workspaces"
   ],
   "changelog": [
+    {
+      "version": "3.0.1",
+      "date": "2026-10-14",
+      "title": "Snapping on its own",
+      "items": [
+        "Snap a window that is alone on the desktop and it takes exactly the spot you chose — half, corner or third. The moment another window opens, both tile side by side with the new one in front.",
+        "New windows always take focus; nothing opens behind another window any more.",
+        "Only one SnapDock runs at a time: starting it quietly closes any other copy."
+      ]
+    },
     {
       "version": "3.0.0",
       "date": "2026-10-14",

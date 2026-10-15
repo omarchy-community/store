@@ -791,26 +791,74 @@ def check_updates(force=False):
 
 
 def quick_updatable(cat, inst):
-    """Store-release apps on this computer with a newer version in the catalog (fast: no network),
-    so their page can say UPDATE right away. Other updates show in the Updates tab."""
+    """Store apps on this computer with a newer version in the catalog (fast: no network),
+    so their page can say UPDATE right away. Covers store releases AND packaged apps
+    (Brave, Chrome, Zen…) — before 1.8.17 only `release` apps were considered, so a packaged
+    app never got an UPDATE button on its page no matter how old the installed copy was."""
     out = []
     have = {}
     try:
         for ln in subprocess.run(["pacman", "-Q"], capture_output=True, text=True, timeout=15).stdout.splitlines():
-            n, v = ln.split()[:2]; have[n] = v.split("-")[0]
+            n, v = ln.split()[:2]; have[n] = v
     except Exception:
         pass
+    # Anything the last update check already found (repo/AUR/release) is updatable, no question.
+    with UPD_LOCK:
+        cached = (UPD["data"] or {}).get("apps") or []
+    out += [a["id"] for a in cached if a.get("via") != "plugin" and a["id"] in cat]
     for aid in inst:
+        if aid in out:
+            continue
         a = cat.get(aid) or {}
-        if (a.get("install") or {}).get("method") != "release":
+        method = (a.get("install") or {}).get("method")
+        if method == "store":
+            continue
+        pk = a.get("package") or {}
+        # Only compare against the catalog for packages that come from the same place the user
+        # installs from: Omarchy's own repo and store releases. Arch packages are served by
+        # Omarchy's pinned stable mirror, which deliberately lags archlinux.org — comparing with
+        # those would offer an UPDATE that no amount of clicking can ever satisfy.
+        if pk.get("repo") not in ("omarchy", "release") and method != "release":
             continue
         det = a.get("detect") or []
-        mine = have.get(det[0]) if det else None
-        mine = mine or file_install_version(aid)
-        latest = (a.get("package") or {}).get("version") or a["install"].get("version")
+        pkg = pk.get("name") or (det[0] if det else None)
+        mine = have.get(pkg) if pkg else None
+        latest = pk.get("version") or (a.get("install") or {}).get("version")
+        if method == "release":
+            # Store releases publish a bare version; compare without the pacman release suffix.
+            mine = (mine or "").split("-")[0] or file_install_version(aid)
         if mine and latest and _vercmp(latest, mine) > 0:
             out.append(aid)
     return out
+
+
+def app_packages(app):
+    """The package names an app owns, whatever shape its recipe has.
+
+    Recipes that name packages outright (pacman/aur/release) carry them in `install.packages`,
+    but an `omarchy install …` recipe (Brave, Chrome, Zen…) names none: its packages are what
+    the catalog pinned (`package.name`) and what `detect` looks for. Updates need that name,
+    so resolve all three instead of giving up on the ones that don't spell it out."""
+    inst = app.get("install") or {}
+    names = list(inst.get("packages") or [])
+    pin = (app.get("package") or {}).get("name")
+    if pin:
+        names.append(pin)
+    names += list(app.get("detect") or [])
+    out = []
+    for p in names:
+        if PKG_RE.match(p or "") and p not in out:
+            out.append(p)
+    return out
+
+
+def in_sync_repo(pkg):
+    """True when pkg comes from a pacman repo (Arch's or Omarchy's own), not the AUR."""
+    try:
+        return subprocess.run(["pacman", "-Si", pkg], stdout=subprocess.DEVNULL,
+                              stderr=subprocess.DEVNULL, timeout=20).returncode == 0
+    except Exception:
+        return False
 
 
 def run_update(app=None):
@@ -821,17 +869,29 @@ def run_update(app=None):
         key = "__all__"
     else:
         m = app["install"]["method"]
-        pkgs = app["install"].get("packages") or []
-        if not all(PKG_RE.match(p) for p in pkgs):
+        if not all(PKG_RE.match(p) for p in app["install"].get("packages") or []):
             raise ValueError("bad package list")
+        pkgs = app_packages(app)
+        pre = ""
         if m == "release":
             argv = ["sudo", "pacman", "-U", "--needed", fetch_release(app)]
-        elif m == "aur":
-            argv = ["yay", "-S", "--needed", "--noconfirm"] + pkgs
-        else:
-            # Arch never updates one repo package on its own (partial upgrades break systems).
+        elif not pkgs:
+            # Nothing names a package: fall back to the whole-system updater.
             return run_update(None)
-        script = f"echo {shlex.quote('Updating ' + app['name'] + '…')}; echo; " + " ".join(shlex.quote(x) for x in argv)
+        elif any(in_sync_repo(p) for p in pkgs):
+            # The app lives in a pacman repo (Arch's or Omarchy's). `pacman -S` alone can't
+            # upgrade it — the local database may be stale and a bare -S after -Sy is a partial
+            # upgrade, which breaks Arch systems. `-Syu <pkg>` is the supported way: refresh,
+            # upgrade, and bring this package along. A snapshot first, exactly like omarchy-update.
+            if shutil.which("omarchy-snapshot"):
+                pre += "omarchy-snapshot create || true; "
+            if shutil.which("omarchy-update-keyring"):
+                pre += "omarchy-update-keyring || true; "
+            argv = ["sudo", "pacman", "-Syu", "--needed"] + pkgs
+        else:
+            argv = ["yay", "-S", "--needed", "--noconfirm"] + pkgs
+        script = (f"echo {shlex.quote('Updating ' + app['name'] + '…')}; echo; " + pre
+                  + " ".join(shlex.quote(x) for x in argv))
         key = app["id"]
     with JOBS_LOCK:
         JOBS["update:" + key] = {"state": "running", "started": time.time()}

@@ -1650,7 +1650,9 @@
     // "Store apps" that can update on their own (release/aur/plugin). Ones tied to pacman's own
     // repo (via "system") can't be updated in isolation — Arch only allows that as part of a full
     // Omarchy OS update — so they're excluded from the "Only Update Store Apps" bulk action.
-    const storeOnly = apps.filter((x) => x.via !== "system");
+    // Every store app can be updated on its own now — a repo-backed one (Brave, Chrome, Zen…)
+    // syncs and upgrades with the package named, which is the only safe way on Arch.
+    const storeOnly = apps;
     const storeOnlyBusy = storeOnly.some((x) => running.has(x.a.id)) || S.updOnlyBusy;
     const when = u?.checked ? new Date(u.checked * 1000).toLocaleTimeString([], { hour: "numeric", minute: "2-digit" }) : "";
     const storeBanner = S.status?.restart_needed
@@ -1668,14 +1670,14 @@
         !apps.length && !others ? `<div class="upd-ok">${ico("installed")}<div><b>Everything is up to date</b><span>Your store apps and Omarchy are on the latest versions.</span></div></div>` : ""}
       ${apps.length ? `<div class="upd-sec-head"><h2 class="upd-sec">Omarchy Store apps <span>${apps.length}</span></h2>
           <button class="btn ghost small" data-upd-store-only ${storeOnlyBusy ? "disabled" : ""}>${storeOnlyBusy ? '<span class="ring"></span> Updating…' : "Update All Store Apps"}</button></div>
-        <p class="small muted" style="margin:-4px 0 10px">Apps listed in the Omarchy Store. Each updates on its own, with no password needed for plugins.${storeOnly.length ? "" : " All of the apps below happen to come bundled with Omarchy's own packages right now, so they only update together with Omarchy OS."}</p>
+        <p class="small muted" style="margin:-4px 0 10px">Apps listed in the Omarchy Store. Each updates on its own, with no password needed for plugins. Apps that ship as Omarchy packages refresh the package list as they update, because Arch can't upgrade one package in isolation.</p>
         <div class="upd-list">${apps.map(({ a, installed, latest, via }) => `
           <div class="upd-row">
             <a href="${a.plugin ? "/plugins/" : `/app/${a.id}/`}">${a.plugin ? `<img class="upd-plug-ico" src="${esc(a.icon)}" alt="" width="56" height="56" loading="lazy">` : iconImg(a, 56)}</a>
             <div class="upd-meta"><a href="${a.plugin ? "/plugins/" : `/app/${a.id}/`}" class="name">${esc(a.name)}</a>
               <span class="ver">${esc(installed.split("-")[0])} → <b>${esc(latest.split("-")[0])}</b></span>
-              ${via === "system" ? `<span class="note">Updates with Omarchy OS, below</span>` : via === "plugin" ? `<span class="note">Plugin · no password needed</span>` : ""}</div>
-            ${via === "system" ? "" : `<button class="get ${running.has(a.id) ? "busy" : ""}" ${a.plugin ? `data-upd-plug="${esc(a.id)}"` : `data-upd="${esc(a.id)}"`} ${running.has(a.id) ? "disabled" : ""}>${running.has(a.id) ? '<span class="ring"></span>' : "UPDATE"}</button>`}
+              ${via === "system" ? `<span class="note">Omarchy package · refreshes packages as it updates</span>` : via === "plugin" ? `<span class="note">Plugin · no password needed</span>` : ""}</div>
+            <button class="get ${running.has(a.id) ? "busy" : ""}" ${a.plugin ? `data-upd-plug="${esc(a.id)}"` : `data-upd="${esc(a.id)}"`} ${running.has(a.id) ? "disabled" : ""}>${running.has(a.id) ? '<span class="ring"></span>' : "UPDATE"}</button>
           </div>`).join("")}</div>` : ""}
       ${others ? `<div class="upd-sec-head"><h2 class="upd-sec">Omarchy OS Updates <span>${others}</span></h2>
           <button class="get ${running.has("__all__") ? "busy" : ""}" data-upd-all ${running.has("__all__") ? "disabled" : ""}>${running.has("__all__") ? '<span class="ring"></span>' : "Update Omarchy OS"}</button></div>
@@ -1703,18 +1705,25 @@
     }, 8000);
   }
   async function doUpdateStoreOnly() {
-    // Updates every store app that can update on its own (release/aur/plugin), one at a time,
-    // and leaves anything tied to the Omarchy OS update alone.
+    // Updates every store app that has a newer version. Plugins and store releases update one by
+    // one; apps that ship as system/Omarchy packages are done together in a single pass, because
+    // each of those syncs the package list anyway and one terminal beats five password prompts.
     const u = S.upd, apps = (u?.apps || []).map((x) => ({ ...x, a: x.via === "plugin" ? { id: x.id, name: x.name, icon: x.icon, plugin: 1 } : S.byId[x.id] })).filter((x) => x.a);
-    const targets = apps.filter((x) => x.via !== "system");
-    if (!targets.length) return toast("These apps update together with Omarchy OS — use Update Omarchy OS below");
+    if (!apps.length) return toast("Nothing to update");
+    const solo = apps.filter((x) => x.via !== "system"), packaged = apps.filter((x) => x.via === "system");
     S.updOnlyBusy = true; rerender();
-    toast(`Updating ${targets.length} store app${targets.length === 1 ? "" : "s"} — follow the terminal window(s)`);
-    for (const t of targets) {
+    toast(`Updating ${apps.length} store app${apps.length === 1 ? "" : "s"} — follow the terminal window(s)`);
+    for (const t of solo) {
       try {
         if (t.a.plugin) await post("/api/plugin/update", { id: t.a.id });
         else await post("/api/update", { id: t.a.id });
       } catch {}
+      await loadUpdates(false);
+    }
+    if (packaged.length) {
+      // One pass brings them all up to date: that update syncs and upgrades the system,
+      // which carries every other packaged app with it.
+      try { await post("/api/update", { id: packaged[0].a.id }); } catch {}
       await loadUpdates(false);
     }
     S.updOnlyBusy = false;

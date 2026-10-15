@@ -1,0 +1,29 @@
+{
+ "id": "trayscale",
+ "name": "Trayscale",
+ "category": "security",
+ "github": "DeedleFake/trayscale",
+ "flathub": "dev.deedles.Trayscale",
+ "license": "MIT",
+ "install": {
+  "method": "aur",
+  "packages": [
+   "trayscale"
+  ]
+ },
+ "detect": [
+  "trayscale"
+ ],
+ "kind": "gui",
+ "open": "trayscale",
+ "tags": [
+  "tailscale",
+  "vpn",
+  "networking"
+ ],
+ "summary": "Unofficial GTK front end for Tailscale with a tray icon, peer list, exit nodes and file sharing",
+ "description": "Trayscale is a GTK4/libadwaita app for the Tailscale daemon on Linux. It shows your tailnet's peers and their status, toggles the connection, picks exit nodes, manages Taildrop file sends and receives, handles Mullvad exit nodes, and sits in the tray. It needs tailscaled installed and your user set as operator (sudo tailscale set --operator=$USER).",
+ "developer": "DeedleFake",
+ "homepage": "https://github.com/DeedleFake/trayscale",
+ "source": "nightly-sourcing"
+}

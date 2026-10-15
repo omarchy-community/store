@@ -1,0 +1,29 @@
+{
+ "id": "adwsteamgtk",
+ "name": "AdwSteamGtk",
+ "category": "games",
+ "github": "Foldex/AdwSteamGtk",
+ "flathub": "io.github.Foldex.AdwSteamGtk",
+ "license": "GPL-3.0",
+ "install": {
+  "method": "aur",
+  "packages": [
+   "adwsteamgtk"
+  ]
+ },
+ "detect": [
+  "adwsteamgtk"
+ ],
+ "kind": "gui",
+ "open": "adwsteamgtk",
+ "tags": [
+  "steam",
+  "theme",
+  "gtk"
+ ],
+ "summary": "Installs and updates the Adwaita for Steam skin so the Steam client matches a GNOME-style desktop",
+ "description": "AdwSteamGtk is a small GTK4 app that downloads the Adwaita-for-Steam skin, lets you choose its options (colour theme, window controls, library and login tweaks) and applies it to your Steam installation. It checks for new skin releases on startup and can run from the command line to update automatically.",
+ "developer": "Foldex",
+ "homepage": "https://github.com/Foldex/AdwSteamGtk",
+ "source": "nightly-sourcing"
+}

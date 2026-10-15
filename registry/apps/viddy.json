@@ -1,0 +1,30 @@
+{
+ "id": "viddy",
+ "name": "Viddy",
+ "category": "terminal",
+ "github": "sachaos/viddy",
+ "flathub": null,
+ "license": "MIT",
+ "install": {
+  "method": "aur",
+  "packages": [
+   "viddy"
+  ]
+ },
+ "detect": [
+  "viddy"
+ ],
+ "kind": "terminal",
+ "open": "viddy",
+ "tags": [
+  "watch",
+  "monitoring",
+  "rust"
+ ],
+ "summary": "A modern watch command with diff highlighting, a time machine to rewind output, and Vim keys",
+ "description": "Viddy runs a command repeatedly and shows its output like watch, but adds colour, highlighted diffs between runs, a time-machine mode that lets you scroll back through earlier snapshots, search, a pager view and Vim-style keymaps. History can be saved and loaded later, and shell aliases work. Written in Rust.",
+ "developer": "Takumasa Sakao",
+ "icon": null,
+ "homepage": "https://github.com/sachaos/viddy",
+ "source": "nightly-sourcing"
+}

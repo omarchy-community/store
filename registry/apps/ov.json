@@ -1,0 +1,30 @@
+{
+ "id": "ov",
+ "name": "ov",
+ "category": "terminal",
+ "github": "noborus/ov",
+ "flathub": null,
+ "license": "MIT",
+ "install": {
+  "method": "aur",
+  "packages": [
+   "ov"
+  ]
+ },
+ "detect": [
+  "ov"
+ ],
+ "kind": "terminal",
+ "open": "ov",
+ "tags": [
+  "pager",
+  "less",
+  "csv"
+ ],
+ "summary": "Feature-rich terminal pager that understands columns, headers, compressed files and follow mode",
+ "description": "ov is a pager meant to replace less for structured text. It can fix header rows and columns while you scroll, align CSV and tabular output, highlight matches, follow growing files like tail -f, open gzip/bzip2/zstd/xz files directly, wrap or scroll horizontally, and act as a pager for psql or other tools. Keybindings and styles are configurable in YAML.",
+ "developer": "Noboru Saito",
+ "icon": null,
+ "homepage": "https://noborus.github.io/ov",
+ "source": "nightly-sourcing"
+}

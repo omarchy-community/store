@@ -1,0 +1,30 @@
+{
+ "id": "topgrade",
+ "name": "Topgrade",
+ "category": "utilities",
+ "github": "topgrade-rs/topgrade",
+ "flathub": null,
+ "license": "GPL-3.0",
+ "install": {
+  "method": "aur",
+  "packages": [
+   "topgrade-bin"
+  ]
+ },
+ "detect": [
+  "topgrade-bin"
+ ],
+ "kind": "terminal",
+ "open": "topgrade",
+ "tags": [
+  "updates",
+  "pacman",
+  "aur",
+  "maintenance"
+ ],
+ "summary": "Upgrades everything at once: pacman and AUR packages, Flatpak, cargo, pip, npm, shell plugins and more",
+ "description": "Topgrade detects the package managers and tools you use and runs each one's update command in a single pass, so you are not keeping a shell one-liner of upgrades in sync. On Omarchy that means pacman and yay, plus Flatpak, Rust crates, Python and Node tools, Neovim plugins, oh-my-zsh and fish plugins, Firmware via fwupd, and many others. Steps can be disabled or customised in a TOML config.",
+ "developer": "Topgrade contributors",
+ "homepage": "https://github.com/topgrade-rs/topgrade",
+ "source": "nightly-sourcing"
+}

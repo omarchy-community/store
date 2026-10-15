@@ -1,0 +1,30 @@
+{
+ "id": "wttrbar",
+ "name": "wttrbar",
+ "category": "utilities",
+ "github": "bjesus/wttrbar",
+ "flathub": null,
+ "license": "MIT",
+ "install": {
+  "method": "aur",
+  "packages": [
+   "wttrbar"
+  ]
+ },
+ "detect": [
+  "wttrbar"
+ ],
+ "kind": "terminal",
+ "open": "wttrbar",
+ "tags": [
+  "waybar",
+  "weather",
+  "hyprland"
+ ],
+ "summary": "Weather module for Waybar powered by wttr.in, with a detailed forecast tooltip",
+ "description": "wttrbar is a small Rust program that prints weather for Waybar's custom module format using wttr.in. The bar shows the current temperature and condition, while the tooltip holds a multi-day hourly forecast. Options cover location, units, AM/PM time, Nerd Font icons, date format and which indicator to show.",
+ "developer": "Yoav Moran",
+ "icon": null,
+ "homepage": "https://github.com/bjesus/wttrbar",
+ "source": "nightly-sourcing"
+}

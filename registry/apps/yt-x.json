@@ -1,0 +1,31 @@
+{
+ "id": "yt-x",
+ "name": "yt-x",
+ "category": "media",
+ "github": "Benexl/yt-x",
+ "flathub": null,
+ "license": "MIT",
+ "install": {
+  "method": "aur",
+  "packages": [
+   "yt-x"
+  ]
+ },
+ "detect": [
+  "yt-x"
+ ],
+ "kind": "terminal",
+ "open": "yt-x",
+ "tags": [
+  "youtube",
+  "yt-dlp",
+  "mpv",
+  "video"
+ ],
+ "summary": "Browse YouTube and other yt-dlp supported sites from the terminal or your launcher, then play them in mpv",
+ "description": "yt-x is a POSIX shell script that searches YouTube and other sites supported by yt-dlp, shows results with thumbnails through fzf or rofi, and plays or downloads your pick with mpv and yt-dlp. It supports subscriptions, playlists, trending, watch history, saved searches and a configurable theme, so you can watch videos without opening a browser.",
+ "developer": "Benexl",
+ "icon": null,
+ "homepage": "https://github.com/Benexl/yt-x",
+ "source": "nightly-sourcing"
+}

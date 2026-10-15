@@ -1,0 +1,29 @@
+{
+ "id": "kubecolor",
+ "name": "kubecolor",
+ "category": "developer-tools",
+ "github": "kubecolor/kubecolor",
+ "flathub": null,
+ "license": "MIT",
+ "install": {
+  "method": "aur",
+  "packages": [
+   "kubecolor"
+  ]
+ },
+ "detect": [
+  "kubecolor"
+ ],
+ "kind": "terminal",
+ "open": "kubecolor",
+ "tags": [
+  "kubernetes",
+  "kubectl",
+  "devops"
+ ],
+ "summary": "Colourises kubectl output so resources, statuses and errors are easy to scan",
+ "description": "kubecolor wraps kubectl and adds colour to its output and nothing else: it calls the real kubectl and highlights columns, statuses, YAML and JSON, and errors. Alias kubectl to kubecolor and your existing workflow continues to work. Themes include light-background and colour-blind-friendly presets.",
+ "developer": "kubecolor contributors",
+ "homepage": "https://kubecolor.github.io/",
+ "source": "nightly-sourcing"
+}

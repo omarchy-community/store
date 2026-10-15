@@ -1,0 +1,29 @@
+{
+ "id": "sleek",
+ "name": "sleek",
+ "category": "productivity",
+ "github": "ransome1/sleek",
+ "flathub": "com.github.ransome1.sleek",
+ "license": "MIT",
+ "install": {
+  "method": "aur",
+  "packages": [
+   "sleek"
+  ]
+ },
+ "detect": [
+  "sleek"
+ ],
+ "kind": "gui",
+ "open": "sleek",
+ "tags": [
+  "todo",
+  "tasks",
+  "todo.txt"
+ ],
+ "summary": "Todo.txt manager with a clean interface, filters, recurring tasks, due dates and dark mode",
+ "description": "sleek is a desktop app for the todo.txt format. Your tasks stay in a plain text file you can edit anywhere, while sleek adds a searchable list with filters for contexts, projects, priorities and due dates, recurring tasks, threshold dates, drag and drop, multiple files and a dark theme. It works with files synced through any cloud or git.",
+ "developer": "Robin Ahle",
+ "homepage": "https://github.com/ransome1/sleek/wiki",
+ "source": "nightly-sourcing"
+}

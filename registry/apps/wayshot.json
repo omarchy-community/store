@@ -1,0 +1,29 @@
+{
+ "id": "wayshot",
+ "name": "wayshot",
+ "category": "graphics",
+ "github": "waycrate/wayshot",
+ "flathub": null,
+ "license": "BSD-2-Clause",
+ "install": {
+  "method": "aur",
+  "packages": [
+   "wayshot"
+  ]
+ },
+ "detect": [
+  "wayshot"
+ ],
+ "kind": "terminal",
+ "open": "wayshot",
+ "tags": [
+  "screenshot",
+  "wayland",
+  "hyprland"
+ ],
+ "summary": "Native, fast screenshot tool for wlroots-style Wayland compositors with region select and clipboard copy",
+ "description": "wayshot captures the screen on Wayland compositors that implement the wlr-screencopy protocol, including Hyprland. It can grab the whole display, one output, or a region picked interactively or passed as a slurp-style geometry string, copy the result to the clipboard, pick a colour from the screen, and write PNG, JPEG, WebP or JPEG XL. Written in Rust by the waycrate project.",
+ "developer": "waycrate",
+ "homepage": "https://github.com/waycrate/wayshot",
+ "source": "nightly-sourcing"
+}

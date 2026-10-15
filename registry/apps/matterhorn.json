@@ -1,0 +1,29 @@
+{
+ "id": "matterhorn",
+ "name": "Matterhorn",
+ "category": "communication",
+ "github": "matterhorn-chat/matterhorn",
+ "flathub": null,
+ "license": "BSD-3-Clause",
+ "install": {
+  "method": "aur",
+  "packages": [
+   "matterhorn"
+  ]
+ },
+ "detect": [
+  "matterhorn"
+ ],
+ "kind": "terminal",
+ "open": "matterhorn",
+ "tags": [
+  "mattermost",
+  "chat",
+  "tui"
+ ],
+ "summary": "Terminal client for Mattermost team chat, with channels, threads, search and attachments",
+ "description": "Matterhorn is a full-featured terminal client for the Mattermost chat server. It supports multiple teams, channels and direct messages, threads, message editing and reactions, search, attachments, URL opening, theming and Vim-style or Emacs-style keybindings. Versions track the Mattermost server version they are tested against.",
+ "developer": "Matterhorn contributors",
+ "homepage": "https://github.com/matterhorn-chat/matterhorn",
+ "source": "nightly-sourcing"
+}

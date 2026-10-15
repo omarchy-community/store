@@ -1,0 +1,30 @@
+{
+ "id": "speedtest-go",
+ "name": "speedtest-go",
+ "category": "utilities",
+ "github": "showwin/speedtest-go",
+ "flathub": null,
+ "license": "MIT",
+ "install": {
+  "method": "aur",
+  "packages": [
+   "speedtest-go"
+  ]
+ },
+ "detect": [
+  "speedtest-go"
+ ],
+ "kind": "terminal",
+ "open": "speedtest-go",
+ "tags": [
+  "speedtest",
+  "network",
+  "bandwidth"
+ ],
+ "summary": "Command-line internet speed test against speedtest.net servers, written in Go",
+ "description": "speedtest-go measures download and upload speed and latency using speedtest.net's server network from the terminal. You can pick servers by id or location, run multiple servers in parallel, output JSON for scripts, and test over a specific network interface or proxy. It is also a Go library.",
+ "developer": "Yasuhiro Showwin",
+ "icon": null,
+ "homepage": "https://github.com/showwin/speedtest-go",
+ "source": "nightly-sourcing"
+}

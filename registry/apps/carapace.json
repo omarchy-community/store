@@ -1,0 +1,30 @@
+{
+ "id": "carapace",
+ "name": "carapace",
+ "category": "terminal",
+ "github": "carapace-sh/carapace-bin",
+ "flathub": null,
+ "license": "MIT",
+ "install": {
+  "method": "aur",
+  "packages": [
+   "carapace-bin"
+  ]
+ },
+ "detect": [
+  "carapace-bin"
+ ],
+ "kind": "terminal",
+ "open": "carapace",
+ "tags": [
+  "completion",
+  "shell",
+  "fish",
+  "zsh"
+ ],
+ "summary": "Argument completion for hundreds of CLI tools, working the same way in bash, zsh, fish and nushell",
+ "description": "carapace-bin is one completer that serves many shells. It ships completions for a long list of commands (git, docker, kubectl, systemctl, pacman and more) and plugs into bash, zsh, fish, nushell, elvish, PowerShell, Xonsh and others, so your tab completions are consistent across shells. Completions can be extended with simple YAML specs, and a bridge can reuse completions from other frameworks.",
+ "developer": "carapace-sh",
+ "homepage": "https://carapace.sh",
+ "source": "nightly-sourcing"
+}

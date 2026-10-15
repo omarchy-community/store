@@ -1,0 +1,30 @@
+{
+ "id": "joshuto",
+ "name": "joshuto",
+ "category": "terminal",
+ "github": "kamiyaa/joshuto",
+ "flathub": null,
+ "license": "LGPL-3.0",
+ "install": {
+  "method": "aur",
+  "packages": [
+   "joshuto"
+  ]
+ },
+ "detect": [
+  "joshuto"
+ ],
+ "kind": "terminal",
+ "open": "joshuto",
+ "tags": [
+  "file-manager",
+  "ranger",
+  "rust"
+ ],
+ "summary": "ranger-like terminal file manager written in Rust with tabs, bulk rename and image previews",
+ "description": "joshuto is a three-column terminal file manager in the style of ranger. It has tabs, bulk rename, file previews through external scripts (including images in supporting terminals), fzf and zoxide integration, clipboard support, trash, custom keybindings and a theme file. Being a single Rust binary it starts instantly and has no Python dependency.",
+ "developer": "Jeff Zhao",
+ "icon": null,
+ "homepage": "https://github.com/kamiyaa/joshuto",
+ "source": "nightly-sourcing"
+}

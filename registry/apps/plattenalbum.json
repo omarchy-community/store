@@ -1,0 +1,29 @@
+{
+ "id": "plattenalbum",
+ "name": "Plattenalbum",
+ "category": "media",
+ "github": "SoongNoonien/plattenalbum",
+ "flathub": "de.wagnermartin.Plattenalbum",
+ "license": "GPL-3.0",
+ "install": {
+  "method": "aur",
+  "packages": [
+   "plattenalbum"
+  ]
+ },
+ "detect": [
+  "plattenalbum"
+ ],
+ "kind": "gui",
+ "open": "plattenalbum",
+ "tags": [
+  "mpd",
+  "music",
+  "gtk4"
+ ],
+ "summary": "MPD client that browses your music collection with large album covers and plays without playlists",
+ "description": "Plattenalbum is a GTK4/libadwaita client for the Music Player Daemon. Browse artists and albums with big cover art, search your library, queue albums with a click, see lyrics and song info, and control playback from the window or a media key. It needs a running MPD server (0.24 or newer) on the same or another machine.",
+ "developer": "Martin Wagner",
+ "homepage": "https://github.com/SoongNoonien/plattenalbum",
+ "source": "nightly-sourcing"
+}

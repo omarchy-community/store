@@ -1,0 +1,31 @@
+{
+ "id": "ashell",
+ "name": "ashell",
+ "category": "utilities",
+ "github": "MalpenZibo/ashell",
+ "flathub": null,
+ "license": "GPL-3.0",
+ "install": {
+  "method": "aur",
+  "packages": [
+   "ashell"
+  ]
+ },
+ "detect": [
+  "ashell"
+ ],
+ "kind": "gui",
+ "open": "ashell",
+ "tags": [
+  "hyprland",
+  "status-bar",
+  "wayland",
+  "waybar-alternative"
+ ],
+ "summary": "Ready-to-go Wayland status bar for Hyprland and Niri with workspaces, tray, media, network and power menus",
+ "description": "ashell is a status bar that works out of the box on Hyprland, Niri and other Wayland compositors. It shows workspaces, the active window, system information, a tray, keyboard layout, clock with calendar and weather, media player controls, and a settings panel with Wi-Fi, Bluetooth, VPN, audio, brightness, idle inhibitor and power actions. The TOML config hot-reloads, supports multiple monitors, and themes the bar as a solid strip or transparent islands.",
+ "developer": "MalpenZibo",
+ "icon": null,
+ "homepage": "https://malpenzibo.github.io/ashell/",
+ "source": "nightly-sourcing"
+}

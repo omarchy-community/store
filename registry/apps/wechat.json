@@ -1,0 +1,21 @@
+{
+  "id": "wechat",
+  "name": "WeChat",
+  "category": "communication",
+  "install": {
+    "method": "pacman",
+    "packages": [
+      "wechat-bin"
+    ]
+  },
+  "detect": [
+    "wechat-bin"
+  ],
+  "kind": "gui",
+  "summary": "WeChat (微信) for Linux, the official client from Tencent",
+  "homepage": "https://linux.weixin.qq.com/",
+  "tags": [
+    "omarchy-repo"
+  ],
+  "source": "omarchy-repo"
+}

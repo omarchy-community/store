@@ -1,0 +1,31 @@
+{
+ "id": "witr",
+ "name": "witr",
+ "category": "developer-tools",
+ "github": "pranshuparmar/witr",
+ "flathub": null,
+ "license": "Apache-2.0",
+ "install": {
+  "method": "aur",
+  "packages": [
+   "witr"
+  ]
+ },
+ "detect": [
+  "witr"
+ ],
+ "kind": "terminal",
+ "open": "witr",
+ "tags": [
+  "processes",
+  "debugging",
+  "systemd",
+  "tui"
+ ],
+ "summary": "Answers “why is this running?” by tracing a process, port, container or file back to what started it",
+ "description": "witr takes a process name, PID, port, container or file and walks the chain that caused it to run: the systemd unit, shell, cron job, container runtime or parent process behind it. It prints a readable explanation, machine-readable JSON for scripts, or an interactive TUI for digging through the tree. Handy when a port is busy or a stray process appears and you want the cause, not just the symptom.",
+ "developer": "Pranshu Parmar",
+ "icon": null,
+ "homepage": "https://pranshuparmar.github.io/witr/",
+ "source": "nightly-sourcing"
+}

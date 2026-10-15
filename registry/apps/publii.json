@@ -1,0 +1,30 @@
+{
+ "id": "publii",
+ "name": "Publii",
+ "category": "productivity",
+ "github": "GetPublii/Publii",
+ "flathub": null,
+ "license": "GPL-3.0",
+ "install": {
+  "method": "aur",
+  "packages": [
+   "publii"
+  ]
+ },
+ "detect": [
+  "publii"
+ ],
+ "kind": "gui",
+ "open": "publii",
+ "tags": [
+  "static-site",
+  "cms",
+  "blog",
+  "website"
+ ],
+ "summary": "Desktop CMS that builds fast, static websites with a WordPress-like editor and built-in themes",
+ "description": "Publii is a desktop app for building static websites. You write posts and pages in a familiar CMS interface, pick and tweak a theme, and Publii generates a plain HTML site you can publish to GitHub Pages, Netlify, S3, an FTP server and more. Because everything runs locally there is no server to patch or database to secure, and the resulting sites load quickly and work well for SEO.",
+ "developer": "TidyCustoms",
+ "homepage": "https://getpublii.com",
+ "source": "nightly-sourcing"
+}

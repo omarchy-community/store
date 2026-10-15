@@ -1,0 +1,29 @@
+{
+ "id": "mousam",
+ "name": "Mousam",
+ "category": "utilities",
+ "github": "amit9838/mousam",
+ "flathub": "io.github.amit9838.mousam",
+ "license": "GPL-3.0",
+ "install": {
+  "method": "aur",
+  "packages": [
+   "mousam"
+  ]
+ },
+ "detect": [
+  "mousam"
+ ],
+ "kind": "gui",
+ "open": "mousam",
+ "tags": [
+  "weather",
+  "gtk4",
+  "libadwaita"
+ ],
+ "summary": "Weather at a glance: current conditions, air quality, hourly and 7-day forecasts in a GTK4 app",
+ "description": "Mousam is a libadwaita weather app. It shows temperature, humidity, wind, UV index, pressure and air quality with health classifications, hourly and seven-day forecasts with charts, sun and moon tracking, dynamic backgrounds that follow the conditions, optional notifications and a compact mode. Metric and imperial units are supported.",
+ "developer": "Amit Chaudhary",
+ "homepage": "https://amit9838.github.io/mousam/",
+ "source": "nightly-sourcing"
+}

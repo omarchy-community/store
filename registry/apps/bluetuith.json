@@ -1,0 +1,29 @@
+{
+ "id": "bluetuith",
+ "name": "bluetuith",
+ "category": "utilities",
+ "github": "bluetuith-org/bluetuith",
+ "flathub": null,
+ "license": "MIT",
+ "install": {
+  "method": "aur",
+  "packages": [
+   "bluetuith"
+  ]
+ },
+ "detect": [
+  "bluetuith"
+ ],
+ "kind": "terminal",
+ "open": "bluetuith",
+ "tags": [
+  "bluetooth",
+  "tui",
+  "bluez"
+ ],
+ "summary": "Terminal Bluetooth manager: pair, connect, transfer files and control media from a keyboard-driven UI",
+ "description": "bluetuith is a TUI replacement for Bluetooth managers like blueman. It shows adapters and devices, handles pairing and authentication prompts, connects audio devices, sends and receives files over OBEX with a progress view, and includes a media player control. Mouse support is included. The project describes itself as alpha but is widely packaged.",
+ "developer": "bluetuith-org",
+ "homepage": "https://github.com/bluetuith-org/bluetuith",
+ "source": "nightly-sourcing"
+}

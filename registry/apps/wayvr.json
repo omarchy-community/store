@@ -1,0 +1,30 @@
+{
+ "id": "wayvr",
+ "name": "WayVR",
+ "category": "utilities",
+ "github": "wayvr-org/wayvr",
+ "flathub": null,
+ "license": "GPL-3.0",
+ "install": {
+  "method": "aur",
+  "packages": [
+   "wayvr"
+  ]
+ },
+ "detect": [
+  "wayvr"
+ ],
+ "kind": "gui",
+ "open": "wayvr",
+ "tags": [
+  "vr",
+  "openxr",
+  "steamvr",
+  "wayland"
+ ],
+ "summary": "OpenXR/OpenVR overlay that brings your Wayland desktop and apps into VR with minimal overhead",
+ "description": "WayVR (formerly WlxOverlay-S) is a lightweight overlay for SteamVR and Monado. It mirrors your desktop screens into VR, lets you launch applications directly inside the headset, supports keyboard and pointer input from the controllers, and is designed to run alongside VR games with as little performance impact as possible. Works on Wayland and X11 and supports both OpenVR and OpenXR.",
+ "developer": "WayVR contributors",
+ "homepage": "https://wayvr.org",
+ "source": "nightly-sourcing"
+}

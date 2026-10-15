@@ -1,0 +1,31 @@
+{
+ "id": "kime",
+ "name": "kime",
+ "category": "utilities",
+ "github": "Riey/kime",
+ "flathub": null,
+ "license": "GPL-3.0",
+ "install": {
+  "method": "aur",
+  "packages": [
+   "kime"
+  ]
+ },
+ "detect": [
+  "kime"
+ ],
+ "kind": "gui",
+ "open": "kime",
+ "tags": [
+  "input-method",
+  "korean",
+  "ime",
+  "wayland"
+ ],
+ "summary": "Fast Korean input method engine with Wayland, GTK, Qt and XIM support and custom layouts",
+ "description": "kime is a Korean IME written in Rust. It works with Wayland and X11 (XIM) apps and provides modules for GTK3, GTK4, Qt5 and Qt6, offers Dubeolsik, Sebeolsik and custom layouts, hanja conversion, emoji input and an indicator. It is small, well tested and avoids the crashes common to older engines.",
+ "developer": "Riey",
+ "icon": null,
+ "homepage": "https://github.com/Riey/kime",
+ "source": "nightly-sourcing"
+}

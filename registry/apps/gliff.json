@@ -1,0 +1,22 @@
+{
+  "id": "gliff",
+  "name": "Gliff",
+  "category": "utilities",
+  "github": "omacom/gliff",
+  "install": {
+    "method": "pacman",
+    "packages": [
+      "gliff"
+    ]
+  },
+  "detect": [
+    "gliff"
+  ],
+  "kind": "gui",
+  "summary": "Hyprland remote desktop over SSH (GPU H.264, 4:4:4)",
+  "homepage": "https://github.com/omacom/gliff",
+  "tags": [
+    "omarchy-repo"
+  ],
+  "source": "omarchy-repo"
+}

@@ -1,0 +1,30 @@
+{
+ "id": "calcure",
+ "name": "Calcure",
+ "category": "productivity",
+ "github": "anufrievroman/calcure",
+ "flathub": null,
+ "license": "MIT",
+ "install": {
+  "method": "aur",
+  "packages": [
+   "calcure"
+  ]
+ },
+ "detect": [
+  "calcure"
+ ],
+ "kind": "terminal",
+ "open": "calcure",
+ "tags": [
+  "calendar",
+  "todo",
+  "tui"
+ ],
+ "summary": "TUI calendar and task manager with Vim keys, .ics import, subtasks, deadlines and timers",
+ "description": "Calcure is a terminal calendar and to-do app. It keeps events and tasks in plain text files you can sync yourself, shows events from .ics files exported by cloud calendars, lists birthdays from abook, and imports from calcurse. Tasks support subtasks, deadlines and timers; the interface uses Vim keys, custom colours and icons, and resizes down to phone-sized terminals.",
+ "developer": "Roman Anufriev",
+ "icon": null,
+ "homepage": "https://anufrievroman.gitbook.io/calcure",
+ "source": "nightly-sourcing"
+}

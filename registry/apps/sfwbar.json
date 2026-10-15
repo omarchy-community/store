@@ -1,0 +1,30 @@
+{
+ "id": "sfwbar",
+ "name": "SFWBar",
+ "category": "utilities",
+ "github": "LBCrion/sfwbar",
+ "flathub": null,
+ "license": "GPL-3.0",
+ "install": {
+  "method": "aur",
+  "packages": [
+   "sfwbar"
+  ]
+ },
+ "detect": [
+  "sfwbar"
+ ],
+ "kind": "gui",
+ "open": "sfwbar",
+ "tags": [
+  "taskbar",
+  "wayland",
+  "panel"
+ ],
+ "summary": "Flexible Wayland taskbar with window list, pager, tray, volume, network, Bluetooth and a start menu",
+ "description": "SFWBar (S* Floating Window Bar) is a taskbar for Wayland compositors with a focus on stacking layouts, but it works under Hyprland too. It offers a Windows-style grouped taskbar, pager, alt-tab switcher, system tray, volume, keyboard layout, network and Wi-Fi, Bluetooth, notifications, MPD control, clock, power and idle controls, and a scripting language for building your own widgets.",
+ "developer": "LBCrion",
+ "icon": null,
+ "homepage": "https://github.com/LBCrion/sfwbar",
+ "source": "nightly-sourcing"
+}

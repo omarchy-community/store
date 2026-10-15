@@ -1,0 +1,21 @@
+{
+  "id": "linuxqq",
+  "name": "QQ for Linux",
+  "category": "communication",
+  "install": {
+    "method": "pacman",
+    "packages": [
+      "linuxqq"
+    ]
+  },
+  "detect": [
+    "linuxqq"
+  ],
+  "kind": "gui",
+  "summary": "QQ, the instant messenger from Tencent (official Electron client)",
+  "homepage": "https://im.qq.com/linuxqq/",
+  "tags": [
+    "omarchy-repo"
+  ],
+  "source": "omarchy-repo"
+}

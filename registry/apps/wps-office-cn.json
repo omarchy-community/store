@@ -1,0 +1,21 @@
+{
+  "id": "wps-office-cn",
+  "name": "WPS Office (China edition)",
+  "category": "productivity",
+  "install": {
+    "method": "pacman",
+    "packages": [
+      "wps-office-cn"
+    ]
+  },
+  "detect": [
+    "wps-office-cn"
+  ],
+  "kind": "gui",
+  "summary": "Kingsoft WPS Office, China edition: writer, spreadsheets, presentations and PDF",
+  "homepage": "https://linux.wps.cn",
+  "tags": [
+    "omarchy-repo"
+  ],
+  "source": "omarchy-repo"
+}

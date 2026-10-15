@@ -1,0 +1,31 @@
+{
+ "id": "pspg",
+ "name": "pspg",
+ "category": "developer-tools",
+ "github": "okbob/pspg",
+ "flathub": null,
+ "license": "BSD-2-Clause",
+ "install": {
+  "method": "aur",
+  "packages": [
+   "pspg"
+  ]
+ },
+ "detect": [
+  "pspg"
+ ],
+ "kind": "terminal",
+ "open": "pspg",
+ "tags": [
+  "postgresql",
+  "database",
+  "pager",
+  "sql"
+ ],
+ "summary": "Tabular data pager for psql, mysql, sqlite and other database shells, with frozen columns and sorting",
+ "description": "pspg is a pager built for query results. Point psql, mysql, sqlite3, pgcli, usql or nushell at it and you can freeze the first rows and columns while scrolling, sort by a numeric column, search, select and copy a block to the clipboard, and switch between many colour themes. Mouse support included. It runs anywhere less would.",
+ "developer": "Pavel Stěhule",
+ "icon": null,
+ "homepage": "https://github.com/okbob/pspg",
+ "source": "nightly-sourcing"
+}

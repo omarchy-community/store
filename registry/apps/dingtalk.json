@@ -1,0 +1,21 @@
+{
+  "id": "dingtalk",
+  "name": "DingTalk",
+  "category": "productivity",
+  "install": {
+    "method": "pacman",
+    "packages": [
+      "dingtalk-bin"
+    ]
+  },
+  "detect": [
+    "dingtalk-bin"
+  ],
+  "kind": "gui",
+  "summary": "DingTalk (钉钉), the official Linux client",
+  "homepage": "https://www.dingtalk.com/",
+  "tags": [
+    "omarchy-repo"
+  ],
+  "source": "omarchy-repo"
+}

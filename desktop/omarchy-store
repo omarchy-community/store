@@ -51,7 +51,7 @@ THEME_NOW = os.path.expanduser("~/.local/state/omarchy/current/theme.name")
 RELEASE_RE = re.compile(r"^https://github\.com/(nemoclawai-tech|omarchy-community)/[A-Za-z0-9_.-]+/releases/download/[A-Za-z0-9_.+-]+/[A-Za-z0-9_.+-]+\.pkg\.tar\.zst$")
 SHA_RE = re.compile(r"^[0-9a-f]{64}$")
 CACHE_DIR = os.path.expanduser("~/.cache/omarchy-store")
-VERSION = "1.8.18"   # desktop app version; the catalog's desktop_version tells us when a newer one is out
+VERSION = "1.8.19"   # desktop app version; the catalog's desktop_version tells us when a newer one is out
 
 # ------------------------------------------------------- read-only installs ----
 # AppImage and pacman installs run from a folder the user can't write to. Before 1.8.8 that made
@@ -892,11 +892,20 @@ def run_update(app=None):
             # upgrade it — the local database may be stale and a bare -S after -Sy is a partial
             # upgrade, which breaks Arch systems. `-Syu <pkg>` is the supported way: refresh,
             # upgrade, and bring this package along. A snapshot first, exactly like omarchy-update.
+            #
+            # Omarchy guards `pacman -Syu` and refuses it with "Woah partner… run through:
+            # omarchy update", so without the opt-out below every repo app failed to update with
+            # "Errors occurred, no packages were upgraded". We do not route through
+            # `omarchy update` here because that upgrades the whole system, while the user asked
+            # for one app. The guard exists to stop upgrades that skip Omarchy's snapshot and
+            # keyring handling — both of which we have just done — so taking its documented
+            # opt-out is honest rather than a bypass.
             if shutil.which("omarchy-snapshot"):
                 pre += "omarchy-snapshot create || true; "
             if shutil.which("omarchy-update-keyring"):
                 pre += "omarchy-update-keyring || true; "
-            argv = ["sudo", "pacman", "-Syu", "--needed"] + pkgs
+            argv = ["sudo", "env", "OMARCHY_ALLOW_DIRECT_PACMAN=1",
+                    "pacman", "-Syu", "--needed"] + pkgs
         else:
             argv = ["yay", "-S", "--needed", "--noconfirm"] + pkgs
         script = (f"echo {shlex.quote('Updating ' + app['name'] + '…')}; echo; " + pre

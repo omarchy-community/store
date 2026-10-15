@@ -647,10 +647,10 @@
       <ol>
         <li>Open a terminal (<b>Super + Return</b>) and run:<br><code>bash ~/omarchy-store/scripts/connect-github.sh</code></li>
         <li>Your browser opens GitHub's new-token page with most boxes filled in. Check these:
-          <b>Resource owner</b> <code>omarchy-community</code> · <b>Expiration</b> <code>No expiration</code> ·
-          <b>Repository access</b> <code>Only select repositories → omarchy-community/store</code> ·
+          <b>Resource owner</b> <code>omarchy-community</code> · <b>Expiration</b> <code>No expiration</code> (or the longest GitHub offers) ·
+          <b>Repository access</b> <code>Only select repositories → Select repositories → store</code> ·
           <b>Contents</b> <code>Read and write</code> · <b>Actions</b> <code>Read-only</code></li>
-        <li>Click <b>Generate token</b>, copy it, and paste it into the terminal (it stays hidden). The script checks it and connects it.</li>
+        <li>Click <b>Generate token</b>, then the copy button next to it. Back in the terminal, press <b>Enter</b> — the script reads the token from your clipboard (or paste it with <b>Ctrl+Shift+V</b>; nothing shows while you type), checks it, connects it, and wipes it from your clipboard.</li>
         <li>Reload this page.</li>
       </ol>
       ${gh.error ? `<p class="err" style="margin-top:10px">${esc(gh.error)}</p>` : ""}`}</div>`;

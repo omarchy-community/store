@@ -448,6 +448,19 @@
     </section>`;
   }
 
+  // Store tools that live outside the app catalog (Ignite, etc.) — searched separately so
+  // typing their name actually finds them instead of coming up empty.
+  const QUICK_LINKS = [
+    { id: "ignite", name: "Ignite for Omarchy", summary: "Make an Omarchy installer USB stick in one click", path: "/ignite/", icon: "featured/ignite/icon-128.png",
+      keywords: ["ignite", "usb", "usb stick", "installer", "install usb", "make usb", "burn iso", "flash usb", "dual boot", "dual-boot", "boot stick", "iso"] },
+  ];
+  const quickLinkMatches = (t) => t.length < 2 ? [] : QUICK_LINKS.filter((ql) => ql.name.toLowerCase().includes(t) || ql.keywords.some((k) => k.includes(t) || t.includes(k)));
+  const quickLinkCard = (ql) => `<a class="lockup" href="${ql.path}">
+      <img class="icon" src="${esc(asset(ql.icon))}" alt="" width="64" height="64" loading="lazy">
+      <div class="meta"><div class="name">${esc(ql.name)}</div><div class="sub">${esc(ql.summary)}</div><div class="stars">Free tool</div></div>
+      <span class="get">Open</span>
+    </a>`;
+
   // ---------- ads ----------
   const ads = (slot) => (S.catalog.ads?.campaigns || []).filter((c) => c.slot === slot);
   const adUrl = (u) => u + (u.includes("?") ? "&" : "?") + "utm_source=omarchy-store&utm_medium=" + (S.desktop ? "desktop" : "web");
@@ -2703,6 +2716,7 @@
 
   function pageSearch(q) {
     const t = q.trim().toLowerCase();
+    const qlRes = quickLinkMatches(t);
     const score = (a) => {
       const n = a.name.toLowerCase();
       if (n === t) return 100;
@@ -2718,6 +2732,7 @@
     const tres = t.length < 2 ? [] : S.catalog.themes.filter((x) => (x.name + " " + x.author).toLowerCase().includes(t) || (t.includes("theme") && t.replace(/themes?/, "").trim() === ""));
     return `<div class="page">
       <h1 class="page-title">Results for “${esc(q)}”</h1>
+      ${qlRes.length ? `<section class="shelf"><div class="shelf-head"><h2>Tools</h2></div><div class="scroller rows3">${qlRes.map(quickLinkCard).join("")}</div></section>` : ""}
       ${sponsoredApp((a) => res.includes(a))}
       ${themeShelf("Themes", tres.slice(0, 20), tres.length ? "/themes/" : "")}
       ${(() => { const wr = t.length < 2 ? [] : wallets().filter((w) => (w.name + " " + w.chains.join(" ") + " " + w.summary + (/(crypto|wallet)/.test(t) ? " crypto wallet" : "")).toLowerCase().includes(t));
@@ -2725,7 +2740,7 @@
       ${(() => { if (!S.plugins) { loadPlugins(); return ""; } const ql = q.toLowerCase(); const pr = (S.plugins.plugins || []).filter((x) => (x.n + " " + x.d + " " + (x.t || []).join(" ")).toLowerCase().includes(ql)).sort((a, b) => ((b.i ? 1 : 0) - (a.i ? 1 : 0)) || (b.s - a.s)).slice(0, 20);
         return pr.length ? `<section class="shelf"><div class="shelf-head"><h2>Plugins</h2><a href="/plugins/" data-plug-search="${esc(q)}">See All</a></div><div class="scroller plug-row">${pr.map(plugCard).join("")}</div></section>` : ""; })()}
       ${res.length ? `<div class="grid">${res.map((a) => lockup(a)).join("")}</div>`
-        : tres.length ? "" : `<div class="empty">No apps match “${esc(q)}”.<br><br><a class="btn ghost" href="${REPO}/issues/new?template=app-request.yml&title=${encodeURIComponent("App request: " + q)}" target="_blank" rel="noopener">Request this app</a></div>`}
+        : tres.length || qlRes.length ? "" : `<div class="empty">No apps match “${esc(q)}”.<br><br><a class="btn ghost" href="${REPO}/issues/new?template=app-request.yml&title=${encodeURIComponent("App request: " + q)}" target="_blank" rel="noopener">Request this app</a></div>`}
       ${searchAd()}
     </div>`;
   }
